@@ -1,0 +1,22 @@
+project:
+  type: website
+
+website:
+  title: "buttegggggggg.github.io"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+      - EPPS6356.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+editor: visual
+
