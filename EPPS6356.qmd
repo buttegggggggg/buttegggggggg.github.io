@@ -1,0 +1,22 @@
+---
+title: "Data Visualization" 
+format: html
+---
+
+
+## Assignments
+- [Assignment 1](Assignment_1.pdf)
+- [Assignment 2](Assignment 2.pdf)
+- [Assignment 3](Assignment 3.pdf)
+
+## Reviews
+- [Review: Inge Druckrey – Teaching to See](Tzu-Yuan,Chen_review.pdf)
+- [Review: Journalism in the Age of Data](Review of JAD.pdf)
+- [Review: The Future of Data Analysis](Review of Edward Tufte.pdf)
+- [REview: Data Visualization and Data Science](Review of Hadley Wickham.pdf)
+
+## Notes
+- [Notes: Big Data Pitfalls](Notes-pitfall.pdf)
+
+## Checklist
+- [Tzu-Yuan’s Data Guide Checklist](Tzu-Yuan’s Data Guide Checklist.pdf)
