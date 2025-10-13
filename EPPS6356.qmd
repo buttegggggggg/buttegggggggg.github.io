@@ -1,5 +1,5 @@
 ---
-title: "Data Visualization" 
+title: "EPPS6356" 
 format: html
 ---
 
@@ -13,8 +13,8 @@ format: html
 - [Review: Inge Druckrey – Teaching to See](Tzu-Yuan,Chen_review.pdf)
 - [Review: Journalism in the Age of Data](Review of JAD.pdf)
 - [Review: The Future of Data Analysis](Review of Edward Tufte.pdf)
-- [REview: Data Visualization and Data Science](Review of Hadley Wickham.pdf)
-
+- [Review: Data Visualization and Data Science](Review of Hadley Wickham.pdf)
+- [Review: The Week in Charts & 2024 The Year in Charts](Review of McKinsey.pdf)
 ## Notes
 - [Notes: Big Data Pitfalls](Notes-pitfall.pdf)
 
