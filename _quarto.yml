@@ -1,22 +1,24 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "buttegggggggg.github.io"
+  title: "EPPS6356"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-      - EPPS6356.qmd
+      - text: Home
+        href: index.qmd
+      - text: About
+        href: about.qmd 
+      - text: Assignments
+        href: EPPS6356.qmd
+        
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: cosmo
     toc: true
-
-editor: visual
-
+    toc-depth: 3
+    number-sections: true
+    page-layout: article
+    css: styles.css

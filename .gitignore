@@ -1,6 +1,8 @@
-.Rproj.user
+_site/
+.Rproj.user/
 .Rhistory
 .RData
-.Ruserdata
+.DS_Store
+docs/*.nb.html
 
 /.quarto/

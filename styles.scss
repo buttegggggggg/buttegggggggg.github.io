@@ -1,0 +1,118 @@
+/* 引入 Google Fonts：Noto Sans TC (繁中) 與 Roboto (英數) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap');
+
+/* 全域字體設定 */
+body {
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
+}
+
+/* 版面寬度控制：讓 Quarto 頁面保持適當留白 */
+main.content {
+  max-width: 850px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* 標題樣式 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto", "Noto Sans TC", sans-serif;
+  font-weight: 600;
+  color: #111;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* 主標題 */
+h1 {
+  font-size: 2.2rem;
+  border-bottom: 3px solid #336699;
+  padding-bottom: 0.5rem;
+}
+
+/* 副標題 */
+h2 {
+  font-size: 1.6rem;
+  border-left: 4px solid #336699;
+  padding-left: 0.6rem;
+}
+
+/* 段落 */
+p {
+  margin: 1rem 0;
+  color: #333;
+}
+
+/* 連結樣式 */
+a {
+  color: #336699;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: #003366;
+  text-decoration: underline;
+}
+
+/* 表格樣式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+th {
+  background-color: #f0f3f7;
+  text-align: left;
+  font-weight: 600;
+}
+
+/* 程式碼區塊 */
+pre, code {
+  font-family: "Fira Code", "Roboto Mono", monospace;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 0.2em 0.4em;
+}
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* 區塊引言 */
+blockquote {
+  border-left: 4px solid #336699;
+  padding-left: 1rem;
+  color: #555;
+  font-style: italic;
+  background: #f9fafc;
+  margin: 1.2rem 0;
+}
+
+/* 按鈕樣式（若有互動元素） */
+button {
+  font-family: inherit;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #336699;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+button:hover {
+  background-color: #003366;
+}

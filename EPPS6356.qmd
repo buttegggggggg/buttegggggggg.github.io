@@ -1,4 +1,439 @@
 ---
 title: "EPPS6356"
-format: html
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    number-sections: true
+    page-layout: full
+    smooth-scroll: true
 ---
+
+## Assignments
+
+### Assignment 1
+
+[Assignment 1](Assignment_1.pdf)
+
+### Assignment 2
+
+[Assignment 2](Assignment%202.pdf)
+
+### Assignment 3
+
+[Assignment 3](Assignment%203.pdf)
+
+### Assignment 4(Hackathon)
+
+```{r}
+data(iris)
+
+
+library(tidyverse)
+
+# 1. Divide the dataset into three rectangles based on species.
+# The average of Petal.Length and Petal.Width is the length and width.
+# Draw three rectangles arranged horizontally.
+
+#1
+
+plot_data <- iris %>%
+  mutate(
+    sepal_length_group = cut(
+      Sepal.Length,
+      breaks = c(4, 5.5, 7.0, 8.0),
+      labels = c("Small (4.0-5.5)", "Medium (5.6-7.0)", "Large (7.1-8.0)"),
+      include.lowest = TRUE
+    )
+  ) %>%
+  group_by(sepal_length_group) %>%
+  summarise(
+    count = n(),
+    avg_petal_length = mean(Petal.Length)
+  ) %>%
+  mutate(
+    xmax = cumsum(count),
+    xmin = xmax - count,
+    x_label_pos = (xmin + xmax) / 2
+  )
+
+ggplot(plot_data, aes(ymin = 0)) +
+  geom_rect(
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymax = avg_petal_length,
+      fill = sepal_length_group
+    ),
+    color = "white"
+  ) +
+  scale_x_continuous(
+    breaks = plot_data$x_label_pos,
+    labels = plot_data$count
+  ) +
+  scale_fill_brewer(palette = "viridis", direction = -1) +
+  labs(
+    title = "Average Petal Length by Sepal Length Group",
+    subtitle = "Column width is proportional to the number of flowers in each group",
+    x = "Count of Flowers in Group",
+    y = "Average Petal Length (cm)",
+    fill = "Sepal Length Group"
+  ) +
+  # Apply a clean theme
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(), # Remove vertical grid lines
+    panel.grid.minor.x = element_blank()
+  )
+```
+
+```{r}
+# 2. table with embedded charts
+iris_long <- iris %>%
+  pivot_longer(cols = -Species, names_to = "Measurement", values_to = "Value")
+
+ggplot(iris_long, aes(x = Value, fill = Species)) +
+  geom_histogram(color = "white", bins = 15) +
+  facet_grid(Species ~ Measurement, scales = "free") +
+  scale_fill_manual( #coloring each species
+    values = c(
+      "setosa" = "steelblue", 
+      "versicolor" = "orange",   
+      "virginica" = "seagreen"     
+    ) 
+    ) + #labels
+      labs(
+        title = "Distribution of Iris Measurements by Species",
+        x = "Measurement Value (cm)",
+        y = "Count"
+      ) +
+  theme_bw() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),
+      strip.text.x = element_text(face = "bold"),
+      strip.text.y = element_text(face = "bold"),
+      panel.border = element_rect(color = "grey80", fill = NA),
+      legend.position = "bottom"
+    )
+```
+
+```{r}
+# 3. Extract setona and versicolor from species.
+# Then create df_2 and df_3. Draw a bar plot using petal.width: p1 p2.
+# Finally, use gridExtra to combine the plots.'
+library("gridExtra")
+df_2 <- subset(iris, Species %in% "setosa")
+df_3 <- subset(iris, Species %in% "versicolor")
+df_2$id <- 1:nrow(df_2)
+df_3$id <- 1:nrow(df_3)
+
+
+
+p1 = ggplot(df_2, aes(x = factor(id), y = Petal.Width)) +
+  geom_bar(stat = "identity", fill = 'red', color = "black") +
+  coord_flip() +
+  labs(title = "setosa") +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank() #this was by GPT
+  )
+
+
+p2 = ggplot(df_3, aes(x = factor(id), y = Petal.Width)) +
+  geom_bar(stat = "identity", fill = "blue", color = "black") +
+  coord_flip() +
+  labs(title = "versicolor")+
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank() #this was by GPT
+  )
+
+
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+```{r}
+# 4 Column Chart
+# getting means of Petal length and width for each species
+# and mean sepal length and sepal width
+iris_means <- iris %>%
+  group_by(Species) %>%
+  summarise(
+    mean_sepal_length = mean(Sepal.Length),
+    mean_sepal_width = mean(Sepal.Width),
+    mean_petal_length = mean(Petal.Length),
+    mean_petal_width = mean(Petal.Width)
+  ) %>%
+  pivot_longer(
+    cols = -Species,
+    names_to = "Measurement",
+    values_to = "MeanValue"
+    )
+
+ggplot(iris_means, aes(x = Measurement, y = MeanValue, fill = Species)) +
+  geom_col(position = position_dodge(width = 0.8)) + 
+  labs(title = "Mean Iris Measurements by Species",
+       x = "Measurement", y = "Mean Value") + 
+  theme_minimal(base_size = 12) +
+  scale_fill_manual(values = c("steelblue", "orange", "seagreen"))
+```
+
+-   Class coding competition
+
+```{r}
+library(ggplot2)
+mpg <- as.data.frame(mpg)
+#2seater, compact, midsize, minivan, pickup, subcompact, suv scatterplots in one view
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(color = "black") +
+  facet_wrap(~ class) +
+  labs(x="displ",
+       y="hwy") +
+  theme_gray()
+```
+
+```{r}
+#improving the chart
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(color = "blue", size=2, alpha=0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = "#E65100", linewidth = 0.8) +
+  facet_wrap(~ class) +
+  labs(title="Engine Displacement vs Highway MPG by Vehicle Class",
+       x="Engine Displacement (liters)",
+       y="Highway Miles per Gallon (MPG)") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size=16, face="bold"),
+    axis.title.x = element_text(size=12),
+    axis.title.y = element_text(size=12)
+  )
+```
+
+### Assignment 5
+
+```{r}
+# GPT was used for picking colors and family.
+# GPT was used for adjusting the format of the code.
+library(ggplot2)
+library(scales)   # for alpha()
+
+data(iris)
+color1 <- "#18A3A380"
+color2 <- "#FF4D8DCC"
+color3 <- "#7A7A7A"
+color4 <- "#000000"
+base_family <- "sans"
+
+# custom theme used across plots
+theme1 <- function() {
+  theme_minimal(base_family = base_family) +
+    theme(
+      text        = element_text(family = base_family, colour = color4),
+      plot.title  = element_text(face = "bold", colour = color4, size = 13),
+      axis.title  = element_text(colour = color4),
+      axis.text   = element_text(colour = color3),
+      panel.grid.major = element_line(color = scales::alpha(color3, 0.3), linetype = "dotted"),
+      panel.grid.minor = element_blank()
+    )
+}
+
+
+Histo <- function(){
+  hist(iris$Sepal.Length,
+       main="Distribution of Sepal Length (iris)",
+       col=color1, border=color3)
+}
+
+Bar1 <- function(){
+  barplot(table(iris$Species),
+          col=c(color1,color2,color3),
+          border=color4,
+          main="Count by Species",
+          xlab="Species", ylab="Count")
+}
+
+Bar2 <- function(){
+  barplot(table(iris$Species),
+          horiz=TRUE,
+          col=c(color1,color2,color3),
+          border=color4,
+          main="Count by Species (Horizontal)",
+          xlab="Count", ylab="Species")
+}
+
+Pie <- function(){
+  pie(table(iris$Species),
+      col=c(color1,color2,color3),
+      main="Species Composition",
+      clockwise=TRUE)
+}
+
+Box <- function(){
+  boxplot(Sepal.Length~Species, data=iris,
+          col=c(color1,color2,color3),
+          main="Sepal Length by Species",
+          xlab="Species", ylab="Sepal Length (cm)")
+}
+
+Scat <- function(){
+  plot(iris$Petal.Length, iris$Sepal.Length,
+       main="Sepal vs Petal Length",
+       xlab="Petal Length (cm)", ylab="Sepal Length (cm)",
+       pch=19, col=color1)
+}
+```
+
+```{r}
+library(gridExtra)
+
+par(mfrow=c(2,3), mar=c(4,4,2.5,1), family="sans")
+Histo(); Bar1(); Bar2(); Pie(); Box(); Scat()
+```
+
+```{r}
+draw6 <- function(){
+  par(mfrow=c(2,3), mar=c(4,4,2.5,1), family=base_family)
+  Histo(); Bar1(); Bar2(); Pie(); Box(); Scat()
+}
+
+save_plot <- function(fmt, file){
+  switch(fmt,
+    pdf  = pdf(file, width=10, height=7, family=base_family),
+    jpg  = jpeg(file, width=2400, height=1600, res=300, quality=95),
+    svg  = svg(file, width=2400, height=1600),
+    tiff = tiff(file, width=2400, height=1600, res=300),
+    bmp  = bmp(file, width=2400, height=1600, res=300), # cannot find bmg, and was told it might be .bmp by GPT
+  )
+  draw6(); invisible(dev.off())
+}
+```
+
+```{r}
+save_plot("pdf",  "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.pdf")
+save_plot("jpg",  "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.jpg")
+save_plot("svg",  "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.svg")
+save_plot("tiff", "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.tiff")
+save_plot("bmp",  "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.bmp")
+```
+
+[PDF of base R plots](baseR_6plots.pdf)
+
+[JPG of base R plots](baseR_6plots.jpg)
+
+[SVG of base R plots](baseR_6plots.svg)
+
+[TIFF of base R plots](baseR_6plots.tiff)
+
+[BMP of base R plots](baseR_6plots.bmp)
+
+```{r}
+ggHisto <- ggplot(iris, aes(x=Sepal.Length)) +
+  geom_histogram(fill=color1, color=color3, bins=20) +
+  labs(title="Distribution of Sepal Length (iris)") +
+  theme1()
+
+ggBar1 <- ggplot(iris, aes(x=Species, fill=Species)) +
+  geom_bar(color=color4) +
+  scale_fill_manual(values=c(color1,color2,color3)) +
+  labs(title="Count by Species") +
+  theme1() + ggplot2::theme(legend.position="none")
+
+ggBar2 <- ggplot(iris, aes(x=Species, fill=Species)) +
+  geom_bar(color=color4) + coord_flip() +
+  scale_fill_manual(values=c(color1,color2,color3)) +
+  labs(title="Count by Species (Horizontal)") +
+  theme1() + ggplot2::theme(legend.position="none")
+
+df <- as.data.frame(prop.table(table(iris$Species)))
+colnames(df) <- c("Species","prop")
+ggPie <- ggplot(df, aes(x="", y=prop, fill=Species)) +
+  geom_col(width=1, color=NA) + coord_polar(theta="y") +
+  scale_fill_manual(values=c(color1,color2,color3)) +
+  labs(title="Species Composition") +
+  theme1() + ggplot2::theme(axis.text=ggplot2::element_blank(),
+                            axis.title=ggplot2::element_blank(),
+                            panel.grid=ggplot2::element_blank(),
+                            legend.position="right")
+
+ggBox <- ggplot(iris, aes(x=Species, y=Sepal.Length, fill=Species)) +
+  geom_boxplot(color=color4) +
+  scale_fill_manual(values=c(color1,color2,color3)) +
+  labs(title="Sepal Length by Species") +
+  theme1() + ggplot2::theme(legend.position="none")
+
+ggScat <- ggplot(iris, aes(x=Petal.Length, y=Sepal.Length)) +
+  geom_point(color=color1, size=2) +
+  labs(title="Sepal vs Petal Length") +
+  theme1()
+
+
+```
+
+```{r}
+gridExtra::grid.arrange(ggHisto, ggBar1, ggBar2, ggPie, ggBox, ggScat, ncol = 3)
+```
+
+```{r}
+combo <- gridExtra::arrangeGrob(ggHisto, ggBar1, ggBar2, ggPie, ggBox, ggScat, ncol = 3)
+outdir <- "/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io"
+formats <- c("pdf", "jpg", "svg", "tiff", "bmp")
+
+for (fmt in formats) {
+  outpath <- file.path(outdir, paste0("ggplot_6plots.", fmt))
+  ggplot2::ggsave(
+    filename = outpath,
+    plot = combo,
+    width = 10, height = 7, dpi = 300
+  )
+}
+
+```
+
+[PDF of ggplot2 plots](ggplot_6plots.pdf)
+
+[JPG of ggplot2 plots](ggplot_6plots.jpg)
+
+[SVG of ggplot2 plots](ggplot_6plots.svg)
+
+[TIFF of ggplot2 plots](ggplot_6plots.tiff)
+
+[BMP of ggplot2 plots](ggplot_6plots.bmp)
+
+### Assignment 6 — Part 1
+
+<iframe src="https://biubiubuttegg.shinyapps.io/assignment6_part1/" width="100%" height="650" frameborder="0" allowfullscreen>
+
+</iframe>
+
+### Assignment 6 — Part 2
+
+<iframe src="https://biubiubuttegg.shinyapps.io/assignment6_part2/" width="100%" height="650" frameborder="0" allowfullscreen>
+
+</iframe>
+
+</iframe>
+
+## Reviews
+
+-   [Review: Inge Druckrey – Teaching to See](Tzu-Yuan,Chen_review.pdf)
+-   [Review: Journalism in the Age of Data](Review%20of%20JAD.pdf)
+-   [Review: The Future of Data Analysis](Review%20of%20Edward%20Tufte.pdf)
+-   [Review: Data Visualization and Data Science](Review%20of%20Hadley%20Wickham.pdf)
+-   [Review: The Week in Charts & 2024 The Year in Charts](Review%20of%20McKinsey.pdf)
+
+## Notes
+
+-   [Notes: Big Data Pitfalls](Notes-pitfall.pdf)
+
+## Checklist
+
+-   [Tzu-Yuan’s Data Guide Checklist](Tzu-Yuan’s%20Data%20Guide%20Checklist.pdf)
