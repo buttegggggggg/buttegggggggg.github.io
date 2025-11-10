@@ -30,7 +30,6 @@ format:
 ```{r}
 data(iris)
 
-
 library(tidyverse)
 
 # 1. Divide the dataset into three rectangles based on species.
@@ -71,9 +70,10 @@ ggplot(plot_data, aes(ymin = 0)) +
   ) +
   scale_x_continuous(
     breaks = plot_data$x_label_pos,
-    labels = plot_data$count
+    labels = plot_data$sepal_length_group,
+    expand = c(0, 0)
   ) +
-  scale_fill_brewer(palette = "viridis", direction = -1) +
+  scale_fill_viridis_d(option = "D", direction = -1) +
   labs(
     title = "Average Petal Length by Sepal Length Group",
     subtitle = "Column width is proportional to the number of flowers in each group",

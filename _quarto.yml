@@ -1,6 +1,18 @@
 project:
   type: website
   output-dir: docs
+  
+  resources:
+  - Review of McKinsey.pdf
+  - Assignment 3.pdf
+  - Review of Hadley Wickham.pdf
+  - Notes-pitfall.pdf
+  - Assignment 2.pdf
+  - Assignment_1.pdf
+  - Review of JAD.pdf
+  - Review of Edward Tufte.pdf
+  - Tzu-Yuan’s Data Guide Checklist.pdf
+  - Tzu-Yuan,Chen_review.pdf
 
 website:
   title: "Tzu-Yuan Chen"
