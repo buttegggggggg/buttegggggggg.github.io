@@ -6,3 +6,4 @@ _site/
 docs/*.nb.html
 
 /.quarto/
+_site/
