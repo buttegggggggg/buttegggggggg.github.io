@@ -3,14 +3,14 @@ project:
   output-dir: docs
 
 website:
-  title: "EPPS6356"
+  title: "Tzu-Yuan Chen"
   navbar:
     left:
       - text: Home
         href: index.qmd
       - text: About
         href: about.qmd 
-      - text: Assignments
+      - text: EPPS6356
         href: EPPS6356.qmd
         
 
