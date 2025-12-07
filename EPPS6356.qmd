@@ -408,7 +408,7 @@ for (fmt in formats) {
 
 [BMP of ggplot2 plots](ggplot_6plots.bmp)
 
-### Assignment 6 
+### Assignment 6
 
 <iframe src="https://biubiubuttegg.shinyapps.io/assignment6_part1/" width="100%" height="650" frameborder="0" allowfullscreen>
 
@@ -420,8 +420,8 @@ for (fmt in formats) {
 
 </iframe>
 
-
 ### Final Project
+
 <iframe src="https://biubiubuttegg.shinyapps.io/DV_final_Shiney/" width="100%" height="900" frameborder="0" allowfullscreen>
 
 </iframe>
