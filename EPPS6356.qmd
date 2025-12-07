@@ -1,4 +1,7 @@
 ---
+project:
+  output-dir: docs
+
 title: "EPPS6356"
 format:
   html:
