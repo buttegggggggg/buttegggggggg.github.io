@@ -2,4 +2,10 @@
 title: "About"
 ---
 
-About this site
+## About this site
+
+This site is a working portfolio and notebook.
+
+It documents selected projects, visual studies, and experiments as they evolve.
+
+Not all content represents final results. Some materials are exploratory or incomplete.

@@ -22,9 +22,10 @@ website:
         href: index.qmd
       - text: About
         href: about.qmd 
-      - text: EPPS6356
+      - text: Data Visualization
         href: EPPS6356.qmd
-        
+      - text: Information Management
+        href: EPPS6354.qmd
 
 format:
   html:

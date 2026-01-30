@@ -2,7 +2,7 @@
 project:
   output-dir: docs
 
-title: "EPPS6356"
+title: "Data Visualization"
 format:
   html:
     theme: cosmo

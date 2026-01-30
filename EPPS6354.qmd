@@ -1,0 +1,19 @@
+---
+project:
+  output-dir: docs
+
+title: "Information Management"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    number-sections: true
+    page-layout: full
+    smooth-scroll: true
+---
+
+## Assignments
+
+### Assignment 1
