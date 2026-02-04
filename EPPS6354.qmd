@@ -7,8 +7,8 @@ format:
     theme: cosmo
     toc: true
     toc-location: right
-    toc-depth: 3
-    number-sections: true
+    toc-depth: 6
+    number-sections: false
     page-layout: full
     smooth-scroll: true
 editor: 
@@ -20,7 +20,9 @@ editor:
 
 ### Assignment 1
 
-#### Question 1: Name and describe three applications you have used that employed a database system to store and access persistent data. (e.g. airlines, online trade, banking, university system)
+#### Question 1 
+
+**Name and describe three applications you have used that employed a database system to store and access persistent data.** (e.g. airlines, online trade, banking, university system)
 
 For the first question, one example that comes to mind is video games.
 In video games, a player’s level and experience points, as well as the
@@ -33,7 +35,9 @@ platform, such as Netflix, which records a user’s region and
 subscription level. All of this data is stored persistently and can be
 accessed at a later time.
 
-#### Question 2: Propose three applications in domain projects (e.g. criminology, economics, brain science, etc.) Be sure you include: i. Purpose ii. Functions iii. Simple interface design
+#### Question 2 
+
+**Propose three applications in domain projects** (e.g. criminology, economics, brain science, etc.) Be sure you include: i. Purpose ii. Functions iii. Simple interface design
 
 ##### Wardrobe Management Database
 
@@ -350,7 +354,9 @@ The schedule is presented in a simple list format, allowing users to
 quickly review and execute irrigation tasks. After completion, users can
 mark irrigation status for record-keeping and future reference.
 
-#### Question 5: What are the things current database system cannot do?
+#### Question 5 
+
+**What are the things current database system cannot do?**
 
 Current database systems are not capable of understanding the semantics
 behind data. As a result, in more complex applications, they often rely
@@ -382,7 +388,9 @@ given context. This highlights a fundamental limitation of current
 database systems: they are effective at decision support, but they
 cannot replace human judgment in complex, value-driven decisions.
 
-#### Question 6: Describe at least three tables that might be used to store information in a social-network/social media system such as Twitter or Reddit.
+#### Question 6 
+
+**Describe at least three tables that might be used to store information in a social-network/social media system such as Twitter or Reddit.**
 
 A social-network or social media system such as Twitter or Reddit may be
 supported by at least the following three core tables:

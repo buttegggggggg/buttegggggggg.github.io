@@ -122,9 +122,35 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments"><span class="header-section-number">1</span> Assignments</a>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">Assignments</a>
+  <ul>
+  <li><a href="#assignment-1" id="toc-assignment-1" class="nav-link" data-scroll-target="#assignment-1">Assignment 1</a>
+  <ul>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a>
+  <ul>
+  <li><a href="#wardrobe-management-database" id="toc-wardrobe-management-database" class="nav-link" data-scroll-target="#wardrobe-management-database">Wardrobe Management Database</a>
   <ul class="collapse">
-  <li><a href="#assignment-1" id="toc-assignment-1" class="nav-link" data-scroll-target="#assignment-1"><span class="header-section-number">1.1</span> Assignment 1</a></li>
+  <li><a href="#i.-purpose" id="toc-i.-purpose" class="nav-link" data-scroll-target="#i.-purpose">i. Purpose</a></li>
+  <li><a href="#ii.-functions" id="toc-ii.-functions" class="nav-link" data-scroll-target="#ii.-functions">ii. Functions</a></li>
+  <li><a href="#iii.-simple-interface-design" id="toc-iii.-simple-interface-design" class="nav-link" data-scroll-target="#iii.-simple-interface-design">iii. Simple interface design</a></li>
+  </ul></li>
+  <li><a href="#d-printing-farm-order-scheduling-database" id="toc-d-printing-farm-order-scheduling-database" class="nav-link" data-scroll-target="#d-printing-farm-order-scheduling-database">3D Printing Farm Order &amp; Scheduling Database</a>
+  <ul class="collapse">
+  <li><a href="#i.-purpose-1" id="toc-i.-purpose-1" class="nav-link" data-scroll-target="#i.-purpose-1">i. Purpose</a></li>
+  <li><a href="#ii.-functions-1" id="toc-ii.-functions-1" class="nav-link" data-scroll-target="#ii.-functions-1">ii. Functions</a></li>
+  <li><a href="#iii.-simple-interface-design-1" id="toc-iii.-simple-interface-design-1" class="nav-link" data-scroll-target="#iii.-simple-interface-design-1">iii. Simple interface design</a></li>
+  </ul></li>
+  <li><a href="#wardrobe-management-database-1" id="toc-wardrobe-management-database-1" class="nav-link" data-scroll-target="#wardrobe-management-database-1">Wardrobe Management Database</a>
+  <ul class="collapse">
+  <li><a href="#i.-purpose-2" id="toc-i.-purpose-2" class="nav-link" data-scroll-target="#i.-purpose-2">i. Purpose</a></li>
+  <li><a href="#ii.-functions-2" id="toc-ii.-functions-2" class="nav-link" data-scroll-target="#ii.-functions-2">ii. Functions</a></li>
+  <li><a href="#iii.-simple-interface-design-2" id="toc-iii.-simple-interface-design-2" class="nav-link" data-scroll-target="#iii.-simple-interface-design-2">iii. Simple interface design</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
+  <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -151,18 +177,219 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="assignments" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="assignments"><span class="header-section-number">1</span> Assignments</h2>
-<section id="assignment-1" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="assignment-1"><span class="header-section-number">1.1</span> Assignment 1</h3>
+<section id="assignments" class="level2">
+<h2 class="anchored" data-anchor-id="assignments">Assignments</h2>
+<section id="assignment-1" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-1">Assignment 1</h3>
+<section id="question-1" class="level4">
+<h4 class="anchored" data-anchor-id="question-1">Question 1</h4>
+<p><strong>Name and describe three applications you have used that employed a database system to store and access persistent data.</strong> (e.g.&nbsp;airlines, online trade, banking, university system)</p>
+<p>For the first question, one example that comes to mind is video games. In video games, a player’s level and experience points, as well as the items and equipment they have obtained, are recorded, so the player can still access them the next time they log in. Another example is online shopping. For instance, Amazon records information such as the price of each product, the catalog it belongs to, whether it is eligible for free shipping, and whether it is in stock. A third example is a streaming platform, such as Netflix, which records a user’s region and subscription level. All of this data is stored persistently and can be accessed at a later time.</p>
+</section>
+<section id="question-2" class="level4">
+<h4 class="anchored" data-anchor-id="question-2">Question 2</h4>
+<p><strong>Propose three applications in domain projects</strong> (e.g.&nbsp;criminology, economics, brain science, etc.) Be sure you include: i. Purpose ii. Functions iii. Simple interface design</p>
+<section id="wardrobe-management-database" class="level5">
+<h5 class="anchored" data-anchor-id="wardrobe-management-database">Wardrobe Management Database</h5>
+<section id="i.-purpose" class="level6">
+<h6 class="anchored" data-anchor-id="i.-purpose">i. Purpose</h6>
+<p>The main purpose of this wardrobe management database is to minimize the time spent choosing outfits before going out.</p>
+<p>For many people, the difficulty in daily outfit selection is not a lack of clothing, but the need to simultaneously consider colors, styles, occasions, and overall coordination, which leads to a high decision-making cost.</p>
+<p>Therefore, I model the wardrobe as a relational database, which not only records individual clothing items but also describes the relationships between items, allowing outfit selection to be handled in a systematic way.</p>
+<p>By structuring clothing data, this system aims to transform “rethinking what to wear every day” into “quickly selecting optimal combinations from a database.”</p>
+</section>
+<section id="ii.-functions" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-functions">ii. Functions</h6>
+<p>In this system, each clothing item is treated as a data entity and described using a set of attributes, such as:</p>
 <ul>
-<li><a href="a1_q1.html">1. Name and describe three applications you have used that employed a database system to store and access persistent data. (e.g.&nbsp;airlines, online trade, banking, university system)</a></li>
-<li><a href="a1_q2.html">Q2 Slides</a></li>
-<li><a href="a1_q6.html">Q6 Slides</a></li>
-<li><a href="a1_q4.html">Q4 Slides</a></li>
+<li>category (T-shirts, jeans, outerwear, shoes),</li>
+<li>color (including the proportion of each color),</li>
+<li>style (clean-fit, formal, vintage, sports, etc.),</li>
+<li>material (denim, linen, cotton).</li>
 </ul>
+<p>These attributes are normalized into multiple tables, and many-to-many relationships are used to represent that a single item can belong to multiple styles or be suitable for different occasions.</p>
+<p>The core function of this database is not only to store items, but to describe the compatibility between items.</p>
+<p>The system uses compatibility rules to define:</p>
+<ul>
+<li>Visual aesthetic constraints, such as avoiding more than three colors in a single outfit and limiting the number of style tags to maintain overall consistency</li>
+<li>Climate adaptability, where combinations are evaluated based on insulation-related variables to ensure balanced warmth between upper and lower body layers, and higher overall insulation is preferred as the temperature decreases</li>
+</ul>
+<p>When a user selects a specific item (for example, a pink T-shirt), the system can immediately recommend other highly compatible items (such as light blue jeans and white sneakers) based on database relationships and rules, and rank these combinations by compatibility score to help the user make decisions more efficiently.</p>
+<p>In addition, as data accumulates, the system can analyze the overall structure of the wardrobe, such as:</p>
+<ul>
+<li>Whether certain styles or clothing categories are lacking</li>
+<li>Whether colors or item types are overly concentrated</li>
+<li>Whether newly purchased items overlap in function with existing ones</li>
+<li>Which older items have not been used for a long time and could be considered for removal</li>
+</ul>
+<p>This allows the wardrobe to function not just as an item list, but as a system that can be queried, analyzed, and optimized, and that can be extended to daily life applications such as outfit recommendations and purchase decision support.</p>
+<p>This problem is particularly well suited for a relational database, because outfit selection inherently involves structured data and many-to-many relationships (such as items, styles, and compatibility rules), which can be efficiently combined and analyzed through relational queries.</p>
+</section>
+<section id="iii.-simple-interface-design" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-simple-interface-design">iii. Simple interface design</h6>
+<p>When users enter the system, the home page displays a table view of all items in the wardrobe, including basic information such as category, color, style, material, and seasonality. The interface supports multi-select functionality.</p>
+<p>Users can select one or more items they plan to wear and submit their selection to generate outfit results.</p>
+<p>Based on the selected items and the compatibility rules stored in the database, the system generates multiple outfit candidates.</p>
+<p>The outfit results page provides different sorting options, such as sorting by comfort score, aesthetic score, or climate fit score.</p>
+<p>Each outfit displays its corresponding numerical scores, allowing users to quickly compare options and select the most suitable combination without repeatedly trying on clothes or overthinking the decision.</p>
+<p>The interface supports fast decision-making: select items → generate outfits → sort by scores → pick the best match.</p>
+</section>
+</section>
+<section id="d-printing-farm-order-scheduling-database" class="level5">
+<h5 class="anchored" data-anchor-id="d-printing-farm-order-scheduling-database">3D Printing Farm Order &amp; Scheduling Database</h5>
+<section id="i.-purpose-1" class="level6">
+<h6 class="anchored" data-anchor-id="i.-purpose-1">i. Purpose</h6>
+<p>The purpose of this 3D printing farm database is to systematize the entire workflow—from customer order intake to automated estimation, machine scheduling, and progress tracking—so the farm can operate efficiently as order volume grows. The goals are to shorten turnaround time, reduce human scheduling errors, improve machine utilization, and maximize profitability.</p>
+<p>In practice, 3D printing orders vary widely (model size, material, resolution, multi-color requirements, and post-processing such as painting). If pricing and scheduling rely on manual judgment, it is easy to underestimate time/cost, assign the wrong machine, or create bottlenecks in the order queue. Therefore, this system uses a relational database to store orders, machine capabilities, material usage, and scheduling states in a structured way, enabling fast and consistent decisions through rules and queries.</p>
+</section>
+<section id="ii.-functions-1" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-functions-1">ii. Functions</h6>
+<p><strong>Order intake &amp; requirement tagging</strong> (Order Intake &amp; Requirement Tagging)</p>
+<p>When a customer submits an order, the system stores it as an order record with structured attributes, such as:</p>
+<ul>
+<li>Model size and volume (bounding box / volume)</li>
+<li>Printing type (FDM / SLA)</li>
+<li>Resolution settings (layer height / resolution)</li>
+<li>Multi-color requirement (multi-color)</li>
+<li>Material type (material type)</li>
+<li>Post-processing needs (post-processing, e.g., painting/sanding)</li>
+<li>Other customization requests (stored as tags)</li>
+</ul>
+<p>These fields can be normalized into multiple tables, with many-to-many relationships used to represent that a single order can have multiple requirement tags.</p>
+<p><strong>Per-machine estimation</strong> (Per-Machine Estimation)</p>
+<p>The key is not only to calculate an overall price for the order, but to estimate how the same order would perform on different machines, since time, cost, and completion time may vary by machine. This supports better machine assignment and scheduling decisions.</p>
+<p>For each candidate machine, the system applies pricing rules or an estimation model to perform per-machine estimation, including:</p>
+<ul>
+<li>Estimated print time (estimated print time)</li>
+<li>Estimated material usage (estimated material usage)</li>
+<li>Machine-specific estimated cost &amp; quote (machine-specific estimated cost &amp; quote)</li>
+<li>Estimated completion time (estimated completion time, considering current workload)</li>
+</ul>
+<p>The system stores these “order × machine” estimates for querying and ranking using different objective functions, such as lowest cost, earliest completion, or the most stable option within a deadline.</p>
+<p><strong>Order queue &amp; status tracking</strong> (Order Queue &amp; Status Tracking)</p>
+<p>All orders are automatically added to an order queue (order list), and each order maintains a clear status, such as:</p>
+<ul>
+<li>pending</li>
+<li>queued</li>
+<li>printing</li>
+<li>post-processing</li>
+<li>completed</li>
+<li>failed</li>
+</ul>
+<p>Managers can query:</p>
+<ul>
+<li>What is currently in the queue and its priority</li>
+<li>Which orders are printing vs.&nbsp;waiting for machines</li>
+<li>Which failed orders require reprinting or manual intervention</li>
+</ul>
+<p><strong>Machine capability modeling &amp; assignment recommendations</strong> (Machine Capability &amp; Assignment)</p>
+<p>The database stores each machine’s capabilities and constraints, such as: - Machine type: multi-color / single-color / SLA / FDM - Maximum build volume (max build volume) - Supported materials (supported materials) - Speed/quality profile (speed/quality profile) - Current workload and availability (workload &amp; availability)</p>
+<p>When a new order arrives, the system first performs constraint filtering (e.g., size, material, multi-color requirements) to identify feasible machines, then uses per-machine estimation to generate recommended assignments, for example:</p>
+<ul>
+<li>Earliest completion time (earliest completion time)</li>
+<li>Lowest estimated cost (lowest estimated cost)</li>
+<li>Balanced option (deadline + stability)</li>
+</ul>
+<p>This turns scheduling into a decision-support process rather than manual guesswork.</p>
+</section>
+<section id="iii.-simple-interface-design-1" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-simple-interface-design-1">iii. Simple interface design</h6>
+<p>On the customer side, the system provides a customer order page where users can upload a 3D model or specify printing requirements such as size, material, resolution, multi-color options, and post-processing needs. Based on this information, the system automatically returns an estimated price and an estimated delivery time.</p>
+<p>On the admin side, the system offers an order dashboard that displays the current order queue and order statuses. Administrators can sort or filter orders by deadline, priority, or processing status to manage workflow more efficiently.</p>
+<p>The system also includes a machine dashboard that lists all available machines along with their machine type, maximum build volume, supported materials, current workload, and estimated availability. This allows operators to quickly understand machine capacity and constraints.</p>
+<p>When an order is selected, the scheduling view presents a list of candidate machines that can fulfill the order. For each candidate machine, the system displays the estimated print time, estimated material usage, machine-specific cost and quote, and estimated completion time. The interface supports one-click sorting options, such as fastest, cheapest, or most stable, to assist administrators in making assignment decisions.</p>
+<p>The interface supports efficient operations: submit order → per-machine estimation → queue order → recommend machines → schedule &amp; track progress.</p>
+</section>
+</section>
+<section id="wardrobe-management-database-1" class="level5">
+<h5 class="anchored" data-anchor-id="wardrobe-management-database-1">Wardrobe Management Database</h5>
+<section id="i.-purpose-2" class="level6">
+<h6 class="anchored" data-anchor-id="i.-purpose-2">i. Purpose</h6>
+<p>The purpose of this system is to manage the core information of a farm—such as fields, crop types, growth stages, and irrigation equipment—using a relational database.</p>
+<p>At the same time, the system retrieves and stores weather data through APIs provided by weather forecast services, and combines this information with a set of irrigation rules to automatically generate a daily irrigation schedule.</p>
+<p>The goal is to reduce manual decision-making costs while improving water-use efficiency and consistency in crop management.</p>
+</section>
+<section id="ii.-functions-2" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-functions-2">ii. Functions</h6>
+<p>In this system, the database is not used only for data storage. Its core function is to integrate internal farm information with external weather data and automatically generate irrigation decisions based on predefined rules.</p>
+<p><strong>Core Data Management</strong></p>
+<p>The system uses a relational schema to manage the main entities of the farm, including:</p>
+<ul>
+<li>Field: field ID, location, area, and the crop currently planted</li>
+<li>Crop: crop type and its basic water requirements</li>
+<li>Growth Stage: stages such as germination, growth, flowering, and fruiting, each with different water needs</li>
+<li>Irrigation Equipment: equipment type (e.g., drip irrigation, sprinkler), flow rate or efficiency factor, and availability status</li>
+</ul>
+<p>These entities are connected through relationships. For example, each field is associated with a specific crop and a current growth stage, and can be assigned available irrigation equipment.</p>
+<p><strong>Weather Data Integration</strong></p>
+<p>The system retrieves weather information through external weather forecast APIs, such as:</p>
+<ul>
+<li>Predicted rainfall amount</li>
+<li>Probability of precipitation</li>
+<li>Temperature range</li>
+</ul>
+<p>This weather data is stored in the database and used as an important input for daily irrigation decisions, without requiring manual input from users.</p>
+<p><strong>Irrigation Rules and Schedule Generation</strong></p>
+<p>The system maintains a set of irrigation rules that describe irrigation requirements under different conditions, such as:</p>
+<ul>
+<li>Crop type × growth stage → recommended baseline irrigation amount</li>
+<li>If predicted rainfall exceeds a certain threshold → automatically reduce or cancel irrigation for the day</li>
+<li>Differences in irrigation equipment efficiency → adjust actual irrigation duration</li>
+</ul>
+<p>When the daily scheduling process runs, the system combines:</p>
+<ul>
+<li>The crop type and growth stage of each field</li>
+<li>The weather forecast for the day</li>
+<li>The availability and efficiency of irrigation equipment</li>
+</ul>
+<p>Based on this information, the system automatically generates a daily irrigation schedule, indicating whether each field requires irrigation and the recommended water amount or irrigation time.</p>
+</section>
+<section id="iii.-simple-interface-design-2" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-simple-interface-design-2">iii. Simple interface design</h6>
+<p>When users enter the system, the home page displays a table view of all fields on the farm, including the current crop type, growth stage, and the system’s irrigation recommendation for the day.</p>
+<p>Users can generate the daily irrigation schedule with a single action. Based on field information, weather forecasts, and irrigation rules, the system lists which fields require irrigation and provides recommended water amounts or irrigation durations.</p>
+<p>The schedule is presented in a simple list format, allowing users to quickly review and execute irrigation tasks. After completion, users can mark irrigation status for record-keeping and future reference.</p>
+</section>
+</section>
+</section>
+<section id="question-5" class="level4">
+<h4 class="anchored" data-anchor-id="question-5">Question 5</h4>
+<p><strong>What are the things current database system cannot do?</strong></p>
+<p>Current database systems are not capable of understanding the semantics behind data. As a result, in more complex applications, they often rely on manually defined rules or continuously adjusted weights to produce reasonable outputs. In addition, databases are limited in handling cross-context decision-making, where multiple competing objectives must be balanced simultaneously.</p>
+<p>For example, in a wardrobe management database, the system can evaluate outfits based on structured criteria such as color combinations, style tags, material properties, and weather conditions. It can assign scores for factors like aesthetic quality, comfort, and climate suitability, and generate multiple candidate outfits that satisfy predefined rules. However, the database cannot determine which outfit represents the optimal balance among being visually appealing, comfortable, and suitable for the weather.</p>
+<p>This limitation arises because preferences such as “looking good” or “feeling comfortable” are inherently subjective and context-dependent, and there is no single optimal solution that applies to all users or situations. Therefore, the role of the database is not to make the final decision, but to support decision-making by filtering infeasible options, structuring relevant information, and presenting comparable alternatives with transparent evaluation metrics.</p>
+<p>Ultimately, the final choice must be made by the user, who can decide whether to prioritize comfort, aesthetics, or climate suitability in a given context. This highlights a fundamental limitation of current database systems: they are effective at decision support, but they cannot replace human judgment in complex, value-driven decisions.</p>
+</section>
+<section id="question-6" class="level4">
+<h4 class="anchored" data-anchor-id="question-6">Question 6</h4>
+<p><strong>Describe at least three tables that might be used to store information in a social-network/social media system such as Twitter or Reddit.</strong></p>
+<p>A social-network or social media system such as Twitter or Reddit may be supported by at least the following three core tables:</p>
+<p><strong>1. User Table</strong></p>
+<p>The user table stores basic information about users, such as: - user_id - username - account creation time - profile metadata (e.g., bio or status)</p>
+<p>This table represents the identities of users and serves as a reference for other tables in the system.</p>
+<p><strong>2. Post Table</strong></p>
+<p>The post table stores content created by users, such as:</p>
+<ul>
+<li>post_id</li>
+<li>author_id (foreign key referencing the User table)</li>
+<li>content</li>
+<li>timestamp</li>
+</ul>
+<p>Each post is associated with a specific user, forming a one-to-many relationship between users and posts.</p>
+<p><strong>3. Comment Table</strong></p>
+<p>The comment table stores replies to posts (or other comments), such as:</p>
+<ul>
+<li>comment_id</li>
+<li>post_id (foreign key referencing the Post table)</li>
+<li>author_id</li>
+<li>content</li>
+<li>timestamp</li>
+</ul>
+<p>This table supports threaded discussions and allows multiple users to participate in conversations under the same post.</p>
+<p>These tables are separated to support relational queries, maintain data consistency, and enable efficient retrieval of users, posts, and discussion threads.</p>
 
 
+</section>
 </section>
 </section>
 
