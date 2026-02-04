@@ -1,7 +1,6 @@
 ---
 project:
   output-dir: docs
-
 title: "Information Management"
 format:
   html:
@@ -12,8 +11,416 @@ format:
     number-sections: true
     page-layout: full
     smooth-scroll: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Assignments
 
 ### Assignment 1
+
+#### Question 1: Name and describe three applications you have used that employed a database system to store and access persistent data. (e.g. airlines, online trade, banking, university system)
+
+For the first question, one example that comes to mind is video games.
+In video games, a player’s level and experience points, as well as the
+items and equipment they have obtained, are recorded, so the player can
+still access them the next time they log in. Another example is online
+shopping. For instance, Amazon records information such as the price of
+each product, the catalog it belongs to, whether it is eligible for free
+shipping, and whether it is in stock. A third example is a streaming
+platform, such as Netflix, which records a user’s region and
+subscription level. All of this data is stored persistently and can be
+accessed at a later time.
+
+#### Question 2: Propose three applications in domain projects (e.g. criminology, economics, brain science, etc.) Be sure you include: i. Purpose ii. Functions iii. Simple interface design
+
+##### Wardrobe Management Database
+
+###### i. Purpose
+
+The main purpose of this wardrobe management database is to minimize the
+time spent choosing outfits before going out.
+
+For many people, the difficulty in daily outfit selection is not a lack
+of clothing, but the need to simultaneously consider colors, styles,
+occasions, and overall coordination, which leads to a high
+decision-making cost.
+
+Therefore, I model the wardrobe as a relational database, which not only
+records individual clothing items but also describes the relationships
+between items, allowing outfit selection to be handled in a systematic
+way.
+
+By structuring clothing data, this system aims to transform “rethinking
+what to wear every day” into “quickly selecting optimal combinations
+from a database.”
+
+###### ii. Functions
+
+In this system, each clothing item is treated as a data entity and
+described using a set of attributes, such as:
+
+-   category (T-shirts, jeans, outerwear, shoes),
+-   color (including the proportion of each color),
+-   style (clean-fit, formal, vintage, sports, etc.),
+-   material (denim, linen, cotton).
+
+These attributes are normalized into multiple tables, and many-to-many
+relationships are used to represent that a single item can belong to
+multiple styles or be suitable for different occasions.
+
+The core function of this database is not only to store items, but to
+describe the compatibility between items.
+
+The system uses compatibility rules to define:
+
+-   Visual aesthetic constraints, such as avoiding more than three
+    colors in a single outfit and limiting the number of style tags to
+    maintain overall consistency
+-   Climate adaptability, where combinations are evaluated based on
+    insulation-related variables to ensure balanced warmth between upper
+    and lower body layers, and higher overall insulation is preferred as
+    the temperature decreases
+
+When a user selects a specific item (for example, a pink T-shirt), the
+system can immediately recommend other highly compatible items (such as
+light blue jeans and white sneakers) based on database relationships and
+rules, and rank these combinations by compatibility score to help the
+user make decisions more efficiently.
+
+In addition, as data accumulates, the system can analyze the overall
+structure of the wardrobe, such as:
+
+-   Whether certain styles or clothing categories are lacking
+-   Whether colors or item types are overly concentrated
+-   Whether newly purchased items overlap in function with existing ones
+-   Which older items have not been used for a long time and could be
+    considered for removal
+
+This allows the wardrobe to function not just as an item list, but as a
+system that can be queried, analyzed, and optimized, and that can be
+extended to daily life applications such as outfit recommendations and
+purchase decision support.
+
+This problem is particularly well suited for a relational database,
+because outfit selection inherently involves structured data and
+many-to-many relationships (such as items, styles, and compatibility
+rules), which can be efficiently combined and analyzed through
+relational queries.
+
+###### iii. Simple interface design
+
+When users enter the system, the home page displays a table view of all
+items in the wardrobe, including basic information such as category,
+color, style, material, and seasonality. The interface supports
+multi-select functionality.
+
+Users can select one or more items they plan to wear and submit their
+selection to generate outfit results.
+
+Based on the selected items and the compatibility rules stored in the
+database, the system generates multiple outfit candidates.
+
+The outfit results page provides different sorting options, such as
+sorting by comfort score, aesthetic score, or climate fit score.
+
+Each outfit displays its corresponding numerical scores, allowing users
+to quickly compare options and select the most suitable combination
+without repeatedly trying on clothes or overthinking the decision.
+
+The interface supports fast decision-making: select items → generate
+outfits → sort by scores → pick the best match.
+
+##### 3D Printing Farm Order & Scheduling Database
+
+###### i. Purpose
+
+The purpose of this 3D printing farm database is to systematize the
+entire workflow—from customer order intake to automated estimation,
+machine scheduling, and progress tracking—so the farm can operate
+efficiently as order volume grows. The goals are to shorten turnaround
+time, reduce human scheduling errors, improve machine utilization, and
+maximize profitability.
+
+In practice, 3D printing orders vary widely (model size, material,
+resolution, multi-color requirements, and post-processing such as
+painting). If pricing and scheduling rely on manual judgment, it is easy
+to underestimate time/cost, assign the wrong machine, or create
+bottlenecks in the order queue. Therefore, this system uses a relational
+database to store orders, machine capabilities, material usage, and
+scheduling states in a structured way, enabling fast and consistent
+decisions through rules and queries.
+
+###### ii. Functions
+
+**Order intake & requirement tagging** (Order Intake & Requirement
+Tagging)
+
+When a customer submits an order, the system stores it as an order
+record with structured attributes, such as:
+
+-   Model size and volume (bounding box / volume)
+-   Printing type (FDM / SLA)
+-   Resolution settings (layer height / resolution)
+-   Multi-color requirement (multi-color)
+-   Material type (material type)
+-   Post-processing needs (post-processing, e.g., painting/sanding)
+-   Other customization requests (stored as tags)
+
+These fields can be normalized into multiple tables, with many-to-many
+relationships used to represent that a single order can have multiple
+requirement tags.
+
+**Per-machine estimation** (Per-Machine Estimation)
+
+The key is not only to calculate an overall price for the order, but to
+estimate how the same order would perform on different machines, since
+time, cost, and completion time may vary by machine. This supports
+better machine assignment and scheduling decisions.
+
+For each candidate machine, the system applies pricing rules or an
+estimation model to perform per-machine estimation, including:
+
+-   Estimated print time (estimated print time)
+-   Estimated material usage (estimated material usage)
+-   Machine-specific estimated cost & quote (machine-specific estimated
+    cost & quote)
+-   Estimated completion time (estimated completion time, considering
+    current workload)
+
+The system stores these “order × machine” estimates for querying and
+ranking using different objective functions, such as lowest cost,
+earliest completion, or the most stable option within a deadline.
+
+**Order queue & status tracking** (Order Queue & Status Tracking)
+
+All orders are automatically added to an order queue (order list), and
+each order maintains a clear status, such as:
+
+-   pending
+-   queued
+-   printing
+-   post-processing
+-   completed
+-   failed
+
+Managers can query:
+
+-   What is currently in the queue and its priority
+-   Which orders are printing vs. waiting for machines
+-   Which failed orders require reprinting or manual intervention
+
+**Machine capability modeling & assignment recommendations** (Machine
+Capability & Assignment)
+
+The database stores each machine’s capabilities and constraints, such
+as: - Machine type: multi-color / single-color / SLA / FDM - Maximum
+build volume (max build volume) - Supported materials (supported
+materials) - Speed/quality profile (speed/quality profile) - Current
+workload and availability (workload & availability)
+
+When a new order arrives, the system first performs constraint filtering
+(e.g., size, material, multi-color requirements) to identify feasible
+machines, then uses per-machine estimation to generate recommended
+assignments, for example:
+
+-   Earliest completion time (earliest completion time)
+-   Lowest estimated cost (lowest estimated cost)
+-   Balanced option (deadline + stability)
+
+This turns scheduling into a decision-support process rather than manual
+guesswork.
+
+###### iii. Simple interface design
+
+On the customer side, the system provides a customer order page where
+users can upload a 3D model or specify printing requirements such as
+size, material, resolution, multi-color options, and post-processing
+needs. Based on this information, the system automatically returns an
+estimated price and an estimated delivery time.
+
+On the admin side, the system offers an order dashboard that displays
+the current order queue and order statuses. Administrators can sort or
+filter orders by deadline, priority, or processing status to manage
+workflow more efficiently.
+
+The system also includes a machine dashboard that lists all available
+machines along with their machine type, maximum build volume, supported
+materials, current workload, and estimated availability. This allows
+operators to quickly understand machine capacity and constraints.
+
+When an order is selected, the scheduling view presents a list of
+candidate machines that can fulfill the order. For each candidate
+machine, the system displays the estimated print time, estimated
+material usage, machine-specific cost and quote, and estimated
+completion time. The interface supports one-click sorting options, such
+as fastest, cheapest, or most stable, to assist administrators in making
+assignment decisions.
+
+The interface supports efficient operations: submit order → per-machine
+estimation → queue order → recommend machines → schedule & track
+progress.
+
+##### Wardrobe Management Database
+
+###### i. Purpose
+
+The purpose of this system is to manage the core information of a
+farm—such as fields, crop types, growth stages, and irrigation
+equipment—using a relational database.
+
+At the same time, the system retrieves and stores weather data through
+APIs provided by weather forecast services, and combines this
+information with a set of irrigation rules to automatically generate a
+daily irrigation schedule.
+
+The goal is to reduce manual decision-making costs while improving
+water-use efficiency and consistency in crop management.
+
+###### ii. Functions
+
+In this system, the database is not used only for data storage. Its core
+function is to integrate internal farm information with external weather
+data and automatically generate irrigation decisions based on predefined
+rules.
+
+**Core Data Management**
+
+The system uses a relational schema to manage the main entities of the
+farm, including:
+
+-   Field: field ID, location, area, and the crop currently planted
+-   Crop: crop type and its basic water requirements
+-   Growth Stage: stages such as germination, growth, flowering, and
+    fruiting, each with different water needs
+-   Irrigation Equipment: equipment type (e.g., drip irrigation,
+    sprinkler), flow rate or efficiency factor, and availability status
+
+These entities are connected through relationships. For example, each
+field is associated with a specific crop and a current growth stage, and
+can be assigned available irrigation equipment.
+
+**Weather Data Integration**
+
+The system retrieves weather information through external weather
+forecast APIs, such as:
+
+-   Predicted rainfall amount
+-   Probability of precipitation
+-   Temperature range
+
+This weather data is stored in the database and used as an important
+input for daily irrigation decisions, without requiring manual input
+from users.
+
+**Irrigation Rules and Schedule Generation**
+
+The system maintains a set of irrigation rules that describe irrigation
+requirements under different conditions, such as:
+
+-   Crop type × growth stage → recommended baseline irrigation amount
+-   If predicted rainfall exceeds a certain threshold → automatically
+    reduce or cancel irrigation for the day
+-   Differences in irrigation equipment efficiency → adjust actual
+    irrigation duration
+
+When the daily scheduling process runs, the system combines:
+
+-   The crop type and growth stage of each field
+-   The weather forecast for the day
+-   The availability and efficiency of irrigation equipment
+
+Based on this information, the system automatically generates a daily
+irrigation schedule, indicating whether each field requires irrigation
+and the recommended water amount or irrigation time.
+
+###### iii. Simple interface design
+
+When users enter the system, the home page displays a table view of all
+fields on the farm, including the current crop type, growth stage, and
+the system’s irrigation recommendation for the day.
+
+Users can generate the daily irrigation schedule with a single action.
+Based on field information, weather forecasts, and irrigation rules, the
+system lists which fields require irrigation and provides recommended
+water amounts or irrigation durations.
+
+The schedule is presented in a simple list format, allowing users to
+quickly review and execute irrigation tasks. After completion, users can
+mark irrigation status for record-keeping and future reference.
+
+#### Question 5: What are the things current database system cannot do?
+
+Current database systems are not capable of understanding the semantics
+behind data. As a result, in more complex applications, they often rely
+on manually defined rules or continuously adjusted weights to produce
+reasonable outputs. In addition, databases are limited in handling
+cross-context decision-making, where multiple competing objectives must
+be balanced simultaneously.
+
+For example, in a wardrobe management database, the system can evaluate
+outfits based on structured criteria such as color combinations, style
+tags, material properties, and weather conditions. It can assign scores
+for factors like aesthetic quality, comfort, and climate suitability,
+and generate multiple candidate outfits that satisfy predefined rules.
+However, the database cannot determine which outfit represents the
+optimal balance among being visually appealing, comfortable, and
+suitable for the weather.
+
+This limitation arises because preferences such as “looking good” or
+“feeling comfortable” are inherently subjective and context-dependent,
+and there is no single optimal solution that applies to all users or
+situations. Therefore, the role of the database is not to make the final
+decision, but to support decision-making by filtering infeasible
+options, structuring relevant information, and presenting comparable
+alternatives with transparent evaluation metrics.
+
+Ultimately, the final choice must be made by the user, who can decide
+whether to prioritize comfort, aesthetics, or climate suitability in a
+given context. This highlights a fundamental limitation of current
+database systems: they are effective at decision support, but they
+cannot replace human judgment in complex, value-driven decisions.
+
+#### Question 6: Describe at least three tables that might be used to store information in a social-network/social media system such as Twitter or Reddit.
+
+A social-network or social media system such as Twitter or Reddit may be
+supported by at least the following three core tables:
+
+**1. User Table**
+
+The user table stores basic information about users, such as: -
+user_id - username - account creation time - profile metadata (e.g., bio
+or status)
+
+This table represents the identities of users and serves as a reference
+for other tables in the system.
+
+**2. Post Table**
+
+The post table stores content created by users, such as:
+
+-   post_id
+-   author_id (foreign key referencing the User table)
+-   content
+-   timestamp
+
+Each post is associated with a specific user, forming a one-to-many
+relationship between users and posts.
+
+**3. Comment Table**
+
+The comment table stores replies to posts (or other comments), such as:
+
+-   comment_id
+-   post_id (foreign key referencing the Post table)
+-   author_id
+-   content
+-   timestamp
+
+This table supports threaded discussions and allows multiple users to
+participate in conversations under the same post.
+
+These tables are separated to support relational queries, maintain data
+consistency, and enable efficient retrieval of users, posts, and
+discussion threads.
