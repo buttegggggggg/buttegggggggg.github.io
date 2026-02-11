@@ -20,9 +20,11 @@ editor:
 
 ### Assignment 1
 
-#### Question 1 
+#### Question 1
 
-**Name and describe three applications you have used that employed a database system to store and access persistent data.** (e.g. airlines, online trade, banking, university system)
+**Name and describe three applications you have used that employed a
+database system to store and access persistent data.** (e.g. airlines,
+online trade, banking, university system)
 
 For the first question, one example that comes to mind is video games.
 In video games, a player’s level and experience points, as well as the
@@ -35,9 +37,11 @@ platform, such as Netflix, which records a user’s region and
 subscription level. All of this data is stored persistently and can be
 accessed at a later time.
 
-#### Question 2 
+#### Question 2
 
-**Propose three applications in domain projects** (e.g. criminology, economics, brain science, etc.) Be sure you include: i. Purpose ii. Functions iii. Simple interface design
+**Propose three applications in domain projects** (e.g. criminology,
+economics, brain science, etc.) Be sure you include: i. Purpose ii.
+Functions iii. Simple interface design
 
 ##### Wardrobe Management Database
 
@@ -354,7 +358,7 @@ The schedule is presented in a simple list format, allowing users to
 quickly review and execute irrigation tasks. After completion, users can
 mark irrigation status for record-keeping and future reference.
 
-#### Question 5 
+#### Question 5
 
 **What are the things current database system cannot do?**
 
@@ -388,9 +392,10 @@ given context. This highlights a fundamental limitation of current
 database systems: they are effective at decision support, but they
 cannot replace human judgment in complex, value-driven decisions.
 
-#### Question 6 
+#### Question 6
 
-**Describe at least three tables that might be used to store information in a social-network/social media system such as Twitter or Reddit.**
+**Describe at least three tables that might be used to store information
+in a social-network/social media system such as Twitter or Reddit.**
 
 A social-network or social media system such as Twitter or Reddit may be
 supported by at least the following three core tables:
@@ -432,3 +437,66 @@ participate in conversations under the same post.
 These tables are separated to support relational queries, maintain data
 consistency, and enable efficient retrieval of users, posts, and
 discussion threads.
+
+### Assignment 2
+
+#### Question 1
+
+**What are the differences between *relation schema*, *relation*, and
+*instance*? Give an example using the university database to
+illustrate.**
+
+-   **Relation Schema** = The logical structure of a relation: a list of
+    attribute names and their domains. It does not change over time.\
+    *Example:* `instructor(ID, name, dept_name, salary)`
+
+-   **Relation** = Informally used to refer to both the schema and
+    instance together.\
+    *Example:* "The department relation" can refer to either the schema
+    `department(dept_name, building, budget)` or the actual data it
+    currently holds.
+
+-   **Instance** = A snapshot of the actual data in a relation at a
+    given point in time. It changes as tuples are inserted, updated, or
+    deleted.\
+    *Example:* The department relation instance in Figure 2.5 contains 7
+    tuples. If the university adds a "Data Science" department, the
+    instance grows to 8 tuples, but the schema remains
+    `department(dept_name, building, budget)`.
+
+#### Question 2 & 3
+
+**Draw a schema diagram for the following bank database. Identify
+primary keys (underlined) and foreign keys.**
+
+The bank database consists of the following relations:
+
+-   `branch(branch_name, branch_city, assets)`
+-   `customer(ID, customer_name, customer_street, customer_city)`
+-   `loan(loan_number, branch_name, amount)`
+-   `borrower(ID, loan_number)`
+-   `account(account_number, branch_name, balance)`
+-   `depositor(ID, account_number)`
+
+![Bank Database Schema Diagram](imhw2pic.jpg){width="80%"}
+
+#### Question 4
+
+**Describe two ways artificial intelligence or LLM can assist in
+managing or querying a database. In your answer, briefly explain how
+each method improves efficiency or accuracy compared to traditional
+(non-AI) approaches. (3--5 sentences)**
+
+1.  **Natural Language to SQL (Querying):** LLMs can translate plain
+    language questions directly into executable SQL queries, lowering the
+    barrier for non-technical users and reducing syntax errors compared
+    to writing SQL manually.
+
+2.  **AI-Driven Database Tuning (Managing):** LLMs can automatically
+    analyze slow queries and recommend index optimizations, replacing
+    the traditionally time-consuming process of a DBA manually examining
+    query logs and execution plans.
+
+Overall, both approaches reduce the need for specialized expertise and
+allow faster, more accurate database operations compared to traditional
+manual methods.

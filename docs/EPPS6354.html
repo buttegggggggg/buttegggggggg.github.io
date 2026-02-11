@@ -151,6 +151,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
   <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
   </ul></li>
+  <li><a href="#assignment-2" id="toc-assignment-2" class="nav-link" data-scroll-target="#assignment-2">Assignment 2</a>
+  <ul>
+  <li><a href="#question-1-1" id="toc-question-1-1" class="nav-link" data-scroll-target="#question-1-1">Question 1</a></li>
+  <li><a href="#question-2-3" id="toc-question-2-3" class="nav-link" data-scroll-target="#question-2-3">Question 2 &amp; 3</a></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -387,6 +393,49 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>This table supports threaded discussions and allows multiple users to participate in conversations under the same post.</p>
 <p>These tables are separated to support relational queries, maintain data consistency, and enable efficient retrieval of users, posts, and discussion threads.</p>
+</section>
+</section>
+<section id="assignment-2" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-2">Assignment 2</h3>
+<section id="question-1-1" class="level4">
+<h4 class="anchored" data-anchor-id="question-1-1">Question 1</h4>
+<p><strong>What are the differences between <em>relation schema</em>, <em>relation</em>, and <em>instance</em>? Give an example using the university database to illustrate.</strong></p>
+<ul>
+<li><p><strong>Relation Schema</strong> = The logical structure of a relation: a list of attribute names and their domains. It does not change over time.<br>
+<em>Example:</em> <code>instructor(ID, name, dept_name, salary)</code></p></li>
+<li><p><strong>Relation</strong> = Informally used to refer to both the schema and instance together.<br>
+<em>Example:</em> “The department relation” can refer to either the schema <code>department(dept_name, building, budget)</code> or the actual data it currently holds.</p></li>
+<li><p><strong>Instance</strong> = A snapshot of the actual data in a relation at a given point in time. It changes as tuples are inserted, updated, or deleted.<br>
+<em>Example:</em> The department relation instance in Figure 2.5 contains 7 tuples. If the university adds a “Data Science” department, the instance grows to 8 tuples, but the schema remains <code>department(dept_name, building, budget)</code>.</p></li>
+</ul>
+</section>
+<section id="question-2-3" class="level4">
+<h4 class="anchored" data-anchor-id="question-2-3">Question 2 &amp; 3</h4>
+<p><strong>Draw a schema diagram for the following bank database. Identify primary keys (underlined) and foreign keys.</strong></p>
+<p>The bank database consists of the following relations:</p>
+<ul>
+<li><code>branch(branch_name, branch_city, assets)</code></li>
+<li><code>customer(ID, customer_name, customer_street, customer_city)</code></li>
+<li><code>loan(loan_number, branch_name, amount)</code></li>
+<li><code>borrower(ID, loan_number)</code></li>
+<li><code>account(account_number, branch_name, balance)</code></li>
+<li><code>depositor(ID, account_number)</code></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imhw2pic.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Bank Database Schema Diagram</figcaption>
+</figure>
+</div>
+</section>
+<section id="question-4" class="level4">
+<h4 class="anchored" data-anchor-id="question-4">Question 4</h4>
+<p><strong>Describe two ways artificial intelligence or LLM can assist in managing or querying a database. In your answer, briefly explain how each method improves efficiency or accuracy compared to traditional (non-AI) approaches. (3–5 sentences)</strong></p>
+<ol type="1">
+<li><p><strong>Natural Language to SQL (Querying):</strong> LLMs can translate plain language questions directly into executable SQL queries, lowering the barrier for non-technical users and reducing syntax errors compared to writing SQL manually.</p></li>
+<li><p><strong>AI-Driven Database Tuning (Managing):</strong> LLMs can automatically analyze slow queries and recommend index optimizations, replacing the traditionally time-consuming process of a DBA manually examining query logs and execution plans.</p></li>
+</ol>
+<p>Overall, both approaches reduce the need for specialized expertise and allow faster, more accurate database operations compared to traditional manual methods.</p>
 
 
 </section>
