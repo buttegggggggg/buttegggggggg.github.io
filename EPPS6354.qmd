@@ -592,54 +592,54 @@ outfit plus 3–5 ranked alternatives, each with a score and explanation.
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `User` | `user_id` PK, `name` | 使用者 |
-| `Category` | `category_id` PK, `name` | 衣物類別（top / bottom / shoes / outerwear / accessory） |
-| `Color` | `color_id` PK, `name` | 顏色（black, white, navy…） |
-| `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | 布料及保暖/透氣屬性 |
-| `StyleTag` | `style_id` PK, `name` | 風格標籤（street, semi-formal, formal…） |
-| `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | 場合及正式度範圍 |
+| `User` | `user_id` PK, `name` | Stores user identity |
+| `Category` | `category_id` PK, `name` | Clothing categories: top, bottom, shoes, outerwear, accessory |
+| `Color` | `color_id` PK, `name` | Color names (black, white, navy, grey, beige…) |
+| `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | Fabric type with warmth (0–100) and breathability (0–100) ratings |
+| `StyleTag` | `style_id` PK, `name` | Style labels: street, semi-formal, formal, clean fit, simple |
+| `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | Occasion with required formality range |
 
 ##### Style & Calendar
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `StyleOccasionFit` | `style_id` FK, `occasion_id` FK, `fit_score` | 風格與場合適配分數（PK: style_id + occasion_id） |
-| `CalendarEvent` | `event_id` PK, `user_id` FK, `occasion_id` FK, `event_date`, `start_time` | 行事曆行程，自動對應場合 |
+| `StyleOccasionFit` | `style_id` FK, `occasion_id` FK, `fit_score` | Fit score (0–100) between a style and an occasion (PK: style_id + occasion_id) |
+| `CalendarEvent` | `event_id` PK, `user_id` FK, `occasion_id` FK, `event_date`, `start_time` | Calendar entry mapped to an occasion; drives automatic occasion detection |
 
 ##### Clothing Item & Tags
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `ClothingItem` | `item_id` PK, `user_id` FK, `category_id` FK, `fabric_id` FK, `formality_score`, `warmth_score`, `clean_score`, `status` | 衣物主表；可推薦條件：`clean_score > 0` 且 `status = 'active'` |
-| `ItemStyle` | `item_id` FK, `style_id` FK | 衣物風格標籤（多對多） |
-| `ItemColor` | `item_id` FK, `color_id` FK, `role` (primary/secondary/accent) | 衣物配色角色；每件最多三色 |
+| `ClothingItem` | `item_id` PK, `user_id` FK, `category_id` FK, `fabric_id` FK, `formality_score`, `warmth_score`, `clean_score`, `status` | Main clothing table; recommendable only if `clean_score > 0` and `status = 'active'` |
+| `ItemStyle` | `item_id` FK, `style_id` FK | Many-to-many: clothing item to style tags |
+| `ItemColor` | `item_id` FK, `color_id` FK, `role` (primary/secondary/accent) | Color role assignment per item; max 3 colors per item |
 
 ##### Weather
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `WeatherSnapshot` | `weather_id` PK, `location`, `temp_c`, `feels_like_c`, `humidity`, `wind_speed`, `precip_mm` | 即時天氣快照 |
-| `WeatherCondition` | `condition_id` PK, `name`, temp/precip/wind/humidity 範圍 | 天氣狀態分類（如 cold_rainy、hot_humid），供規則匹配 |
+| `WeatherSnapshot` | `weather_id` PK, `location`, `temp_c`, `feels_like_c`, `humidity`, `wind_speed`, `precip_mm` | Real-time weather data snapshot |
+| `WeatherCondition` | `condition_id` PK, `name`, temp/precip/wind/humidity ranges | Named weather condition (e.g. cold_rainy, hot_humid) used for rule matching |
 
 ##### Outfit
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `Outfit` | `outfit_id` PK, `user_id` FK, `occasion_id` FK, `weather_id` FK, `total_score`, `explanation` | 穿搭組合主表 |
-| `OutfitItem` | PK(outfit_id, slot, layer_order), `item_id` FK | 穿搭明細；支援多層穿搭（同 slot 不同 layer_order） |
+| `Outfit` | `outfit_id` PK, `user_id` FK, `occasion_id` FK, `weather_id` FK, `total_score`, `explanation` | Generated outfit with total score and explanation |
+| `OutfitItem` | PK(outfit_id, slot, layer_order), `item_id` FK | Outfit detail; supports multi-layer dressing within the same slot |
 
 ##### Scoring Rules
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `OutfitScoringRule` | `score_rule_id` PK, `rule_type`, `score_delta`, `condition_json`, `valid_from`, `valid_until` | 穿搭評分規則；valid_until 支援流行趨勢時效性 |
-| `WearDegradeRule` | `degrade_rule_id` PK, `category_id` FK, `occasion_id` FK (nullable), `condition_id` FK (nullable), `delta_clean_score` | 穿著後清潔度扣分規則，支援堆疊計算 |
+| `OutfitScoringRule` | `score_rule_id` PK, `rule_type`, `score_delta`, `condition_json`, `valid_from`, `valid_until` | Scoring rule with optional expiry date to support trend-based rules |
+| `WearDegradeRule` | `degrade_rule_id` PK, `category_id` FK, `occasion_id` FK (nullable), `condition_id` FK (nullable), `delta_clean_score` | Clean score deduction rule; multiple matching rules are stacked per wear event |
 
 ##### Wear Tracking & Laundry
 
 | Table | Key Columns | Description |
 |-------|-------------|-------------|
-| `WearEvent` | `event_id` PK, `user_id` FK, `outfit_id` FK, `occasion_id` FK, `weather_id` FK, `worn_at` | 穿著事件紀錄 |
-| `WearEventItem` | PK(event_id, item_id), `delta_applied`, `clean_score_after` | 每件衣物的扣分明細與扣後分數 |
-| `LaundryBatch` | `batch_id` PK, `user_id` FK, `laundry_type` (dark/light) | 洗衣批次 |
-| `LaundryBatchItem` | PK(batch_id, item_id), `reset_to_score` = 100 | 洗完後重設 clean_score |
+| `WearEvent` | `event_id` PK, `user_id` FK, `outfit_id` FK, `occasion_id` FK, `weather_id` FK, `worn_at` | Records each time an outfit is worn |
+| `WearEventItem` | PK(event_id, item_id), `delta_applied`, `clean_score_after` | Per-item deduction detail and resulting clean score after wear |
+| `LaundryBatch` | `batch_id` PK, `user_id` FK, `laundry_type` (dark/light) | Laundry batch grouped by color type |
+| `LaundryBatchItem` | PK(batch_id, item_id), `reset_to_score` = 100 | Resets clean score to 100 upon laundering |
