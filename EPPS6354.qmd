@@ -562,3 +562,84 @@ course trivially satisfy this condition.)**
 
 ![Q4 — Instructors who have never given an A
 grade](EPPS6354_assignment_3_screenshot_8.png){width="80%"}
+
+## Final Project
+
+### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation
+
+#### Project Overview
+
+A single-user wardrobe management system. Each morning, the system reads the user's
+calendar (to determine the occasion) and the current weather, filters out unwearable items
+(dirty or archived), and ranks candidate outfits using a rule-based scoring engine built on
+color theory, fabric compatibility, and style coherence. The output is the best recommended
+outfit plus 3–5 ranked alternatives, each with a score and explanation.
+
+**Core workflow:** Wake up → Read calendar (occasion) + weather → Filter wearable items
+→ Score outfit combinations → Output recommendation
+
+**Three scoring dimensions:**
+
+-   **Color** — 60/30/10 color theory; each item carries a `primary / secondary / accent`
+    color role
+-   **Fabric** — same-fabric bonus, mixed-fabric reasonableness, warmth adequacy relative
+    to weather
+-   **Style** — style-tag consistency across items, and style–occasion fit scores
+
+#### Database Tables
+
+##### Reference Tables
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `User` | `user_id` PK, `name` | 使用者 |
+| `Category` | `category_id` PK, `name` | 衣物類別（top / bottom / shoes / outerwear / accessory） |
+| `Color` | `color_id` PK, `name` | 顏色（black, white, navy…） |
+| `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | 布料及保暖/透氣屬性 |
+| `StyleTag` | `style_id` PK, `name` | 風格標籤（street, semi-formal, formal…） |
+| `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | 場合及正式度範圍 |
+
+##### Style & Calendar
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `StyleOccasionFit` | `style_id` FK, `occasion_id` FK, `fit_score` | 風格與場合適配分數（PK: style_id + occasion_id） |
+| `CalendarEvent` | `event_id` PK, `user_id` FK, `occasion_id` FK, `event_date`, `start_time` | 行事曆行程，自動對應場合 |
+
+##### Clothing Item & Tags
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `ClothingItem` | `item_id` PK, `user_id` FK, `category_id` FK, `fabric_id` FK, `formality_score`, `warmth_score`, `clean_score`, `status` | 衣物主表；可推薦條件：`clean_score > 0` 且 `status = 'active'` |
+| `ItemStyle` | `item_id` FK, `style_id` FK | 衣物風格標籤（多對多） |
+| `ItemColor` | `item_id` FK, `color_id` FK, `role` (primary/secondary/accent) | 衣物配色角色；每件最多三色 |
+
+##### Weather
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `WeatherSnapshot` | `weather_id` PK, `location`, `temp_c`, `feels_like_c`, `humidity`, `wind_speed`, `precip_mm` | 即時天氣快照 |
+| `WeatherCondition` | `condition_id` PK, `name`, temp/precip/wind/humidity 範圍 | 天氣狀態分類（如 cold_rainy、hot_humid），供規則匹配 |
+
+##### Outfit
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `Outfit` | `outfit_id` PK, `user_id` FK, `occasion_id` FK, `weather_id` FK, `total_score`, `explanation` | 穿搭組合主表 |
+| `OutfitItem` | PK(outfit_id, slot, layer_order), `item_id` FK | 穿搭明細；支援多層穿搭（同 slot 不同 layer_order） |
+
+##### Scoring Rules
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `OutfitScoringRule` | `score_rule_id` PK, `rule_type`, `score_delta`, `condition_json`, `valid_from`, `valid_until` | 穿搭評分規則；valid_until 支援流行趨勢時效性 |
+| `WearDegradeRule` | `degrade_rule_id` PK, `category_id` FK, `occasion_id` FK (nullable), `condition_id` FK (nullable), `delta_clean_score` | 穿著後清潔度扣分規則，支援堆疊計算 |
+
+##### Wear Tracking & Laundry
+
+| Table | Key Columns | Description |
+|-------|-------------|-------------|
+| `WearEvent` | `event_id` PK, `user_id` FK, `outfit_id` FK, `occasion_id` FK, `weather_id` FK, `worn_at` | 穿著事件紀錄 |
+| `WearEventItem` | PK(event_id, item_id), `delta_applied`, `clean_score_after` | 每件衣物的扣分明細與扣後分數 |
+| `LaundryBatch` | `batch_id` PK, `user_id` FK, `laundry_type` (dark/light) | 洗衣批次 |
+| `LaundryBatchItem` | PK(batch_id, item_id), `reset_to_score` = 100 | 洗完後重設 clean_score |

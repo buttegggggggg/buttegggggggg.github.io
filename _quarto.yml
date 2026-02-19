@@ -26,8 +26,6 @@ website:
         href: EPPS6356.qmd
       - text: Information Management
         href: EPPS6354.qmd
-      - text: Wardrobe DB Project
-        href: EPPS6354_project.qmd
 
 format:
   html:
