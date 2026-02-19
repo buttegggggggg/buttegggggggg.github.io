@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning"
+title: "Machine Learning & Data Science"
 format:
   html:
     theme: cosmo
