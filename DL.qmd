@@ -1,0 +1,257 @@
+---
+title: "Deep Learning"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    toc-depth: 4
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+## Assignments / 作業
+
+### Assignment 1 — AOI Defect Classification / 自動光學檢測缺陷分類
+
+**Task / 任務：** Classify industrial component images into 6 defect categories using a fine-tuned ResNet-18, trained on the AOI (Automated Optical Inspection) dataset.
+使用 ResNet-18 對工業元件影像進行 6 類缺陷分類（AOI 自動光學檢測資料集）。
+
+**Dataset / 資料集：** AOI Dataset — 2,530 training images, 10,144 test images, 6 classes
+(normal, void, horizontal defect, vertical defect, edge defect, particle)
+
+**Method / 方法：** ResNet-18 (ImageNet pretrained) — frozen backbone, fine-tuned classifier head
+
+#### Model Setup / 模型設定
+
+```python
+model = models.resnet18(pretrained=True)
+
+# Freeze all parameters
+for param in model.parameters():
+    param.requires_grad = False
+
+# Replace final layer for 6-class output
+num_ftrs = model.fc.in_features
+model.fc = nn.Linear(num_ftrs, 6)
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = model.to(device)
+```
+
+#### Training Setup / 訓練設定
+
+```python
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.fc.parameters(), lr=0.001)
+num_epochs = 10
+batch_size = 32
+# Input: 224×224 RGB, normalized to ImageNet mean/std
+```
+
+#### Results / 結果
+
+| Epoch | Train Loss | Val Accuracy |
+|-------|-----------|--------------|
+| 1 | 0.8943 | 95.26% |
+| 2 | 0.4654 | 96.25% |
+| 6 | 0.2635 | 96.44% |
+| 10 | 0.2381 | 95.85% |
+
+**Best Validation Accuracy: 96.44%**
+
+---
+
+### Assignment 2 — Retinal Vessel Segmentation / 視網膜血管分割
+
+**Task / 任務：** Perform binary semantic segmentation of blood vessels in retinal fundus images using a custom U-Net architecture trained on the DRIVE dataset.
+使用自製 U-Net 對 DRIVE 資料集的眼底影像進行視網膜血管二元語意分割。
+
+**Dataset / 資料集：** DRIVE (Digital Retinal Images for Vessel Extraction) — 22 training, 20 test images, 512×512
+
+**Method / 方法：** U-Net (5-level encoder-decoder with skip connections) + Focal Tversky Loss
+
+#### U-Net Architecture / U-Net 模型架構
+
+```python
+class UNet(torch.nn.Module):
+    def __init__(self, inchannel, outchannel):
+        super(UNet, self).__init__()
+        # Encoder
+        self.conv1 = Conv(inchannel, 64)
+        self.conv2 = Conv(64, 128)
+        self.conv3 = Conv(128, 256)
+        self.conv4 = Conv(256, 512)
+        self.conv5 = Conv(512, 1024)
+        self.pool  = torch.nn.MaxPool2d(2)
+        # Decoder
+        self.up1   = torch.nn.ConvTranspose2d(1024, 512, 2, 2)
+        self.conv6 = Conv(1024, 512)
+        self.up2   = torch.nn.ConvTranspose2d(512, 256, 2, 2)
+        self.conv7 = Conv(512, 256)
+        self.up3   = torch.nn.ConvTranspose2d(256, 128, 2, 2)
+        self.conv8 = Conv(256, 128)
+        self.up4   = torch.nn.ConvTranspose2d(128, 64, 2, 2)
+        self.conv9 = Conv(128, 64)
+        self.conv10 = torch.nn.Conv2d(64, outchannel, 3, 1, 1)
+```
+
+#### Training Setup / 訓練設定
+
+```python
+# Focal Tversky Loss — handles class imbalance in vessel vs background
+criterion = lambda y_pred, y_true: focal_tversky_loss(
+    y_pred, y_true, alpha=0.5, beta=0.5, gamma=0.75
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, mode='min', factor=0.5, patience=5
+)
+device = torch.device("mps")  # Apple Silicon
+num_epochs = 100
+```
+
+#### Results / 結果
+
+| Metric | Value |
+|--------|-------|
+| Mean IoU (mIoU) | 0.3510 |
+| Training epochs | 100 |
+| Input resolution | 512 × 512 |
+
+---
+
+### Assignment 3 — Retinal Image Reconstruction / 視網膜影像重建
+
+**Task / 任務：** Train an autoencoder to reconstruct retinal fundus images in an unsupervised manner, evaluated by Peak Signal-to-Noise Ratio (PSNR).
+以無監督方式訓練自動編碼器重建眼底影像，以 PSNR 作為評估指標。
+
+**Dataset / 資料集：** DRIVE — 21 training, 20 test images, 512×512 RGB
+
+**Method / 方法：** Convolutional Autoencoder (Encoder-Decoder with skip connections) + MSE Loss
+
+#### AutoEncoder Architecture / 模型架構
+
+```python
+class AutoEncoder(nn.Module):
+    def __init__(self, inchannel=3, outchannel=3):
+        super(AutoEncoder, self).__init__()
+        # Encoder
+        self.conv1 = Conv(inchannel, 64)
+        self.conv2 = Conv(64, 128)
+        self.conv3 = Conv(128, 256)
+        self.conv4 = Conv(256, 512)
+        self.pool  = nn.MaxPool2d(2)
+        # Decoder (with skip connections)
+        self.up1   = nn.ConvTranspose2d(512, 256, 2, 2)
+        self.conv5 = Conv(512, 256)
+        self.up2   = nn.ConvTranspose2d(256, 128, 2, 2)
+        self.conv6 = Conv(256, 128)
+        self.up3   = nn.ConvTranspose2d(128, 64, 2, 2)
+        self.conv7 = Conv(128, 64)
+        self.conv8 = nn.Conv2d(64, outchannel, 3, 1, 1)
+```
+
+#### Training Setup / 訓練設定
+
+```python
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+num_epochs = 20
+batch_size = 1
+# Normalization: mean=0.5, std=0.5
+device = torch.device("cuda" if torch.cuda.is_available() else "mps")
+```
+
+#### Results / 結果
+
+| Epoch | Train Loss | Test Loss | PSNR (dB) |
+|-------|-----------|-----------|-----------|
+| 1 | 0.0979 | 0.1152 | 16.29 |
+| 3 | 0.0323 | 0.0067 | 27.98 |
+| 10 | 0.0309 | 0.0055 | 29.06 |
+| 13 | 0.0263 | 0.0043 | 30.16 |
+| **18** | **0.0280** | **0.0037** | **30.84** |
+| 20 | 0.0268 | 0.0048 | 29.50 |
+
+**Best PSNR: 30.84 dB at Epoch 18**
+
+---
+
+### Assignment 4 — Western Blot Image Generation / Western Blot 影像生成
+
+**Task / 任務：** Train a conditional GAN to generate Western blot images from two template images, learning the mapping from template patterns to realistic blot patterns.
+訓練條件式 GAN，從兩張模板影像生成 Western blot 影像，學習模板圖案到真實條帶紋路的映射。
+
+**Dataset / 資料集：** Western Blot Dataset — 402 template pairs + 402 target images, 64×64 grayscale
+
+**Method / 方法：** Conditional GAN — Encoder-Decoder Generator + PatchGAN-style Discriminator
+
+#### Generator Architecture / 生成器架構
+
+Takes two concatenated template images as input and generates the corresponding blot image.
+輸入兩張拼接的模板影像，輸出對應的 Western blot 影像。
+
+```python
+class TemplateToImageGenerator(nn.Module):
+    def __init__(self):
+        super(TemplateToImageGenerator, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Conv2d(1, 64, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(64), nn.ReLU(),
+            nn.Conv2d(64, 128, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(128), nn.ReLU(),
+            nn.Conv2d(128, 256, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(256), nn.ReLU(),
+        )
+        self.decoder = nn.Sequential(
+            nn.ConvTranspose2d(256, 128, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(128), nn.ReLU(),
+            nn.ConvTranspose2d(128, 64, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(64), nn.ReLU(),
+            nn.ConvTranspose2d(64, 1, kernel_size=4, stride=2, padding=1),
+            nn.Tanh(),
+        )
+```
+
+#### Discriminator Architecture / 判別器架構
+
+```python
+class TemplateToImageDiscriminator(nn.Module):
+    def __init__(self):
+        super(TemplateToImageDiscriminator, self).__init__()
+        self.model = nn.Sequential(
+            nn.Conv2d(2, 64, kernel_size=4, stride=2, padding=1),
+            nn.LeakyReLU(0.2),
+            nn.Conv2d(64, 128, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(128), nn.LeakyReLU(0.2),
+            nn.Conv2d(128, 256, kernel_size=4, stride=2, padding=1),
+            nn.BatchNorm2d(256), nn.LeakyReLU(0.2),
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Linear(256, 1),
+            nn.Sigmoid()
+        )
+```
+
+#### Training Setup / 訓練設定
+
+```python
+g_optimizer = optim.Adam(generator.parameters(),     lr=0.0002)
+d_optimizer = optim.Adam(discriminator.parameters(), lr=0.0002)
+criterion   = nn.BCELoss()
+num_epochs  = 200
+batch_size  = 1
+# Per epoch: discriminator trains on real + fake; generator trains to fool discriminator
+```
+
+#### Results / 結果
+
+The model was trained for 200 epochs. Generator and Discriminator losses converged stably, with generated images showing progressively improved visual similarity to real Western blot patterns.
+模型訓練 200 個 epoch，生成器與判別器損失穩定收斂，生成影像逐漸接近真實 Western blot 條帶紋路。
+
+| Component | Final Loss (approx.) |
+|-----------|----------------------|
+| Discriminator (D Loss) | ~0.4x |
+| Generator (G Loss) | ~0.3x |

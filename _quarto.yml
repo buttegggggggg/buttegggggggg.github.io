@@ -40,6 +40,14 @@ website:
             href: EPPS6354.qmd
           - text: Final Project
             href: EPPS6354.qmd#final-project
+      - text: Machine Learning
+        menu:
+          - text: Assignments
+            href: ML.qmd#assignments
+      - text: Deep Learning
+        menu:
+          - text: Assignments
+            href: DL.qmd#assignments
 
 format:
   html:
