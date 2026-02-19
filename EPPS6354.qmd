@@ -596,7 +596,7 @@ outfit plus 3–5 ranked alternatives, each with a score and explanation.
 | `Category` | `category_id` PK, `name` | Clothing categories: top, bottom, shoes, outerwear, accessory |
 | `Color` | `color_id` PK, `name` | Color names (black, white, navy, grey, beige…) |
 | `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | Fabric type with warmth (0–100) and breathability (0–100) ratings |
-| `StyleTag` | `style_id` PK, `name` | Style labels: street, semi-formal, formal, clean fit, simple |
+| `StyleTag` | `style_id` PK, `name` | Style labels: street, formal, clean fit, simple, blokecore... |
 | `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | Occasion with required formality range |
 
 ##### Style & Calendar

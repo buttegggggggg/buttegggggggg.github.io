@@ -165,6 +165,23 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#question-4-1" id="toc-question-4-1" class="nav-link" data-scroll-target="#question-4-1">Question 4</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
+  <ul>
+  <li><a href="#weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" id="toc-weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" class="nav-link" data-scroll-target="#weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation">Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation</a>
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
+  <li><a href="#database-tables" id="toc-database-tables" class="nav-link" data-scroll-target="#database-tables">Database Tables</a>
+  <ul>
+  <li><a href="#reference-tables" id="toc-reference-tables" class="nav-link" data-scroll-target="#reference-tables">Reference Tables</a></li>
+  <li><a href="#style-calendar" id="toc-style-calendar" class="nav-link" data-scroll-target="#style-calendar">Style &amp; Calendar</a></li>
+  <li><a href="#clothing-item-tags" id="toc-clothing-item-tags" class="nav-link" data-scroll-target="#clothing-item-tags">Clothing Item &amp; Tags</a></li>
+  <li><a href="#weather" id="toc-weather" class="nav-link" data-scroll-target="#weather">Weather</a></li>
+  <li><a href="#outfit" id="toc-outfit" class="nav-link" data-scroll-target="#outfit">Outfit</a></li>
+  <li><a href="#scoring-rules" id="toc-scoring-rules" class="nav-link" data-scroll-target="#scoring-rules">Scoring Rules</a></li>
+  <li><a href="#wear-tracking-laundry" id="toc-wear-tracking-laundry" class="nav-link" data-scroll-target="#wear-tracking-laundry">Wear Tracking &amp; Laundry</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -516,8 +533,266 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Q4 — Instructors who have never given an A grade</figcaption>
 </figure>
 </div>
+</section>
+</section>
+</section>
+<section id="final-project" class="level2">
+<h2 class="anchored" data-anchor-id="final-project">Final Project</h2>
+<section id="weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" class="level3">
+<h3 class="anchored" data-anchor-id="weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation">Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation</h3>
+<section id="project-overview" class="level4">
+<h4 class="anchored" data-anchor-id="project-overview">Project Overview</h4>
+<p>A single-user wardrobe management system. Each morning, the system reads the user’s calendar (to determine the occasion) and the current weather, filters out unwearable items (dirty or archived), and ranks candidate outfits using a rule-based scoring engine built on color theory, fabric compatibility, and style coherence. The output is the best recommended outfit plus 3–5 ranked alternatives, each with a score and explanation.</p>
+<p><strong>Core workflow:</strong> Wake up → Read calendar (occasion) + weather → Filter wearable items → Score outfit combinations → Output recommendation</p>
+<p><strong>Three scoring dimensions:</strong></p>
+<ul>
+<li><strong>Color</strong> — 60/30/10 color theory; each item carries a <code>primary / secondary / accent</code> color role</li>
+<li><strong>Fabric</strong> — same-fabric bonus, mixed-fabric reasonableness, warmth adequacy relative to weather</li>
+<li><strong>Style</strong> — style-tag consistency across items, and style–occasion fit scores</li>
+</ul>
+</section>
+<section id="database-tables" class="level4">
+<h4 class="anchored" data-anchor-id="database-tables">Database Tables</h4>
+<section id="reference-tables" class="level5">
+<h5 class="anchored" data-anchor-id="reference-tables">Reference Tables</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>User</code></td>
+<td><code>user_id</code> PK, <code>name</code></td>
+<td>Stores user identity</td>
+</tr>
+<tr class="even">
+<td><code>Category</code></td>
+<td><code>category_id</code> PK, <code>name</code></td>
+<td>Clothing categories: top, bottom, shoes, outerwear, accessory</td>
+</tr>
+<tr class="odd">
+<td><code>Color</code></td>
+<td><code>color_id</code> PK, <code>name</code></td>
+<td>Color names (black, white, navy, grey, beige…)</td>
+</tr>
+<tr class="even">
+<td><code>Fabric</code></td>
+<td><code>fabric_id</code> PK, <code>name</code>, <code>warmth_weight</code>, <code>breathability</code></td>
+<td>Fabric type with warmth (0–100) and breathability (0–100) ratings</td>
+</tr>
+<tr class="odd">
+<td><code>StyleTag</code></td>
+<td><code>style_id</code> PK, <code>name</code></td>
+<td>Style labels: street, formal, clean fit, simple, blokecore…</td>
+</tr>
+<tr class="even">
+<td><code>Occasion</code></td>
+<td><code>occasion_id</code> PK, <code>name</code>, <code>target_formality_min</code>, <code>target_formality_max</code></td>
+<td>Occasion with required formality range</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="style-calendar" class="level5">
+<h5 class="anchored" data-anchor-id="style-calendar">Style &amp; Calendar</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>StyleOccasionFit</code></td>
+<td><code>style_id</code> FK, <code>occasion_id</code> FK, <code>fit_score</code></td>
+<td>Fit score (0–100) between a style and an occasion (PK: style_id + occasion_id)</td>
+</tr>
+<tr class="even">
+<td><code>CalendarEvent</code></td>
+<td><code>event_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>event_date</code>, <code>start_time</code></td>
+<td>Calendar entry mapped to an occasion; drives automatic occasion detection</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="clothing-item-tags" class="level5">
+<h5 class="anchored" data-anchor-id="clothing-item-tags">Clothing Item &amp; Tags</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ClothingItem</code></td>
+<td><code>item_id</code> PK, <code>user_id</code> FK, <code>category_id</code> FK, <code>fabric_id</code> FK, <code>formality_score</code>, <code>warmth_score</code>, <code>clean_score</code>, <code>status</code></td>
+<td>Main clothing table; recommendable only if <code>clean_score &gt; 0</code> and <code>status = 'active'</code></td>
+</tr>
+<tr class="even">
+<td><code>ItemStyle</code></td>
+<td><code>item_id</code> FK, <code>style_id</code> FK</td>
+<td>Many-to-many: clothing item to style tags</td>
+</tr>
+<tr class="odd">
+<td><code>ItemColor</code></td>
+<td><code>item_id</code> FK, <code>color_id</code> FK, <code>role</code> (primary/secondary/accent)</td>
+<td>Color role assignment per item; max 3 colors per item</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="weather" class="level5">
+<h5 class="anchored" data-anchor-id="weather">Weather</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>WeatherSnapshot</code></td>
+<td><code>weather_id</code> PK, <code>location</code>, <code>temp_c</code>, <code>feels_like_c</code>, <code>humidity</code>, <code>wind_speed</code>, <code>precip_mm</code></td>
+<td>Real-time weather data snapshot</td>
+</tr>
+<tr class="even">
+<td><code>WeatherCondition</code></td>
+<td><code>condition_id</code> PK, <code>name</code>, temp/precip/wind/humidity ranges</td>
+<td>Named weather condition (e.g.&nbsp;cold_rainy, hot_humid) used for rule matching</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="outfit" class="level5">
+<h5 class="anchored" data-anchor-id="outfit">Outfit</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Outfit</code></td>
+<td><code>outfit_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>total_score</code>, <code>explanation</code></td>
+<td>Generated outfit with total score and explanation</td>
+</tr>
+<tr class="even">
+<td><code>OutfitItem</code></td>
+<td>PK(outfit_id, slot, layer_order), <code>item_id</code> FK</td>
+<td>Outfit detail; supports multi-layer dressing within the same slot</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scoring-rules" class="level5">
+<h5 class="anchored" data-anchor-id="scoring-rules">Scoring Rules</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>OutfitScoringRule</code></td>
+<td><code>score_rule_id</code> PK, <code>rule_type</code>, <code>score_delta</code>, <code>condition_json</code>, <code>valid_from</code>, <code>valid_until</code></td>
+<td>Scoring rule with optional expiry date to support trend-based rules</td>
+</tr>
+<tr class="even">
+<td><code>WearDegradeRule</code></td>
+<td><code>degrade_rule_id</code> PK, <code>category_id</code> FK, <code>occasion_id</code> FK (nullable), <code>condition_id</code> FK (nullable), <code>delta_clean_score</code></td>
+<td>Clean score deduction rule; multiple matching rules are stacked per wear event</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="wear-tracking-laundry" class="level5">
+<h5 class="anchored" data-anchor-id="wear-tracking-laundry">Wear Tracking &amp; Laundry</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Key Columns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>WearEvent</code></td>
+<td><code>event_id</code> PK, <code>user_id</code> FK, <code>outfit_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>worn_at</code></td>
+<td>Records each time an outfit is worn</td>
+</tr>
+<tr class="even">
+<td><code>WearEventItem</code></td>
+<td>PK(event_id, item_id), <code>delta_applied</code>, <code>clean_score_after</code></td>
+<td>Per-item deduction detail and resulting clean score after wear</td>
+</tr>
+<tr class="odd">
+<td><code>LaundryBatch</code></td>
+<td><code>batch_id</code> PK, <code>user_id</code> FK, <code>laundry_type</code> (dark/light)</td>
+<td>Laundry batch grouped by color type</td>
+</tr>
+<tr class="even">
+<td><code>LaundryBatchItem</code></td>
+<td>PK(batch_id, item_id), <code>reset_to_score</code> = 100</td>
+<td>Resets clean score to 100 upon laundering</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 </section>
 </section>
 </section>
