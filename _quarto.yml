@@ -23,7 +23,17 @@ website:
       - text: About
         href: about.qmd 
       - text: Data Visualization
-        href: EPPS6356.qmd
+        menu:
+          - text: Assignments
+            href: EPPS6356.qmd#assignments
+          - text: Final Project
+            href: EPPS6356.qmd#final-project
+          - text: Reviews
+            href: EPPS6356.qmd#reviews
+          - text: Notes
+            href: EPPS6356.qmd#notes
+          - text: Checklist
+            href: EPPS6356.qmd#checklist
       - text: Information Management
         menu:
           - text: Assignments
