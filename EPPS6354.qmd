@@ -500,3 +500,65 @@ each method improves efficiency or accuracy compared to traditional
 Overall, both approaches reduce the need for specialized expertise and
 allow faster, more accurate database operations compared to traditional
 manual methods.
+
+### Assignment 3
+
+#### Question 1
+
+Open the Online SQL interpreter and load the university database.
+
+#### Question 2
+
+**Write SQL codes to get a list of: i. Student IDs, ii. Instructors,
+iii. Departments**
+
+![Q2 — Student IDs (from `takes`), Instructors, and
+Departments](EPPS6354_assignment_3_screenshot_1.png){width="80%"}
+
+#### Question 3
+
+**Write SQL codes to do the following queries:**
+
+**i. Find the ID and name of each student who has taken at least one
+Comp. Sci. course; make sure there are no duplicate names in the
+result.**
+
+![Q3i — Students who took at least one Comp. Sci.
+course](EPPS6354_assignment_3_screenshot_2.png){width="80%"}
+
+**ii. Add grades to the list**
+
+![Q3ii — Add grades to the
+result](EPPS6354_assignment_3_screenshot_3.png){width="80%"}
+
+**iii. Find the ID and name of each student who has not taken any course
+offered before 2017.**
+
+![Q3iii — Students who have not taken any course before
+2017](EPPS6354_assignment_3_screenshot_4.png){width="80%"}
+
+**iv. For each department, find the maximum salary of instructors in
+that department.**
+
+![Q3iv — Maximum instructor salary per
+department](EPPS6354_assignment_3_screenshot_5.png){width="80%"}
+
+**v. Find the lowest, across all departments, of the per-department
+maximum salary computed by the preceding query.**
+
+![Q3v — Lowest of the per-department maximum
+salaries](EPPS6354_assignment_3_screenshot_6.png){width="80%"}
+
+**vi. Add names to the list**
+
+![Q3vi — Add instructor names to the
+result](EPPS6354_assignment_3_screenshot_7.png){width="80%"}
+
+#### Question 4
+
+**Find instructor (with name and ID) who has never given an A grade in
+any course she or he has taught. (Instructors who have never taught a
+course trivially satisfy this condition.)**
+
+![Q4 — Instructors who have never given an A
+grade](EPPS6354_assignment_3_screenshot_8.png){width="80%"}
