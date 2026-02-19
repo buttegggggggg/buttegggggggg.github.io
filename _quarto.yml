@@ -25,7 +25,11 @@ website:
       - text: Data Visualization
         href: EPPS6356.qmd
       - text: Information Management
-        href: EPPS6354.qmd
+        menu:
+          - text: Assignments
+            href: EPPS6354.qmd
+          - text: Final Project
+            href: EPPS6354.qmd#final-project
 
 format:
   html:
