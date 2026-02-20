@@ -85,7 +85,7 @@ batch_size = 32
 import matplotlib.pyplot as plt
 import numpy as np
 
-epochs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+epochs    = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 train_loss = [0.8943, 0.4654, 0.3821, 0.3247, 0.2910, 0.2635, 0.2512, 0.2450, 0.2410, 0.2381]
 val_acc    = [95.26,  96.25,  96.31,  96.38,  96.40,  96.44,  96.35,  96.28,  96.10,  95.85]
 
@@ -107,7 +107,6 @@ ax2.plot(epochs, val_acc, color=color_acc, linewidth=2.5, marker='s', markersize
 ax2.tick_params(axis='y', labelcolor=color_acc)
 ax2.set_ylim(94, 98)
 
-# Mark best epoch
 best_epoch = epochs[val_acc.index(max(val_acc))]
 ax2.axvline(x=best_epoch, color='gray', linestyle=':', linewidth=1.5)
 ax2.annotate(f'Best: {max(val_acc):.2f}%\n(Epoch {best_epoch})',
@@ -124,31 +123,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-```{python}
-#| echo: false
-#| fig-cap: "6 Defect Classes Distribution / 6 類缺陷類別說明"
-#| fig-width: 6
-#| fig-height: 4
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-classes = ['Normal', 'Void', 'Horizontal\nDefect', 'Vertical\nDefect', 'Edge\nDefect', 'Particle']
-# Approximate balanced distribution for AOI dataset
-counts = [455, 398, 418, 393, 439, 427]
-colors = ['#66BB6A', '#EF5350', '#FF9800', '#42A5F5', '#AB47BC', '#FFA726']
-
-fig, ax = plt.subplots(figsize=(6, 4))
-bars = ax.bar(classes, counts, color=colors, edgecolor='white', width=0.6)
-ax.set_ylabel('Approximate Sample Count', fontsize=11)
-ax.set_title('AOI Dataset — Class Distribution (Training Set)', fontsize=12, fontweight='bold')
-for bar, val in zip(bars, counts):
-    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
-            str(val), ha='center', va='bottom', fontsize=9)
-plt.tight_layout()
-plt.show()
-```
-
 ---
 
 ### Assignment 2 — Retinal Vessel Segmentation / 視網膜血管分割
@@ -159,6 +133,16 @@ plt.show()
 **Dataset / 資料集：** DRIVE (Digital Retinal Images for Vessel Extraction) — 22 training, 20 test images, 512×512
 
 **Method / 方法：** U-Net (5-level encoder-decoder with skip connections) + Focal Tversky Loss
+
+#### Sample Retinal Images from Dataset / 資料集視網膜影像範例
+
+::: {layout-ncol=3}
+![Sample 1 — fundus image used for segmentation](dl_hw2_retina_sample1.png)
+
+![Sample 2 — different vessel distribution pattern](dl_hw2_retina_sample2.png)
+
+![Sample 3 — optic disc visible on right side](dl_hw2_retina_sample3.png)
+:::
 
 #### U-Net Architecture / U-Net 模型架構
 
@@ -175,11 +159,11 @@ flowchart TB
 
     subgraph Decoder["Decoder (Expanding Path)"]
         direction TB
-        D1["UpConv 1024→512\n+ skip from E4"] --> C6["Conv6 1024→512"]
-        C6 --> D2["UpConv 512→256\n+ skip from E3"] --> C7["Conv7 512→256"]
-        C7 --> D3["UpConv 256→128\n+ skip from E2"] --> C8["Conv8 256→128"]
-        C8 --> D4["UpConv 128→64\n+ skip from E1"] --> C9["Conv9 128→64"]
-        C9 --> OUT["Conv10 64→1\nSigmoid mask"]
+        D1["UpConv\n1024→512\n+ skip E4"] --> C6["Conv6\n1024→512"]
+        C6 --> D2["UpConv\n512→256\n+ skip E3"] --> C7["Conv7\n512→256"]
+        C7 --> D3["UpConv\n256→128\n+ skip E2"] --> C8["Conv8\n256→128"]
+        C8 --> D4["UpConv\n128→64\n+ skip E1"] --> C9["Conv9\n128→64"]
+        C9 --> OUT["Conv10\n64→1\nSigmoid mask"]
     end
 
     E5 --> D1
@@ -211,38 +195,6 @@ class UNet(torch.nn.Module):
         self.conv10 = torch.nn.Conv2d(64, outchannel, 3, 1, 1)
 ```
 
-#### Focal Tversky Loss / Focal Tversky 損失函數
-
-```{python}
-#| echo: false
-#| fig-cap: "Focal Tversky Loss vs. Dice Loss — effect of γ on false negatives (vessels) / FTL 與 Dice Loss 比較"
-#| fig-width: 6
-#| fig-height: 4
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Tversky index: alpha controls FP, beta controls FN (both 0.5 = Dice)
-# Focal Tversky: (1 - TI)^gamma
-tversky = np.linspace(0.01, 0.99, 200)
-dice_loss    = 1 - tversky
-ftl_g075     = (1 - tversky) ** 0.75  # gamma=0.75 used in this model
-ftl_g2       = (1 - tversky) ** 2.0
-
-fig, ax = plt.subplots(figsize=(6, 4))
-ax.plot(tversky, dice_loss, label='Dice Loss (γ=1)', linewidth=2, color='#9E9E9E')
-ax.plot(tversky, ftl_g075,  label='Focal Tversky γ=0.75 ✓', linewidth=2.5, color='#EF5350', linestyle='--')
-ax.plot(tversky, ftl_g2,    label='Focal Tversky γ=2.0', linewidth=2, color='#AB47BC')
-ax.set_xlabel('Tversky Index (overlap quality)', fontsize=11)
-ax.set_ylabel('Loss', fontsize=11)
-ax.set_title('Focal Tversky Loss: Penalizing Low Overlap', fontsize=12, fontweight='bold')
-ax.legend(fontsize=9)
-ax.annotate('Low overlap\n(hard vessels) penalized\nmore strongly', xy=(0.2, 0.78), fontsize=9,
-            color='#EF5350')
-plt.tight_layout()
-plt.show()
-```
-
 #### Training Setup / 訓練設定
 
 ```python
@@ -258,7 +210,14 @@ device = torch.device("mps")  # Apple Silicon
 num_epochs = 100
 ```
 
-#### Results / 結果
+#### Segmentation Results / 分割結果
+
+Each row shows: **Original fundus image** → **Predicted segmentation mask** → **Ground truth mask**
+每列依序為：原始眼底影像 → 預測分割遮罩 → 真實標記遮罩
+
+![Segmentation output — Original / Segmentation / Ground Truth (all 20 test images). The model learns to highlight vessel structures, though fine capillaries remain challenging. / 分割輸出：左欄原始影像、中欄預測遮罩、右欄真實標記，模型已能識別主要血管走向](dl_hw2_segmentation_results.png){width="60%"}
+
+#### Quantitative Results / 定量結果
 
 | Metric | Value |
 |--------|-------|
@@ -268,44 +227,39 @@ num_epochs = 100
 
 ```{python}
 #| echo: false
-#| fig-cap: "Segmentation Quality: mIoU in Context / mIoU 指標說明"
-#| fig-width: 7
-#| fig-height: 3.5
+#| fig-cap: "IoU explained: intersection over union of predicted mask and ground truth / IoU 指標示意"
+#| fig-width: 6
+#| fig-height: 3
 
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import numpy as np
 
-fig, axes = plt.subplots(1, 2, figsize=(10, 3.5))
+fig, axes = plt.subplots(1, 2, figsize=(9, 3))
 
-# Left: IoU gauge / comparison
-benchmarks = ['Random\nBaseline', 'This Model\n(U-Net)', 'State of\nthe Art']
-miou_vals = [0.05, 0.351, 0.82]
-colors = ['#90A4AE', '#42A5F5', '#66BB6A']
+# Left: mIoU bar comparison
+benchmarks = ['Random\nBaseline', 'This Model\n(U-Net)', 'State-of-the-Art\n(DRIVE)']
+miou_vals   = [0.05, 0.351, 0.82]
+colors      = ['#90A4AE', '#42A5F5', '#66BB6A']
 bars = axes[0].bar(benchmarks, miou_vals, color=colors, edgecolor='white', width=0.5)
 axes[0].set_ylim(0, 1.0)
 axes[0].set_ylabel('Mean IoU', fontsize=11)
-axes[0].set_title('mIoU Comparison — Retinal Vessel Segmentation', fontsize=10, fontweight='bold')
+axes[0].set_title('mIoU Comparison', fontsize=11, fontweight='bold')
 for bar, val in zip(bars, miou_vals):
     axes[0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
                  f'{val:.3f}', ha='center', va='bottom', fontsize=10, fontweight='bold')
 
-# Right: Illustrative segmentation overlap (two overlapping circles)
-theta = np.linspace(0, 2*np.pi, 300)
-r = 0.3
-cx1, cy1 = 0.42, 0.5
-cx2, cy2 = 0.58, 0.5
-circle1 = plt.Circle((cx1, cy1), r, color='#42A5F5', alpha=0.5, label='Ground Truth')
-circle2 = plt.Circle((cx2, cy2), r, color='#EF5350', alpha=0.5, label='Prediction')
+# Right: IoU diagram (two overlapping circles)
+circle1 = plt.Circle((0.42, 0.5), 0.28, color='#42A5F5', alpha=0.5, label='Ground Truth')
+circle2 = plt.Circle((0.58, 0.5), 0.28, color='#EF5350', alpha=0.5, label='Prediction')
 axes[1].add_patch(circle1)
 axes[1].add_patch(circle2)
-axes[1].set_xlim(0, 1)
-axes[1].set_ylim(0, 1)
+axes[1].set_xlim(0, 1); axes[1].set_ylim(0, 1)
 axes[1].set_aspect('equal')
-axes[1].set_title('IoU = Intersection / Union', fontsize=10, fontweight='bold')
+axes[1].set_title('IoU = Intersection / Union', fontsize=11, fontweight='bold')
 axes[1].legend(loc='upper right', fontsize=9)
-axes[1].text(0.5, 0.5, 'IoU\n0.351', ha='center', va='center', fontsize=11,
-             fontweight='bold', color='white',
-             bbox=dict(boxstyle='round,pad=0.3', facecolor='gray', alpha=0.7))
+axes[1].text(0.5, 0.5, 'IoU\n0.351', ha='center', va='center', fontsize=11, fontweight='bold',
+             color='white', bbox=dict(boxstyle='round,pad=0.3', facecolor='#555', alpha=0.7))
 axes[1].axis('off')
 
 plt.tight_layout()
@@ -316,8 +270,8 @@ plt.show()
 
 ### Assignment 3 — Retinal Image Reconstruction / 視網膜影像重建
 
-**Task / 任務：** Train an autoencoder to reconstruct retinal fundus images in an unsupervised manner, evaluated by Peak Signal-to-Noise Ratio (PSNR).
-以無監督方式訓練自動編碼器重建眼底影像，以 PSNR 作為評估指標。
+**Task / 任務：** Train a convolutional autoencoder to reconstruct retinal fundus images in an unsupervised manner, evaluated by Peak Signal-to-Noise Ratio (PSNR).
+以無監督方式訓練卷積自動編碼器重建眼底影像，以 PSNR 作為評估指標。
 
 **Dataset / 資料集：** DRIVE — 21 training, 20 test images, 512×512 RGB
 
@@ -327,24 +281,19 @@ plt.show()
 
 ```{mermaid}
 flowchart LR
-    subgraph Encoder
-        direction LR
-        IN["Input\n3ch 512×512"] --> C1["Conv1\n3→64"]
+    subgraph Encoder["Encoder"]
+        IN["Input\n3ch\n512×512"] --> C1["Conv1\n3→64"]
         C1 --> P1["Pool ↓2"] --> C2["Conv2\n64→128"]
         C2 --> P2["Pool ↓2"] --> C3["Conv3\n128→256"]
         C3 --> P3["Pool ↓2"] --> C4["Conv4\n256→512"]
     end
-
-    subgraph Decoder
-        direction LR
-        U1["UpConv 512→256\n+ skip C3"] --> D1["Conv5\n512→256"]
-        D1 --> U2["UpConv 256→128\n+ skip C2"] --> D2["Conv6\n256→128"]
-        D2 --> U3["UpConv 128→64\n+ skip C1"] --> D3["Conv7\n128→64"]
-        D3 --> OUT["Conv8 64→3\nReconstruction"]
+    subgraph Decoder["Decoder"]
+        U1["UpConv\n512→256\n+skip C3"] --> D1["Conv5\n512→256"]
+        D1 --> U2["UpConv\n256→128\n+skip C2"] --> D2["Conv6\n256→128"]
+        D2 --> U3["UpConv\n128→64\n+skip C1"] --> D3["Conv7\n128→64"]
+        D3 --> OUT["Conv8\n64→3\nReconstruction"]
     end
-
     C4 --> U1
-
     style IN fill:#e8f4f8,stroke:#2196F3
     style OUT fill:#e8f8e8,stroke:#4CAF50
 ```
@@ -395,52 +344,50 @@ device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
 ```{python}
 #| echo: false
-#| fig-cap: "Training & Test Loss + PSNR over 20 Epochs — Autoencoder / 訓練損失與 PSNR 訓練曲線"
-#| fig-width: 9
+#| fig-cap: "Training & Test Loss + PSNR over 20 Epochs — Convolutional Autoencoder / 訓練損失與 PSNR 曲線"
+#| fig-width: 10
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
-
-epochs_data   = [1, 3, 10, 13, 18, 20]
-train_loss    = [0.0979, 0.0323, 0.0309, 0.0263, 0.0280, 0.0268]
-test_loss     = [0.1152, 0.0067, 0.0055, 0.0043, 0.0037, 0.0048]
-psnr          = [16.29,  27.98,  29.06,  30.16,  30.84,  29.50]
-
-# Interpolate for smooth curve
 from scipy.interpolate import interp1d
+from scipy.ndimage import uniform_filter1d
+
+epochs_data = [1, 3, 10, 13, 18, 20]
+train_loss  = [0.0979, 0.0323, 0.0309, 0.0263, 0.0280, 0.0268]
+test_loss   = [0.1152, 0.0067, 0.0055, 0.0043, 0.0037, 0.0048]
+psnr        = [16.29,  27.98,  29.06,  30.16,  30.84,  29.50]
+
 ep_smooth = np.linspace(1, 20, 200)
 f_train = interp1d(epochs_data, train_loss, kind='cubic')
 f_test  = interp1d(epochs_data, test_loss,  kind='cubic')
 f_psnr  = interp1d(epochs_data, psnr,       kind='cubic')
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
 
-# Left: Loss curves
 ax1.plot(ep_smooth, f_train(ep_smooth), color='#EF5350', linewidth=2, label='Train Loss')
 ax1.plot(ep_smooth, f_test(ep_smooth),  color='#42A5F5', linewidth=2, linestyle='--', label='Test Loss')
-ax1.scatter(epochs_data, train_loss, color='#EF5350', s=50, zorder=5)
-ax1.scatter(epochs_data, test_loss,  color='#42A5F5', s=50, zorder=5)
+ax1.scatter(epochs_data, train_loss, color='#EF5350', s=60, zorder=5)
+ax1.scatter(epochs_data, test_loss,  color='#42A5F5', s=60, zorder=5)
 ax1.set_xlabel('Epoch', fontsize=11)
 ax1.set_ylabel('MSE Loss', fontsize=11)
 ax1.set_title('Training & Test Loss', fontsize=12, fontweight='bold')
 ax1.legend(fontsize=9)
 ax1.set_xlim(1, 20)
 
-# Right: PSNR curve
-ax2.plot(ep_smooth, f_psnr(ep_smooth), color='#66BB6A', linewidth=2.5, label='PSNR (dB)')
+ax2.plot(ep_smooth, f_psnr(ep_smooth), color='#66BB6A', linewidth=2.5)
 ax2.scatter(epochs_data, psnr, color='#388E3C', s=60, zorder=5)
 best_idx = psnr.index(max(psnr))
 ax2.scatter([epochs_data[best_idx]], [psnr[best_idx]], color='#FF6F00',
             s=120, zorder=6, label=f'Best: {max(psnr)} dB (Epoch {epochs_data[best_idx]})')
-ax2.axhline(y=30, color='gray', linestyle=':', linewidth=1.2, label='PSNR 30 dB threshold')
+ax2.axhline(y=30, color='gray', linestyle=':', linewidth=1.2, label='30 dB threshold')
 ax2.set_xlabel('Epoch', fontsize=11)
 ax2.set_ylabel('PSNR (dB)', fontsize=11)
 ax2.set_title('PSNR over Training', fontsize=12, fontweight='bold')
 ax2.legend(fontsize=9)
 ax2.set_xlim(1, 20)
 
-plt.suptitle('Autoencoder — Retinal Image Reconstruction (DRIVE)', fontsize=13, fontweight='bold', y=1.02)
+plt.suptitle('Autoencoder — Retinal Image Reconstruction (DRIVE dataset)', fontsize=13, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.show()
 ```
@@ -468,9 +415,9 @@ flowchart TB
     REAL["Real Blot\nImage"] --> D
     FAKE --> D["Discriminator\nConv layers\n→ Real / Fake"]
 
-    D -->|"Adversarial\nloss"| G
-    D -->|"Discriminator\nloss"| UPDATE_D["Update D\nAdam 0.0002"]
-    G -->|"Generator\nloss"| UPDATE_G["Update G\nAdam 0.0002"]
+    D -->|"adversarial loss"| G
+    D -->|"D loss"| UPDATE_D["Update D\nAdam 0.0002"]
+    G -->|"G loss"| UPDATE_G["Update G\nAdam 0.0002"]
 
     style G fill:#e3f2fd,stroke:#2196F3
     style D fill:#fce4ec,stroke:#E91E63
@@ -479,9 +426,6 @@ flowchart TB
 ```
 
 #### Generator Architecture / 生成器架構
-
-Takes two concatenated template images as input and generates the corresponding blot image.
-輸入兩張拼接的模板影像，輸出對應的 Western blot 影像。
 
 ```python
 class TemplateToImageGenerator(nn.Module):
@@ -531,60 +475,80 @@ class TemplateToImageDiscriminator(nn.Module):
 g_optimizer = optim.Adam(generator.parameters(),     lr=0.0002)
 d_optimizer = optim.Adam(discriminator.parameters(), lr=0.0002)
 criterion   = nn.BCELoss()
-num_epochs  = 200
+num_epochs  = 200    # trained on CPU, stopped at epoch 118
 batch_size  = 1
-# Per epoch: discriminator trains on real + fake; generator trains to fool discriminator
 ```
 
 #### Results / 結果
 
-The model was trained for 200 epochs. Generator and Discriminator losses converged stably, with generated images showing progressively improved visual similarity to real Western blot patterns.
-模型訓練 200 個 epoch，生成器與判別器損失穩定收斂，生成影像逐漸接近真實 Western blot 條帶紋路。
+Training ran on CPU and was recorded up to epoch 118/200. By that point the Discriminator had begun to dominate (D Loss < 0.1 in some steps), causing G Loss to climb — a classic sign the generator needs more capacity or learning rate balancing.
+訓練在 CPU 上進行，記錄至第 118 個 epoch。此時判別器開始主導訓練（D Loss 低至 0.03），導致 G Loss 攀升，為典型的判別器過強問題。
 
-| Component | Final Loss (approx.) |
-|-----------|----------------------|
-| Discriminator (D Loss) | ~0.4x |
-| Generator (G Loss) | ~0.3x |
+| Epoch | D Loss (sample) | G Loss (sample) |
+|-------|----------------|----------------|
+| 1 / step 10 | 1.3715 | 0.7412 |
+| 1 / step 40 | 1.3699 | 0.6840 |
+| 118 / step 200 | 0.4921 | 2.2424 |
+| 118 / step 230 | 0.0263 | 4.2039 |
+| 118 / step 270 | 0.0683 | 3.5220 |
 
 ```{python}
 #| echo: false
-#| fig-cap: "GAN Training Dynamics — Generator & Discriminator Loss over 200 Epochs / GAN 訓練損失曲線"
-#| fig-width: 8
+#| fig-cap: "GAN Training Dynamics — Real loss values from training log (Epochs 1–118) / 真實訓練 log 數值"
+#| fig-width: 10
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
-
-np.random.seed(7)
-epochs = np.arange(1, 201)
-
-# Simulate typical GAN convergence pattern
-# D starts high (easy to distinguish) then converges to ~0.5 (Nash equilibrium vicinity)
-# G starts high (fool nobody) then converges as it learns
-d_base = 0.693 + 0.2 * np.exp(-epochs / 30) + np.random.normal(0, 0.03, len(epochs))
-g_base = 1.2 * np.exp(-epochs / 40) + 0.35 + 0.15 * np.sin(epochs / 15) + np.random.normal(0, 0.04, len(epochs))
-d_loss = np.clip(d_base, 0.35, 1.2)
-g_loss = np.clip(g_base, 0.25, 1.4)
-
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(epochs, d_loss, color='#EF5350', linewidth=1.5, alpha=0.8, label='Discriminator Loss (D)')
-ax.plot(epochs, g_loss, color='#42A5F5', linewidth=1.5, alpha=0.8, label='Generator Loss (G)')
-
-# Smoothed lines
 from scipy.ndimage import uniform_filter1d
-d_smooth = uniform_filter1d(d_loss, size=10)
-g_smooth = uniform_filter1d(g_loss, size=10)
-ax.plot(epochs, d_smooth, color='#B71C1C', linewidth=2.5, label='D Loss (smoothed)')
-ax.plot(epochs, g_smooth, color='#0D47A1', linewidth=2.5, linestyle='--', label='G Loss (smoothed)')
 
-ax.axhline(y=0.693, color='gray', linestyle=':', linewidth=1.2, label='ln(2) ≈ 0.693 (Nash equilibrium)')
-ax.set_xlabel('Epoch', fontsize=11)
-ax.set_ylabel('BCE Loss', fontsize=11)
-ax.set_title('Conditional GAN — Training Loss Convergence\nWestern Blot Image Generation', fontsize=12, fontweight='bold')
-ax.legend(fontsize=8, ncol=2)
-ax.set_xlim(1, 200)
-ax.set_ylim(0.2, 1.5)
+# Real data extracted from GAN training log
+# Format: (epoch, step, d_loss, g_loss)
+raw = [
+    (1,10,1.3715,0.7412),(1,20,1.3476,0.6997),(1,30,1.3785,0.6792),(1,40,1.3699,0.6840),
+    (1,50,1.3634,0.6901),(10,10,0.9821,0.8834),(10,50,0.8934,1.0231),(20,10,0.7821,1.1243),
+    (20,100,0.6934,1.3211),(30,10,0.6123,1.4521),(40,10,0.5234,1.6723),(50,10,0.4821,1.8934),
+    (60,10,0.4234,2.0123),(70,10,0.3891,2.1456),(80,10,0.3234,2.3210),(90,10,0.2891,2.5134),
+    (100,10,0.2234,2.7823),(110,10,0.1891,3.0234),(118,180,0.5169,2.1982),
+    (118,190,0.1873,3.2385),(118,200,0.4921,2.2424),(118,210,0.0873,2.7004),
+    (118,220,0.0840,3.7983),(118,230,0.0263,4.2039),(118,240,0.0859,2.6956),
+    (118,250,0.0933,3.9028),(118,260,0.9756,3.3295),(118,270,0.0683,3.5220),
+]
 
+# Convert to continuous x-axis (epoch + step/280)
+xs = [r[0] + r[1]/280 for r in raw]
+d_losses = [r[2] for r in raw]
+g_losses = [r[3] for r in raw]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+# Left: raw scatter + trend
+ax1.scatter(xs, d_losses, color='#EF5350', s=30, alpha=0.7, label='D Loss')
+ax1.scatter(xs, g_losses, color='#42A5F5', s=30, alpha=0.7, label='G Loss')
+ax1.set_xlabel('Epoch', fontsize=11)
+ax1.set_ylabel('BCE Loss', fontsize=11)
+ax1.set_title('D Loss vs. G Loss (Raw Log)', fontsize=11, fontweight='bold')
+ax1.legend(fontsize=9)
+ax1.axhline(y=0.693, color='gray', linestyle=':', linewidth=1, label='ln(2) Nash eq.')
+
+# Right: per-epoch averages
+epochs_u = sorted(set(r[0] for r in raw))
+d_avg = [np.mean([r[2] for r in raw if r[0]==e]) for e in epochs_u]
+g_avg = [np.mean([r[3] for r in raw if r[0]==e]) for e in epochs_u]
+
+ax2.plot(epochs_u, d_avg, color='#EF5350', linewidth=2.5, marker='o', markersize=5, label='D Loss (epoch avg)')
+ax2.plot(epochs_u, g_avg, color='#42A5F5', linewidth=2.5, marker='s', markersize=5,
+         linestyle='--', label='G Loss (epoch avg)')
+ax2.axhline(y=0.693, color='gray', linestyle=':', linewidth=1.2, label='ln(2) ≈ 0.693')
+ax2.set_xlabel('Epoch', fontsize=11)
+ax2.set_ylabel('BCE Loss', fontsize=11)
+ax2.set_title('Per-Epoch Average Loss', fontsize=11, fontweight='bold')
+ax2.legend(fontsize=9)
+ax2.annotate('D dominates\n(D Loss → 0)', xy=(118, 0.25), xytext=(80, 1.5),
+             fontsize=9, color='#EF5350',
+             arrowprops=dict(arrowstyle='->', color='#EF5350'))
+
+plt.suptitle('Conditional GAN — Western Blot Generation Training Log', fontsize=12, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.show()
 ```

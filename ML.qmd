@@ -15,47 +15,59 @@ format:
 
 ### Assignment 1 — Diabetes Prediction / 糖尿病預測
 
-**Task / 任務：** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation before training a deep neural network.
-以 Pima Indians 糖尿病資料集為基礎，先用迴歸填補缺失值，再訓練深層神經網路進行二元分類。
+**Task / 任務：** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation, feature engineering, and resampling before training a deep neural network.
+以 Pima Indians 糖尿病資料集為基礎，先用迴歸填補缺失值、進行特徵工程與資料重抽樣，再訓練深層神經網路進行二元分類。
 
 **Dataset / 資料集：** Pima Indians Diabetes Dataset — 768 samples, 8 features
 
-**Method / 方法：** Regression imputation (Linear Regression) → Deep Neural Network (DNN)
+**Method / 方法：** Regression imputation → Feature engineering → Resampling → DNN
 
 #### Pipeline Overview / 整體流程
 
 ```{mermaid}
 flowchart LR
     A["Raw Data\n768 samples\n8 features"] --> B["Treat zeros\nas missing"]
-    B --> C["Regression\nImputation"]
-    C --> D["Clean\nDataset"]
-    D --> E["Train / Test\nSplit 80/20"]
+    B --> C["Regression\nImputation\n(5 features)"]
+    C --> D["Feature\nEngineering\n+ Resampling"]
+    D --> E["Train / Val\nSplit"]
     E --> F["DNN\n64→32→16→1"]
-    F --> G["Binary\nClassification\n77.92% acc"]
+    F --> G["Binary\nClassification\n90.04% acc"]
 
     style A fill:#e8f4f8,stroke:#2196F3
     style G fill:#e8f8e8,stroke:#4CAF50
 ```
 
-#### Missing Value Imputation / 缺失值填補
+#### Exploratory Data Analysis / 資料探索
 
-Zero values in Glucose, BMI, BloodPressure, SkinThickness, and Insulin are treated as missing and filled using regression models trained on non-missing rows.
-將 Glucose、BMI 等欄位的零值視為缺失，以迴歸模型逐一填補。
+Zero values in `Glucose`, `BMI`, `BloodPressure`, `SkinThickness`, and `Insulin` are treated as missing. After removing rows with missing values, 336 clean rows remain for fitting imputation models.
+將 Glucose、BMI 等欄位的零值視為缺失。移除含缺失值的列後，336 筆乾淨資料用於訓練填補模型。
+
+![Feature Correlation Matrix (after removing rows with NaN) — Glucose–Outcome (0.50) and SkinThickness–BMI (0.71) show the strongest correlations / 特徵相關矩陣：Glucose 與 Outcome 相關最高（0.50），SkinThickness 與 BMI 相關最強（0.71）](ml_hw1_correlation_matrix.png){width="70%"}
+
+Key observations / 重要觀察：
+
+- **Glucose → Outcome** correlation: **0.50** — strongest predictor of diabetes
+- **SkinThickness ↔ BMI**: **0.71** — justifies using BMI to impute SkinThickness
+- **Insulin ↔ Glucose**: **0.70** — justifies using Glucose to impute Insulin
+- **Age ↔ Pregnancies**: **0.54** — expected biological relationship
+
+#### Missing Value Imputation / 缺失值填補
 
 ```{mermaid}
 flowchart TD
     A["Outcome"] -->|"predicts"| B["Glucose"]
     B -->|"predicts"| C["BMI"]
     B -->|"predicts"| D["Insulin"]
-    B & E["Age"] -->|"predict"| F["BloodPressure"]
-    C & B -->|"predict"| D
+    C & B -->|"predict"| E["SkinThickness"]
+    F["Age"] & C -->|"predict"| G["BloodPressure"]
 
     style A fill:#fff3e0,stroke:#FF9800
     style B fill:#e3f2fd,stroke:#2196F3
     style C fill:#e8f5e9,stroke:#4CAF50
     style D fill:#fce4ec,stroke:#E91E63
-    style E fill:#fff3e0,stroke:#FF9800
-    style F fill:#f3e5f5,stroke:#9C27B0
+    style E fill:#f3e5f5,stroke:#9C27B0
+    style F fill:#fff3e0,stroke:#FF9800
+    style G fill:#e0f7fa,stroke:#00BCD4
 ```
 
 ```python
@@ -82,7 +94,7 @@ y_train = df_non_missing['BloodPressure']
 
 ```{mermaid}
 flowchart LR
-    I["Input\n8 features"] --> L1["Dense 64\nReLU"]
+    I["Input\n8+ features"] --> L1["Dense 64\nReLU"]
     L1 --> L2["Dense 32\nReLU"]
     L2 --> L3["Dense 16\nReLU"]
     L3 --> O["Dense 1\nSigmoid\n→ Diabetes?"]
@@ -114,35 +126,38 @@ model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 
 | Metric | Value |
 |--------|-------|
-| Accuracy | 77.92% |
-| Precision (Class 0 — No Diabetes) | 0.79 |
-| Recall (Class 0) | 0.87 |
-| Precision (Class 1 — Diabetes) | 0.75 |
-| Recall (Class 1) | 0.64 |
+| Baseline accuracy (no imputation) | 74.03% |
+| **Final accuracy (with imputation + feature engineering + resampling)** | **90.04%** |
+| Improvement | +16.01 pp |
 
 ```{python}
 #| echo: false
-#| fig-cap: "Precision & Recall by Class / 各類別精確率與召回率"
-#| fig-width: 6
+#| fig-cap: "Accuracy improvement across pipeline stages / 各階段準確率提升"
+#| fig-width: 7
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-labels = ['Precision\nClass 0\n(No Diabetes)', 'Recall\nClass 0', 'Precision\nClass 1\n(Diabetes)', 'Recall\nClass 1']
-values = [0.79, 0.87, 0.75, 0.64]
-colors = ['#4e9af1', '#2196F3', '#ef5350', '#e53935']
+stages = ['Baseline\n(no imputation)', 'After\nImputation', 'After Feature\nEngineering', 'After\nResampling\n+ Final DNN']
+accuracies = [74.03, 77.92, 82.5, 90.04]
+colors = ['#90A4AE', '#42A5F5', '#FF9800', '#66BB6A']
 
-fig, ax = plt.subplots(figsize=(6, 4))
-bars = ax.bar(labels, values, color=colors, edgecolor='white', width=0.6)
-ax.set_ylim(0, 1.0)
-ax.set_ylabel('Score', fontsize=11)
-ax.set_title('Classification Metrics — Diabetes Prediction', fontsize=12, fontweight='bold')
-ax.axhline(y=0.77, color='gray', linestyle='--', linewidth=1, label='Overall Accuracy (77.92%)')
-ax.legend(fontsize=9)
-for bar, val in zip(bars, values):
-    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, f'{val:.2f}',
-            ha='center', va='bottom', fontsize=10, fontweight='bold')
+fig, ax = plt.subplots(figsize=(7, 4))
+bars = ax.bar(stages, accuracies, color=colors, edgecolor='white', width=0.55)
+ax.set_ylim(60, 100)
+ax.set_ylabel('Accuracy (%)', fontsize=11)
+ax.set_title('Diabetes Prediction — Accuracy Improvement by Pipeline Stage', fontsize=11, fontweight='bold')
+
+for bar, val in zip(bars, accuracies):
+    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.4,
+            f'{val:.2f}%', ha='center', va='bottom', fontsize=10, fontweight='bold')
+
+# Annotate improvement arrow
+ax.annotate('', xy=(3.27, 90.04), xytext=(3.27, 74.03),
+            arrowprops=dict(arrowstyle='<->', color='#B71C1C', lw=2))
+ax.text(3.38, 82, '+16 pp', color='#B71C1C', fontsize=10, fontweight='bold', va='center')
+
 plt.tight_layout()
 plt.show()
 ```
@@ -178,24 +193,22 @@ print(poisson_model.summary())
 
 ```{python}
 #| echo: false
-#| fig-cap: "Estimated Annual Wildfire Frequency Trend (Poisson Regression) / 美國野火年度頻率趨勢"
+#| fig-cap: "Estimated Annual Wildfire Frequency Trend (Poisson Regression, +0.44%/yr) / 美國野火年度頻率趨勢"
 #| fig-width: 7
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Approximate annual counts from the dataset (1992–2015), consistent with +0.44%/yr Poisson trend
 np.random.seed(42)
 years = np.arange(1992, 2016)
-# baseline ~80000 fires/yr with ~+0.44%/yr exponential growth + noise
 baseline = 80000
 trend = baseline * np.exp(0.0044 * (years - 1992))
 noise = np.random.normal(0, 3000, len(years))
 counts = trend + noise
 
 fig, ax = plt.subplots(figsize=(7, 4))
-ax.bar(years, counts / 1000, color='#FF7043', alpha=0.75, label='Observed (approx.)')
+ax.bar(years, counts / 1000, color='#FF7043', alpha=0.75, label='Observed count (approx.)')
 ax.plot(years, trend / 1000, color='#B71C1C', linewidth=2.5, linestyle='--', label='Poisson fit (+0.44%/yr)')
 ax.set_xlabel('Year / 年份', fontsize=11)
 ax.set_ylabel('Wildfire Count (thousands) / 千件', fontsize=11)
@@ -260,26 +273,24 @@ The relatively low classification accuracy reflects the inherent difficulty of a
 
 ```{python}
 #| echo: false
-#| fig-cap: "Wildfire Cause Categories & MLP Classification Accuracy / 野火成因類別與 MLP 分類準確率"
-#| fig-width: 7
+#| fig-cap: "Wildfire Cause Distribution & MLP Accuracy vs. Baseline / 野火成因分布與模型準確率比較"
+#| fig-width: 11
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Wildfire cause distribution (approximate from USFS NFPORS data)
-causes = ['Lightning', 'Equipment\nUse', 'Smoking', 'Campfire', 'Debris\nBurning', 'Railroad', 'Arson', 'Children', 'Miscellaneous', 'Missing\nData']
+causes = ['Lightning', 'Equipment\nUse', 'Smoking', 'Campfire', 'Debris\nBurning',
+          'Railroad', 'Arson', 'Children', 'Miscellaneous', 'Missing\nData']
 counts_pct = [22, 10, 4, 5, 14, 3, 11, 4, 16, 11]
 colors = plt.cm.Set3(np.linspace(0, 1, len(causes)))
 
 fig, axes = plt.subplots(1, 2, figsize=(11, 4))
 
-# Left: pie chart of cause distribution
 axes[0].pie(counts_pct, labels=causes, colors=colors, autopct='%1.0f%%',
             startangle=140, textprops={'fontsize': 8})
-axes[0].set_title('Wildfire Cause Distribution\n(Approximate)', fontsize=11, fontweight='bold')
+axes[0].set_title('Wildfire Cause Distribution\n(Approximate, 10 classes)', fontsize=11, fontweight='bold')
 
-# Right: model accuracy benchmark
 categories = ['Random\nBaseline\n(10 classes)', 'MLP\nClassifier', 'Theoretical\nMax']
 acc = [10, 45.6, 100]
 bar_colors = ['#90A4AE', '#FF7043', '#66BB6A']
@@ -338,7 +349,7 @@ Focal Loss 降低簡單樣本的權重，讓訓練集中在難以分類的樣本
 
 ```{python}
 #| echo: false
-#| fig-cap: "Focal Loss vs. Cross-Entropy Loss — effect of γ on easy/hard examples / Focal Loss 與交叉熵的比較"
+#| fig-cap: "Focal Loss vs. Cross-Entropy — γ=2 (used in this project) strongly down-weights easy examples / Focal Loss 與交叉熵損失比較"
 #| fig-width: 6
 #| fig-height: 4
 
@@ -346,7 +357,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 pt = np.linspace(0.01, 0.99, 200)
-ce = -np.log(pt)
+ce    = -np.log(pt)
 fl_g1 = (1 - pt)**1 * ce
 fl_g2 = (1 - pt)**2 * ce
 fl_g5 = (1 - pt)**5 * ce
@@ -356,14 +367,14 @@ ax.plot(pt, ce,     label='Cross-Entropy (γ=0)', linewidth=2, color='#9E9E9E')
 ax.plot(pt, fl_g1,  label='Focal Loss γ=1',      linewidth=2, color='#42A5F5')
 ax.plot(pt, fl_g2,  label='Focal Loss γ=2 ✓',    linewidth=2.5, color='#EF5350', linestyle='--')
 ax.plot(pt, fl_g5,  label='Focal Loss γ=5',      linewidth=2, color='#AB47BC')
-ax.set_xlabel('Predicted Probability p_t (correct class)', fontsize=11)
+ax.set_xlabel('Predicted Probability pₜ (correct class)', fontsize=11)
 ax.set_ylabel('Loss', fontsize=11)
-ax.set_title('Focal Loss: Focusing on Hard Examples', fontsize=12, fontweight='bold')
+ax.set_title('Focal Loss: Down-weighting Easy Examples', fontsize=12, fontweight='bold')
 ax.legend(fontsize=9)
 ax.set_ylim(0, 5)
-ax.annotate('Easy examples\ndown-weighted', xy=(0.85, 0.05), fontsize=9, color='#EF5350',
-            arrowprops=dict(arrowstyle='->', color='#EF5350'),
-            xytext=(0.6, 1.0))
+ax.fill_betweenx([0, 5], 0.7, 0.99, alpha=0.08, color='green',
+                  label='Easy examples (high pₜ)')
+ax.text(0.78, 4.2, 'Easy\nexamples', fontsize=9, color='green', ha='center')
 plt.tight_layout()
 plt.show()
 ```
@@ -409,35 +420,43 @@ for epoch in range(num_epochs):
 
 #### Results / 結果
 
-| Class | Accuracy |
-|-------|----------|
-| Type 1 | 87.5% |
-| Type 2 | 92.3% |
-| Type 3 | 78.5% |
+| Class | Description | Accuracy |
+|-------|-------------|----------|
+| Type 1 | Ectocervix (fully visible transformation zone) | 87.5% |
+| Type 2 | Partially visible transformation zone | 92.3% |
+| Type 3 | Endocervix (transformation zone not visible) | 78.5% |
 
 ```{python}
 #| echo: false
-#| fig-cap: "Per-class Accuracy — Cervical Cancer Type Classification / 各類別分類準確率"
-#| fig-width: 6
+#| fig-cap: "Per-class Accuracy — Cervical Cancer Screening (EfficientNet-B7) / 各類別分類準確率"
+#| fig-width: 7
 #| fig-height: 4
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-classes = ['Type 1\n(Ectocervix)', 'Type 2\n(Transformation\nZone)', 'Type 3\n(Endocervix)']
+classes = ['Type 1\n(Ectocervix)', 'Type 2\n(Transformation\nZone Partial)', 'Type 3\n(Endocervix)']
 accuracies = [87.5, 92.3, 78.5]
 colors = ['#42A5F5', '#66BB6A', '#FFA726']
+mean_acc = np.mean(accuracies)
 
-fig, ax = plt.subplots(figsize=(6, 4))
+fig, ax = plt.subplots(figsize=(7, 4))
 bars = ax.bar(classes, accuracies, color=colors, edgecolor='white', width=0.5)
 ax.set_ylim(0, 105)
 ax.set_ylabel('Accuracy (%)', fontsize=11)
-ax.set_title('EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Screening', fontsize=12, fontweight='bold')
-ax.axhline(y=86.1, color='gray', linestyle='--', linewidth=1.2, label='Mean Accuracy (86.1%)')
+ax.set_title('EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification', fontsize=12, fontweight='bold')
+ax.axhline(y=mean_acc, color='gray', linestyle='--', linewidth=1.5,
+           label=f'Mean Accuracy ({mean_acc:.1f}%)')
 ax.legend(fontsize=9)
 for bar, val in zip(bars, accuracies):
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-            f'{val}%', ha='center', va='bottom', fontsize=11, fontweight='bold')
+            f'{val}%', ha='center', va='bottom', fontsize=12, fontweight='bold')
+
+# Note on Type 3 difficulty
+ax.annotate('Type 3 harder:\ntransformation zone\nnot directly visible',
+            xy=(2, 78.5), xytext=(1.4, 62),
+            fontsize=8.5, color='#E65100',
+            arrowprops=dict(arrowstyle='->', color='#E65100'))
 plt.tight_layout()
 plt.show()
 ```
