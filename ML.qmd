@@ -11,6 +11,37 @@ format:
     smooth-scroll: true
 ---
 
+```{r setup, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(scales)
+
+# Personal visual DNA ─────────────────────────────────────────
+c1  <- "#18A3A3"      # teal (primary)
+c2  <- "#FF4D8D"      # rose pink (accent)
+c3  <- "#7A7A7A"      # mid grey
+c4  <- "#000000"      # border / text
+acc <- "#E65100"      # deep orange (trend / highlight)
+
+theme1 <- function() {
+  theme_minimal(base_family = "sans") +
+    theme(
+      text             = element_text(colour = c4),
+      plot.title       = element_text(face = "bold", colour = c4, size = 13,
+                                      hjust = 0.5),
+      plot.subtitle    = element_text(colour = c3, size = 10, hjust = 0.5),
+      axis.title       = element_text(colour = c4, size = 11),
+      axis.text        = element_text(colour = c3),
+      panel.grid.major = element_line(color = scales::alpha(c3, 0.3),
+                                      linetype = "dotted"),
+      panel.grid.minor = element_blank(),
+      legend.text      = element_text(colour = c4),
+      legend.title     = element_text(colour = c4, face = "bold")
+    )
+}
+```
+
 ## Assignments / 作業
 
 ### Assignment 1 — Diabetes Prediction / 糖尿病預測
@@ -163,38 +194,35 @@ model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 | **Final accuracy (with imputation + feature engineering + resampling)** | **90.04%** |
 | Improvement | +16.01 pp |
 
-```{python}
-#| echo: false
-#| fig-cap: "Accuracy improvement across pipeline stages / 各階段準確率提升"
-#| fig-width: 7
-#| fig-height: 4
+```{r hw1-accuracy, echo=FALSE, fig.cap="Accuracy improvement across pipeline stages / 各階段準確率提升", fig.width=7, fig.height=4}
+df_acc <- data.frame(
+  stage    = factor(
+    c("Baseline\n(no imputation)", "After\nImputation",
+      "After Feature\nEngineering", "After Resampling\n+ Final DNN"),
+    levels = c("Baseline\n(no imputation)", "After\nImputation",
+               "After Feature\nEngineering", "After Resampling\n+ Final DNN")
+  ),
+  accuracy = c(74.03, 77.92, 82.50, 90.04)
+)
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-stages = ['Baseline\n(no imputation)', 'After\nImputation', 'After Feature\nEngineering', 'After\nResampling\n+ Final DNN']
-accuracies = [74.03, 77.92, 82.5, 90.04]
-colors = ['#90A4AE', '#42A5F5', '#FF9800', '#66BB6A']
-
-fig, ax = plt.subplots(figsize=(7, 4))
-fig.patch.set_facecolor('#FAFAFA')
-ax.set_facecolor('#FAFAFA')
-bars = ax.bar(stages, accuracies, color=colors, edgecolor='white', width=0.55)
-ax.set_ylim(60, 100)
-ax.set_ylabel('Accuracy (%)', fontsize=11)
-ax.set_title('Diabetes Prediction — Accuracy Improvement by Pipeline Stage', fontsize=11, fontweight='bold')
-
-for bar, val in zip(bars, accuracies):
-    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.4,
-            f'{val:.2f}%', ha='center', va='bottom', fontsize=10, fontweight='bold')
-
-# Annotate improvement arrow
-ax.annotate('', xy=(3.27, 90.04), xytext=(3.27, 74.03),
-            arrowprops=dict(arrowstyle='<->', color='#B71C1C', lw=2))
-ax.text(3.38, 82, '+16 pp', color='#B71C1C', fontsize=10, fontweight='bold', va='center')
-
-plt.tight_layout()
-plt.show()
+ggplot(df_acc, aes(x = stage, y = accuracy, fill = stage)) +
+  geom_col(color = c4, width = 0.6) +
+  geom_text(aes(label = paste0(accuracy, "%")),
+            vjust = -0.5, fontface = "bold", size = 3.8, colour = c4) +
+  geom_hline(yintercept = 74.03, linetype = "dashed",
+             colour = c3, linewidth = 0.7) +
+  annotate("segment",
+           x = 3.7, xend = 3.7, y = 74.03, yend = 90.04,
+           colour = acc, linewidth = 1.2,
+           arrow = arrow(ends = "both", length = unit(0.15, "cm"))) +
+  annotate("text", x = 3.95, y = 82, label = "+16 pp",
+           colour = acc, fontface = "bold", size = 4) +
+  scale_fill_manual(values = c(c3, c1, "#FF9800", c2)) +
+  scale_y_continuous(limits = c(60, 100), expand = c(0, 0)) +
+  labs(title = "Diabetes Prediction — Accuracy Improvement by Pipeline Stage",
+       x = NULL, y = "Accuracy (%)") +
+  theme1() +
+  theme(legend.position = "none")
 ```
 
 ---
@@ -226,35 +254,24 @@ poisson_model = smf.glm(
 print(poisson_model.summary())
 ```
 
-```{python}
-#| echo: false
-#| fig-cap: "Estimated Annual Wildfire Frequency Trend (Poisson Regression, +0.44%/yr) / 美國野火年度頻率趨勢"
-#| fig-width: 7
-#| fig-height: 4
+```{r hw2-poisson, echo=FALSE, fig.cap="Estimated Annual Wildfire Frequency Trend (Poisson Regression, +0.44%/yr) / 美國野火年度頻率趨勢", fig.width=7, fig.height=4}
+set.seed(42)
+years   <- 1992:2015
+trend   <- 80000 * exp(0.0044 * (years - 1992))
+counts  <- trend + rnorm(length(years), 0, 3000)
 
-import matplotlib.pyplot as plt
-import numpy as np
+df_fire <- data.frame(year = years, count = counts / 1000, trend = trend / 1000)
 
-np.random.seed(42)
-years = np.arange(1992, 2016)
-baseline = 80000
-trend = baseline * np.exp(0.0044 * (years - 1992))
-noise = np.random.normal(0, 3000, len(years))
-counts = trend + noise
-
-fig, ax = plt.subplots(figsize=(7, 4))
-fig.patch.set_facecolor('#FAFAFA')
-ax.set_facecolor('#FAFAFA')
-ax.bar(years, counts / 1000, color='#FF7043', alpha=0.75, label='Observed count (approx.)')
-ax.plot(years, trend / 1000, color='#B71C1C', linewidth=2.5, linestyle='--', label='Poisson fit (+0.44%/yr)')
-ax.set_xlabel('Year / 年份', fontsize=11)
-ax.set_ylabel('Wildfire Count (thousands) / 千件', fontsize=11)
-ax.set_title('US Annual Wildfire Frequency 1992–2015', fontsize=12, fontweight='bold')
-ax.legend(fontsize=9)
-ax.set_xticks(years[::2])
-ax.tick_params(axis='x', rotation=45)
-plt.tight_layout()
-plt.show()
+ggplot(df_fire) +
+  geom_col(aes(x = year, y = count), fill = c1, colour = "white", alpha = 0.8) +
+  geom_line(aes(x = year, y = trend), colour = acc,
+            linewidth = 1.5, linetype = "dashed") +
+  scale_x_continuous(breaks = seq(1992, 2014, 2)) +
+  labs(title    = "US Annual Wildfire Frequency 1992–2015",
+       subtitle = "Dashed line: Poisson regression fit (+0.44%/yr)",
+       x = "Year / 年份", y = "Wildfire Count (thousands) / 千件") +
+  theme1() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 #### MLP Model Architecture / MLP 模型架構
@@ -316,37 +333,27 @@ model.fit(X_train, y_train, epochs=20, batch_size=32, validation_split=0.2)
 The relatively low classification accuracy reflects the inherent difficulty of attributing wildfire causes from geographic and temporal features alone.
 分類準確率偏低，反映了僅依靠地理與時間特徵來判斷野火成因的固有難度。
 
-```{python}
-#| echo: false
-#| fig-cap: "MLP Cause Prediction Accuracy vs. Baseline / 模型準確率比較"
-#| fig-width: 6
-#| fig-height: 3.5
+```{r hw2-mlp, echo=FALSE, fig.cap="MLP Wildfire Cause Prediction Accuracy vs. Baseline / 模型準確率比較", fig.width=6, fig.height=3.5}
+df_mlp <- data.frame(
+  category = factor(
+    c("Random Baseline\n(10 classes)", "MLP Classifier", "Theoretical Max"),
+    levels = c("Random Baseline\n(10 classes)", "MLP Classifier", "Theoretical Max")
+  ),
+  acc = c(10, 45.6, 100)
+)
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-categories = ['Random Baseline\n(10 classes)', 'MLP Classifier', 'Theoretical Max']
-acc = [10, 45.6, 100]
-bar_colors = ['#90A4AE', '#FF7043', '#66BB6A']
-
-fig, ax = plt.subplots(figsize=(6, 3.5))
-fig.patch.set_facecolor('#FAFAFA')
-ax.set_facecolor('#FAFAFA')
-
-bars = ax.barh(categories, acc, color=bar_colors, edgecolor='white', height=0.45)
-ax.set_xlim(0, 120)
-ax.set_xlabel('Accuracy (%)', fontsize=11)
-ax.set_title('MLP Wildfire Cause Prediction vs. Baseline', fontsize=11, fontweight='bold')
-
-# Dashed reference line at MLP accuracy
-ax.axvline(x=45.6, color='#FF7043', linestyle='--', linewidth=1.5, alpha=0.7)
-
-for bar, val in zip(bars, acc):
-    ax.text(val + 1.5, bar.get_y() + bar.get_height()/2,
-            f'{val}%', va='center', fontsize=11, fontweight='bold')
-
-plt.tight_layout()
-plt.show()
+ggplot(df_mlp, aes(x = acc, y = category, fill = category)) +
+  geom_col(colour = c4, width = 0.5) +
+  geom_text(aes(label = paste0(acc, "%")),
+            hjust = -0.15, fontface = "bold", size = 4, colour = c4) +
+  geom_vline(xintercept = 45.6, linetype = "dashed",
+             colour = acc, linewidth = 0.9) +
+  scale_fill_manual(values = c(c3, c1, c2)) +
+  scale_x_continuous(limits = c(0, 120), expand = c(0, 0)) +
+  labs(title = "MLP Wildfire Cause Prediction vs. Baseline",
+       x = "Accuracy (%)", y = NULL) +
+  theme1() +
+  theme(legend.position = "none")
 ```
 
 ---
@@ -398,38 +405,35 @@ model = model.to(device)
 Focal Loss down-weights easy examples and focuses training on hard, misclassified samples — especially useful for imbalanced class distributions.
 Focal Loss 降低簡單樣本的權重，讓訓練集中在難以分類的樣本，有效處理類別不平衡。
 
-```{python}
-#| echo: false
-#| fig-cap: "Focal Loss vs. Cross-Entropy — γ=2 (used in this project) strongly down-weights easy examples / Focal Loss 與交叉熵損失比較"
-#| fig-width: 6
-#| fig-height: 4
+```{r focal-loss, echo=FALSE, fig.cap="Focal Loss vs. Cross-Entropy — γ=2 strongly down-weights easy examples / Focal Loss 與交叉熵損失比較", fig.width=6, fig.height=4}
+pt <- seq(0.01, 0.99, length.out = 300)
+df_fl <- data.frame(
+  pt      = rep(pt, 4),
+  loss    = c(-log(pt),
+              (1 - pt)^1 * (-log(pt)),
+              (1 - pt)^2 * (-log(pt)),
+              (1 - pt)^5 * (-log(pt))),
+  gamma   = rep(c("Cross-Entropy (γ=0)", "Focal Loss γ=1",
+                  "Focal Loss γ=2 ✓", "Focal Loss γ=5"), each = 300)
+)
+df_fl$gamma <- factor(df_fl$gamma,
+  levels = c("Cross-Entropy (γ=0)", "Focal Loss γ=1",
+             "Focal Loss γ=2 ✓", "Focal Loss γ=5"))
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-pt = np.linspace(0.01, 0.99, 200)
-ce    = -np.log(pt)
-fl_g1 = (1 - pt)**1 * ce
-fl_g2 = (1 - pt)**2 * ce
-fl_g5 = (1 - pt)**5 * ce
-
-fig, ax = plt.subplots(figsize=(6, 4))
-fig.patch.set_facecolor('#FAFAFA')
-ax.set_facecolor('#FAFAFA')
-ax.plot(pt, ce,     label='Cross-Entropy (γ=0)', linewidth=2, color='#9E9E9E')
-ax.plot(pt, fl_g1,  label='Focal Loss γ=1',      linewidth=2, color='#42A5F5')
-ax.plot(pt, fl_g2,  label='Focal Loss γ=2 ✓',    linewidth=2.5, color='#EF5350', linestyle='--')
-ax.plot(pt, fl_g5,  label='Focal Loss γ=5',      linewidth=2, color='#AB47BC')
-ax.set_xlabel('Predicted Probability pₜ (correct class)', fontsize=11)
-ax.set_ylabel('Loss', fontsize=11)
-ax.set_title('Focal Loss: Down-weighting Easy Examples', fontsize=12, fontweight='bold')
-ax.legend(fontsize=9)
-ax.set_ylim(0, 5)
-ax.fill_betweenx([0, 5], 0.7, 0.99, alpha=0.08, color='green',
-                  label='Easy examples (high pₜ)')
-ax.text(0.78, 4.2, 'Easy\nexamples', fontsize=9, color='green', ha='center')
-plt.tight_layout()
-plt.show()
+ggplot(df_fl, aes(x = pt, y = loss, colour = gamma, linetype = gamma)) +
+  geom_line(linewidth = 1.1) +
+  annotate("rect", xmin = 0.7, xmax = 0.99, ymin = 0, ymax = 5,
+           fill = "green", alpha = 0.06) +
+  annotate("text", x = 0.83, y = 4.3, label = "Easy\nexamples",
+           colour = "darkgreen", size = 3.5) +
+  scale_colour_manual(values = c(c3, c1, acc, c2)) +
+  scale_linetype_manual(values = c("solid","solid","dashed","solid")) +
+  scale_y_continuous(limits = c(0, 5)) +
+  labs(title   = "Focal Loss: Down-weighting Easy Examples",
+       x = "Predicted Probability pₜ (correct class)",
+       y = "Loss", colour = NULL, linetype = NULL) +
+  theme1() +
+  theme(legend.position = "bottom")
 ```
 
 ```python
@@ -479,43 +483,35 @@ for epoch in range(num_epochs):
 | Type 2 | Partially visible transformation zone | 92.3% |
 | Type 3 | Endocervix (transformation zone not visible) | 78.5% |
 
-```{python}
-#| echo: false
-#| fig-cap: "Per-class Accuracy — Cervical Cancer Screening (EfficientNet-B7) / 各類別分類準確率"
-#| fig-width: 6
-#| fig-height: 3.5
+```{r final-accuracy, echo=FALSE, fig.cap="Per-class Accuracy — Cervical Cancer Screening (EfficientNet-B7) / 各類別分類準確率", fig.width=6, fig.height=3.5}
+df_cervical <- data.frame(
+  class    = factor(c("Type 1\n(Ectocervix)", "Type 2\n(Transform. Zone)",
+                      "Type 3\n(Endocervix)"),
+                    levels = c("Type 3\n(Endocervix)", "Type 2\n(Transform. Zone)",
+                               "Type 1\n(Ectocervix)")),
+  accuracy = c(87.5, 92.3, 78.5)
+)
+mean_acc <- mean(df_cervical$accuracy)
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-classes = ['Type 1\n(Ectocervix)', 'Type 2\n(Transform.\nZone Partial)', 'Type 3\n(Endocervix)']
-accuracies = [87.5, 92.3, 78.5]
-colors = ['#42A5F5', '#66BB6A', '#FFA726']
-mean_acc = np.mean(accuracies)
-
-fig, ax = plt.subplots(figsize=(6, 3.5))
-fig.patch.set_facecolor('#FAFAFA')
-ax.set_facecolor('#FAFAFA')
-
-bars = ax.barh(classes, accuracies, color=colors, edgecolor='white', height=0.45)
-ax.set_xlim(0, 110)
-ax.set_xlabel('Accuracy (%)', fontsize=11)
-ax.set_title('EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification', fontsize=12, fontweight='bold')
-
-# Mean accuracy dashed line
-ax.axvline(x=mean_acc, color='#546E7A', linestyle='--', linewidth=1.8,
-           label=f'Mean ({mean_acc:.1f}%)')
-ax.legend(fontsize=9, loc='lower right')
-
-for bar, val in zip(bars, accuracies):
-    ax.text(val + 1, bar.get_y() + bar.get_height()/2,
-            f'{val}%', va='center', fontsize=11, fontweight='bold')
-
-# Annotation for Type 3
-ax.annotate('Transformation zone\nnot directly visible',
-            xy=(78.5, 0), xytext=(55, 0.15),
-            fontsize=8.5, color='#E65100',
-            arrowprops=dict(arrowstyle='->', color='#E65100'))
-plt.tight_layout()
-plt.show()
+ggplot(df_cervical, aes(x = accuracy, y = class, fill = class)) +
+  geom_col(colour = c4, width = 0.5) +
+  geom_text(aes(label = paste0(accuracy, "%")),
+            hjust = -0.15, fontface = "bold", size = 4, colour = c4) +
+  geom_vline(xintercept = mean_acc, linetype = "dashed",
+             colour = c3, linewidth = 1) +
+  annotate("text", x = mean_acc + 1, y = 3.45,
+           label = paste0("Mean: ", round(mean_acc, 1), "%"),
+           colour = c3, size = 3.5, hjust = 0) +
+  annotate("text", x = 65, y = 1,
+           label = "Transformation zone\nnot directly visible",
+           colour = acc, size = 3.2, hjust = 0) +
+  geom_segment(aes(x = 78.5, xend = 78.5, y = 1.35, yend = 0.65),
+               colour = acc,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  scale_fill_manual(values = c(c1, c2, "#FF9800")) +
+  scale_x_continuous(limits = c(0, 110), expand = c(0, 0)) +
+  labs(title = "EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification",
+       x = "Accuracy (%)", y = NULL) +
+  theme1() +
+  theme(legend.position = "none")
 ```

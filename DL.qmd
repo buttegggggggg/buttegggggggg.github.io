@@ -11,6 +11,37 @@ format:
     smooth-scroll: true
 ---
 
+```{r setup, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(scales)
+
+# Personal visual DNA ─────────────────────────────────────────
+c1  <- "#18A3A3"      # teal (primary)
+c2  <- "#FF4D8D"      # rose pink (accent)
+c3  <- "#7A7A7A"      # mid grey
+c4  <- "#000000"      # border / text
+acc <- "#E65100"      # deep orange (trend / highlight)
+
+theme1 <- function() {
+  theme_minimal(base_family = "sans") +
+    theme(
+      text             = element_text(colour = c4),
+      plot.title       = element_text(face = "bold", colour = c4, size = 13,
+                                      hjust = 0.5),
+      plot.subtitle    = element_text(colour = c3, size = 10, hjust = 0.5),
+      axis.title       = element_text(colour = c4, size = 11),
+      axis.text        = element_text(colour = c3),
+      panel.grid.major = element_line(color = scales::alpha(c3, 0.3),
+                                      linetype = "dotted"),
+      panel.grid.minor = element_blank(),
+      legend.text      = element_text(colour = c4),
+      legend.title     = element_text(colour = c4, face = "bold")
+    )
+}
+```
+
 ## Assignments / 作業
 
 ### Assignment 1 — AOI Defect Classification / 自動光學檢測缺陷分類
@@ -25,6 +56,7 @@ format:
 
 #### Transfer Learning Strategy / 遷移學習策略
 
+::: {style="max-width: 720px;"}
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "15px"}}}%%
 flowchart LR
@@ -42,6 +74,7 @@ flowchart LR
     style D fill:#1B5E20,color:#ffffff,stroke:#1B5E20
     style E fill:#4CAF50,color:#ffffff,stroke:#4CAF50
 ```
+:::
 
 #### Model Setup / 模型設定
 
@@ -81,53 +114,40 @@ batch_size = 32
 
 **Best Validation Accuracy: 96.44%**
 
-```{python}
-#| echo: false
-#| fig-cap: "Training Loss & Validation Accuracy over 10 Epochs — AOI ResNet-18 / 訓練損失與驗證準確率"
-#| fig-width: 8
-#| fig-height: 4
+```{r aoi-curve, echo=FALSE, fig.cap="Training Loss & Validation Accuracy over 10 Epochs — AOI ResNet-18 / 訓練損失與驗證準確率", fig.width=8, fig.height=4}
+df_aoi <- data.frame(
+  epoch      = 1:10,
+  train_loss = c(0.8943,0.4654,0.3821,0.3247,0.2910,0.2635,0.2512,0.2450,0.2410,0.2381),
+  val_acc    = c(95.26, 96.25, 96.31, 96.38, 96.40, 96.44, 96.35, 96.28, 96.10, 95.85)
+)
+best_ep <- df_aoi$epoch[which.max(df_aoi$val_acc)]
 
-import matplotlib.pyplot as plt
-import numpy as np
+p_loss <- ggplot(df_aoi, aes(x = epoch, y = train_loss)) +
+  geom_line(colour = c2, linewidth = 1.5) +
+  geom_point(colour = c2, size = 2.5) +
+  geom_vline(xintercept = best_ep, linetype = "dashed", colour = acc, linewidth = 0.8) +
+  scale_x_continuous(breaks = 1:10) +
+  labs(title = "Train Loss", x = "Epoch", y = "Loss") +
+  theme1()
 
-epochs    = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-train_loss = [0.8943, 0.4654, 0.3821, 0.3247, 0.2910, 0.2635, 0.2512, 0.2450, 0.2410, 0.2381]
-val_acc    = [95.26,  96.25,  96.31,  96.38,  96.40,  96.44,  96.35,  96.28,  96.10,  95.85]
+p_acc <- ggplot(df_aoi, aes(x = epoch, y = val_acc)) +
+  geom_line(colour = c1, linewidth = 1.5) +
+  geom_point(colour = c1, size = 2.5) +
+  geom_point(data = df_aoi[which.max(df_aoi$val_acc), ],
+             aes(x = epoch, y = val_acc),
+             colour = acc, size = 4, shape = 18) +
+  geom_vline(xintercept = best_ep, linetype = "dashed", colour = acc, linewidth = 0.8) +
+  annotate("text", x = best_ep + 0.3, y = 97.5,
+           label = paste0("Best: ", max(df_aoi$val_acc), "%\n(Epoch ", best_ep, ")"),
+           colour = acc, size = 3.2, hjust = 0) +
+  scale_x_continuous(breaks = 1:10) +
+  scale_y_continuous(limits = c(94, 98)) +
+  labs(title = "Validation Accuracy", x = "Epoch", y = "Accuracy (%)") +
+  theme1()
 
-fig, ax1 = plt.subplots(figsize=(8, 4))
-
-color_loss = '#EF5350'
-color_acc  = '#1565C0'
-
-ax1.set_xlabel('Epoch', fontsize=11)
-ax1.set_ylabel('Train Loss', color=color_loss, fontsize=11)
-ax1.plot(epochs, train_loss, color=color_loss, linewidth=2.5, marker='o', markersize=6, label='Train Loss')
-ax1.tick_params(axis='y', labelcolor=color_loss)
-ax1.set_xticks(epochs)
-
-ax2 = ax1.twinx()
-ax2.set_ylabel('Validation Accuracy (%)', color=color_acc, fontsize=11)
-ax2.plot(epochs, val_acc, color=color_acc, linewidth=2.5, marker='s', markersize=6,
-         linestyle='--', label='Val Accuracy')
-ax2.tick_params(axis='y', labelcolor=color_acc)
-ax2.set_ylim(94, 98)
-
-best_epoch = epochs[val_acc.index(max(val_acc))]
-ax2.axvline(x=best_epoch, color='#FF6F00', linestyle=':', linewidth=1.5)
-ax2.annotate(f'Best: {max(val_acc):.2f}%\n(Epoch {best_epoch})',
-             xy=(best_epoch, max(val_acc)), xytext=(best_epoch + 0.5, 97.3),
-             fontsize=9, color='#FF6F00',
-             arrowprops=dict(arrowstyle='->', color='#FF6F00'))
-
-lines1, labels1 = ax1.get_legend_handles_labels()
-lines2, labels2 = ax2.get_legend_handles_labels()
-ax1.legend(lines1 + lines2, labels1 + labels2, loc='center right', fontsize=9)
-
-plt.title('AOI Defect Classification — Training Curve (ResNet-18)', fontsize=12, fontweight='bold')
-fig.patch.set_facecolor('#FAFAFA')
-ax1.set_facecolor('#FAFAFA')
-plt.tight_layout()
-plt.show()
+grid.arrange(p_loss, p_acc, ncol = 2,
+             top = grid::textGrob("AOI Defect Classification — Training Curve (ResNet-18)",
+                                  gp = grid::gpar(fontface = "bold", fontsize = 13)))
 ```
 
 ---
@@ -153,6 +173,7 @@ plt.show()
 
 #### U-Net Architecture / U-Net 模型架構
 
+::: {style="max-width: 820px;"}
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "13px"}}}%%
 flowchart LR
@@ -196,6 +217,7 @@ flowchart LR
     style C9  fill:#388E3C,color:#fff,stroke:#388E3C
     style OUT fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 *Blue = Encoder (contracting) · Orange = Bottleneck · Green = Decoder (expanding)*
 
@@ -252,46 +274,48 @@ Each row shows: **Original fundus image** → **Predicted segmentation mask** �
 | Training epochs | 100 |
 | Input resolution | 512 × 512 |
 
-```{python}
-#| echo: false
-#| fig-cap: "mIoU comparison and IoU concept illustration / mIoU 比較與示意圖"
-#| fig-width: 9
-#| fig-height: 3.5
+```{r unet-miou, echo=FALSE, fig.cap="mIoU comparison and IoU concept illustration / mIoU 比較與示意圖", fig.width=9, fig.height=3.5}
+df_miou <- data.frame(
+  model  = factor(c("Random\nBaseline", "This Model\n(U-Net)", "State-of-Art\n(DRIVE)"),
+                  levels = c("Random\nBaseline", "This Model\n(U-Net)", "State-of-Art\n(DRIVE)")),
+  miou   = c(0.05, 0.351, 0.82)
+)
 
-import matplotlib.pyplot as plt
-import numpy as np
+p_bar <- ggplot(df_miou, aes(x = model, y = miou, fill = model)) +
+  geom_col(colour = c4, width = 0.55) +
+  geom_text(aes(label = miou), vjust = -0.4,
+            fontface = "bold", size = 4, colour = c4) +
+  geom_hline(yintercept = 0.351, linetype = "dashed",
+             colour = c1, linewidth = 0.9) +
+  scale_fill_manual(values = c(c3, c1, c2)) +
+  scale_y_continuous(limits = c(0, 1.05), expand = c(0, 0)) +
+  labs(title = "mIoU Comparison", x = NULL, y = "Mean IoU") +
+  theme1() +
+  theme(legend.position = "none")
 
-fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
-fig.patch.set_facecolor('#FAFAFA')
+# IoU Venn-style scatter illustration
+set.seed(7)
+n <- 300
+gt_x   <- rnorm(n, -0.18, 0.22); gt_y   <- rnorm(n, 0, 0.22)
+pred_x <- rnorm(n,  0.18, 0.22); pred_y <- rnorm(n, 0, 0.22)
+df_venn <- data.frame(
+  x   = c(gt_x, pred_x),
+  y   = c(gt_y, pred_y),
+  grp = rep(c("Ground Truth", "Prediction"), each = n)
+)
+p_venn <- ggplot(df_venn, aes(x = x, y = y, colour = grp)) +
+  geom_point(size = 1.2, alpha = 0.45) +
+  annotate("text", x = 0, y = 0, label = "IoU\n0.351",
+           fontface = "bold", size = 4.5, colour = c4) +
+  scale_colour_manual(values = c(c1, c2)) +
+  coord_fixed(xlim = c(-0.7, 0.7), ylim = c(-0.55, 0.55)) +
+  labs(title = "IoU = Intersection ÷ Union",
+       colour = NULL, x = NULL, y = NULL) +
+  theme1() +
+  theme(axis.text = element_blank(), axis.ticks = element_blank(),
+        legend.position = "bottom")
 
-benchmarks = ['Random\nBaseline', 'This Model\n(U-Net)', 'State-of-Art\n(DRIVE)']
-miou_vals  = [0.05, 0.351, 0.82]
-bar_colors = ['#90A4AE', '#1565C0', '#2E7D32']
-bars = axes[0].bar(benchmarks, miou_vals, color=bar_colors, edgecolor='white', width=0.5)
-axes[0].set_facecolor('#FAFAFA')
-axes[0].set_ylim(0, 1.0)
-axes[0].set_ylabel('Mean IoU', fontsize=11)
-axes[0].set_title('mIoU Comparison', fontsize=11, fontweight='bold')
-for bar, val in zip(bars, miou_vals):
-    axes[0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.015,
-                 f'{val:.3f}', ha='center', va='bottom', fontsize=11, fontweight='bold',
-                 color='#212121')
-
-circle1 = plt.Circle((0.42, 0.5), 0.28, color='#1565C0', alpha=0.6, label='Ground Truth')
-circle2 = plt.Circle((0.58, 0.5), 0.28, color='#EF5350', alpha=0.6, label='Prediction')
-axes[1].add_patch(circle1)
-axes[1].add_patch(circle2)
-axes[1].set_facecolor('#FAFAFA')
-axes[1].set_xlim(0, 1); axes[1].set_ylim(0, 1)
-axes[1].set_aspect('equal')
-axes[1].set_title('IoU = Intersection ÷ Union', fontsize=11, fontweight='bold')
-axes[1].legend(loc='upper right', fontsize=9)
-axes[1].text(0.5, 0.5, 'IoU\n0.351', ha='center', va='center', fontsize=12, fontweight='bold',
-             color='white', bbox=dict(boxstyle='round,pad=0.4', facecolor='#37474F', alpha=0.85))
-axes[1].axis('off')
-
-plt.tight_layout()
-plt.show()
+grid.arrange(p_bar, p_venn, ncol = 2)
 ```
 
 ---
@@ -307,6 +331,7 @@ plt.show()
 
 #### AutoEncoder Architecture / 模型架構
 
+::: {style="max-width: 820px;"}
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "13px"}}}%%
 flowchart LR
@@ -342,6 +367,7 @@ flowchart LR
     style D3  fill:#388E3C,color:#fff,stroke:#388E3C
     style OUT fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 *Blue = Encoder · Orange = Bottleneck · Green = Decoder*
 
@@ -389,56 +415,55 @@ device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
 **Best PSNR: 30.84 dB at Epoch 18**
 
-```{python}
-#| echo: false
-#| fig-cap: "Training & Test Loss + PSNR over 20 Epochs — Convolutional Autoencoder / 訓練損失與 PSNR 曲線"
-#| fig-width: 10
-#| fig-height: 4
+```{r ae-curve, echo=FALSE, fig.cap="Training & Test Loss + PSNR over 20 Epochs — Convolutional Autoencoder / 訓練損失與 PSNR 曲線", fig.width=10, fig.height=4}
+library(splines)
 
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.interpolate import interp1d
+ep_pts    <- c(1, 3, 10, 13, 18, 20)
+tr_pts    <- c(0.0979, 0.0323, 0.0309, 0.0263, 0.0280, 0.0268)
+te_pts    <- c(0.1152, 0.0067, 0.0055, 0.0043, 0.0037, 0.0048)
+psnr_pts  <- c(16.29, 27.98, 29.06, 30.16, 30.84, 29.50)
 
-epochs_data = [1, 3, 10, 13, 18, 20]
-train_loss  = [0.0979, 0.0323, 0.0309, 0.0263, 0.0280, 0.0268]
-test_loss   = [0.1152, 0.0067, 0.0055, 0.0043, 0.0037, 0.0048]
-psnr        = [16.29,  27.98,  29.06,  30.16,  30.84,  29.50]
+ep_seq <- seq(1, 20, length.out = 200)
+df_smooth <- data.frame(
+  epoch      = ep_seq,
+  train_loss = predict(smooth.spline(ep_pts, tr_pts,  spar = 0.5), ep_seq)$y,
+  test_loss  = predict(smooth.spline(ep_pts, te_pts,  spar = 0.5), ep_seq)$y,
+  psnr       = predict(smooth.spline(ep_pts, psnr_pts, spar = 0.5), ep_seq)$y
+)
+df_pts <- data.frame(epoch = ep_pts, train = tr_pts, test = te_pts, psnr = psnr_pts)
+best_ep <- ep_pts[which.max(psnr_pts)]
 
-ep_smooth = np.linspace(1, 20, 200)
-f_train = interp1d(epochs_data, train_loss, kind='cubic')
-f_test  = interp1d(epochs_data, test_loss,  kind='cubic')
-f_psnr  = interp1d(epochs_data, psnr,       kind='cubic')
+p_loss <- ggplot() +
+  geom_line(data = df_smooth, aes(x = epoch, y = train_loss, colour = "Train Loss"),
+            linewidth = 1.3) +
+  geom_line(data = df_smooth, aes(x = epoch, y = test_loss, colour = "Test Loss"),
+            linewidth = 1.3, linetype = "dashed") +
+  geom_point(data = df_pts, aes(x = epoch, y = train), colour = c2, size = 2.5) +
+  geom_point(data = df_pts, aes(x = epoch, y = test),  colour = c1, size = 2.5) +
+  scale_colour_manual(values = c("Train Loss" = c2, "Test Loss" = c1)) +
+  labs(title = "Training & Test Loss", x = "Epoch", y = "MSE Loss",
+       colour = NULL) +
+  theme1() +
+  theme(legend.position = "bottom")
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-fig.patch.set_facecolor('#FAFAFA')
-for ax in [ax1, ax2]:
-    ax.set_facecolor('#FAFAFA')
+p_psnr <- ggplot() +
+  geom_line(data = df_smooth, aes(x = epoch, y = psnr),
+            colour = c1, linewidth = 1.5) +
+  geom_point(data = df_pts, aes(x = epoch, y = psnr), colour = c1, size = 2.5) +
+  geom_point(data = df_pts[which.max(df_pts$psnr), ],
+             aes(x = epoch, y = psnr), colour = acc, size = 5, shape = 18) +
+  geom_hline(yintercept = 30, linetype = "dashed", colour = c3, linewidth = 0.9) +
+  annotate("text", x = 14, y = 30.5, label = "30 dB threshold",
+           colour = c3, size = 3.2) +
+  annotate("text", x = best_ep + 0.5, y = 29.5,
+           label = paste0("Best: ", max(psnr_pts), " dB\n(Epoch ", best_ep, ")"),
+           colour = acc, size = 3.2, hjust = 0) +
+  labs(title = "PSNR over Training", x = "Epoch", y = "PSNR (dB)") +
+  theme1()
 
-ax1.plot(ep_smooth, f_train(ep_smooth), color='#EF5350', linewidth=2.5, label='Train Loss')
-ax1.plot(ep_smooth, f_test(ep_smooth),  color='#1565C0', linewidth=2.5, linestyle='--', label='Test Loss')
-ax1.scatter(epochs_data, train_loss, color='#C62828', s=60, zorder=5)
-ax1.scatter(epochs_data, test_loss,  color='#0D47A1', s=60, zorder=5)
-ax1.set_xlabel('Epoch', fontsize=11)
-ax1.set_ylabel('MSE Loss', fontsize=11)
-ax1.set_title('Training & Test Loss', fontsize=12, fontweight='bold')
-ax1.legend(fontsize=9)
-ax1.set_xlim(1, 20)
-
-ax2.plot(ep_smooth, f_psnr(ep_smooth), color='#2E7D32', linewidth=2.5)
-ax2.scatter(epochs_data, psnr, color='#1B5E20', s=60, zorder=5)
-best_idx = psnr.index(max(psnr))
-ax2.scatter([epochs_data[best_idx]], [psnr[best_idx]], color='#FF6F00',
-            s=150, zorder=6, marker='*', label=f'Best: {max(psnr)} dB (Epoch {epochs_data[best_idx]})')
-ax2.axhline(y=30, color='#B71C1C', linestyle=':', linewidth=1.5, label='30 dB threshold')
-ax2.set_xlabel('Epoch', fontsize=11)
-ax2.set_ylabel('PSNR (dB)', fontsize=11)
-ax2.set_title('PSNR over Training', fontsize=12, fontweight='bold')
-ax2.legend(fontsize=9)
-ax2.set_xlim(1, 20)
-
-plt.suptitle('Autoencoder — Retinal Image Reconstruction (DRIVE dataset)', fontsize=13, fontweight='bold')
-plt.tight_layout()
-plt.show()
+grid.arrange(p_loss, p_psnr, ncol = 2,
+             top = grid::textGrob("Autoencoder — Retinal Image Reconstruction (DRIVE dataset)",
+                                  gp = grid::gpar(fontface = "bold", fontsize = 13)))
 ```
 
 ---
@@ -454,6 +479,7 @@ plt.show()
 
 #### Conditional GAN Training Flow / 條件式 GAN 訓練流程
 
+::: {style="max-width: 820px;"}
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart LR
@@ -485,6 +511,7 @@ flowchart LR
     style UG   fill:#1976D2,color:#fff,stroke:#1976D2
     style UD   fill:#B71C1C,color:#fff,stroke:#B71C1C
 ```
+:::
 
 #### Generator Architecture / 生成器架構
 
@@ -553,60 +580,61 @@ Training ran on CPU and was recorded up to epoch 118/200. By that point the Disc
 | 118 / step 230 | 0.0263 | 4.2039 |
 | 118 / step 270 | 0.0683 | 3.5220 |
 
-```{python}
-#| echo: false
-#| fig-cap: "GAN Training Dynamics — Real loss values from training log (Epochs 1–118) / 真實訓練 log 數值"
-#| fig-width: 10
-#| fig-height: 4
+```{r gan-training, echo=FALSE, fig.cap="GAN Training Dynamics — Real loss values from training log (Epochs 1–118) / 真實訓練 log 數值", fig.width=10, fig.height=4}
+raw <- data.frame(
+  epoch  = c(1,1,1,1,1,10,10,20,20,30,40,50,60,70,80,90,100,110,118,118,118,118,118,118,118,118,118,118),
+  step   = c(10,20,30,40,50,10,50,10,100,10,10,10,10,10,10,10,10,10,180,190,200,210,220,230,240,250,260,270),
+  d_loss = c(1.3715,1.3476,1.3785,1.3699,1.3634,0.9821,0.8934,0.7821,0.6934,0.6123,
+             0.5234,0.4821,0.4234,0.3891,0.3234,0.2891,0.2234,0.1891,
+             0.5169,0.1873,0.4921,0.0873,0.0840,0.0263,0.0859,0.0933,0.9756,0.0683),
+  g_loss = c(0.7412,0.6997,0.6792,0.6840,0.6901,0.8834,1.0231,1.1243,1.3211,1.4521,
+             1.6723,1.8934,2.0123,2.1456,2.3210,2.5134,2.7823,3.0234,
+             2.1982,3.2385,2.2424,2.7004,3.7983,4.2039,2.6956,3.9028,3.3295,3.5220)
+)
 
-import matplotlib.pyplot as plt
-import numpy as np
+# Per-epoch averages
+avg <- raw %>%
+  group_by(epoch) %>%
+  summarise(d_avg = mean(d_loss), g_avg = mean(g_loss), .groups = "drop")
 
-raw = [
-    (1,10,1.3715,0.7412),(1,20,1.3476,0.6997),(1,30,1.3785,0.6792),(1,40,1.3699,0.6840),
-    (1,50,1.3634,0.6901),(10,10,0.9821,0.8834),(10,50,0.8934,1.0231),(20,10,0.7821,1.1243),
-    (20,100,0.6934,1.3211),(30,10,0.6123,1.4521),(40,10,0.5234,1.6723),(50,10,0.4821,1.8934),
-    (60,10,0.4234,2.0123),(70,10,0.3891,2.1456),(80,10,0.3234,2.3210),(90,10,0.2891,2.5134),
-    (100,10,0.2234,2.7823),(110,10,0.1891,3.0234),(118,180,0.5169,2.1982),
-    (118,190,0.1873,3.2385),(118,200,0.4921,2.2424),(118,210,0.0873,2.7004),
-    (118,220,0.0840,3.7983),(118,230,0.0263,4.2039),(118,240,0.0859,2.6956),
-    (118,250,0.0933,3.9028),(118,260,0.9756,3.3295),(118,270,0.0683,3.5220),
-]
+# Raw scatter
+p_raw <- ggplot(raw, aes(x = epoch)) +
+  geom_point(aes(y = d_loss, colour = "D Loss"), size = 2, alpha = 0.8) +
+  geom_point(aes(y = g_loss, colour = "G Loss"), size = 2, alpha = 0.8) +
+  geom_hline(yintercept = log(2), linetype = "dashed",
+             colour = acc, linewidth = 0.8) +
+  annotate("text", x = 60, y = log(2) + 0.12,
+           label = "ln(2) ≈ 0.693", colour = acc, size = 3.2) +
+  scale_colour_manual(values = c("D Loss" = c2, "G Loss" = c1)) +
+  labs(title = "Raw Training Log", x = "Epoch", y = "BCE Loss",
+       colour = NULL) +
+  theme1() +
+  theme(legend.position = "bottom")
 
-xs       = [r[0] + r[1]/280 for r in raw]
-d_losses = [r[2] for r in raw]
-g_losses = [r[3] for r in raw]
+# Epoch averages with smooth lines
+p_avg <- ggplot(avg, aes(x = epoch)) +
+  geom_line(aes(y = d_avg, colour = "D Loss (avg)"), linewidth = 1.4) +
+  geom_point(aes(y = d_avg, colour = "D Loss (avg)"), size = 2.5) +
+  geom_line(aes(y = g_avg, colour = "G Loss (avg)"),
+            linewidth = 1.4, linetype = "dashed") +
+  geom_point(aes(y = g_avg, colour = "G Loss (avg)"), size = 2.5) +
+  geom_hline(yintercept = log(2), linetype = "dashed",
+             colour = acc, linewidth = 0.8) +
+  annotate("text", x = 60, y = log(2) + 0.15,
+           label = "ln(2) ≈ 0.693", colour = acc, size = 3.2) +
+  annotate("text", x = 80, y = 2.8,
+           label = "D dominates\n(D Loss → 0)",
+           colour = c2, fontface = "bold", size = 3.2) +
+  geom_segment(aes(x = 112, xend = 118, y = 2.5, yend = 0.4),
+               colour = c2,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  scale_colour_manual(values = c("D Loss (avg)" = c2, "G Loss (avg)" = c1)) +
+  labs(title = "Per-Epoch Average Loss", x = "Epoch", y = "BCE Loss",
+       colour = NULL) +
+  theme1() +
+  theme(legend.position = "bottom")
 
-epochs_u = sorted(set(r[0] for r in raw))
-d_avg = [np.mean([r[2] for r in raw if r[0]==e]) for e in epochs_u]
-g_avg = [np.mean([r[3] for r in raw if r[0]==e]) for e in epochs_u]
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-fig.patch.set_facecolor('#FAFAFA')
-for ax in [ax1, ax2]:
-    ax.set_facecolor('#FAFAFA')
-
-ax1.scatter(xs, d_losses, color='#EF5350', s=40, alpha=0.8, label='D Loss', zorder=3)
-ax1.scatter(xs, g_losses, color='#1565C0', s=40, alpha=0.8, label='G Loss', zorder=3)
-ax1.axhline(y=0.693, color='#FF6F00', linestyle='--', linewidth=1.5, label='ln(2) ≈ 0.693')
-ax1.set_xlabel('Epoch', fontsize=11)
-ax1.set_ylabel('BCE Loss', fontsize=11)
-ax1.set_title('Raw Training Log', fontsize=11, fontweight='bold')
-ax1.legend(fontsize=9)
-
-ax2.plot(epochs_u, d_avg, color='#EF5350', linewidth=2.5, marker='o', markersize=6, label='D Loss (avg)')
-ax2.plot(epochs_u, g_avg, color='#1565C0', linewidth=2.5, marker='s', markersize=6,
-         linestyle='--', label='G Loss (avg)')
-ax2.axhline(y=0.693, color='#FF6F00', linestyle='--', linewidth=1.5, label='ln(2) ≈ 0.693')
-ax2.set_xlabel('Epoch', fontsize=11)
-ax2.set_ylabel('BCE Loss', fontsize=11)
-ax2.set_title('Per-Epoch Average Loss', fontsize=11, fontweight='bold')
-ax2.legend(fontsize=9)
-ax2.annotate('D dominates\n(D Loss → 0)', xy=(118, 0.22), xytext=(75, 1.2),
-             fontsize=9, color='#B71C1C', fontweight='bold',
-             arrowprops=dict(arrowstyle='->', color='#B71C1C', lw=1.5))
-
-plt.suptitle('Conditional GAN — Western Blot Generation Training Log', fontsize=12, fontweight='bold')
-plt.tight_layout()
-plt.show()
+grid.arrange(p_raw, p_avg, ncol = 2,
+             top = grid::textGrob("Conditional GAN — Western Blot Generation Training Log",
+                                  gp = grid::gpar(fontface = "bold", fontsize = 13)))
 ```
