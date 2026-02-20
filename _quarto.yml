@@ -49,6 +49,8 @@ website:
           - text: Assignments
             href: DL.qmd#assignments
 
+jupyter: quarto-venv
+
 format:
   html:
     theme: cosmo
