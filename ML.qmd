@@ -24,18 +24,29 @@ format:
 
 #### Pipeline Overview / 整體流程
 
+::: {style="max-width: 720px;"}
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart LR
-    A["Raw Data\n768 samples\n8 features"] --> B["Treat zeros\nas missing"]
-    B --> C["Regression\nImputation\n(5 features)"]
-    C --> D["Feature\nEngineering\n+ Resampling"]
-    D --> E["Train / Val\nSplit"]
-    E --> F["DNN\n64→32→16→1"]
-    F --> G["Binary\nClassification\n90.04% acc"]
+    A["Raw Data<br/>768 samples<br/>8 features"]
+    B["Treat zeros<br/>as missing"]
+    C["Regression<br/>Imputation<br/>(5 features)"]
+    D["Feature Eng.<br/>+ Resampling"]
+    E["Train / Val<br/>Split"]
+    F["DNN<br/>64→32→16→1"]
+    G["Binary<br/>Classification<br/>90.04% acc"]
 
-    style A fill:#e8f4f8,stroke:#2196F3
-    style G fill:#e8f8e8,stroke:#4CAF50
+    A --> B --> C --> D --> E --> F --> G
+
+    style A fill:#1565C0,color:#fff,stroke:#1565C0
+    style B fill:#546E7A,color:#fff,stroke:#546E7A
+    style C fill:#E65100,color:#fff,stroke:#E65100
+    style D fill:#6A1B9A,color:#fff,stroke:#6A1B9A
+    style E fill:#546E7A,color:#fff,stroke:#546E7A
+    style F fill:#1976D2,color:#fff,stroke:#1976D2
+    style G fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 #### Exploratory Data Analysis / 資料探索
 
@@ -53,22 +64,35 @@ Key observations / 重要觀察：
 
 #### Missing Value Imputation / 缺失值填補
 
+::: {style="max-width: 480px;"}
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart TD
-    A["Outcome"] -->|"predicts"| B["Glucose"]
-    B -->|"predicts"| C["BMI"]
-    B -->|"predicts"| D["Insulin"]
-    C & B -->|"predict"| E["SkinThickness"]
-    F["Age"] & C -->|"predict"| G["BloodPressure"]
+    A["Outcome"]
+    B["Glucose"]
+    C["BMI"]
+    D["Insulin"]
+    E["SkinThickness"]
+    F["Age"]
+    G["BloodPressure"]
 
-    style A fill:#fff3e0,stroke:#FF9800
-    style B fill:#e3f2fd,stroke:#2196F3
-    style C fill:#e8f5e9,stroke:#4CAF50
-    style D fill:#fce4ec,stroke:#E91E63
-    style E fill:#f3e5f5,stroke:#9C27B0
-    style F fill:#fff3e0,stroke:#FF9800
-    style G fill:#e0f7fa,stroke:#00BCD4
+    A -->|"predicts"| B
+    B -->|"predicts"| C
+    B -->|"predicts"| D
+    C -->|"predicts"| E
+    B -->|"predicts"| E
+    F -->|"predicts"| G
+    C -->|"predicts"| G
+
+    style A fill:#E65100,color:#fff,stroke:#E65100
+    style B fill:#1565C0,color:#fff,stroke:#1565C0
+    style C fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style D fill:#880E4F,color:#fff,stroke:#880E4F
+    style E fill:#6A1B9A,color:#fff,stroke:#6A1B9A
+    style F fill:#E65100,color:#fff,stroke:#E65100
+    style G fill:#00695C,color:#fff,stroke:#00695C
 ```
+:::
 
 ```python
 # Fill Glucose using Outcome
@@ -92,16 +116,25 @@ y_train = df_non_missing['BloodPressure']
 
 #### Model Architecture / 模型架構
 
+::: {style="max-width: 620px;"}
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart LR
-    I["Input\n8+ features"] --> L1["Dense 64\nReLU"]
-    L1 --> L2["Dense 32\nReLU"]
-    L2 --> L3["Dense 16\nReLU"]
-    L3 --> O["Dense 1\nSigmoid\n→ Diabetes?"]
+    I["Input<br/>8+ features"]
+    L1["Dense 64<br/>ReLU"]
+    L2["Dense 32<br/>ReLU"]
+    L3["Dense 16<br/>ReLU"]
+    O["Dense 1<br/>Sigmoid<br/>→ Diabetes?"]
 
-    style I fill:#e8f4f8,stroke:#2196F3
-    style O fill:#e8f8e8,stroke:#4CAF50
+    I --> L1 --> L2 --> L3 --> O
+
+    style I  fill:#1565C0,color:#fff,stroke:#1565C0
+    style L1 fill:#1976D2,color:#fff,stroke:#1976D2
+    style L2 fill:#1976D2,color:#fff,stroke:#1976D2
+    style L3 fill:#1976D2,color:#fff,stroke:#1976D2
+    style O  fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 ```python
 model = Sequential()
@@ -144,6 +177,8 @@ accuracies = [74.03, 77.92, 82.5, 90.04]
 colors = ['#90A4AE', '#42A5F5', '#FF9800', '#66BB6A']
 
 fig, ax = plt.subplots(figsize=(7, 4))
+fig.patch.set_facecolor('#FAFAFA')
+ax.set_facecolor('#FAFAFA')
 bars = ax.bar(stages, accuracies, color=colors, edgecolor='white', width=0.55)
 ax.set_ylim(60, 100)
 ax.set_ylabel('Accuracy (%)', fontsize=11)
@@ -208,6 +243,8 @@ noise = np.random.normal(0, 3000, len(years))
 counts = trend + noise
 
 fig, ax = plt.subplots(figsize=(7, 4))
+fig.patch.set_facecolor('#FAFAFA')
+ax.set_facecolor('#FAFAFA')
 ax.bar(years, counts / 1000, color='#FF7043', alpha=0.75, label='Observed count (approx.)')
 ax.plot(years, trend / 1000, color='#B71C1C', linewidth=2.5, linestyle='--', label='Poisson fit (+0.44%/yr)')
 ax.set_xlabel('Year / 年份', fontsize=11)
@@ -224,19 +261,27 @@ plt.show()
 
 Features: `FIRE_SIZE`, `LATITUDE`, `LONGITUDE`, `FIRE_YEAR`, `MONTH`
 
+::: {style="max-width: 680px;"}
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart LR
-    F["5 Features\nFIRE_SIZE\nLAT / LON\nYEAR / MONTH"] --> D1["Dense 64\nReLU"]
-    D1 --> DR1["Dropout 0.3"]
-    DR1 --> D2["Dense 64\nReLU"]
-    D2 --> DR2["Dropout 0.3"]
-    DR2 --> O["Dense N\nSoftmax\n→ Cause Class"]
+    F["5 Features<br/>FIRE_SIZE<br/>LAT / LON<br/>YEAR / MONTH"]
+    D1["Dense 64<br/>ReLU"]
+    DR1["Dropout 0.3"]
+    D2["Dense 64<br/>ReLU"]
+    DR2["Dropout 0.3"]
+    O["Dense N<br/>Softmax<br/>→ Cause Class"]
 
-    style F fill:#e8f4f8,stroke:#2196F3
-    style O fill:#e8f8e8,stroke:#4CAF50
-    style DR1 fill:#fff3e0,stroke:#FF9800
-    style DR2 fill:#fff3e0,stroke:#FF9800
+    F --> D1 --> DR1 --> D2 --> DR2 --> O
+
+    style F   fill:#1565C0,color:#fff,stroke:#1565C0
+    style D1  fill:#1976D2,color:#fff,stroke:#1976D2
+    style DR1 fill:#E65100,color:#fff,stroke:#E65100
+    style D2  fill:#1976D2,color:#fff,stroke:#1976D2
+    style DR2 fill:#E65100,color:#fff,stroke:#E65100
+    style O   fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 ```python
 model = Sequential()
@@ -273,34 +318,32 @@ The relatively low classification accuracy reflects the inherent difficulty of a
 
 ```{python}
 #| echo: false
-#| fig-cap: "Wildfire Cause Distribution & MLP Accuracy vs. Baseline / 野火成因分布與模型準確率比較"
-#| fig-width: 11
-#| fig-height: 4
+#| fig-cap: "MLP Cause Prediction Accuracy vs. Baseline / 模型準確率比較"
+#| fig-width: 6
+#| fig-height: 3.5
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-causes = ['Lightning', 'Equipment\nUse', 'Smoking', 'Campfire', 'Debris\nBurning',
-          'Railroad', 'Arson', 'Children', 'Miscellaneous', 'Missing\nData']
-counts_pct = [22, 10, 4, 5, 14, 3, 11, 4, 16, 11]
-colors = plt.cm.Set3(np.linspace(0, 1, len(causes)))
-
-fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-
-axes[0].pie(counts_pct, labels=causes, colors=colors, autopct='%1.0f%%',
-            startangle=140, textprops={'fontsize': 8})
-axes[0].set_title('Wildfire Cause Distribution\n(Approximate, 10 classes)', fontsize=11, fontweight='bold')
-
-categories = ['Random\nBaseline\n(10 classes)', 'MLP\nClassifier', 'Theoretical\nMax']
+categories = ['Random Baseline\n(10 classes)', 'MLP Classifier', 'Theoretical Max']
 acc = [10, 45.6, 100]
 bar_colors = ['#90A4AE', '#FF7043', '#66BB6A']
-bars = axes[1].bar(categories, acc, color=bar_colors, edgecolor='white', width=0.5)
-axes[1].set_ylim(0, 115)
-axes[1].set_ylabel('Accuracy (%)', fontsize=11)
-axes[1].set_title('MLP Accuracy vs. Baseline', fontsize=11, fontweight='bold')
+
+fig, ax = plt.subplots(figsize=(6, 3.5))
+fig.patch.set_facecolor('#FAFAFA')
+ax.set_facecolor('#FAFAFA')
+
+bars = ax.barh(categories, acc, color=bar_colors, edgecolor='white', height=0.45)
+ax.set_xlim(0, 120)
+ax.set_xlabel('Accuracy (%)', fontsize=11)
+ax.set_title('MLP Wildfire Cause Prediction vs. Baseline', fontsize=11, fontweight='bold')
+
+# Dashed reference line at MLP accuracy
+ax.axvline(x=45.6, color='#FF7043', linestyle='--', linewidth=1.5, alpha=0.7)
+
 for bar, val in zip(bars, acc):
-    axes[1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1.5,
-                 f'{val}%', ha='center', va='bottom', fontsize=10, fontweight='bold')
+    ax.text(val + 1.5, bar.get_y() + bar.get_height()/2,
+            f'{val}%', va='center', fontsize=11, fontweight='bold')
 
 plt.tight_layout()
 plt.show()
@@ -319,17 +362,25 @@ plt.show()
 
 #### Transfer Learning Strategy / 遷移學習策略
 
+::: {style="max-width: 720px;"}
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
 flowchart LR
-    A["ImageNet\nPretrained\nEfficientNet-B7"] --> B["Frozen\nBackbone\n(feature extraction)"]
-    B --> C["Custom\nClassifier Head\nLinear → 3 classes"]
-    C --> D["Fine-tune with\nFocal Loss\n(α=1, γ=2)"]
-    D --> E["Type 1 / 2 / 3\nPrediction"]
+    A["ImageNet<br/>Pretrained<br/>EfficientNet-B7"]
+    B["Frozen<br/>Backbone<br/>(feature extractor)"]
+    C["Custom<br/>Classifier Head<br/>Linear → 3 cls"]
+    D["Fine-tune<br/>Focal Loss<br/>(α=1, γ=2)"]
+    E["Type 1 / 2 / 3<br/>Prediction"]
 
-    style A fill:#e3f2fd,stroke:#2196F3
-    style D fill:#fff3e0,stroke:#FF9800
-    style E fill:#e8f8e8,stroke:#4CAF50
+    A --> B --> C --> D --> E
+
+    style A fill:#1565C0,color:#fff,stroke:#1565C0
+    style B fill:#546E7A,color:#fff,stroke:#546E7A
+    style C fill:#E65100,color:#fff,stroke:#E65100
+    style D fill:#6A1B9A,color:#fff,stroke:#6A1B9A
+    style E fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+:::
 
 #### Model Architecture / 模型架構
 
@@ -363,6 +414,8 @@ fl_g2 = (1 - pt)**2 * ce
 fl_g5 = (1 - pt)**5 * ce
 
 fig, ax = plt.subplots(figsize=(6, 4))
+fig.patch.set_facecolor('#FAFAFA')
+ax.set_facecolor('#FAFAFA')
 ax.plot(pt, ce,     label='Cross-Entropy (γ=0)', linewidth=2, color='#9E9E9E')
 ax.plot(pt, fl_g1,  label='Focal Loss γ=1',      linewidth=2, color='#42A5F5')
 ax.plot(pt, fl_g2,  label='Focal Loss γ=2 ✓',    linewidth=2.5, color='#EF5350', linestyle='--')
@@ -429,32 +482,38 @@ for epoch in range(num_epochs):
 ```{python}
 #| echo: false
 #| fig-cap: "Per-class Accuracy — Cervical Cancer Screening (EfficientNet-B7) / 各類別分類準確率"
-#| fig-width: 7
-#| fig-height: 4
+#| fig-width: 6
+#| fig-height: 3.5
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-classes = ['Type 1\n(Ectocervix)', 'Type 2\n(Transformation\nZone Partial)', 'Type 3\n(Endocervix)']
+classes = ['Type 1\n(Ectocervix)', 'Type 2\n(Transform.\nZone Partial)', 'Type 3\n(Endocervix)']
 accuracies = [87.5, 92.3, 78.5]
 colors = ['#42A5F5', '#66BB6A', '#FFA726']
 mean_acc = np.mean(accuracies)
 
-fig, ax = plt.subplots(figsize=(7, 4))
-bars = ax.bar(classes, accuracies, color=colors, edgecolor='white', width=0.5)
-ax.set_ylim(0, 105)
-ax.set_ylabel('Accuracy (%)', fontsize=11)
-ax.set_title('EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification', fontsize=12, fontweight='bold')
-ax.axhline(y=mean_acc, color='gray', linestyle='--', linewidth=1.5,
-           label=f'Mean Accuracy ({mean_acc:.1f}%)')
-ax.legend(fontsize=9)
-for bar, val in zip(bars, accuracies):
-    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-            f'{val}%', ha='center', va='bottom', fontsize=12, fontweight='bold')
+fig, ax = plt.subplots(figsize=(6, 3.5))
+fig.patch.set_facecolor('#FAFAFA')
+ax.set_facecolor('#FAFAFA')
 
-# Note on Type 3 difficulty
-ax.annotate('Type 3 harder:\ntransformation zone\nnot directly visible',
-            xy=(2, 78.5), xytext=(1.4, 62),
+bars = ax.barh(classes, accuracies, color=colors, edgecolor='white', height=0.45)
+ax.set_xlim(0, 110)
+ax.set_xlabel('Accuracy (%)', fontsize=11)
+ax.set_title('EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification', fontsize=12, fontweight='bold')
+
+# Mean accuracy dashed line
+ax.axvline(x=mean_acc, color='#546E7A', linestyle='--', linewidth=1.8,
+           label=f'Mean ({mean_acc:.1f}%)')
+ax.legend(fontsize=9, loc='lower right')
+
+for bar, val in zip(bars, accuracies):
+    ax.text(val + 1, bar.get_y() + bar.get_height()/2,
+            f'{val}%', va='center', fontsize=11, fontweight='bold')
+
+# Annotation for Type 3
+ax.annotate('Transformation zone\nnot directly visible',
+            xy=(78.5, 0), xytext=(55, 0.15),
             fontsize=8.5, color='#E65100',
             arrowprops=dict(arrowstyle='->', color='#E65100'))
 plt.tight_layout()

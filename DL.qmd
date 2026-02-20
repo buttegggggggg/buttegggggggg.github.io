@@ -26,16 +26,21 @@ format:
 #### Transfer Learning Strategy / 遷移學習策略
 
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "15px"}}}%%
 flowchart LR
-    A["ImageNet\nPretrained\nResNet-18"] --> B["Freeze All\nParameters\n(no grad)"]
-    B --> C["Replace fc\nLayer → 6 classes"]
-    C --> D["Train\nClassifier Only\nAdam lr=0.001"]
-    D --> E["6-Class\nDefect\nPrediction"]
+    A["🌐 ImageNet<br/>Pretrained<br/>ResNet-18"]
+    B["🔒 Freeze All<br/>Parameters"]
+    C["🔧 Replace fc<br/>Layer → 6 cls"]
+    D["🏋️ Train<br/>Classifier Only<br/>Adam lr=0.001"]
+    E["✅ 6-Class<br/>Defect<br/>Prediction"]
 
-    style A fill:#e3f2fd,stroke:#2196F3
-    style B fill:#f5f5f5,stroke:#9E9E9E
-    style C fill:#fff3e0,stroke:#FF9800
-    style E fill:#e8f8e8,stroke:#4CAF50
+    A --> B --> C --> D --> E
+
+    style A fill:#1565C0,color:#ffffff,stroke:#1565C0
+    style B fill:#546E7A,color:#ffffff,stroke:#546E7A
+    style C fill:#E65100,color:#ffffff,stroke:#E65100
+    style D fill:#1B5E20,color:#ffffff,stroke:#1B5E20
+    style E fill:#4CAF50,color:#ffffff,stroke:#4CAF50
 ```
 
 #### Model Setup / 模型設定
@@ -92,7 +97,7 @@ val_acc    = [95.26,  96.25,  96.31,  96.38,  96.40,  96.44,  96.35,  96.28,  96
 fig, ax1 = plt.subplots(figsize=(8, 4))
 
 color_loss = '#EF5350'
-color_acc  = '#42A5F5'
+color_acc  = '#1565C0'
 
 ax1.set_xlabel('Epoch', fontsize=11)
 ax1.set_ylabel('Train Loss', color=color_loss, fontsize=11)
@@ -108,17 +113,19 @@ ax2.tick_params(axis='y', labelcolor=color_acc)
 ax2.set_ylim(94, 98)
 
 best_epoch = epochs[val_acc.index(max(val_acc))]
-ax2.axvline(x=best_epoch, color='gray', linestyle=':', linewidth=1.5)
+ax2.axvline(x=best_epoch, color='#FF6F00', linestyle=':', linewidth=1.5)
 ax2.annotate(f'Best: {max(val_acc):.2f}%\n(Epoch {best_epoch})',
              xy=(best_epoch, max(val_acc)), xytext=(best_epoch + 0.5, 97.3),
-             fontsize=9, color='gray',
-             arrowprops=dict(arrowstyle='->', color='gray'))
+             fontsize=9, color='#FF6F00',
+             arrowprops=dict(arrowstyle='->', color='#FF6F00'))
 
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
 ax1.legend(lines1 + lines2, labels1 + labels2, loc='center right', fontsize=9)
 
 plt.title('AOI Defect Classification — Training Curve (ResNet-18)', fontsize=12, fontweight='bold')
+fig.patch.set_facecolor('#FAFAFA')
+ax1.set_facecolor('#FAFAFA')
 plt.tight_layout()
 plt.show()
 ```
@@ -147,30 +154,50 @@ plt.show()
 #### U-Net Architecture / U-Net 模型架構
 
 ```{mermaid}
-flowchart TB
-    subgraph Encoder["Encoder (Contracting Path)"]
-        direction TB
-        E1["Conv1\n1ch → 64"] --> P1["MaxPool ↓2"]
-        P1 --> E2["Conv2\n64 → 128"] --> P2["MaxPool ↓2"]
-        P2 --> E3["Conv3\n128 → 256"] --> P3["MaxPool ↓2"]
-        P3 --> E4["Conv4\n256 → 512"] --> P4["MaxPool ↓2"]
-        P4 --> E5["Bottleneck\n512 → 1024"]
-    end
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "13px"}}}%%
+flowchart LR
+    IN["📥 Input<br/>1ch · 512²"]
 
-    subgraph Decoder["Decoder (Expanding Path)"]
-        direction TB
-        D1["UpConv\n1024→512\n+ skip E4"] --> C6["Conv6\n1024→512"]
-        C6 --> D2["UpConv\n512→256\n+ skip E3"] --> C7["Conv7\n512→256"]
-        C7 --> D3["UpConv\n256→128\n+ skip E2"] --> C8["Conv8\n256→128"]
-        C8 --> D4["UpConv\n128→64\n+ skip E1"] --> C9["Conv9\n128→64"]
-        C9 --> OUT["Conv10\n64→1\nSigmoid mask"]
-    end
+    E1["Conv1<br/>1→64"] --> P1["Pool↓2"]
+    P1 --> E2["Conv2<br/>64→128"] --> P2["Pool↓2"]
+    P2 --> E3["Conv3<br/>128→256"] --> P3["Pool↓2"]
+    P3 --> E4["Conv4<br/>256→512"] --> P4["Pool↓2"]
+    P4 --> BN["Bottleneck<br/>512→1024"]
 
-    E5 --> D1
+    BN --> U1["UpConv<br/>1024→512"]
+    U1 --> C6["Conv6<br/>+skip E4"]
+    C6 --> U2["UpConv<br/>512→256"]
+    U2 --> C7["Conv7<br/>+skip E3"]
+    C7 --> U3["UpConv<br/>256→128"]
+    U3 --> C8["Conv8<br/>+skip E2"]
+    C8 --> U4["UpConv<br/>128→64"]
+    U4 --> C9["Conv9<br/>+skip E1"]
+    C9 --> OUT["📤 Mask<br/>Sigmoid"]
 
-    style E5 fill:#fff3e0,stroke:#FF9800
-    style OUT fill:#e8f8e8,stroke:#4CAF50
+    IN --> E1
+
+    style IN  fill:#1565C0,color:#fff,stroke:#1565C0
+    style E1  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P1  fill:#455A64,color:#fff,stroke:#455A64
+    style E2  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P2  fill:#455A64,color:#fff,stroke:#455A64
+    style E3  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P3  fill:#455A64,color:#fff,stroke:#455A64
+    style E4  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P4  fill:#455A64,color:#fff,stroke:#455A64
+    style BN  fill:#E65100,color:#fff,stroke:#E65100
+    style U1  fill:#558B2F,color:#fff,stroke:#558B2F
+    style C6  fill:#388E3C,color:#fff,stroke:#388E3C
+    style U2  fill:#558B2F,color:#fff,stroke:#558B2F
+    style C7  fill:#388E3C,color:#fff,stroke:#388E3C
+    style U3  fill:#558B2F,color:#fff,stroke:#558B2F
+    style C8  fill:#388E3C,color:#fff,stroke:#388E3C
+    style U4  fill:#558B2F,color:#fff,stroke:#558B2F
+    style C9  fill:#388E3C,color:#fff,stroke:#388E3C
+    style OUT fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+
+*Blue = Encoder (contracting) · Orange = Bottleneck · Green = Decoder (expanding)*
 
 ```python
 class UNet(torch.nn.Module):
@@ -227,39 +254,40 @@ Each row shows: **Original fundus image** → **Predicted segmentation mask** �
 
 ```{python}
 #| echo: false
-#| fig-cap: "IoU explained: intersection over union of predicted mask and ground truth / IoU 指標示意"
-#| fig-width: 6
-#| fig-height: 3
+#| fig-cap: "mIoU comparison and IoU concept illustration / mIoU 比較與示意圖"
+#| fig-width: 9
+#| fig-height: 3.5
 
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 import numpy as np
 
-fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+fig.patch.set_facecolor('#FAFAFA')
 
-# Left: mIoU bar comparison
-benchmarks = ['Random\nBaseline', 'This Model\n(U-Net)', 'State-of-the-Art\n(DRIVE)']
-miou_vals   = [0.05, 0.351, 0.82]
-colors      = ['#90A4AE', '#42A5F5', '#66BB6A']
-bars = axes[0].bar(benchmarks, miou_vals, color=colors, edgecolor='white', width=0.5)
+benchmarks = ['Random\nBaseline', 'This Model\n(U-Net)', 'State-of-Art\n(DRIVE)']
+miou_vals  = [0.05, 0.351, 0.82]
+bar_colors = ['#90A4AE', '#1565C0', '#2E7D32']
+bars = axes[0].bar(benchmarks, miou_vals, color=bar_colors, edgecolor='white', width=0.5)
+axes[0].set_facecolor('#FAFAFA')
 axes[0].set_ylim(0, 1.0)
 axes[0].set_ylabel('Mean IoU', fontsize=11)
 axes[0].set_title('mIoU Comparison', fontsize=11, fontweight='bold')
 for bar, val in zip(bars, miou_vals):
-    axes[0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
-                 f'{val:.3f}', ha='center', va='bottom', fontsize=10, fontweight='bold')
+    axes[0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.015,
+                 f'{val:.3f}', ha='center', va='bottom', fontsize=11, fontweight='bold',
+                 color='#212121')
 
-# Right: IoU diagram (two overlapping circles)
-circle1 = plt.Circle((0.42, 0.5), 0.28, color='#42A5F5', alpha=0.5, label='Ground Truth')
-circle2 = plt.Circle((0.58, 0.5), 0.28, color='#EF5350', alpha=0.5, label='Prediction')
+circle1 = plt.Circle((0.42, 0.5), 0.28, color='#1565C0', alpha=0.6, label='Ground Truth')
+circle2 = plt.Circle((0.58, 0.5), 0.28, color='#EF5350', alpha=0.6, label='Prediction')
 axes[1].add_patch(circle1)
 axes[1].add_patch(circle2)
+axes[1].set_facecolor('#FAFAFA')
 axes[1].set_xlim(0, 1); axes[1].set_ylim(0, 1)
 axes[1].set_aspect('equal')
-axes[1].set_title('IoU = Intersection / Union', fontsize=11, fontweight='bold')
+axes[1].set_title('IoU = Intersection ÷ Union', fontsize=11, fontweight='bold')
 axes[1].legend(loc='upper right', fontsize=9)
-axes[1].text(0.5, 0.5, 'IoU\n0.351', ha='center', va='center', fontsize=11, fontweight='bold',
-             color='white', bbox=dict(boxstyle='round,pad=0.3', facecolor='#555', alpha=0.7))
+axes[1].text(0.5, 0.5, 'IoU\n0.351', ha='center', va='center', fontsize=12, fontweight='bold',
+             color='white', bbox=dict(boxstyle='round,pad=0.4', facecolor='#37474F', alpha=0.85))
 axes[1].axis('off')
 
 plt.tight_layout()
@@ -280,23 +308,42 @@ plt.show()
 #### AutoEncoder Architecture / 模型架構
 
 ```{mermaid}
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "13px"}}}%%
 flowchart LR
-    subgraph Encoder["Encoder"]
-        IN["Input\n3ch\n512×512"] --> C1["Conv1\n3→64"]
-        C1 --> P1["Pool ↓2"] --> C2["Conv2\n64→128"]
-        C2 --> P2["Pool ↓2"] --> C3["Conv3\n128→256"]
-        C3 --> P3["Pool ↓2"] --> C4["Conv4\n256→512"]
-    end
-    subgraph Decoder["Decoder"]
-        U1["UpConv\n512→256\n+skip C3"] --> D1["Conv5\n512→256"]
-        D1 --> U2["UpConv\n256→128\n+skip C2"] --> D2["Conv6\n256→128"]
-        D2 --> U3["UpConv\n128→64\n+skip C1"] --> D3["Conv7\n128→64"]
-        D3 --> OUT["Conv8\n64→3\nReconstruction"]
-    end
-    C4 --> U1
-    style IN fill:#e8f4f8,stroke:#2196F3
-    style OUT fill:#e8f8e8,stroke:#4CAF50
+    IN["📥 Input<br/>3ch · 512²"]
+    C1["Conv1<br/>3→64"] --> P1["Pool↓2"]
+    P1 --> C2["Conv2<br/>64→128"] --> P2["Pool↓2"]
+    P2 --> C3["Conv3<br/>128→256"] --> P3["Pool↓2"]
+    P3 --> C4["Conv4<br/>256→512"]
+
+    C4 --> U1["UpConv<br/>512→256<br/>+skip C3"]
+    U1 --> D1["Conv5<br/>512→256"]
+    D1 --> U2["UpConv<br/>256→128<br/>+skip C2"]
+    U2 --> D2["Conv6<br/>256→128"]
+    D2 --> U3["UpConv<br/>128→64<br/>+skip C1"]
+    U3 --> D3["Conv7<br/>128→64"]
+    D3 --> OUT["📤 Output<br/>64→3ch"]
+
+    IN --> C1
+
+    style IN  fill:#1565C0,color:#fff,stroke:#1565C0
+    style C1  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P1  fill:#455A64,color:#fff,stroke:#455A64
+    style C2  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P2  fill:#455A64,color:#fff,stroke:#455A64
+    style C3  fill:#1976D2,color:#fff,stroke:#1976D2
+    style P3  fill:#455A64,color:#fff,stroke:#455A64
+    style C4  fill:#E65100,color:#fff,stroke:#E65100
+    style U1  fill:#558B2F,color:#fff,stroke:#558B2F
+    style D1  fill:#388E3C,color:#fff,stroke:#388E3C
+    style U2  fill:#558B2F,color:#fff,stroke:#558B2F
+    style D2  fill:#388E3C,color:#fff,stroke:#388E3C
+    style U3  fill:#558B2F,color:#fff,stroke:#558B2F
+    style D3  fill:#388E3C,color:#fff,stroke:#388E3C
+    style OUT fill:#2E7D32,color:#fff,stroke:#2E7D32
 ```
+
+*Blue = Encoder · Orange = Bottleneck · Green = Decoder*
 
 ```python
 class AutoEncoder(nn.Module):
@@ -351,7 +398,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import interp1d
-from scipy.ndimage import uniform_filter1d
 
 epochs_data = [1, 3, 10, 13, 18, 20]
 train_loss  = [0.0979, 0.0323, 0.0309, 0.0263, 0.0280, 0.0268]
@@ -364,30 +410,33 @@ f_test  = interp1d(epochs_data, test_loss,  kind='cubic')
 f_psnr  = interp1d(epochs_data, psnr,       kind='cubic')
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+fig.patch.set_facecolor('#FAFAFA')
+for ax in [ax1, ax2]:
+    ax.set_facecolor('#FAFAFA')
 
-ax1.plot(ep_smooth, f_train(ep_smooth), color='#EF5350', linewidth=2, label='Train Loss')
-ax1.plot(ep_smooth, f_test(ep_smooth),  color='#42A5F5', linewidth=2, linestyle='--', label='Test Loss')
-ax1.scatter(epochs_data, train_loss, color='#EF5350', s=60, zorder=5)
-ax1.scatter(epochs_data, test_loss,  color='#42A5F5', s=60, zorder=5)
+ax1.plot(ep_smooth, f_train(ep_smooth), color='#EF5350', linewidth=2.5, label='Train Loss')
+ax1.plot(ep_smooth, f_test(ep_smooth),  color='#1565C0', linewidth=2.5, linestyle='--', label='Test Loss')
+ax1.scatter(epochs_data, train_loss, color='#C62828', s=60, zorder=5)
+ax1.scatter(epochs_data, test_loss,  color='#0D47A1', s=60, zorder=5)
 ax1.set_xlabel('Epoch', fontsize=11)
 ax1.set_ylabel('MSE Loss', fontsize=11)
 ax1.set_title('Training & Test Loss', fontsize=12, fontweight='bold')
 ax1.legend(fontsize=9)
 ax1.set_xlim(1, 20)
 
-ax2.plot(ep_smooth, f_psnr(ep_smooth), color='#66BB6A', linewidth=2.5)
-ax2.scatter(epochs_data, psnr, color='#388E3C', s=60, zorder=5)
+ax2.plot(ep_smooth, f_psnr(ep_smooth), color='#2E7D32', linewidth=2.5)
+ax2.scatter(epochs_data, psnr, color='#1B5E20', s=60, zorder=5)
 best_idx = psnr.index(max(psnr))
 ax2.scatter([epochs_data[best_idx]], [psnr[best_idx]], color='#FF6F00',
-            s=120, zorder=6, label=f'Best: {max(psnr)} dB (Epoch {epochs_data[best_idx]})')
-ax2.axhline(y=30, color='gray', linestyle=':', linewidth=1.2, label='30 dB threshold')
+            s=150, zorder=6, marker='*', label=f'Best: {max(psnr)} dB (Epoch {epochs_data[best_idx]})')
+ax2.axhline(y=30, color='#B71C1C', linestyle=':', linewidth=1.5, label='30 dB threshold')
 ax2.set_xlabel('Epoch', fontsize=11)
 ax2.set_ylabel('PSNR (dB)', fontsize=11)
 ax2.set_title('PSNR over Training', fontsize=12, fontweight='bold')
 ax2.legend(fontsize=9)
 ax2.set_xlim(1, 20)
 
-plt.suptitle('Autoencoder — Retinal Image Reconstruction (DRIVE dataset)', fontsize=13, fontweight='bold', y=1.02)
+plt.suptitle('Autoencoder — Retinal Image Reconstruction (DRIVE dataset)', fontsize=13, fontweight='bold')
 plt.tight_layout()
 plt.show()
 ```
@@ -406,23 +455,35 @@ plt.show()
 #### Conditional GAN Training Flow / 條件式 GAN 訓練流程
 
 ```{mermaid}
-flowchart TB
-    T1["Template 1\n(64×64)"] --> CAT["Concatenate\n(2ch input)"]
-    T2["Template 2\n(64×64)"] --> CAT
-    CAT --> G["Generator\nEncoder-Decoder\n256→128→64→1"]
-    G --> FAKE["Generated\nBlot Image"]
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
+flowchart LR
+    T1["🖼 Template 1<br/>64×64"]
+    T2["🖼 Template 2<br/>64×64"]
+    CAT["⊕ Concat<br/>2ch input"]
+    G["🔵 Generator<br/>Encoder-Decoder"]
+    FAKE["🟡 Generated<br/>Blot Image"]
+    REAL["🟢 Real Blot<br/>Image"]
+    D["🔴 Discriminator<br/>Real / Fake?"]
+    UG["Update G<br/>Adam 2e-4"]
+    UD["Update D<br/>Adam 2e-4"]
 
-    REAL["Real Blot\nImage"] --> D
-    FAKE --> D["Discriminator\nConv layers\n→ Real / Fake"]
+    T1 --> CAT
+    T2 --> CAT
+    CAT --> G --> FAKE
+    REAL --> D
+    FAKE --> D
+    D -->|"G loss"| UG
+    D -->|"D loss"| UD
 
-    D -->|"adversarial loss"| G
-    D -->|"D loss"| UPDATE_D["Update D\nAdam 0.0002"]
-    G -->|"G loss"| UPDATE_G["Update G\nAdam 0.0002"]
-
-    style G fill:#e3f2fd,stroke:#2196F3
-    style D fill:#fce4ec,stroke:#E91E63
-    style FAKE fill:#fff3e0,stroke:#FF9800
-    style REAL fill:#e8f8e8,stroke:#4CAF50
+    style T1   fill:#1565C0,color:#fff,stroke:#1565C0
+    style T2   fill:#1565C0,color:#fff,stroke:#1565C0
+    style CAT  fill:#455A64,color:#fff,stroke:#455A64
+    style G    fill:#1976D2,color:#fff,stroke:#1976D2
+    style FAKE fill:#E65100,color:#fff,stroke:#E65100
+    style REAL fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style D    fill:#B71C1C,color:#fff,stroke:#B71C1C
+    style UG   fill:#1976D2,color:#fff,stroke:#1976D2
+    style UD   fill:#B71C1C,color:#fff,stroke:#B71C1C
 ```
 
 #### Generator Architecture / 生成器架構
@@ -500,10 +561,7 @@ Training ran on CPU and was recorded up to epoch 118/200. By that point the Disc
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.ndimage import uniform_filter1d
 
-# Real data extracted from GAN training log
-# Format: (epoch, step, d_loss, g_loss)
 raw = [
     (1,10,1.3715,0.7412),(1,20,1.3476,0.6997),(1,30,1.3785,0.6792),(1,40,1.3699,0.6840),
     (1,50,1.3634,0.6901),(10,10,0.9821,0.8834),(10,50,0.8934,1.0231),(20,10,0.7821,1.1243),
@@ -515,40 +573,40 @@ raw = [
     (118,250,0.0933,3.9028),(118,260,0.9756,3.3295),(118,270,0.0683,3.5220),
 ]
 
-# Convert to continuous x-axis (epoch + step/280)
-xs = [r[0] + r[1]/280 for r in raw]
+xs       = [r[0] + r[1]/280 for r in raw]
 d_losses = [r[2] for r in raw]
 g_losses = [r[3] for r in raw]
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-
-# Left: raw scatter + trend
-ax1.scatter(xs, d_losses, color='#EF5350', s=30, alpha=0.7, label='D Loss')
-ax1.scatter(xs, g_losses, color='#42A5F5', s=30, alpha=0.7, label='G Loss')
-ax1.set_xlabel('Epoch', fontsize=11)
-ax1.set_ylabel('BCE Loss', fontsize=11)
-ax1.set_title('D Loss vs. G Loss (Raw Log)', fontsize=11, fontweight='bold')
-ax1.legend(fontsize=9)
-ax1.axhline(y=0.693, color='gray', linestyle=':', linewidth=1, label='ln(2) Nash eq.')
-
-# Right: per-epoch averages
 epochs_u = sorted(set(r[0] for r in raw))
 d_avg = [np.mean([r[2] for r in raw if r[0]==e]) for e in epochs_u]
 g_avg = [np.mean([r[3] for r in raw if r[0]==e]) for e in epochs_u]
 
-ax2.plot(epochs_u, d_avg, color='#EF5350', linewidth=2.5, marker='o', markersize=5, label='D Loss (epoch avg)')
-ax2.plot(epochs_u, g_avg, color='#42A5F5', linewidth=2.5, marker='s', markersize=5,
-         linestyle='--', label='G Loss (epoch avg)')
-ax2.axhline(y=0.693, color='gray', linestyle=':', linewidth=1.2, label='ln(2) ≈ 0.693')
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+fig.patch.set_facecolor('#FAFAFA')
+for ax in [ax1, ax2]:
+    ax.set_facecolor('#FAFAFA')
+
+ax1.scatter(xs, d_losses, color='#EF5350', s=40, alpha=0.8, label='D Loss', zorder=3)
+ax1.scatter(xs, g_losses, color='#1565C0', s=40, alpha=0.8, label='G Loss', zorder=3)
+ax1.axhline(y=0.693, color='#FF6F00', linestyle='--', linewidth=1.5, label='ln(2) ≈ 0.693')
+ax1.set_xlabel('Epoch', fontsize=11)
+ax1.set_ylabel('BCE Loss', fontsize=11)
+ax1.set_title('Raw Training Log', fontsize=11, fontweight='bold')
+ax1.legend(fontsize=9)
+
+ax2.plot(epochs_u, d_avg, color='#EF5350', linewidth=2.5, marker='o', markersize=6, label='D Loss (avg)')
+ax2.plot(epochs_u, g_avg, color='#1565C0', linewidth=2.5, marker='s', markersize=6,
+         linestyle='--', label='G Loss (avg)')
+ax2.axhline(y=0.693, color='#FF6F00', linestyle='--', linewidth=1.5, label='ln(2) ≈ 0.693')
 ax2.set_xlabel('Epoch', fontsize=11)
 ax2.set_ylabel('BCE Loss', fontsize=11)
 ax2.set_title('Per-Epoch Average Loss', fontsize=11, fontweight='bold')
 ax2.legend(fontsize=9)
-ax2.annotate('D dominates\n(D Loss → 0)', xy=(118, 0.25), xytext=(80, 1.5),
-             fontsize=9, color='#EF5350',
-             arrowprops=dict(arrowstyle='->', color='#EF5350'))
+ax2.annotate('D dominates\n(D Loss → 0)', xy=(118, 0.22), xytext=(75, 1.2),
+             fontsize=9, color='#B71C1C', fontweight='bold',
+             arrowprops=dict(arrowstyle='->', color='#B71C1C', lw=1.5))
 
-plt.suptitle('Conditional GAN — Western Blot Generation Training Log', fontsize=12, fontweight='bold', y=1.02)
+plt.suptitle('Conditional GAN — Western Blot Generation Training Log', fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.show()
 ```
