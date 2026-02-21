@@ -170,11 +170,11 @@ format:
 <h2 class="about-section-title"><i class="bi bi-person-fill"></i> About Me</h2>
 ```
 
-I'm a graduate student from Taichung, Taiwan, currently pursuing dual master's degrees in **Data Science** (NCHU, Taiwan) and **Social Data Analytics & Research** (UTD, Dallas). I hold a B.S. in Applied Mathematics from National Chung Hsing University and am looking for a **data science / ML internship** to gain professional experience.
+I'm a graduate student from Taichung, Taiwan, pursuing dual master's degrees in **Data Science** (NCHU) and **Social Data Analytics & Research** (UTD, Dallas), with a B.S. in Applied Mathematics from NCHU. I'm currently looking for a **data science / ML internship**.
 
-Through coursework and projects, I've built end-to-end ML pipelines — from image classification and medical image segmentation to distributed learning systems. I enjoy bridging mathematical theory with practical implementations, whether that means verifying the Eckart-Young theorem through SVD image compression or building a 5-worker distributed SVM that runs 150x faster.
+Over the past few years I've completed **37 projects** across a wide range of domains — from quantum computing and deep learning to medical image segmentation, database design, GIS, and AI agent workflows. I pick up new tools and fields quickly, and I enjoy going deep once I'm in. My current research focuses on **flight delay prediction** for a major U.S. airline, building selective prediction frameworks on 1.1M+ flight records. I'm also working with the **Taichung Education Bureau**, analyzing the relationship between an adaptive learning platform and student performance across 127 classes.
 
-I've also served as a bilingual teaching assistant for Calculus, Database Systems, and Quantum Computing courses, supporting both Chinese- and English-speaking students.
+Outside of research, I worked as a **cram-school math/physics/chemistry instructor** and at a **3D printing studio**. I currently serve as a **bilingual teaching assistant** for Calculus, Database Systems, and Quantum Computing.
 
 ```{=html}
 <h2 class="about-section-title"><i class="bi bi-stars"></i> Research Interests</h2>
