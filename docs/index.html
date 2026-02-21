@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Home – Tzu-Yuan</title>
+<title>Tzu-Yuan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,12 +67,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 <link rel="stylesheet" href="styles.scss">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -177,32 +178,459 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="home-name title display-7">Tzu-Yuan Chen</h1></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Home</h1>
+
+
+
+<style>
+/* ── Home: Magazine / Editorial ── */
+
+/* Kill default Quarto title block */
+.quarto-title { display: none !important; }
+header#title-block-header { display: none !important; }
+
+/* ── Hero ── */
+.home-hero {
+  text-align: center;
+  padding: 4rem 1rem 2rem 1rem;
+}
+.home-name {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 3px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.home-sub {
+  font-size: 0.95rem;
+  color: #999;
+  letter-spacing: 2px;
+  margin: 0.6rem 0 0 0;
+  text-transform: uppercase;
+}
+.home-tagline {
+  font-style: italic;
+  font-size: 1.12rem;
+  color: #555;
+  margin: 1.8rem auto 0 auto;
+  max-width: 520px;
+  line-height: 1.7;
+}
+.home-hr {
+  border: none;
+  border-top: 1px solid #18A3A3;
+  width: 60px;
+  margin: 2.5rem auto;
+}
+
+/* ── Stat Bar ── */
+.home-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1.6rem 1rem;
+  background: #F5F5F5;
+  border-radius: 8px;
+  margin: 0 auto 2.5rem auto;
+  max-width: 600px;
+}
+.home-stat {
+  text-align: center;
+}
+.home-stat .num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+.home-stat .num span {
+  color: #18A3A3;
+}
+.home-stat .label {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+/* ── Section Header (editorial) ── */
+.home-section {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 2.5rem 0 0.8rem 0;
+  border: none !important;
+  padding: 0 !important;
+}
+.home-section-line {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0 0 1.2rem 0;
+}
+
+/* ── Project Rows ── */
+.home-project {
+  display: flex;
+  align-items: baseline;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease;
+  gap: 1rem;
+}
+.home-project:hover {
+  background: #f0fafa;
+  text-decoration: none;
+}
+.home-project .proj-num {
+  font-size: 0.82rem;
+  color: #bbb;
+  font-weight: 600;
+  min-width: 2rem;
+  flex-shrink: 0;
+}
+.home-project .proj-body {
+  flex: 1;
+}
+.home-project .proj-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 0.2rem 0;
+}
+.home-project .proj-desc {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}
+.home-project .proj-tag {
+  font-size: 0.72rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.home-project .proj-arrow {
+  font-size: 1.1rem;
+  color: #ccc;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+.home-project:hover .proj-arrow {
+  color: #18A3A3;
+}
+
+/* ── Ongoing Research ── */
+.home-research {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+.home-research:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.home-research .research-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.home-research .research-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+.home-research .research-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #E65100;
+  background: #FFF3E0;
+  border: 1px solid #FFCC80;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.home-research .research-desc {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.5;
+}
+.home-research .research-metrics {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.home-research .metric {
+  text-align: center;
+  min-width: 80px;
+}
+.home-research .metric .metric-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+.home-research .metric .metric-val span {
+  color: #18A3A3;
+}
+.home-research .metric .metric-label {
+  font-size: 0.7rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.home-research .research-note {
+  font-size: 0.75rem;
+  color: #bbb;
+  font-style: italic;
+  margin: 0.8rem 0 0 0;
+}
+
+/* ── Explore Links ── */
+.home-explore {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 1.5rem 0 2rem 0;
+  flex-wrap: wrap;
+}
+.home-explore a {
+  text-decoration: none;
+  text-align: center;
+  color: #111;
+  transition: color 0.2s ease;
+}
+.home-explore a:hover {
+  color: #18A3A3;
+}
+.home-explore .exp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.home-explore .exp-sub {
+  font-size: 0.78rem;
+  color: #999;
+  display: block;
+}
+
+/* ── Footer ── */
+.home-footer {
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+.home-footer .footer-links {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+.home-footer .footer-links a {
+  color: #18A3A3;
+  text-decoration: none;
+}
+.home-footer .footer-links a:hover {
+  color: #E65100;
+  text-decoration: underline;
+}
+.home-footer .footer-links span {
+  margin: 0 0.5rem;
+  color: #ccc;
+}
+.home-footer .copyright {
+  font-size: 0.75rem;
+  color: #bbb;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .home-name { font-size: 2rem; letter-spacing: 1px; }
+  .home-stats { flex-direction: column; gap: 1.2rem; }
+  .home-project { flex-wrap: wrap; }
+  .home-project .proj-tag { width: 100%; margin-top: 0.3rem; }
+  .home-explore { flex-direction: column; gap: 1.5rem; }
+}
+</style>
+<!-- ── Hero ── -->
+<div class="home-hero">
+  
+  <p class="home-sub">Data Science · Applied Math · Machine Learning</p>
+  <p class="home-tagline">"Bridging mathematical theory with data-driven solutions."</p>
+  <hr class="home-hr">
+</div>
+<!-- ── Stat Bar ── -->
+<div class="home-stats">
+  <div class="home-stat">
+    <div class="num">10<span>+</span></div>
+    <div class="label">Domains</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">35</div>
+    <div class="label">Projects</div>
+  </div>
+  <div class="home-stat">
+    <div class="num"><span>3</span></div>
+    <div class="label">Degree Programs</div>
+  </div>
+</div>
+<!-- ── Selected Projects ── -->
+<h2 class="home-section anchored">Selected Projects</h2>
+<hr class="home-section-line">
+
+<a class="home-project" href="DL.html">
+  <span class="proj-num">01</span>
+  <div class="proj-body">
+    <div class="proj-title">ResNet Image Classification</div>
+    <p class="proj-desc">96.44% accuracy on multi-class classification with focal loss and transfer learning.</p>
+  </div>
+  <span class="proj-tag">Deep Learning</span>
+  <span class="proj-arrow">→</span>
+</a>
+
+<a class="home-project" href="BigData.html">
+  <span class="proj-num">02</span>
+  <div class="proj-body">
+    <div class="proj-title">Distributed SVM with Nyström Approximation</div>
+    <p class="proj-desc">150× speedup using 5-worker architecture with kernel approximation on large-scale datasets.</p>
+  </div>
+  <span class="proj-tag">Big Data</span>
+  <span class="proj-arrow">→</span>
+</a>
+
+<a class="home-project" href="DL.html">
+  <span class="proj-num">03</span>
+  <div class="proj-body">
+    <div class="proj-title">Medical Image Segmentation</div>
+    <p class="proj-desc">U-Net and Conditional GAN for retinal vessel segmentation on biomedical imaging datasets.</p>
+  </div>
+  <span class="proj-tag">Deep Learning</span>
+  <span class="proj-arrow">→</span>
+</a>
+
+<a class="home-project" href="AM_thesis.html">
+  <span class="proj-num">04</span>
+  <div class="proj-body">
+    <div class="proj-title">Quantum Bayesian Inference</div>
+    <p class="proj-desc">Undergraduate thesis investigating Bayesian probability on IBM quantum hardware using Qiskit.</p>
+  </div>
+  <span class="proj-tag">Quantum Computing</span>
+  <span class="proj-arrow">→</span>
+</a>
+<!-- ── Ongoing Research ── -->
+<h2 class="home-section anchored" style="margin-top:3rem;">Ongoing Research</h2>
+<hr class="home-section-line">
+
+<div class="home-research">
+  <div class="research-header">
+    <div class="research-title">Flight Delay Prediction — M.S. Thesis</div>
+    <span class="research-badge">In Progress</span>
+  </div>
+  <p class="research-desc">
+    Selective prediction framework for American Airlines flight delays. Investigating when <em>not</em> to trust model predictions by defining abstention policies that bound acceptable risk.
+  </p>
+  <div class="research-metrics">
+    <div class="metric">
+      <div class="metric-val">0.686<span>3</span></div>
+      <div class="metric-label">AUC (No ETD)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">0.928<span>0</span></div>
+      <div class="metric-label">AUC (+ ETD)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">0.290<span>8</span></div>
+      <div class="metric-label">AURC</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">1.1<span>M+</span></div>
+      <div class="metric-label">Flights</div>
+    </div>
+  </div>
+  <p class="research-note">Data under NDA — results only, no raw data disclosed.</p>
 </div>
 
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
+<div class="home-research">
+  <div class="research-header">
+    <div class="research-title">Adaptive Learning Platform Analysis — Taichung Education Bureau</div>
+    <span class="research-badge">In Progress</span>
   </div>
-  
+  <p class="research-desc">
+    Evaluating the effectiveness of an adaptive learning platform (“\u56e0\u6750\u7db2”) on Grade 5 math performance across Taichung City. 50.4% of classes had zero platform usage; within-school adjusted analysis reveals a weak negative correlation, suggesting usage alone does not predict higher scores.
+  </p>
+  <div class="research-metrics">
+    <div class="metric">
+      <div class="metric-val">12<span>7</span></div>
+      <div class="metric-label">Classes</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">2,41<span>4</span></div>
+      <div class="metric-label">Records</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">0.09<span>6</span></div>
+      <div class="metric-label">ρ Usage vs Outcome</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">−0.13<span>2</span></div>
+      <div class="metric-label">ρ Within-School</div>
+    </div>
+  </div>
+  <p class="research-note">Data under NDA — results only, no raw data disclosed.</p>
+</div>
+<!-- ── Explore ── -->
+<h2 class="home-section anchored" style="margin-top:3rem;">Explore</h2>
+<hr class="home-section-line">
 
-
-</header>
-
-
-<p>This is Tzu-Yuan’s Quarto website</p>
+<div class="home-explore">
+  <a href="about.html">
+    <span class="exp-title">About</span>
+    <span class="exp-sub">Who I am</span>
+  </a>
+  <a href="CV.html">
+    <span class="exp-title">CV</span>
+    <span class="exp-sub">Experience &amp; Skills</span>
+  </a>
+  <a href="DSIC.html">
+    <span class="exp-title">MS · DSIC</span>
+    <span class="exp-sub">Data Science @ NCHU</span>
+  </a>
+  <a href="SDAR.html">
+    <span class="exp-title">MS · SDAR</span>
+    <span class="exp-sub">Social Data @ UTD</span>
+  </a>
+  <a href="AM.html">
+    <span class="exp-title">BS · AM</span>
+    <span class="exp-sub">Applied Math @ NCHU</span>
+  </a>
+</div>
+<!-- ── Footer ── -->
+<div class="home-footer">
+  <div class="footer-links">
+    <a href="mailto:chen.tzuyuan666@gmail.com"><i class="bi bi-envelope-fill"></i> Email</a>
+    <span>·</span>
+    <a href="https://github.com/buttegggggggg" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+    <span>·</span>
+    <i class="bi bi-geo-alt-fill" style="color:#999;"></i> Dallas, TX / Taichung, Taiwan
+  </div>
+  <div class="copyright">© 2025 Tzu-Yuan Chen</div>
+</div>
 
 
 
@@ -611,4 +1039,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

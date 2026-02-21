@@ -159,7 +159,7 @@ format:
     <p>Focused on machine learning, deep learning, numerical analysis, and building data-driven solutions.</p>
     <div class="about-links">
       <a href="mailto:chen.tzuyuan666@gmail.com"><i class="bi bi-envelope-fill"></i> Email</a>
-      <a href="https://github.com/chentzuyuan" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+      <a href="https://github.com/buttegggggggg" target="_blank"><i class="bi bi-github"></i> GitHub</a>
       <a href="CV.html"><i class="bi bi-file-earmark-person-fill"></i> CV</a>
     </div>
   </div>
