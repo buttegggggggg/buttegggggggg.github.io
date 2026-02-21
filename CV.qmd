@@ -152,7 +152,7 @@ format:
 ```
 
 ::: {.chart-note .teal}
-M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. in Applied Mathematics. Seeking a **data science / ML internship** to apply hands-on project experience — including image classification (**96.44%** accuracy), medical image segmentation, and distributed learning (**150x speedup**) — in a professional setting. Strong foundation in numerical analysis, deep learning, and end-to-end ML pipelines.
+M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. in Applied Mathematics. Seeking a **data science / ML internship** to apply hands-on experience across **37 projects** — including image classification (**96.44%** accuracy), distributed learning (**150x speedup**), and an ongoing thesis on flight delay prediction (**AUC 0.93**). Strong foundation in numerical analysis, deep learning, selective prediction, and end-to-end ML pipelines.
 :::
 
 ```{=html}
@@ -196,6 +196,7 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 <span class="cv-pill orange">Random Forest</span>
 <span class="cv-pill orange">MLP / DNN</span>
 <span class="cv-pill orange">Kernel Ridge</span>
+<span class="cv-pill orange">XGBoost</span>
 <span class="cv-pill orange">Transfer Learning</span>
 <span class="cv-pill orange">Focal Loss</span>
 </div>
@@ -219,6 +220,8 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 <span class="cv-pill green">Distributed SVM</span>
 <span class="cv-pill green">Communication-efficient SGD</span>
 <span class="cv-pill green">Kernel Approximation</span>
+<span class="cv-pill green">Selective Prediction</span>
+<span class="cv-pill green">Probability Calibration</span>
 
 <h3>LLM & AI</h3>
 <span class="cv-pill teal">AI Agent Workflows</span>
@@ -241,6 +244,7 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 
 <h3>Hardware & Platforms</h3>
 <span class="cv-pill pink">IBM Quantum (IBMQ)</span>
+<span class="cv-pill pink">Snowflake</span>
 <span class="cv-pill pink">3D Printing (FDM)</span>
 
 <h3>Languages</h3>
@@ -344,6 +348,18 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 <div class="cv-project-item dataeng">
   <strong>GIS Web Mapping & Spatial Analysis</strong> &mdash; GeoPandas, Shapely, ArcGIS Python API for world cities spatial analysis.
   <br><a href="GISPY.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">Ongoing Research</div>
+
+<div class="cv-project-item bigdata">
+  <strong>Flight Delay Prediction &mdash; M.S. Thesis</strong> &mdash; Selective prediction framework for American Airlines using XGBoost on 1.1M+ flights (Snowflake). <span class="cv-metric">AUC 0.6863</span> (no ETD) / <span class="cv-metric">0.9280</span> (+ ETD); AURC 0.2908. Investigating abstention policies to bound risk.
+  <br><em style="font-size:0.82rem; color:#999;">Data under NDA &mdash; results only</em>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>Adaptive Learning Platform Analysis &mdash; Taichung Education Bureau</strong> &mdash; Evaluating the effectiveness of an adaptive learning platform on Grade 5 math (127 classes, 2,414 records). Spearman &rho; = 0.096 (usage vs outcome); within-school adjusted &rho; = &minus;0.132.
+  <br><em style="font-size:0.82rem; color:#999;">Data under NDA &mdash; results only</em>
 </div>
 ```
 

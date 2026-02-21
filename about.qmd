@@ -186,10 +186,13 @@ I've also served as a bilingual teaching assistant for Calculus, Database System
 <span class="about-pill teal">LLM / Prompt Engineering</span>
 <span class="about-pill orange">Image Classification & Segmentation</span>
 <span class="about-pill orange">Quantum Computing</span>
+<span class="about-pill orange">Flight Delay Prediction</span>
 <span class="about-pill purple">Numerical Analysis</span>
 <span class="about-pill purple">Big Data Analytics</span>
+<span class="about-pill purple">Education Data Analytics</span>
 <span class="about-pill">Database Design</span>
 <span class="about-pill">Data Visualization</span>
+<span class="about-pill">Selective Prediction</span>
 ```
 
 ```{=html}
@@ -239,6 +242,7 @@ I've also served as a bilingual teaching assistant for Calculus, Database System
 <span class="about-pill orange">KNN</span>
 <span class="about-pill orange">Random Forest</span>
 <span class="about-pill orange">MLP / DNN</span>
+<span class="about-pill orange">XGBoost</span>
 <span class="about-pill orange">Kernel Ridge</span>
 
 <h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Techniques</h3>
@@ -247,6 +251,8 @@ I've also served as a bilingual teaching assistant for Calculus, Database System
 <span class="about-pill purple">Image Segmentation</span>
 <span class="about-pill purple">Nystr&ouml;m Approximation</span>
 <span class="about-pill purple">Distributed Computing</span>
+<span class="about-pill purple">Selective Prediction</span>
+<span class="about-pill purple">Probability Calibration</span>
 
 <h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">LLM & AI</h3>
 <span class="about-pill teal">AI Agent Workflows</span>
@@ -260,11 +266,13 @@ I've also served as a bilingual teaching assistant for Calculus, Database System
 <span class="about-pill grey">ArcGIS</span>
 <span class="about-pill grey">Shapely</span>
 <span class="about-pill grey">Qt Designer</span>
+<span class="about-pill grey">Plotly</span>
 <span class="about-pill grey">Quarto</span>
 <span class="about-pill grey">LaTeX</span>
 
 <h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Hardware & Platforms</h3>
 <span class="about-pill orange">IBM Quantum (IBMQ)</span>
+<span class="about-pill orange">Snowflake</span>
 <span class="about-pill orange">3D Printing (FDM)</span>
 </div>
 ```
