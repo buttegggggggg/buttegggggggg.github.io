@@ -174,7 +174,7 @@ I'm a graduate student from Taichung, Taiwan, pursuing dual master's degrees in 
 
 Over the past few years I've completed **37 projects** across a wide range of domains — from quantum computing and deep learning to medical image segmentation, database design, GIS, and AI agent workflows. I pick up new tools and fields quickly, and I enjoy going deep once I'm in. My current research focuses on **flight delay prediction** for a major U.S. airline, building selective prediction frameworks on 1.1M+ flight records. I'm also working with the **Taichung Education Bureau**, analyzing the relationship between an adaptive learning platform and student performance across 127 classes.
 
-Outside of research, I worked as a **cram-school math/physics/chemistry instructor** and at a **3D printing studio**. I currently serve as a **bilingual teaching assistant** for Calculus, Database Systems, and Quantum Computing.
+Outside of research, I worked as a **cram-school math/physics/chemistry instructor** for middle- and high-school students and at a **3D printing studio**. I currently serve as a **bilingual teaching assistant** for Calculus, Database Systems, and Quantum Computing.
 
 ```{=html}
 <h2 class="about-section-title"><i class="bi bi-stars"></i> Research Interests</h2>
