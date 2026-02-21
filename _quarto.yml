@@ -24,7 +24,11 @@ website:
       - text: About
         href: about.qmd
       - text: BS of AM
-        href: AM.qmd
+        menu:
+          - text: Overview
+            href: AM.qmd
+          - text: Quantum Bayesian Inference
+            href: AM_thesis.qmd
       - text: MS of DSIC
         menu:
           - text: Overview
@@ -47,6 +51,8 @@ website:
             href: EPPS6356.qmd#assignments
           - text: Information Management
             href: EPPS6354.qmd
+      - text: CV
+        href: CV.qmd
 
 jupyter: python3
 

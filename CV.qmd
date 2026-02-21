@@ -1,0 +1,397 @@
+---
+title: "Tzu-Yuan Chen"
+subtitle: "Data Scientist / ML Engineer"
+format:
+  html:
+    theme: cosmo
+    toc: false
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+/* ── CV Contact Bar ── */
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.4rem;
+  margin: -0.5rem 0 2rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+.cv-contact a { color: #18A3A3; text-decoration: none; }
+.cv-contact a:hover { color: #E65100; text-decoration: underline; }
+.cv-contact i { margin-right: 0.25rem; color: #18A3A3; }
+
+/* ── CV Section Headers ── */
+.cv-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 2px solid #18A3A3;
+  border-left: none !important;
+  padding-bottom: 0.4rem;
+  padding-left: 0 !important;
+  margin: 2.5rem 0 1.2rem 0;
+}
+.cv-section-title i { color: #18A3A3; margin-right: 0.4rem; }
+
+/* ── CV Timeline (Education) ── */
+.cv-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+  border-left: 2px solid #18A3A3;
+}
+.cv-timeline-item {
+  position: relative;
+  margin-bottom: 1.4rem;
+  padding-left: 0.5rem;
+}
+.cv-timeline-item:last-child { margin-bottom: 0; }
+.cv-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -2.05rem;
+  top: 0.35rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #18A3A3;
+  border: 2px solid #fff;
+}
+.cv-degree { font-weight: 700; font-size: 1.02rem; color: #111; }
+.cv-school { color: #555; font-size: 0.93rem; }
+.cv-date { color: #18A3A3; font-weight: 600; font-size: 0.86rem; }
+
+/* ── CV Skill Pills ── */
+.cv-skills-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 1rem 0 0.4rem 0;
+  border: none !important;
+  padding: 0 !important;
+}
+.cv-pill {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  margin: 0.12rem 0.15rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+.cv-pill.teal   { background: #E0F2F1; color: #00695C; border-color: #80CBC4; }
+.cv-pill.orange { background: #FFF3E0; color: #E65100; border-color: #FFCC80; }
+.cv-pill.green  { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+.cv-pill.purple { background: #F3E5F5; color: #6A1B9A; border-color: #CE93D8; }
+.cv-pill.pink   { background: #FCE4EC; color: #C62828; border-color: #F48FB1; }
+.cv-pill.grey   { background: #F5F5F5; color: #424242; border-color: #BDBDBD; }
+
+/* ── CV Project Items ── */
+.cv-project-group-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1.4rem 0 0.5rem 0;
+}
+.cv-project-item {
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.4rem;
+  border-left: 3px solid #18A3A3;
+  border-radius: 0 4px 4px 0;
+  background: #fafafa;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.cv-project-item.vision  { border-left-color: #2E7D32; }
+.cv-project-item.medical { border-left-color: #E65100; }
+.cv-project-item.bigdata { border-left-color: #1565C0; }
+.cv-project-item.dataeng { border-left-color: #6A1B9A; }
+.cv-project-item strong { color: #111; }
+.cv-metric { font-weight: 700; color: #E65100; }
+.cv-project-item a { font-size: 0.82rem; color: #18A3A3; }
+
+/* ── CV Work Experience ── */
+.cv-work-item { margin-bottom: 1.2rem; }
+.cv-role { font-weight: 700; font-size: 0.98rem; color: #111; }
+.cv-org { color: #555; font-size: 0.9rem; }
+.cv-work-date { color: #18A3A3; font-weight: 600; font-size: 0.84rem; float: right; }
+.cv-work-item ul { margin-top: 0.3rem; padding-left: 1.2rem; }
+.cv-work-item li { font-size: 0.9rem; color: #444; margin-bottom: 0.12rem; }
+
+/* ── Print Styles ── */
+@media print {
+  body { background: #fff; font-size: 10.5pt; }
+  main.content { max-width: 100%; box-shadow: none; padding: 0; margin: 0; border-radius: 0; }
+  .cv-contact { font-size: 8.5pt; }
+  .cv-section-title { font-size: 12pt; margin-top: 0.8rem; }
+  .cv-pill { font-size: 7.5pt; padding: 0.08rem 0.35rem; }
+  .cv-project-item { break-inside: avoid; }
+  .cv-timeline-item { break-inside: avoid; }
+  .cv-work-item { break-inside: avoid; }
+  nav, .sidebar, footer, .quarto-title-banner, .navbar { display: none !important; }
+  a[href]::after { content: none !important; }
+}
+</style>
+```
+
+```{=html}
+<div class="cv-contact">
+  <span><i class="bi bi-envelope-fill"></i> <a href="mailto:chen.tzuyuan666@gmail.com">chen.tzuyuan666@gmail.com</a></span>
+  <span><i class="bi bi-github"></i> <a href="https://github.com/chentzuyuan" target="_blank">github.com/chentzuyuan</a></span>
+  <span><i class="bi bi-globe2"></i> <a href="https://chentzuyuan.github.io" target="_blank">chentzuyuan.github.io</a></span>
+  <span><i class="bi bi-geo-alt-fill"></i> Dallas, TX / Taipei, Taiwan</span>
+</div>
+```
+
+::: {.chart-note .teal}
+Data scientist and ML engineer with a strong mathematical foundation (BS Applied Mathematics) and dual master's degrees in Data Science and Social Data Analytics. Hands-on experience building end-to-end ML/DL pipelines — from image classification (**96.44%** on industrial defects) and medical image segmentation to distributed learning systems achieving **150x speedup**. Passionate about bridging rigorous numerical analysis with scalable, production-oriented ML solutions.
+:::
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-code-slash"></i> Technical Skills</h2>
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{=html}
+<div class="cv-skills-group">
+<h3>Programming Languages</h3>
+<span class="cv-pill teal">Python</span>
+<span class="cv-pill teal">R</span>
+<span class="cv-pill teal">SQL</span>
+<span class="cv-pill teal">Qiskit</span>
+<span class="cv-pill teal">Git</span>
+<span class="cv-pill teal">LaTeX</span>
+
+<h3>Python Ecosystem</h3>
+<span class="cv-pill">pandas</span>
+<span class="cv-pill">NumPy</span>
+<span class="cv-pill">scikit-learn</span>
+<span class="cv-pill">PyTorch</span>
+<span class="cv-pill">Keras / TensorFlow</span>
+<span class="cv-pill">statsmodels</span>
+<span class="cv-pill">GeoPandas</span>
+<span class="cv-pill">Selenium</span>
+<span class="cv-pill">BeautifulSoup</span>
+<span class="cv-pill">PyQt6</span>
+
+<h3>ML / Deep Learning</h3>
+<span class="cv-pill orange">ResNet</span>
+<span class="cv-pill orange">EfficientNet</span>
+<span class="cv-pill orange">U-Net</span>
+<span class="cv-pill orange">Conditional GAN</span>
+<span class="cv-pill orange">Autoencoder</span>
+<span class="cv-pill orange">SVM</span>
+<span class="cv-pill orange">KNN</span>
+<span class="cv-pill orange">Random Forest</span>
+<span class="cv-pill orange">MLP / DNN</span>
+<span class="cv-pill orange">Kernel Ridge</span>
+<span class="cv-pill orange">Transfer Learning</span>
+<span class="cv-pill orange">Focal Loss</span>
+</div>
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{=html}
+<div class="cv-skills-group">
+<h3>Math & Theory</h3>
+<span class="cv-pill purple">Linear Algebra / SVD</span>
+<span class="cv-pill purple">HOSVD / Tucker</span>
+<span class="cv-pill purple">Nystr&ouml;m Approximation</span>
+<span class="cv-pill purple">Probability & Bayes</span>
+<span class="cv-pill purple">Optimization</span>
+<span class="cv-pill purple">Numerical Methods</span>
+
+<h3>Big Data & Distributed</h3>
+<span class="cv-pill green">Distributed SVM</span>
+<span class="cv-pill green">Communication-efficient SGD</span>
+<span class="cv-pill green">Kernel Approximation</span>
+
+<h3>LLM & AI</h3>
+<span class="cv-pill teal">AI Agent Workflows</span>
+<span class="cv-pill teal">Prompt Engineering</span>
+<span class="cv-pill teal">RAG</span>
+<span class="cv-pill teal">LLM API Integration</span>
+
+<h3>GIS & Spatial</h3>
+<span class="cv-pill pink">ArcGIS Python API</span>
+<span class="cv-pill pink">GeoPandas</span>
+<span class="cv-pill pink">Shapely</span>
+
+<h3>Visualization & Tools</h3>
+<span class="cv-pill grey">ggplot2</span>
+<span class="cv-pill grey">Shiny</span>
+<span class="cv-pill grey">Altair</span>
+<span class="cv-pill grey">Matplotlib</span>
+<span class="cv-pill grey">Qt Designer</span>
+<span class="cv-pill grey">Quarto</span>
+
+<h3>Hardware & Platforms</h3>
+<span class="cv-pill pink">IBM Quantum (IBMQ)</span>
+<span class="cv-pill pink">3D Printing (FDM)</span>
+
+<h3>Languages</h3>
+<span class="cv-pill teal">Chinese (Native)</span>
+<span class="cv-pill">English (Professional)</span>
+</div>
+```
+
+:::
+
+::::
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-mortarboard-fill"></i> Education</h2>
+
+<div class="cv-timeline">
+  <div class="cv-timeline-item">
+    <div class="cv-degree">M.S. Social Data Analytics & Research (SDAR)</div>
+    <div class="cv-school">The University of Texas at Dallas &mdash; UTD-NCHU Dual-Degree Cohort</div>
+    <div class="cv-date">2025 &ndash; present</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">M.S. Data Science & Information Computing</div>
+    <div class="cv-school">National Chung Hsing University (NCHU), Taiwan</div>
+    <div class="cv-date">2024 &ndash; present</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">B.S. Applied Mathematics</div>
+    <div class="cv-school">National Chung Hsing University (NCHU), Taiwan</div>
+    <div class="cv-date">2020 &ndash; 2024</div>
+  </div>
+</div>
+```
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-rocket-takeoff-fill"></i> Projects</h2>
+
+<div class="cv-project-group-title">Computer Vision & Image Classification</div>
+
+<div class="cv-project-item vision">
+  <strong>AOI Defect Classification</strong> &mdash; ResNet-18 transfer learning on industrial inspection images (6-class). <span class="cv-metric">96.44% accuracy</span>
+  <br><a href="DL.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item vision">
+  <strong>Cervical Cancer Screening</strong> &mdash; EfficientNet-B7 + Focal Loss on medical images (3-class). <span class="cv-metric">86.1% avg accuracy</span>
+  <br><a href="ML.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item vision">
+  <strong>Handwritten Digit Recognition</strong> &mdash; 8-model comparison (Mean / SVD / HOSVD / SVM / KNN / RF / CNN) on USPS dataset. <span class="cv-metric">CNN 95.76%</span>
+  <br><a href="DataAnalysis.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">Medical Image Analysis & Generation</div>
+
+<div class="cv-project-item medical">
+  <strong>Retinal Vessel Segmentation</strong> &mdash; U-Net (5-level encoder-decoder) + Focal Tversky Loss on DRIVE dataset. <span class="cv-metric">mIoU 0.351</span>
+  <br><a href="DL.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>Retinal Image Reconstruction</strong> &mdash; Convolutional Autoencoder for retinal fundus image reconstruction. <span class="cv-metric">PSNR 30.84 dB</span>
+  <br><a href="DL.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>Western Blot Image Synthesis</strong> &mdash; Conditional GAN (Generator + PatchGAN Discriminator) for biomedical image generation.
+  <br><a href="DL.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">Scalable ML & Big Data</div>
+
+<div class="cv-project-item bigdata">
+  <strong>Nystr&ouml;m Kernel Ridge Regression</strong> &mdash; Gram matrix approximation on USPS digits (m=128). <span class="cv-metric">20&times; speedup</span>, 99.50% accuracy maintained
+  <br><a href="BigData.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>Distributed SVM</strong> &mdash; 5-worker parallelization with Smoothed Hinge Loss on a9a dataset. <span class="cv-metric">150&times; speedup</span>
+  <br><a href="BigData.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>US Wildfire Trend Analysis</strong> &mdash; Poisson regression + MLP classification on 1.88M records (1992&ndash;2015).
+  <br><a href="ML.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">Data Engineering & Applications</div>
+
+<div class="cv-project-item dataeng">
+  <strong>SVD Image Compression App</strong> &mdash; PyQt6 GUI application with real-time preview, Eckart-Young theorem verification. <span class="cv-metric">PSNR 44.7 dB</span>
+  <br><a href="DataAnalysis.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>Wardrobe Recommendation Database</strong> &mdash; 15-table relational schema with weather/occasion-aware rule-based recommendation engine.
+  <br><a href="EPPS6354.html">View Details &rarr;</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>GIS Web Mapping & Spatial Analysis</strong> &mdash; GeoPandas, Shapely, ArcGIS Python API for world cities spatial analysis.
+  <br><a href="GISPY.html">View Details &rarr;</a>
+</div>
+```
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-briefcase-fill"></i> Experience</h2>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2022 &ndash; 2024</span>
+  <div class="cv-role">Bilingual Teaching Assistant</div>
+  <div class="cv-org">National Chung Hsing University</div>
+  <ul>
+    <li><strong>Calculus</strong> &mdash; One-on-one support for international students; led recitation sessions linking calculus theory to numerical algorithms</li>
+    <li><strong>Database Systems Design</strong> &mdash; Assisted with SQL assignments; introduced Power Query; provided bilingual translations of lecture notes</li>
+    <li><strong>Quantum Computing</strong> &mdash; Guided students through Python & Qiskit assignments; explained probabilistic reasoning and simulation tasks</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2022 &ndash; 2023</span>
+  <div class="cv-role">Undergraduate Thesis: Quantum Bayesian Inference</div>
+  <div class="cv-org">Department of Applied Mathematics, NCHU</div>
+  <ul>
+    <li>Investigated whether quantum computer outputs conform to Bayesian probability laws using Qiskit on IBMQ hardware</li>
+    <li>Applied Bayesian updating to analyze qubit measurement outcomes; revealed divergence between actual quantum runs and simulator predictions</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2019 &ndash; 2024</span>
+  <div class="cv-role">Part-Time Roles</div>
+  <div class="cv-org">Various, Taiwan</div>
+  <ul>
+    <li><strong>Bilingual Conference Staff</strong> (NCHU) &mdash; Escorted visiting scholars, coordinated logistics, provided real-time bilingual assistance</li>
+    <li><strong>Cram-School Instructor & Private Tutor</strong> &mdash; Mathematics, physics, chemistry, biology, Chinese, and English</li>
+    <li><strong>3D Printing Studio</strong> &mdash; FDM printer operation, slicing and print workflow management</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <div class="cv-role">International Volunteer</div>
+  <ul>
+    <li>Taught English and art at rural elementary schools; participated in desert-area afforestation projects</li>
+  </ul>
+</div>
+```
+
+```{=html}
+<p style="text-align:center; color:#999; font-size:0.82rem; margin-top:3rem; padding-bottom:1rem;">
+  Last updated: February 2025 &nbsp;&middot;&nbsp; <a href="javascript:window.print()" style="color:#18A3A3;">Save as PDF</a>
+</p>
+```

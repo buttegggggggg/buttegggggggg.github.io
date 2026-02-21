@@ -1,11 +1,360 @@
 ---
 title: "About"
+subtitle: "Tzu-Yuan Chen / 陳子元"
+format:
+  html:
+    toc: false
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
 ---
 
-## About this site
+```{=html}
+<style>
+/* ── About Page ── */
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 1rem 0 2rem 0;
+}
+.about-photo {
+  flex-shrink: 0;
+}
+.about-photo img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #18A3A3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.about-intro h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.3rem;
+  color: #111;
+  border: none !important;
+  padding: 0 !important;
+}
+.about-intro p {
+  margin: 0.3rem 0;
+  font-size: 0.93rem;
+  color: #555;
+}
+.about-intro .about-links {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.about-intro .about-links a {
+  color: #18A3A3;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+.about-intro .about-links a:hover {
+  color: #E65100;
+  text-decoration: underline;
+}
+.about-intro .about-links i {
+  margin-right: 0.2rem;
+}
 
-This site is a working portfolio and notebook.
+/* ── Section Titles ── */
+.about-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 2px solid #18A3A3;
+  border-left: none !important;
+  padding-bottom: 0.35rem;
+  padding-left: 0 !important;
+  margin: 2.5rem 0 1rem 0;
+}
+.about-section-title i { color: #18A3A3; margin-right: 0.4rem; }
 
-It documents selected projects, visual studies, and experiments as they evolve.
+/* ── Interest Pills ── */
+.about-pill {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  margin: 0.15rem 0.2rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+.about-pill.teal   { background: #E0F2F1; color: #00695C; border-color: #80CBC4; }
+.about-pill.orange { background: #FFF3E0; color: #E65100; border-color: #FFCC80; }
+.about-pill.purple { background: #F3E5F5; color: #6A1B9A; border-color: #CE93D8; }
+.about-pill.grey   { background: #F5F5F5; color: #424242; border-color: #BDBDBD; }
 
-Not all content represents final results. Some materials are exploratory or incomplete.
+/* ── Site Map Cards ── */
+.site-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.site-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: block;
+}
+.site-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.site-card .card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+.site-card h4 {
+  margin: 0.3rem 0 0.2rem 0;
+  font-size: 1rem;
+  color: #111;
+  border: none !important;
+  padding: 0 !important;
+}
+.site-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+}
+.site-card .card-tag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.tag-nchu { background: #E8F5E9; color: #2E7D32; }
+.tag-utd  { background: #FFF3E0; color: #E65100; }
+.tag-am   { background: #F3E5F5; color: #6A1B9A; }
+
+@media (max-width: 600px) {
+  .about-header { flex-direction: column; text-align: center; }
+  .about-intro .about-links { justify-content: center; }
+}
+</style>
+```
+
+```{=html}
+<div class="about-header">
+  <div class="about-photo">
+    <img src="profile.png" alt="Tzu-Yuan Chen">
+  </div>
+  <div class="about-intro">
+    <h3>Tzu-Yuan Chen / 陳子元</h3>
+    <p>Data Science & Applied Math &mdash; M.S. student at NCHU (Taiwan) & UTD (Dallas)</p>
+    <p>Focused on machine learning, deep learning, numerical analysis, and building data-driven solutions.</p>
+    <div class="about-links">
+      <a href="mailto:chen.tzuyuan666@gmail.com"><i class="bi bi-envelope-fill"></i> Email</a>
+      <a href="https://github.com/chentzuyuan" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+      <a href="CV.html"><i class="bi bi-file-earmark-person-fill"></i> CV</a>
+    </div>
+  </div>
+</div>
+```
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-person-fill"></i> About Me</h2>
+```
+
+I'm a data scientist and machine learning engineer with a foundation in applied mathematics. I hold a B.S. in Applied Mathematics from National Chung Hsing University and am currently pursuing dual master's degrees in **Data Science** (NCHU, Taiwan) and **Social Data Analytics & Research** (UTD, Dallas) through a dual-degree program.
+
+My work spans end-to-end ML pipelines — from image classification and medical image segmentation to distributed learning systems. I enjoy bridging mathematical theory with practical implementations, whether that means verifying the Eckart-Young theorem through SVD image compression or building a 5-worker distributed SVM that runs 150x faster.
+
+Beyond research, I've served as a bilingual teaching assistant for Calculus, Database Systems, and Quantum Computing courses, supporting both Chinese- and English-speaking students.
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-stars"></i> Research Interests</h2>
+```
+
+```{=html}
+<span class="about-pill teal">Machine Learning</span>
+<span class="about-pill teal">Deep Learning</span>
+<span class="about-pill teal">LLM / Prompt Engineering</span>
+<span class="about-pill orange">Image Classification & Segmentation</span>
+<span class="about-pill orange">Quantum Computing</span>
+<span class="about-pill purple">Numerical Analysis</span>
+<span class="about-pill purple">Big Data Analytics</span>
+<span class="about-pill">Database Design</span>
+<span class="about-pill">Data Visualization</span>
+```
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-tools"></i> Skills</h2>
+```
+
+::::: columns
+::: {.column width="50%"}
+```{=html}
+<div class="cv-skills-group">
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Programming</h3>
+<span class="about-pill teal">Python</span>
+<span class="about-pill teal">R</span>
+<span class="about-pill teal">SQL</span>
+<span class="about-pill teal">Qiskit</span>
+<span class="about-pill teal">Git</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Python Libraries</h3>
+<span class="about-pill">pandas</span>
+<span class="about-pill">NumPy</span>
+<span class="about-pill">scikit-learn</span>
+<span class="about-pill">PyTorch</span>
+<span class="about-pill">Keras / TensorFlow</span>
+<span class="about-pill">GeoPandas</span>
+<span class="about-pill">Selenium</span>
+<span class="about-pill">BeautifulSoup</span>
+<span class="about-pill">PyQt6</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">R Ecosystem</h3>
+<span class="about-pill">ggplot2</span>
+<span class="about-pill">tidyverse</span>
+<span class="about-pill">Shiny</span>
+</div>
+```
+:::
+
+::: {.column width="50%"}
+```{=html}
+<div class="cv-skills-group">
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">ML / DL Models</h3>
+<span class="about-pill orange">ResNet</span>
+<span class="about-pill orange">EfficientNet</span>
+<span class="about-pill orange">U-Net</span>
+<span class="about-pill orange">GAN</span>
+<span class="about-pill orange">Autoencoder</span>
+<span class="about-pill orange">SVM</span>
+<span class="about-pill orange">KNN</span>
+<span class="about-pill orange">Random Forest</span>
+<span class="about-pill orange">MLP / DNN</span>
+<span class="about-pill orange">Kernel Ridge</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Techniques</h3>
+<span class="about-pill purple">Transfer Learning</span>
+<span class="about-pill purple">Focal Loss</span>
+<span class="about-pill purple">Image Segmentation</span>
+<span class="about-pill purple">Nystr&ouml;m Approximation</span>
+<span class="about-pill purple">Distributed Computing</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">LLM & AI</h3>
+<span class="about-pill teal">AI Agent Workflows</span>
+<span class="about-pill teal">Prompt Engineering</span>
+<span class="about-pill teal">RAG</span>
+<span class="about-pill teal">LLM API Integration</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Tools</h3>
+<span class="about-pill grey">Matplotlib</span>
+<span class="about-pill grey">Altair</span>
+<span class="about-pill grey">ArcGIS</span>
+<span class="about-pill grey">Shapely</span>
+<span class="about-pill grey">Qt Designer</span>
+<span class="about-pill grey">Quarto</span>
+<span class="about-pill grey">LaTeX</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Hardware & Platforms</h3>
+<span class="about-pill orange">IBM Quantum (IBMQ)</span>
+<span class="about-pill orange">3D Printing (FDM)</span>
+</div>
+```
+:::
+:::::
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-map-fill"></i> Site Guide</h2>
+```
+
+This portfolio documents my coursework, projects, and experiments across two graduate programs. Here's what you'll find:
+
+```{=html}
+<div class="site-map">
+
+  <a class="site-card" href="AM.html">
+    <div class="card-icon">📐</div>
+    <h4>BS of Applied Math</h4>
+    <p>Undergraduate thesis on Quantum Bayesian Inference using Qiskit & IBMQ hardware.</p>
+    <span class="card-tag tag-am">NCHU &middot; 2020&ndash;2024</span>
+  </a>
+
+  <a class="site-card" href="DSIC.html">
+    <div class="card-icon">🧠</div>
+    <h4>MS of DSIC &mdash; Overview</h4>
+    <p>Research focus, skills developed, and course highlights for the Data Science program at NCHU.</p>
+    <span class="card-tag tag-nchu">NCHU &middot; 2024&ndash;present</span>
+  </a>
+
+  <a class="site-card" href="ML.html#assignments">
+    <div class="card-icon">📊</div>
+    <h4>ML & Data Science</h4>
+    <p>Diabetes prediction (90.04%), wildfire analysis (1.88M records), cervical cancer classification.</p>
+    <span class="card-tag tag-nchu">NCHU &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="DL.html#assignments">
+    <div class="card-icon">🔬</div>
+    <h4>Deep Learning</h4>
+    <p>ResNet (96.44%), U-Net segmentation, Autoencoder, Conditional GAN for biomedical imaging.</p>
+    <span class="card-tag tag-nchu">NCHU &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="BigData.html#assignments">
+    <div class="card-icon">⚡</div>
+    <h4>Big Data Analysis</h4>
+    <p>Nystr&ouml;m kernel approximation (20&times; speedup), distributed SVM (150&times; speedup).</p>
+    <span class="card-tag tag-nchu">NCHU &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="DataAnalysis.html#assignments">
+    <div class="card-icon">🧮</div>
+    <h4>Data Analysis Math</h4>
+    <p>SVD image compression, Eckart-Young theorem, 8-model digit recognition comparison.</p>
+    <span class="card-tag tag-nchu">NCHU &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="SDAR.html">
+    <div class="card-icon">🌎</div>
+    <h4>MS of SDAR &mdash; Overview</h4>
+    <p>Social Data Analytics & Research program at UTD (dual-degree with NCHU).</p>
+    <span class="card-tag tag-utd">UTD &middot; 2025&ndash;present</span>
+  </a>
+
+  <a class="site-card" href="GISPY.html#assignments">
+    <div class="card-icon">🗺️</div>
+    <h4>GIS & Python</h4>
+    <p>GeoPandas mapping, PyQt6 GUI app, web scraping, ArcGIS spatial analysis.</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+  <a class="site-card" href="EPPS6356.html#assignments">
+    <div class="card-icon">📈</div>
+    <h4>Data Visualization</h4>
+    <p>ggplot2, base R, Shiny dashboards, 6 chart types, Iris data visualization.</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+  <a class="site-card" href="EPPS6354.html">
+    <div class="card-icon">🗄️</div>
+    <h4>Information Management</h4>
+    <p>Database design, SQL queries, wardrobe recommendation system (15 tables).</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+</div>
+```
+
+```{=html}
+<p style="text-align:center; color:#999; font-size:0.82rem; margin-top:2rem;">
+  Not all content represents final results. Some materials are exploratory or in progress.
+</p>
+```

@@ -98,10 +98,21 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./AM.html" aria-current="page"> 
-<span class="menu-text">BS of AM</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bs-of-am" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">BS of AM</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-bs-of-am">    
+        <li>
+    <a class="dropdown-item" href="./AM.html">
+ <span class="dropdown-text">Overview</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./AM_thesis.html">
+ <span class="dropdown-text">Quantum Bayesian Inference</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">MS of DSIC</span>
@@ -152,6 +163,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -163,17 +178,9 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#about-the-program" id="toc-about-the-program" class="nav-link active" data-scroll-target="#about-the-program">About the Program</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -183,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -196,13 +203,22 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="chart-note teal">
-<p><strong>學歷：</strong> 國立中興大學 應用數學系 學士 (Bachelor of Science in Applied Mathematics, NCHU)。</p>
+<p><strong>學歷：</strong> 國立中興大學 應用數學系 學士 (B.S. Applied Mathematics, NCHU, 2020 – 2024)</p>
 </div>
 <section id="about-the-program" class="level2">
 <h2 class="anchored" data-anchor-id="about-the-program">About the Program</h2>
-<p>The <strong>Department of Applied Mathematics</strong> (應用數學系) at National Chung Hsing University provides a solid foundation in mathematical theory and its applications. The curriculum covers calculus, linear algebra, differential equations, probability and statistics, numerical analysis, and optimization — preparing students for advanced studies and careers in data science, finance, engineering, and scientific computing.</p>
-<div class="chart-note grey">
-<p>本頁將陸續補充大學期間的課程作業與專題成果。Content coming soon.</p>
+<p>The <strong>Department of Applied Mathematics</strong> at National Chung Hsing University provides a solid foundation in mathematical theory and its applications. The curriculum covers calculus, linear algebra, differential equations, probability and statistics, numerical analysis, and optimization — preparing students for advanced studies and careers in data science, finance, engineering, and scientific computing.</p>
+<hr>
+</section>
+<section id="research" class="level2">
+<h2 class="anchored" data-anchor-id="research">Research</h2>
+<div class="landing-cards">
+<section id="quantum-bayesian-inference" class="level3 landing-card">
+<h3 class="anchored" data-anchor-id="quantum-bayesian-inference"><a href="./AM_thesis.html">Quantum Bayesian Inference</a></h3>
+<p><strong>科技部大專生研究計畫</strong> (NSTC 112-2813-C-005-038-E)</p>
+<p>Investigated whether quantum computer outputs conform to Bayesian probability laws. Developed Qiskit programs on IBMQ hardware and simulators to test the law of large numbers, revealing divergence between actual quantum runs and simulator predictions.</p>
+<p><strong>Tools:</strong> Python, Qiskit, IBMQ (ibm_osaka), Bayesian Updating, matplotlib</p>
+</section>
 </div>
 
 

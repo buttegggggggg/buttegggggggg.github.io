@@ -4,22 +4,35 @@ subtitle: "國立中興大學 應用數學系 · National Chung Hsing University
 format:
   html:
     theme: cosmo
-    toc: true
-    toc-location: right
-    toc-depth: 4
+    toc: false
     number-sections: false
     page-layout: full
     smooth-scroll: true
 ---
 
 ::: {.chart-note .teal}
-**學歷：** 國立中興大學 應用數學系 學士 (Bachelor of Science in Applied Mathematics, NCHU)。
+**學歷：** 國立中興大學 應用數學系 學士 (B.S. Applied Mathematics, NCHU, 2020 -- 2024)
 :::
 
 ## About the Program
 
-The **Department of Applied Mathematics** (應用數學系) at National Chung Hsing University provides a solid foundation in mathematical theory and its applications. The curriculum covers calculus, linear algebra, differential equations, probability and statistics, numerical analysis, and optimization — preparing students for advanced studies and careers in data science, finance, engineering, and scientific computing.
+The **Department of Applied Mathematics** at National Chung Hsing University provides a solid foundation in mathematical theory and its applications. The curriculum covers calculus, linear algebra, differential equations, probability and statistics, numerical analysis, and optimization --- preparing students for advanced studies and careers in data science, finance, engineering, and scientific computing.
 
-::: {.chart-note .grey}
-本頁將陸續補充大學期間的課程作業與專題成果。Content coming soon.
+---
+
+## Research
+
+::: {.landing-cards}
+
+::: {.landing-card}
+### [Quantum Bayesian Inference](AM_thesis.qmd)
+
+**科技部大專生研究計畫** (NSTC 112-2813-C-005-038-E)
+
+Investigated whether quantum computer outputs conform to Bayesian probability laws. Developed Qiskit programs on IBMQ hardware and simulators to test the law of large numbers, revealing divergence between actual quantum runs and simulator predictions.
+
+**Tools:** Python, Qiskit, IBMQ (ibm_osaka), Bayesian Updating, matplotlib
+
+:::
+
 :::
