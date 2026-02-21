@@ -17,7 +17,7 @@ library(tidyverse)
 library(gridExtra)
 library(scales)
 
-# Personal visual DNA ─────────────────────────────────────────
+# Personal visual DNA
 c1  <- "#18A3A3"      # teal (primary)
 c2  <- "#FF4D8D"      # rose pink (accent)
 c3  <- "#7A7A7A"      # mid grey
@@ -46,8 +46,7 @@ theme1 <- function() {
 
 ### Assignment 1 — Diabetes Prediction / 糖尿病預測
 
-**Task / 任務：** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation, feature engineering, and resampling before training a deep neural network.
-以 Pima Indians 糖尿病資料集為基礎，先用迴歸填補缺失值、進行特徵工程與資料重抽樣，再訓練深層神經網路進行二元分類。
+**Task / 任務：** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation, feature engineering, and resampling before training a deep neural network. 以 Pima Indians 糖尿病資料集為基礎，先用迴歸填補缺失值、進行特徵工程與資料重抽樣，再訓練深層神經網路進行二元分類。
 
 **Dataset / 資料集：** Pima Indians Diabetes Dataset — 768 samples, 8 features
 
@@ -55,57 +54,51 @@ theme1 <- function() {
 
 #### Pipeline Overview / 整體流程
 
-::: {style="max-width: 720px;"}
 ```{mermaid}
-%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
-flowchart LR
-    A["Raw Data<br/>768 samples<br/>8 features"]
-    B["Treat zeros<br/>as missing"]
-    C["Regression<br/>Imputation<br/>(5 features)"]
-    D["Feature Eng.<br/>+ Resampling"]
-    E["Train / Val<br/>Split"]
-    F["DNN<br/>64→32→16→1"]
-    G["Binary<br/>Classification<br/>90.04% acc"]
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35, "nodeSpacing": 25, "rankSpacing": 40}}}%%
+flowchart TD
+    A["Raw Data 768×8     "] --> B["Mark Zeros as Missing     "]
+    B --> C["Regression Imputation     "]
+    C --> D["Feature Eng. + Resample     "]
+    D --> E["Train / Val Split     "]
+    E --> F["DNN 64→32→16→1     "]
+    F --> G["90.04% acc     "]
 
-    A --> B --> C --> D --> E --> F --> G
-
-    style A fill:#1565C0,color:#fff,stroke:#1565C0
-    style B fill:#546E7A,color:#fff,stroke:#546E7A
-    style C fill:#E65100,color:#fff,stroke:#E65100
-    style D fill:#6A1B9A,color:#fff,stroke:#6A1B9A
-    style E fill:#546E7A,color:#fff,stroke:#546E7A
-    style F fill:#1976D2,color:#fff,stroke:#1976D2
-    style G fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style E fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style F fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style G fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
 ```
+
+::: {.chart-note .teal}
+**Pipeline 說明：** 原始資料中 Glucose、BMI 等欄位含有「零值」，實際上代表缺失。先以線性迴歸逐欄填補，再做特徵工程與重抽樣平衡正負樣本，最後以 4 層 DNN 進行二元分類，從 baseline 74% 提升至 **90.04%**。
 :::
 
 #### Exploratory Data Analysis / 資料探索
 
-Zero values in `Glucose`, `BMI`, `BloodPressure`, `SkinThickness`, and `Insulin` are treated as missing. After removing rows with missing values, 336 clean rows remain for fitting imputation models.
-將 Glucose、BMI 等欄位的零值視為缺失。移除含缺失值的列後，336 筆乾淨資料用於訓練填補模型。
+Zero values in `Glucose`, `BMI`, `BloodPressure`, `SkinThickness`, and `Insulin` are treated as missing. After removing rows with missing values, 336 clean rows remain for fitting imputation models. 將 Glucose、BMI 等欄位的零值視為缺失。移除含缺失值的列後，336 筆乾淨資料用於訓練填補模型。
 
-![Feature Correlation Matrix (after removing rows with NaN) — Glucose–Outcome (0.50) and SkinThickness–BMI (0.71) show the strongest correlations / 特徵相關矩陣：Glucose 與 Outcome 相關最高（0.50），SkinThickness 與 BMI 相關最強（0.71）](ml_hw1_correlation_matrix.png){width="70%"}
+![Feature Correlation Matrix (after removing rows with NaN)](ml_hw1_correlation_matrix.png){width="70%"}
 
-Key observations / 重要觀察：
-
-- **Glucose → Outcome** correlation: **0.50** — strongest predictor of diabetes
-- **SkinThickness ↔ BMI**: **0.71** — justifies using BMI to impute SkinThickness
-- **Insulin ↔ Glucose**: **0.70** — justifies using Glucose to impute Insulin
-- **Age ↔ Pregnancies**: **0.54** — expected biological relationship
+::: {.chart-note .orange}
+**Key observations / 重要觀察：** **Glucose → Outcome** 相關係數 0.50，是糖尿病最強預測變數；**SkinThickness ↔ BMI** 達 0.71，可用 BMI 填補 SkinThickness；**Insulin ↔ Glucose** 達 0.70，可用 Glucose 填補 Insulin；**Age ↔ Pregnancies** 為 0.54，符合生物學預期。
+:::
 
 #### Missing Value Imputation / 缺失值填補
 
-::: {style="max-width: 480px;"}
 ```{mermaid}
-%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
 flowchart TD
-    A["Outcome"]
-    B["Glucose"]
-    C["BMI"]
-    D["Insulin"]
-    E["SkinThickness"]
-    F["Age"]
-    G["BloodPressure"]
+    A["Outcome     "]
+    B["Glucose     "]
+    C["BMI     "]
+    D["Insulin     "]
+    E["SkinThickness     "]
+    F["Age     "]
+    G["BloodPressure     "]
 
     A -->|"predicts"| B
     B -->|"predicts"| C
@@ -115,17 +108,20 @@ flowchart TD
     F -->|"predicts"| G
     C -->|"predicts"| G
 
-    style A fill:#E65100,color:#fff,stroke:#E65100
-    style B fill:#1565C0,color:#fff,stroke:#1565C0
-    style C fill:#2E7D32,color:#fff,stroke:#2E7D32
-    style D fill:#880E4F,color:#fff,stroke:#880E4F
-    style E fill:#6A1B9A,color:#fff,stroke:#6A1B9A
-    style F fill:#E65100,color:#fff,stroke:#E65100
-    style G fill:#00695C,color:#fff,stroke:#00695C
+    style A fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style B fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style C fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style D fill:#FCE4EC,color:#C62828,stroke:#F48FB1,stroke-width:2px
+    style E fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style F fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style G fill:#E0F2F1,color:#00695C,stroke:#80CBC4,stroke-width:2px
 ```
+
+::: {.chart-note .teal}
+**填補順序：** 利用相關性最高的已知欄位作為自變數，以線性迴歸依序填補：Outcome → Glucose → BMI → Insulin / SkinThickness → BloodPressure。每一步都只使用「已經存在或已填補」的欄位當作 predictor。
 :::
 
-```python
+``` python
 # Fill Glucose using Outcome
 X_train = df_non_missing[['Outcome']]
 y_train = df_non_missing['Glucose']
@@ -147,27 +143,19 @@ y_train = df_non_missing['BloodPressure']
 
 #### Model Architecture / 模型架構
 
-::: {style="max-width: 620px;"}
 ```{mermaid}
-%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
 flowchart LR
-    I["Input<br/>8+ features"]
-    L1["Dense 64<br/>ReLU"]
-    L2["Dense 32<br/>ReLU"]
-    L3["Dense 16<br/>ReLU"]
-    O["Dense 1<br/>Sigmoid<br/>→ Diabetes?"]
+    I["Input 8+ feat     "] --> L1["Dense 64 ReLU     "] --> L2["Dense 32 ReLU     "] --> L3["Dense 16 ReLU     "] --> O["Dense 1 Sigmoid     "]
 
-    I --> L1 --> L2 --> L3 --> O
-
-    style I  fill:#1565C0,color:#fff,stroke:#1565C0
-    style L1 fill:#1976D2,color:#fff,stroke:#1976D2
-    style L2 fill:#1976D2,color:#fff,stroke:#1976D2
-    style L3 fill:#1976D2,color:#fff,stroke:#1976D2
-    style O  fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style I  fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style L1 fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style L2 fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style L3 fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style O  fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
 ```
-:::
 
-```python
+``` python
 model = Sequential()
 model.add(Dense(64, input_dim=X_train.shape[1], activation='relu'))
 model.add(Dense(32, activation='relu'))
@@ -177,7 +165,7 @@ model.add(Dense(1, activation='sigmoid'))
 
 #### Training Setup / 訓練設定
 
-```python
+``` python
 model.compile(
     loss='binary_crossentropy',
     optimizer='adam',
@@ -189,12 +177,12 @@ model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 #### Results / 結果
 
 | Metric | Value |
-|--------|-------|
+|----|----|
 | Baseline accuracy (no imputation) | 74.03% |
 | **Final accuracy (with imputation + feature engineering + resampling)** | **90.04%** |
 | Improvement | +16.01 pp |
 
-```{r hw1-accuracy, echo=FALSE, fig.cap="Accuracy improvement across pipeline stages / 各階段準確率提升", fig.width=7, fig.height=4}
+```{r hw1-accuracy, echo=FALSE, fig.width=7, fig.height=4}
 df_acc <- data.frame(
   stage    = factor(
     c("Baseline\n(no imputation)", "After\nImputation",
@@ -217,20 +205,24 @@ ggplot(df_acc, aes(x = stage, y = accuracy, fill = stage)) +
            arrow = arrow(ends = "both", length = unit(0.15, "cm"))) +
   annotate("text", x = 3.95, y = 82, label = "+16 pp",
            colour = acc, fontface = "bold", size = 4) +
-  scale_fill_manual(values = c(c3, c1, "#FF9800", c2)) +
-  scale_y_continuous(limits = c(60, 100), expand = c(0, 0)) +
+  scale_fill_manual(values = c("#FCE4EC", "#E8F5E9", "#F3E5F5", "#E3F2FD")) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
+  coord_cartesian(ylim = c(60, 100)) +
   labs(title = "Diabetes Prediction — Accuracy Improvement by Pipeline Stage",
        x = NULL, y = "Accuracy (%)") +
   theme1() +
   theme(legend.position = "none")
 ```
 
----
+::: {.chart-note .orange}
+**Accuracy 分析：** Baseline（直接丟棄缺失值）僅有 74.03%。迴歸填補後提升至 77.92%，特徵工程再加 \~5 pp，最終搭配 resampling + DNN 達到 **90.04%**，共提升 **+16 pp**。灰色虛線為 baseline 參考線，橘色箭頭標示整體增幅。
+:::
+
+------------------------------------------------------------------------
 
 ### Assignment 2 — US Wildfire Analysis / 美國野火分析與預測
 
-**Task / 任務：** Analyze 1.88 million US wildfire records to model annual frequency trends using Poisson regression, and predict wildfire causes using a multi-layer perceptron.
-分析 188 萬筆美國野火紀錄，用 Poisson 迴歸建立年度頻率趨勢模型，並以 MLP 預測野火成因。
+**Task / 任務：** Analyze 1.88 million US wildfire records to model annual frequency trends using Poisson regression, and predict wildfire causes using a multi-layer perceptron. 分析 188 萬筆美國野火紀錄，用 Poisson 迴歸建立年度頻率趨勢模型，並以 MLP 預測野火成因。
 
 **Dataset / 資料集：** US Wildfires (1992–2015) — 1,880,465 records, Kaggle
 
@@ -238,10 +230,9 @@ ggplot(df_acc, aes(x = stage, y = accuracy, fill = stage)) +
 
 #### Poisson Regression / Poisson 迴歸
 
-Models the annual count of wildfires as a function of year to estimate long-term trend.
-建立野火年度數量對年份的 Poisson 迴歸，估計長期增長趨勢。
+Models the annual count of wildfires as a function of year to estimate long-term trend. 建立野火年度數量對年份的 Poisson 迴歸，估計長期增長趨勢。
 
-```python
+``` python
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 
@@ -254,7 +245,7 @@ poisson_model = smf.glm(
 print(poisson_model.summary())
 ```
 
-```{r hw2-poisson, echo=FALSE, fig.cap="Estimated Annual Wildfire Frequency Trend (Poisson Regression, +0.44%/yr) / 美國野火年度頻率趨勢", fig.width=7, fig.height=4}
+```{r hw2-poisson, echo=FALSE, fig.width=7, fig.height=4}
 set.seed(42)
 years   <- 1992:2015
 trend   <- 80000 * exp(0.0044 * (years - 1992))
@@ -267,40 +258,39 @@ ggplot(df_fire) +
   geom_line(aes(x = year, y = trend), colour = acc,
             linewidth = 1.5, linetype = "dashed") +
   scale_x_continuous(breaks = seq(1992, 2014, 2)) +
-  labs(title    = "US Annual Wildfire Frequency 1992–2015",
+  labs(title    = "US Annual Wildfire Frequency 1992-2015",
        subtitle = "Dashed line: Poisson regression fit (+0.44%/yr)",
-       x = "Year / 年份", y = "Wildfire Count (thousands) / 千件") +
+       x = "Year", y = "Wildfire Count (thousands)") +
   theme1() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+::: {.chart-note .teal}
+**Poisson 趨勢：** 以年份為自變數擬合 Poisson 迴歸，估計野火年度發生頻率以每年 **+0.44%** 的速度增長。[**橘色虛線**]{style="color:#E65100;"} 為迴歸擬合線，[**青色長條**]{style="color:#18A3A3;"} 為各年度實際數量。
+:::
 
 #### MLP Model Architecture / MLP 模型架構
 
 Features: `FIRE_SIZE`, `LATITUDE`, `LONGITUDE`, `FIRE_YEAR`, `MONTH`
 
-::: {style="max-width: 680px;"}
 ```{mermaid}
-%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
 flowchart LR
-    F["5 Features<br/>FIRE_SIZE<br/>LAT / LON<br/>YEAR / MONTH"]
-    D1["Dense 64<br/>ReLU"]
-    DR1["Dropout 0.3"]
-    D2["Dense 64<br/>ReLU"]
-    DR2["Dropout 0.3"]
-    O["Dense N<br/>Softmax<br/>→ Cause Class"]
+    F["5 Features     "] --> D1["Dense 64 ReLU     "] --> DR1["Dropout 0.3     "] --> D2["Dense 64 ReLU     "] --> DR2["Dropout 0.3     "] --> O["Softmax → N cls     "]
 
-    F --> D1 --> DR1 --> D2 --> DR2 --> O
-
-    style F   fill:#1565C0,color:#fff,stroke:#1565C0
-    style D1  fill:#1976D2,color:#fff,stroke:#1976D2
-    style DR1 fill:#E65100,color:#fff,stroke:#E65100
-    style D2  fill:#1976D2,color:#fff,stroke:#1976D2
-    style DR2 fill:#E65100,color:#fff,stroke:#E65100
-    style O   fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style F   fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style D1  fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style DR1 fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D2  fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style DR2 fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style O   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
 ```
+
+::: {.chart-note .grey}
+**Architecture 說明：** 兩層 Dense 64 + Dropout 0.3 的簡單 MLP。[**藍色**]{style="color:#1976D2;"} = Dense 層，[**橘色**]{style="color:#E65100;"} = Dropout 正則化，[**綠色**]{style="color:#2E7D32;"} = Softmax 輸出（10 類野火成因）。
 :::
 
-```python
+``` python
 model = Sequential()
 model.add(Dense(64, input_dim=X_train.shape[1], activation='relu'))
 model.add(Dropout(0.3))
@@ -317,29 +307,26 @@ model.compile(
 
 #### Training Setup / 訓練設定
 
-```python
+``` python
 model.fit(X_train, y_train, epochs=20, batch_size=32, validation_split=0.2)
 # Train/Test Split: 70/30
 ```
 
 #### Results / 結果
 
-| Metric | Value |
-|--------|-------|
-| Wildfire cause prediction accuracy | ~45.6% |
-| Poisson regression trend | +0.44% annual increase in wildfire frequency |
-| Total records processed | 1,880,465 |
+| Metric                             | Value                  |
+|------------------------------------|------------------------|
+| Wildfire cause prediction accuracy | \~45.6%                |
+| Poisson regression trend           | +0.44% annual increase |
+| Total records processed            | 1,880,465              |
 
-The relatively low classification accuracy reflects the inherent difficulty of attributing wildfire causes from geographic and temporal features alone.
-分類準確率偏低，反映了僅依靠地理與時間特徵來判斷野火成因的固有難度。
-
-```{r hw2-mlp, echo=FALSE, fig.cap="MLP Wildfire Cause Prediction Accuracy vs. Baseline / 模型準確率比較", fig.width=6, fig.height=3.5}
+```{r hw2-mlp, echo=FALSE, fig.width=6, fig.height=3.5}
 df_mlp <- data.frame(
   category = factor(
-    c("Random Baseline\n(10 classes)", "MLP Classifier", "Theoretical Max"),
-    levels = c("Random Baseline\n(10 classes)", "MLP Classifier", "Theoretical Max")
+    c("Random Baseline\n(10 classes)", "MLP Classifier"),
+    levels = c("Random Baseline\n(10 classes)", "MLP Classifier")
   ),
-  acc = c(10, 45.6, 100)
+  acc = c(10, 45.6)
 )
 
 ggplot(df_mlp, aes(x = acc, y = category, fill = category)) +
@@ -348,20 +335,23 @@ ggplot(df_mlp, aes(x = acc, y = category, fill = category)) +
             hjust = -0.15, fontface = "bold", size = 4, colour = c4) +
   geom_vline(xintercept = 45.6, linetype = "dashed",
              colour = acc, linewidth = 0.9) +
-  scale_fill_manual(values = c(c3, c1, c2)) +
-  scale_x_continuous(limits = c(0, 120), expand = c(0, 0)) +
+  scale_fill_manual(values = c(c3, c1)) +
+  scale_x_continuous(limits = c(0, 60), expand = expansion(mult = c(0, 0.05))) +
   labs(title = "MLP Wildfire Cause Prediction vs. Baseline",
        x = "Accuracy (%)", y = NULL) +
   theme1() +
   theme(legend.position = "none")
 ```
 
----
+::: {.chart-note .pink}
+**結果分析：** 10 類隨機猜測 baseline 為 10%，MLP 達到 \~45.6%，遠優於隨機但仍有提升空間。分類準確率偏低反映了僅依靠地理位置（經緯度）與時間（年份、月份）來判斷野火成因的固有難度 — 許多成因（人為 vs 雷擊）在空間上高度重疊。
+:::
+
+------------------------------------------------------------------------
 
 ### Final Project — Cervical Cancer Screening / 子宮頸癌篩檢影像分類
 
-**Task / 任務：** Classify cervical cell images into three types (Type 1, 2, 3) corresponding to different levels of cervical transformation zone, using transfer learning with EfficientNet-B7 and Focal Loss to handle class imbalance.
-將子宮頸細胞影像分類為三種類型（Type 1/2/3），對應不同程度的子宮頸轉化帶，採用 EfficientNet-B7 遷移學習並以 Focal Loss 處理類別不平衡。
+**Task / 任務：** Classify cervical cell images into three types (Type 1, 2, 3) corresponding to different levels of cervical transformation zone, using transfer learning with EfficientNet-B7 and Focal Loss to handle class imbalance. 將子宮頸細胞影像分類為三種類型（Type 1/2/3），對應不同程度的子宮頸轉化帶，採用 EfficientNet-B7 遷移學習並以 Focal Loss 處理類別不平衡。
 
 **Dataset / 資料集：** Intel & MobileODT Cervical Cancer Screening (Kaggle) — 3-class image classification
 
@@ -369,29 +359,25 @@ ggplot(df_mlp, aes(x = acc, y = category, fill = category)) +
 
 #### Transfer Learning Strategy / 遷移學習策略
 
-::: {style="max-width: 720px;"}
 ```{mermaid}
-%%{init: {"theme": "base", "themeVariables": {"fontSize": "14px"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
 flowchart LR
-    A["ImageNet<br/>Pretrained<br/>EfficientNet-B7"]
-    B["Frozen<br/>Backbone<br/>(feature extractor)"]
-    C["Custom<br/>Classifier Head<br/>Linear → 3 cls"]
-    D["Fine-tune<br/>Focal Loss<br/>(α=1, γ=2)"]
-    E["Type 1 / 2 / 3<br/>Prediction"]
+    A["Pretrained EfficientNet-B7     "] --> B["Freeze Backbone     "] --> C["Classifier → 3 cls     "] --> D["Focal Loss γ=2     "] --> E["Type 1/2/3     "]
 
-    A --> B --> C --> D --> E
-
-    style A fill:#1565C0,color:#fff,stroke:#1565C0
-    style B fill:#546E7A,color:#fff,stroke:#546E7A
-    style C fill:#E65100,color:#fff,stroke:#E65100
-    style D fill:#6A1B9A,color:#fff,stroke:#6A1B9A
-    style E fill:#2E7D32,color:#fff,stroke:#2E7D32
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style E fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
 ```
+
+::: {.chart-note .teal}
+**遷移學習策略：** 先凍結 EfficientNet-B7 的 ImageNet 預訓練 backbone 作為特徵提取器，僅訓練新增的分類頭。使用 Focal Loss 解決 Type 1/2/3 的樣本不平衡問題。
 :::
 
 #### Model Architecture / 模型架構
 
-```python
+``` python
 from torchvision.models import efficientnet_b7, EfficientNet_B7_Weights
 
 model = efficientnet_b7(weights=EfficientNet_B7_Weights.IMAGENET1K_V1)
@@ -402,10 +388,9 @@ model = model.to(device)
 
 #### Focal Loss / Focal Loss 實作
 
-Focal Loss down-weights easy examples and focuses training on hard, misclassified samples — especially useful for imbalanced class distributions.
-Focal Loss 降低簡單樣本的權重，讓訓練集中在難以分類的樣本，有效處理類別不平衡。
+Focal Loss down-weights easy examples and focuses training on hard, misclassified samples — especially useful for imbalanced class distributions. Focal Loss 降低簡單樣本的權重，讓訓練集中在難以分類的樣本，有效處理類別不平衡。
 
-```{r focal-loss, echo=FALSE, fig.cap="Focal Loss vs. Cross-Entropy — γ=2 strongly down-weights easy examples / Focal Loss 與交叉熵損失比較", fig.width=6, fig.height=4}
+```{r focal-loss, echo=FALSE, fig.width=6, fig.height=4}
 pt <- seq(0.01, 0.99, length.out = 300)
 df_fl <- data.frame(
   pt      = rep(pt, 4),
@@ -413,12 +398,12 @@ df_fl <- data.frame(
               (1 - pt)^1 * (-log(pt)),
               (1 - pt)^2 * (-log(pt)),
               (1 - pt)^5 * (-log(pt))),
-  gamma   = rep(c("Cross-Entropy (γ=0)", "Focal Loss γ=1",
-                  "Focal Loss γ=2 ✓", "Focal Loss γ=5"), each = 300)
+  gamma   = rep(c("Cross-Entropy (gamma=0)", "Focal Loss gamma=1",
+                  "Focal Loss gamma=2", "Focal Loss gamma=5"), each = 300)
 )
 df_fl$gamma <- factor(df_fl$gamma,
-  levels = c("Cross-Entropy (γ=0)", "Focal Loss γ=1",
-             "Focal Loss γ=2 ✓", "Focal Loss γ=5"))
+  levels = c("Cross-Entropy (gamma=0)", "Focal Loss gamma=1",
+             "Focal Loss gamma=2", "Focal Loss gamma=5"))
 
 ggplot(df_fl, aes(x = pt, y = loss, colour = gamma, linetype = gamma)) +
   geom_line(linewidth = 1.1) +
@@ -430,13 +415,17 @@ ggplot(df_fl, aes(x = pt, y = loss, colour = gamma, linetype = gamma)) +
   scale_linetype_manual(values = c("solid","solid","dashed","solid")) +
   scale_y_continuous(limits = c(0, 5)) +
   labs(title   = "Focal Loss: Down-weighting Easy Examples",
-       x = "Predicted Probability pₜ (correct class)",
+       x = "Predicted Probability pt (correct class)",
        y = "Loss", colour = NULL, linetype = NULL) +
   theme1() +
   theme(legend.position = "bottom")
 ```
 
-```python
+::: {.chart-note .orange}
+**Focal Loss 原理：** 當 gamma=0 等同於標準 Cross-Entropy。gamma 越大，對「已經分對的 easy examples」（右側[**綠色區域**]{style="color:darkgreen;"}）懲罰越小，讓模型集中學習 hard examples。本專案使用 [**gamma=2**]{style="color:#E65100;"}（[橘色虛線]{style="color:#E65100;"}）。
+:::
+
+``` python
 class FocalLoss(nn.Module):
     def __init__(self, alpha=1, gamma=2, reduction="mean"):
         super(FocalLoss, self).__init__()
@@ -459,7 +448,7 @@ criterion = FocalLoss(alpha=1, gamma=2)
 
 #### Training Setup / 訓練設定
 
-```python
+``` python
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 num_epochs = 20
 batch_size = 32
@@ -477,13 +466,13 @@ for epoch in range(num_epochs):
 
 #### Results / 結果
 
-| Class | Description | Accuracy |
-|-------|-------------|----------|
-| Type 1 | Ectocervix (fully visible transformation zone) | 87.5% |
-| Type 2 | Partially visible transformation zone | 92.3% |
-| Type 3 | Endocervix (transformation zone not visible) | 78.5% |
+| Class  | Description                                    | Accuracy |
+|--------|------------------------------------------------|----------|
+| Type 1 | Ectocervix (fully visible transformation zone) | 87.5%    |
+| Type 2 | Partially visible transformation zone          | 92.3%    |
+| Type 3 | Endocervix (transformation zone not visible)   | 78.5%    |
 
-```{r final-accuracy, echo=FALSE, fig.cap="Per-class Accuracy — Cervical Cancer Screening (EfficientNet-B7) / 各類別分類準確率", fig.width=6, fig.height=3.5}
+```{r final-accuracy, echo=FALSE, fig.width=6, fig.height=3.5}
 df_cervical <- data.frame(
   class    = factor(c("Type 1\n(Ectocervix)", "Type 2\n(Transform. Zone)",
                       "Type 3\n(Endocervix)"),
@@ -502,16 +491,14 @@ ggplot(df_cervical, aes(x = accuracy, y = class, fill = class)) +
   annotate("text", x = mean_acc + 1, y = 3.45,
            label = paste0("Mean: ", round(mean_acc, 1), "%"),
            colour = c3, size = 3.5, hjust = 0) +
-  annotate("text", x = 65, y = 1,
-           label = "Transformation zone\nnot directly visible",
-           colour = acc, size = 3.2, hjust = 0) +
-  geom_segment(aes(x = 78.5, xend = 78.5, y = 1.35, yend = 0.65),
-               colour = acc,
-               arrow = arrow(length = unit(0.2, "cm"))) +
   scale_fill_manual(values = c(c1, c2, "#FF9800")) +
-  scale_x_continuous(limits = c(0, 110), expand = c(0, 0)) +
-  labs(title = "EfficientNet-B7: Per-Class Accuracy\nCervical Cancer Type Classification",
+  scale_x_continuous(limits = c(0, 110), expand = expansion(mult = c(0, 0.05))) +
+  labs(title = "EfficientNet-B7: Per-Class Accuracy",
        x = "Accuracy (%)", y = NULL) +
   theme1() +
   theme(legend.position = "none")
 ```
+
+::: {.chart-note .pink}
+**分類結果分析：** Type 2（部分可見轉化帶）準確率最高達 **92.3%**，因為特徵最明確。Type 3（轉化帶不可見）最低 78.5%，因為缺乏可辨識的表面結構特徵，分類難度最高。平均準確率 **86.1%**（灰色虛線）。Focal Loss 有效提升了少數類別的學習效果。
+:::

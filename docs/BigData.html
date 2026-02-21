@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Big Data Analysis – Tzu-Yuan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Tzu-Yuan</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./AM.html"> 
+<span class="menu-text">BS of AM</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of DSIC</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-dsic">    
+        <li>
+    <a class="dropdown-item" href="./DSIC.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./ML.html#assignments">
+ <span class="dropdown-text">ML &amp; Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DL.html#assignments">
+ <span class="dropdown-text">Deep Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./BigData.html#assignments">
+ <span class="dropdown-text">Big Data Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-sdar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of SDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-sdar">    
+        <li>
+    <a class="dropdown-item" href="./SDAR.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GISPY.html#assignments">
+ <span class="dropdown-text">GIS &amp; Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6356.html#assignments">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6354.html">
+ <span class="dropdown-text">Information Management</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">Assignments / 作業</a>
+  <ul>
+  <li><a href="#reading-assignment-nyström-method-論文閱讀" id="toc-reading-assignment-nyström-method-論文閱讀" class="nav-link" data-scroll-target="#reading-assignment-nyström-method-論文閱讀">Reading Assignment — Nyström Method / 論文閱讀</a>
+  <ul class="collapse">
+  <li><a href="#core-idea-核心概念" id="toc-core-idea-核心概念" class="nav-link" data-scroll-target="#core-idea-核心概念">Core Idea / 核心概念</a></li>
+  <li><a href="#key-formulas-關鍵公式" id="toc-key-formulas-關鍵公式" class="nav-link" data-scroll-target="#key-formulas-關鍵公式">Key Formulas / 關鍵公式</a></li>
+  </ul></li>
+  <li><a href="#homework-nyström-kernel-ridge-classification-作業nyström-加速-kernel-ridge" id="toc-homework-nyström-kernel-ridge-classification-作業nyström-加速-kernel-ridge" class="nav-link" data-scroll-target="#homework-nyström-kernel-ridge-classification-作業nyström-加速-kernel-ridge">Homework — Nyström Kernel Ridge Classification / 作業：Nyström 加速 Kernel Ridge</a>
+  <ul class="collapse">
+  <li><a href="#pipeline-overview-整體流程" id="toc-pipeline-overview-整體流程" class="nav-link" data-scroll-target="#pipeline-overview-整體流程">Pipeline Overview / 整體流程</a></li>
+  <li><a href="#implementation-實作" id="toc-implementation-實作" class="nav-link" data-scroll-target="#implementation-實作">Implementation / 實作</a></li>
+  <li><a href="#results-結果" id="toc-results-結果" class="nav-link" data-scroll-target="#results-結果">Results / 結果</a></li>
+  <li><a href="#gram-matrix-visualization-gram-矩陣視覺化" id="toc-gram-matrix-visualization-gram-矩陣視覺化" class="nav-link" data-scroll-target="#gram-matrix-visualization-gram-矩陣視覺化">Gram Matrix Visualization / Gram 矩陣視覺化</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project / 期末報告</a>
+  <ul>
+  <li><a href="#smoothed-distributed-svm-平滑化與分散式-svm" id="toc-smoothed-distributed-svm-平滑化與分散式-svm" class="nav-link" data-scroll-target="#smoothed-distributed-svm-平滑化與分散式-svm">Smoothed &amp; Distributed SVM / 平滑化與分散式 SVM</a>
+  <ul class="collapse">
+  <li><a href="#three-svm-variants-三種-svm-變體" id="toc-three-svm-variants-三種-svm-變體" class="nav-link" data-scroll-target="#three-svm-variants-三種-svm-變體">Three SVM Variants / 三種 SVM 變體</a></li>
+  <li><a href="#smoothed-hinge-loss-平滑化-hinge-loss" id="toc-smoothed-hinge-loss-平滑化-hinge-loss" class="nav-link" data-scroll-target="#smoothed-hinge-loss-平滑化-hinge-loss">Smoothed Hinge Loss / 平滑化 Hinge Loss</a></li>
+  <li><a href="#distributed-gradient-aggregation-分散式梯度聚合" id="toc-distributed-gradient-aggregation-分散式梯度聚合" class="nav-link" data-scroll-target="#distributed-gradient-aggregation-分散式梯度聚合">Distributed Gradient Aggregation / 分散式梯度聚合</a></li>
+  <li><a href="#results-結果-1" id="toc-results-結果-1" class="nav-link" data-scroll-target="#results-結果-1">Results / 結果</a></li>
+  <li><a href="#ablation-study-β-sensitivity-消融實驗β-敏感度" id="toc-ablation-study-β-sensitivity-消融實驗β-敏感度" class="nav-link" data-scroll-target="#ablation-study-β-sensitivity-消融實驗β-敏感度">Ablation Study — β Sensitivity / 消融實驗：β 敏感度</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Big Data Analysis</h1>
+<p class="subtitle lead">巨量資料分析 · 國立中興大學 資料科學與資訊計算研究所</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="assignments" class="level2">
+<h2 class="anchored" data-anchor-id="assignments">Assignments / 作業</h2>
+<section id="reading-assignment-nyström-method-論文閱讀" class="level3">
+<h3 class="anchored" data-anchor-id="reading-assignment-nyström-method-論文閱讀">Reading Assignment — Nyström Method / 論文閱讀</h3>
+<p><strong>Paper / 論文：</strong> <em>Using the Nyström Method to Speed Up Kernel Machines</em> <strong>Authors / 作者：</strong> Christopher K. I. Williams &amp; Matthias Seeger (NIPS 2000)</p>
+<div class="chart-note teal">
+<p><strong>論文摘要：</strong> Kernel-based 方法（如 SVM、Gaussian Process）的主要瓶頸在於 Gram matrix 的計算與反矩陣操作，時間複雜度為 O(n³)。本論文提出使用 <strong>Nyström method</strong> 近似 Gram matrix — 從 n 筆訓練資料中僅抽出 m 筆，計算小矩陣後再展開為全域近似，將計算量從 <strong>O(n³) 降為 O(m²n)</strong>。</p>
+</div>
+<section id="core-idea-核心概念" class="level4">
+<h4 class="anchored" data-anchor-id="core-idea-核心概念">Core Idea / 核心概念</h4>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart LR
+    A["Full Gram Matrix K (n×n)     "] --&gt; B["Sample m points     "]
+    B --&gt; C["K_mm (m×m)     "]
+    B --&gt; D["K_nm (n×m)     "]
+    C --&gt; E["Eigen-decompose K_mm     "]
+    D --&gt; F["Nyström Approx:\nK ≈ K_nm K_mm⁻¹ K_nm^T     "]
+
+    style A fill:#FCE4EC,color:#C62828,stroke:#F48FB1,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style D fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style E fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style F fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note grey">
+<p><strong>Nyström 流程：</strong> 從完整的 n×n Gram matrix（<span style="color:#C62828;">粉紅色</span>，計算成本極高）中，隨機抽取 m 筆樣本組成 <span style="color:#1565C0;">藍色</span> 子矩陣 K_mm 與 K_nm，再透過 eigen-decomposition（<span style="color:#E65100;">橘色</span>）重建 <span style="color:#2E7D32;">綠色</span> 近似矩陣。當 m &lt;&lt; n 時大幅加速。</p>
+</div>
+</section>
+<section id="key-formulas-關鍵公式" class="level4">
+<h4 class="anchored" data-anchor-id="key-formulas-關鍵公式">Key Formulas / 關鍵公式</h4>
+<p><strong>Mercer Expansion (Kernel 展開)：</strong></p>
+<p><span class="math display">\[K(x, y) = \sum_{i=1}^{\infty} \lambda_i \phi_i(x) \phi_i(y)\]</span></p>
+<p><strong>Nyström Approximation (近似公式)：</strong></p>
+<p><span class="math display">\[\tilde{K} = K_{nm} K_{mm}^{-1} K_{nm}^T\]</span></p>
+<p><strong>Complexity Reduction / 複雜度降低：</strong></p>
+<p><span class="math display">\[O(n^3) \rightarrow O(m^2 n), \quad m \ll n\]</span></p>
+<hr>
+</section>
+</section>
+<section id="homework-nyström-kernel-ridge-classification-作業nyström-加速-kernel-ridge" class="level3">
+<h3 class="anchored" data-anchor-id="homework-nyström-kernel-ridge-classification-作業nyström-加速-kernel-ridge">Homework — Nyström Kernel Ridge Classification / 作業：Nyström 加速 Kernel Ridge</h3>
+<p><strong>Task / 任務：</strong> Implement the Nyström method to accelerate RBF Kernel Ridge Classification on the USPS handwritten digit dataset (binary: digit “4” vs.&nbsp;rest). 實作 Nyström 方法加速 RBF Kernel Ridge 二元分類，資料集為 USPS 手寫數字（辨識數字 4）。</p>
+<p><strong>Dataset / 資料集：</strong> USPS — 7,291 training + 2,007 test images, 256 features (16×16 pixels)</p>
+<p><strong>Method / 方法：</strong> RBF Kernel (σ=4) + Ridge Regression (λ=0.001) + Nyström Approximation (m = 128, 256, 512)</p>
+<section id="pipeline-overview-整體流程" class="level4">
+<h4 class="anchored" data-anchor-id="pipeline-overview-整體流程">Pipeline Overview / 整體流程</h4>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart LR
+    A["USPS 7291×256     "] --&gt; B["StandardScaler     "] --&gt; C["RBF Kernel σ=4     "]
+    C --&gt; D["Full: K (7291×7291)     "]
+    C --&gt; E["Nyström: K_mm + K_nm     "]
+    D --&gt; F["Ridge Solve     "]
+    E --&gt; F
+    F --&gt; G["Predict ±1     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#FCE4EC,color:#C62828,stroke:#F48FB1,stroke-width:2px
+    style E fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style F fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style G fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>Pipeline 說明：</strong> USPS 資料先標準化，再分為兩條路徑：<span style="color:#C62828;">粉紅色</span> Full Kernel 計算完整 7291×7291 Gram matrix，<span style="color:#2E7D32;">綠色</span> Nyström 僅計算子集矩陣 K_mm + K_nm。兩者皆透過 Ridge Regression 求解係數向量 α，最終預測 ±1。</p>
+</div>
+</section>
+<section id="implementation-實作" class="level4">
+<h4 class="anchored" data-anchor-id="implementation-實作">Implementation / 實作</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RBF Kernel function</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rbf_kernel(X1, X2, sigma<span class="op">=</span><span class="fl">4.0</span>):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    sq_dists <span class="op">=</span> (np.<span class="bu">sum</span>(X1<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)[:, <span class="va">None</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> np.<span class="bu">sum</span>(X2<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)[<span class="va">None</span>, :]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> X1 <span class="op">@</span> X2.T)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>sq_dists <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> sigma<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Kernel Ridge: solve (K + λI) α = y</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kernel_ridge_train(K, y, lam<span class="op">=</span><span class="fl">1e-3</span>):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> K.shape[<span class="dv">0</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.solve(K <span class="op">+</span> lam <span class="op">*</span> np.eye(n), y)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Nyström approximation</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nystrom_approximation(X_train, m, sigma<span class="op">=</span><span class="fl">4.0</span>):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    indices <span class="op">=</span> np.random.choice(n, m, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    X_sub <span class="op">=</span> X_train[indices]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    K_mm <span class="op">=</span> rbf_kernel(X_sub, X_sub, sigma)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    K_nm <span class="op">=</span> rbf_kernel(X_train, X_sub, sigma)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    K_mm_inv <span class="op">=</span> np.linalg.inv(K_mm <span class="op">+</span> <span class="fl">1e-8</span> <span class="op">*</span> np.eye(m))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    K_approx <span class="op">=</span> K_nm <span class="op">@</span> K_mm_inv <span class="op">@</span> K_nm.T</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> K_approx, indices, K_nm, K_mm_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="results-結果" class="level4">
+<h4 class="anchored" data-anchor-id="results-結果">Results / 結果</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Errors</th>
+<th>Accuracy</th>
+<th>Train Time (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Full Kernel</td>
+<td>9</td>
+<td>99.55%</td>
+<td>7.52</td>
+</tr>
+<tr class="even">
+<td>Nyström m=128</td>
+<td>10</td>
+<td>99.50%</td>
+<td>0.38</td>
+</tr>
+<tr class="odd">
+<td>Nyström m=256</td>
+<td>10</td>
+<td>99.50%</td>
+<td>0.63</td>
+</tr>
+<tr class="even">
+<td>Nyström m=512</td>
+<td>9</td>
+<td>99.55%</td>
+<td>1.83</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="BigData_files/figure-html/nystrom-results-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note orange">
+<p><strong>效能分析：</strong> <span style="color:#FF4D8D;"><strong>粉色</strong></span> Full Kernel 需 7.52 秒計算完整 7291×7291 Gram matrix。<span style="color:#18A3A3;"><strong>青色</strong></span> Nyström m=128 僅需 <strong>0.38 秒</strong>（加速約 <strong>20 倍</strong>），且 accuracy 幾乎不變（99.50% vs 99.55%）。m=512 時精度完全匹配 Full Kernel，訓練時間仍節省 <strong>75%</strong>。</p>
+</div>
+</section>
+<section id="gram-matrix-visualization-gram-矩陣視覺化" class="level4">
+<h4 class="anchored" data-anchor-id="gram-matrix-visualization-gram-矩陣視覺化">Gram Matrix Visualization / Gram 矩陣視覺化</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bigdata_hw_2.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Full Kernel vs Nyström Approximation (first 100 samples)</figcaption>
+</figure>
+</div>
+<div class="chart-note teal">
+<p><strong>矩陣比較：</strong> 左圖為完整 Gram matrix（前 100 筆樣本），右圖為 Nyström 近似結果。兩者結構高度相似，驗證了 Nyström 方法在保留 kernel 結構的同時大幅減少計算量。</p>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="final-project" class="level2">
+<h2 class="anchored" data-anchor-id="final-project">Final Project / 期末報告</h2>
+<section id="smoothed-distributed-svm-平滑化與分散式-svm" class="level3">
+<h3 class="anchored" data-anchor-id="smoothed-distributed-svm-平滑化與分散式-svm">Smoothed &amp; Distributed SVM / 平滑化與分散式 SVM</h3>
+<p><strong>Task / 任務：</strong> Implement and compare three SVM variants: (1) standard LinearSVC, (2) Smoothed SVM using log-sum-exp approximation of hinge loss, and (3) Distributed Smoothed SVM with communication-efficient gradient aggregation. 實作並比較三種 SVM 變體：標準 LinearSVC、平滑化 SVM（log-sum-exp 近似 hinge loss）、以及分散式平滑 SVM（通訊高效梯度聚合）。</p>
+<p><strong>Dataset / 資料集：</strong> a9a (Adult Income) — 32,561 training + 16,281 test samples, 123 features</p>
+<p><strong>Method / 方法：</strong> LinearSVC baseline → Smoothed Hinge Loss (β=5) + L-BFGS-B → Distributed SGD (K=5 workers)</p>
+<section id="three-svm-variants-三種-svm-變體" class="level4">
+<h4 class="anchored" data-anchor-id="three-svm-variants-三種-svm-變體">Three SVM Variants / 三種 SVM 變體</h4>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart TD
+    DATA["a9a Dataset 32K×123     "] --&gt; S1["LinearSVC (sklearn)     "]
+    DATA --&gt; S2["Smoothed SVM (L-BFGS-B)     "]
+    DATA --&gt; S3["Distributed Smooth SVM     "]
+
+    S1 --&gt; R1["Baseline Accuracy     "]
+    S2 --&gt; R2["Single-node Accuracy     "]
+    S3 --&gt; |"K=5 workers"| R3["Distributed Accuracy     "]
+
+    S3 --&gt; W1["Worker 1     "]
+    S3 --&gt; W2["Worker 2     "]
+    S3 --&gt; W3["...     "]
+    S3 --&gt; W4["Worker 5     "]
+
+    style DATA fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style S1   fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style S2   fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style S3   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style R1   fill:#F5F5F5,color:#424242,stroke:#BDBDBD
+    style R2   fill:#FFF3E0,color:#E65100,stroke:#FFCC80
+    style R3   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7
+    style W1   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7
+    style W2   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7
+    style W3   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7
+    style W4   fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note grey">
+<p><strong>架構說明：</strong> <span style="color:#424242;">灰色</span> = sklearn LinearSVC baseline，<span style="color:#E65100;"><strong>橘色</strong></span> = 單節點 Smoothed SVM（L-BFGS-B 最佳化），<span style="color:#2E7D32;"><strong>綠色</strong></span> = 分散式版本（K=5 workers，每輪各 worker 計算局部梯度再聚合）。</p>
+</div>
+</section>
+<section id="smoothed-hinge-loss-平滑化-hinge-loss" class="level4">
+<h4 class="anchored" data-anchor-id="smoothed-hinge-loss-平滑化-hinge-loss">Smoothed Hinge Loss / 平滑化 Hinge Loss</h4>
+<p>Standard hinge loss is non-differentiable at u=1. The smoothed version uses log-sum-exp to create a differentiable approximation:</p>
+<p><span class="math display">\[\ell_\beta(u) = \frac{1}{\beta} \log\left(1 + e^{\beta(1-u)}\right)\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="BigData_files/figure-html/hinge-loss-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>Loss 比較：</strong> <span style="color:#7A7A7A;"><strong>灰色虛線</strong></span> 標準 Hinge Loss 在 u=1 處不可微。<span style="color:#E65100;"><strong>橘色</strong></span> Smoothed (β=5) 近似度最高，接近原始 hinge 但處處可微。<span style="color:#18A3A3;"><strong>青色</strong></span> (β=1) 較平滑但離原始 hinge 較遠。β 越大越接近原始形狀。</p>
+</div>
+</section>
+<section id="distributed-gradient-aggregation-分散式梯度聚合" class="level4">
+<h4 class="anchored" data-anchor-id="distributed-gradient-aggregation-分散式梯度聚合">Distributed Gradient Aggregation / 分散式梯度聚合</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distributed Smoothed SVM — Communication-efficient gradient</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">5</span>  <span class="co"># number of workers</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">5</span>  <span class="co"># communication rounds</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> np.zeros(X_train.shape[<span class="dv">1</span>])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pilot gradient (computed on worker 0)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    grad_pilot <span class="op">=</span> compute_gradient(beta, X_pilot, y_pilot, lambda_, beta_smooth)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Each worker computes local gradient correction</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    grad_total <span class="op">=</span> np.zeros_like(beta)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> X_k, y_k <span class="kw">in</span> <span class="bu">zip</span>(split_X, split_y):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        grad_k <span class="op">=</span> compute_gradient(beta, X_k, y_k, lambda_, beta_smooth)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        grad_total <span class="op">+=</span> (grad_k <span class="op">-</span> grad_pilot) <span class="op">*</span> (<span class="bu">len</span>(X_k) <span class="op">/</span> <span class="bu">len</span>(X_train))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aggregate: surrogate gradient = pilot + corrections</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">-=</span> <span class="fl">0.1</span> <span class="op">*</span> (grad_pilot <span class="op">+</span> grad_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note orange">
+<p><strong>分散式策略：</strong> 資料分成 K=5 份。每輪僅需一個 pilot worker 計算完整梯度，其餘 workers 計算「與 pilot 的梯度差」（correction term），最後聚合。相比每個 worker 都傳完整梯度，此方法大幅降低通訊量。</p>
+</div>
+</section>
+<section id="results-結果-1" class="level4">
+<h4 class="anchored" data-anchor-id="results-結果-1">Results / 結果</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Test Accuracy</th>
+<th>Training Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LinearSVC (sklearn baseline)</td>
+<td>84.93%</td>
+<td>1.52s</td>
+</tr>
+<tr class="even">
+<td>Smoothed SVM (single-node, L-BFGS-B)</td>
+<td>84.88%</td>
+<td>0.78s</td>
+</tr>
+<tr class="odd">
+<td>Distributed Smoothed SVM (K=5, B=5)</td>
+<td>83.79%</td>
+<td>0.01s</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="BigData_files/figure-html/svm-compare-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note pink">
+<p><strong>Trade-off 分析：</strong> <span style="color:#7A7A7A;"><strong>灰色</strong></span> LinearSVC 為 baseline（84.93%）。<span style="color:#E65100;"><strong>橘色</strong></span> Smoothed SVM 精度幾乎相同（84.88%），但因 L-BFGS-B 最佳化更高效而更快（0.78s vs 1.52s）。<span style="color:#18A3A3;"><strong>青色</strong></span> Distributed 版本犧牲 ~1.1% 精度換取 <strong>150 倍加速</strong>（0.01s），展現了分散式計算在大規模資料下的潛力。</p>
+</div>
+</section>
+<section id="ablation-study-β-sensitivity-消融實驗β-敏感度" class="level4">
+<h4 class="anchored" data-anchor-id="ablation-study-β-sensitivity-消融實驗β-敏感度">Ablation Study — β Sensitivity / 消融實驗：β 敏感度</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>β (smoothness)</th>
+<th>Test Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>83.69%</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>83.79%</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>83.79%</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>83.73%</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>81.21%</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="BigData_files/figure-html/beta-ablation-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note orange">
+<p><strong>β 選擇建議：</strong> β=2 和 β=5 表現最佳且相同（83.79%）。β 太大（=20）反而導致精度下降至 81.21%，因為過度逼近不可微的原始 hinge loss，造成 gradient 估計不穩定。<strong>β=5 為最佳平衡點</strong>。</p>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

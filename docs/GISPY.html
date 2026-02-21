@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GIS &amp; Python Programming – Tzu-Yuan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Tzu-Yuan</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./AM.html"> 
+<span class="menu-text">BS of AM</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of DSIC</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-dsic">    
+        <li>
+    <a class="dropdown-item" href="./DSIC.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./ML.html#assignments">
+ <span class="dropdown-text">ML &amp; Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DL.html#assignments">
+ <span class="dropdown-text">Deep Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./BigData.html#assignments">
+ <span class="dropdown-text">Big Data Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-sdar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of SDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-sdar">    
+        <li>
+    <a class="dropdown-item" href="./SDAR.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GISPY.html#assignments">
+ <span class="dropdown-text">GIS &amp; Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6356.html#assignments">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6354.html">
+ <span class="dropdown-text">Information Management</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">Assignments / 作業</a>
+  <ul>
+  <li><a href="#lab-2-retirement-calculator-退休基金計算器" id="toc-lab-2-retirement-calculator-退休基金計算器" class="nav-link" data-scroll-target="#lab-2-retirement-calculator-退休基金計算器">Lab 2 — Retirement Calculator / 退休基金計算器</a></li>
+  <li><a href="#lab-3-gradebook-manager-成績管理系統" id="toc-lab-3-gradebook-manager-成績管理系統" class="nav-link" data-scroll-target="#lab-3-gradebook-manager-成績管理系統">Lab 3 — Gradebook Manager / 成績管理系統</a></li>
+  <li><a href="#lab-4-modules-functions-oop-模組化程式設計與-oop" id="toc-lab-4-modules-functions-oop-模組化程式設計與-oop" class="nav-link" data-scroll-target="#lab-4-modules-functions-oop-模組化程式設計與-oop">Lab 4 — Modules, Functions &amp; OOP / 模組化程式設計與 OOP</a></li>
+  <li><a href="#lab-5-pandas-data-analysis-pandas-資料分析" id="toc-lab-5-pandas-data-analysis-pandas-資料分析" class="nav-link" data-scroll-target="#lab-5-pandas-data-analysis-pandas-資料分析">Lab 5 — Pandas Data Analysis / Pandas 資料分析</a></li>
+  <li><a href="#lab-6-data-visualization-資料視覺化" id="toc-lab-6-data-visualization-資料視覺化" class="nav-link" data-scroll-target="#lab-6-data-visualization-資料視覺化">Lab 6 — Data Visualization / 資料視覺化</a></li>
+  <li><a href="#lab-7-gui-development-with-pyqt5-pyqt5-桌面應用程式" id="toc-lab-7-gui-development-with-pyqt5-pyqt5-桌面應用程式" class="nav-link" data-scroll-target="#lab-7-gui-development-with-pyqt5-pyqt5-桌面應用程式">Lab 7 — GUI Development with PyQt5 / PyQt5 桌面應用程式</a></li>
+  <li><a href="#lab-8-arcgis-api-for-python-arcgis-python-api" id="toc-lab-8-arcgis-api-for-python-arcgis-python-api" class="nav-link" data-scroll-target="#lab-8-arcgis-api-for-python-arcgis-python-api">Lab 8 — ArcGIS API for Python / ArcGIS Python API</a></li>
+  <li><a href="#lab-10-web-scraping-apis-網頁爬蟲與-api" id="toc-lab-10-web-scraping-apis-網頁爬蟲與-api" class="nav-link" data-scroll-target="#lab-10-web-scraping-apis-網頁爬蟲與-api">Lab 10 — Web Scraping &amp; APIs / 網頁爬蟲與 API</a></li>
+  <li><a href="#lab-11-regular-expressions-geopandas-正規表達式與地理空間視覺化" id="toc-lab-11-regular-expressions-geopandas-正規表達式與地理空間視覺化" class="nav-link" data-scroll-target="#lab-11-regular-expressions-geopandas-正規表達式與地理空間視覺化">Lab 11 — Regular Expressions &amp; GeoPandas / 正規表達式與地理空間視覺化</a></li>
+  </ul></li>
+  <li><a href="#midterm" id="toc-midterm" class="nav-link" data-scroll-target="#midterm">Midterm / 期中考</a>
+  <ul>
+  <li><a href="#midterm-project-data-analysis-suite-資料分析組合" id="toc-midterm-project-data-analysis-suite-資料分析組合" class="nav-link" data-scroll-target="#midterm-project-data-analysis-suite-資料分析組合">Midterm Project — Data Analysis Suite / 資料分析組合</a>
+  <ul class="collapse">
+  <li><a href="#alumni-research-校友研究" id="toc-alumni-research-校友研究" class="nav-link" data-scroll-target="#alumni-research-校友研究">1. Alumni Research / 校友研究</a></li>
+  <li><a href="#file-manipulation-檔案操作" id="toc-file-manipulation-檔案操作" class="nav-link" data-scroll-target="#file-manipulation-檔案操作">2. File Manipulation / 檔案操作</a></li>
+  <li><a href="#real-estate-search-不動產搜尋" id="toc-real-estate-search-不動產搜尋" class="nav-link" data-scroll-target="#real-estate-search-不動產搜尋">3. Real Estate Search / 不動產搜尋</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project / 期末專案</a>
+  <ul>
+  <li><a href="#svd-image-compression-application-svd-影像壓縮應用程式" id="toc-svd-image-compression-application-svd-影像壓縮應用程式" class="nav-link" data-scroll-target="#svd-image-compression-application-svd-影像壓縮應用程式">SVD Image Compression Application / SVD 影像壓縮應用程式</a>
+  <ul class="collapse">
+  <li><a href="#application-architecture-應用程式架構" id="toc-application-architecture-應用程式架構" class="nav-link" data-scroll-target="#application-architecture-應用程式架構">Application Architecture / 應用程式架構</a></li>
+  <li><a href="#core-algorithm-核心演算法" id="toc-core-algorithm-核心演算法" class="nav-link" data-scroll-target="#core-algorithm-核心演算法">Core Algorithm / 核心演算法</a></li>
+  <li><a href="#gui-features-介面功能" id="toc-gui-features-介面功能" class="nav-link" data-scroll-target="#gui-features-介面功能">GUI Features / 介面功能</a></li>
+  <li><a href="#application-demo-應用程式展示" id="toc-application-demo-應用程式展示" class="nav-link" data-scroll-target="#application-demo-應用程式展示">Application Demo / 應用程式展示</a></li>
+  <li><a href="#svd-quality-analysis-svd-品質分析" id="toc-svd-quality-analysis-svd-品質分析" class="nav-link" data-scroll-target="#svd-quality-analysis-svd-品質分析">SVD Quality Analysis / SVD 品質分析</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#course-skills-summary-課程技能總覽" id="toc-course-skills-summary-課程技能總覽" class="nav-link" data-scroll-target="#course-skills-summary-課程技能總覽">Course Skills Summary / 課程技能總覽</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GIS &amp; Python Programming</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="assignments" class="level2">
+<h2 class="anchored" data-anchor-id="assignments">Assignments / 作業</h2>
+<section id="lab-2-retirement-calculator-退休基金計算器" class="level3">
+<h3 class="anchored" data-anchor-id="lab-2-retirement-calculator-退休基金計算器">Lab 2 — Retirement Calculator / 退休基金計算器</h3>
+<p><strong>Topic / 主題：</strong> Financial planning with compound interest calculations 以複利計算為基礎的退休基金規劃工具。</p>
+<p><strong>Key Concepts / 核心概念：</strong> Functions, loops, formatted output, compound interest</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart LR
+    A["User Input     "] --&gt; B["Monthly Contribution     "] --&gt; C["Compound Interest     "] --&gt; D["Year-by-Year Projection     "] --&gt; E["Millionaire Calculator     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style E fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>功能說明：</strong> 三種模式 — (1) 逐年基金預測（月複利），(2) 百萬富翁計算器（多少年達到 $1M），(3) 利率比較表（1-30% 年利率）。例：$500/月、10% 年利率、30 年 → <strong>$1.14M</strong>。</p>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Year-by-year retirement fund projection</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_fund(monthly, rate, years):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    balance <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    monthly_rate <span class="op">=</span> rate <span class="op">/</span> <span class="dv">12</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> year <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, years <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> month <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">12</span>):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            balance <span class="op">+=</span> monthly</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            balance <span class="op">*=</span> (<span class="dv">1</span> <span class="op">+</span> monthly_rate)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Year </span><span class="sc">{</span>year<span class="sc">:3d}</span><span class="ss">: $</span><span class="sc">{</span>balance<span class="sc">:&gt;12,.2f}</span><span class="ss">"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> balance</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Millionaire Calculator</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> years_to_million(monthly, rate):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    balance, months <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    monthly_rate <span class="op">=</span> rate <span class="op">/</span> <span class="dv">12</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> balance <span class="op">&lt;</span> <span class="dv">1_000_000</span>:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        balance <span class="op">+=</span> monthly</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        balance <span class="op">*=</span> (<span class="dv">1</span> <span class="op">+</span> monthly_rate)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        months <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> months <span class="op">//</span> <span class="dv">12</span>, months <span class="op">%</span> <span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GISPY_files/figure-html/lab2-compound-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note orange">
+<p><strong>複利效果：</strong> 前 15 年成長緩慢，後 15 年指數加速。$500/月在 10% 年利率下約 <strong>21 年</strong>達到百萬美元（<span style="color:#E65100;">橘色菱形</span>）。複利是長期投資的核心驅動力。</p>
+</div>
+<hr>
+</section>
+<section id="lab-3-gradebook-manager-成績管理系統" class="level3">
+<h3 class="anchored" data-anchor-id="lab-3-gradebook-manager-成績管理系統">Lab 3 — Gradebook Manager / 成績管理系統</h3>
+<p><strong>Topic / 主題：</strong> Interactive student grade management with CRUD operations 互動式學生成績管理系統，支援新增、刪除、修改、查詢。</p>
+<p><strong>Key Concepts / 核心概念：</strong> Lists, nested data structures, menu-driven programming, input validation</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Menu-driven gradebook</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main_menu():</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. Add student"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"2. Remove student"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"3. Modify grade"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"4. Display gradebook"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"5. Find highest/lowest"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"6. Exit"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        choice <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Select: "</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ... handle each option</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note grey">
+<p><strong>設計重點：</strong> 使用巢狀 list 儲存學生資料 <code>[name, grade]</code>，搭配 while loop 實現持續互動選單。包含輸入驗證（成績範圍 0-100）與錯誤處理。</p>
+</div>
+<hr>
+</section>
+<section id="lab-4-modules-functions-oop-模組化程式設計與-oop" class="level3">
+<h3 class="anchored" data-anchor-id="lab-4-modules-functions-oop-模組化程式設計與-oop">Lab 4 — Modules, Functions &amp; OOP / 模組化程式設計與 OOP</h3>
+<p><strong>Topic / 主題：</strong> Modular programming, reusable modules, and object-oriented design 模組化程式設計、可重用模組與物件導向設計。</p>
+<p><strong>Key Concepts / 核心概念：</strong> Module imports, OOP (classes), CSV I/O, distance calculations</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart TD
+    A["Lab 4 Modules     "] --&gt; B["(a) CSV Field Counter     "]
+    A --&gt; C["(b) Parcel Tax Calculator     "]
+    A --&gt; D["(c) Distance Calculator     "]
+
+    B --&gt; B1["mycount.py + callingscript.py     "]
+    C --&gt; C1["parcelclass.py → OOP     "]
+    D --&gt; D1["Euclidean + Great Circle     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style C fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style D fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style B1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style D1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (b) Parcel class with tax assessment</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Parcel:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, parcel_id, land_use, market_value):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parcel_id <span class="op">=</span> parcel_id</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.land_use <span class="op">=</span> land_use</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.market_value <span class="op">=</span> market_value</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> assess_tax(<span class="va">self</span>):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        rates <span class="op">=</span> {<span class="st">"SFR"</span>: <span class="fl">0.05</span>, <span class="st">"MFR"</span>: <span class="fl">0.04</span>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        rate <span class="op">=</span> rates.get(<span class="va">self</span>.land_use, <span class="fl">0.02</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.market_value <span class="op">*</span> rate</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># (c) Great Circle Distance (Haversine formula)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> great_circle(lat1, lon1, lat2, lon2):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> <span class="dv">6371</span>  <span class="co"># Earth radius in km</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    dlat <span class="op">=</span> math.radians(lat2 <span class="op">-</span> lat1)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    dlon <span class="op">=</span> math.radians(lon2 <span class="op">-</span> lon1)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> (math.sin(dlat<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>         math.cos(math.radians(lat1)) <span class="op">*</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>         math.cos(math.radians(lat2)) <span class="op">*</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>         math.sin(dlon<span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> R <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> math.asin(math.sqrt(a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note teal">
+<p><strong>三個子任務：</strong> (a) 計算 CSV 各欄位空值數量，(b) 以 OOP 建立 Parcel 類別計算不動產稅（SFR 5%、MFR 4%、其他 2%），(c) 以 Haversine 公式計算地球表面兩點距離。</p>
+</div>
+<hr>
+</section>
+<section id="lab-5-pandas-data-analysis-pandas-資料分析" class="level3">
+<h3 class="anchored" data-anchor-id="lab-5-pandas-data-analysis-pandas-資料分析">Lab 5 — Pandas Data Analysis / Pandas 資料分析</h3>
+<p><strong>Topic / 主題：</strong> DataFrame manipulation, grouping, pivoting, and multi-dataset merging Pandas DataFrame 操作、分組、樞紐分析與多資料集合併。</p>
+<p><strong>Datasets / 資料集：</strong> MovieLens (100K ratings), COVID-19 global time series</p>
+<p><strong>Key Concepts / 核心概念：</strong> pandas Series/DataFrame, boolean indexing, GroupBy, pivot tables, merge/join</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COVID-19 fatality rate analysis</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fatality <span class="op">=</span> (deaths_total <span class="op">/</span> confirmed_total <span class="op">*</span> <span class="dv">100</span>).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Peru: 9.17%, Mexico: 7.58%, South Africa: 2.68%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># MovieLens: most rated movies</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>top_movies <span class="op">=</span> ratings.groupby(<span class="st">'movieId'</span>).size().sort_values(ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Multi-DataFrame merge</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> pd.merge(users, ratings, on<span class="op">=</span><span class="st">'userId'</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> pd.merge(merged, movies, on<span class="op">=</span><span class="st">'movieId'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note orange">
+<p><strong>分析重點：</strong> (1) MovieLens — 找出評分最多的電影、男女評分差異最大的電影，(2) COVID-19 — 確診數前 25 國、各國致死率排名（秘魯 9.17% 最高）、月度增量分析（美國 2021 年 9 月增 +430 萬例）。</p>
+</div>
+<hr>
+</section>
+<section id="lab-6-data-visualization-資料視覺化" class="level3">
+<h3 class="anchored" data-anchor-id="lab-6-data-visualization-資料視覺化">Lab 6 — Data Visualization / 資料視覺化</h3>
+<p><strong>Topic / 主題：</strong> Publication-quality charts with matplotlib and Altair 使用 matplotlib 與 Altair 製作出版品質的圖表與互動式視覺化。</p>
+<p><strong>Datasets / 資料集：</strong> MovieLens, COVID-19, Seattle weather (Vega)</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_lab6_barh_top10_movies.png" class="img-fluid figure-img"></p>
+<figcaption>Top 10 Most-Reviewed Movies</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_lab6_bar_covid_top25.png" class="img-fluid figure-img"></p>
+<figcaption>COVID-19 Top 25 Countries</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_lab6_scatter_gender_rating_diff.png" class="img-fluid figure-img"></p>
+<figcaption>Gender Rating Differences</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_lab6_pie_seattle_weather.png" class="img-fluid figure-img"></p>
+<figcaption>Seattle Weather Distribution</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>視覺化技巧：</strong> 水平長條圖比較電影評論數量、散點圖呈現男女評分差異、圓餅圖展示天氣類型分布、折線圖追蹤 COVID-19 趨勢。Altair 部分製作了互動式 linked chart（點選國家 → 顯示該國死亡趨勢）。</p>
+</div>
+<hr>
+</section>
+<section id="lab-7-gui-development-with-pyqt5-pyqt5-桌面應用程式" class="level3">
+<h3 class="anchored" data-anchor-id="lab-7-gui-development-with-pyqt5-pyqt5-桌面應用程式">Lab 7 — GUI Development with PyQt5 / PyQt5 桌面應用程式</h3>
+<p><strong>Topic / 主題：</strong> Desktop application: Number guessing game with graphical interface 使用 PyQt5 開發數字猜謎遊戲桌面應用程式。</p>
+<p><strong>Key Concepts / 核心概念：</strong> PyQt5 widgets, event-driven programming, signal/slot, Qt Designer</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart LR
+    A["Qt Designer     "] --&gt; B["frmGuess.py     "] --&gt; C["lab7.py     "] --&gt; D["Number Game GUI     "]
+
+    style A fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style B fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number guessing game with hint system</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GuessGame:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.target <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.guesses <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> make_guess(<span class="va">self</span>, n):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.guesses <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="va">self</span>.target:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Correct!"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Higher!"</span> <span class="cf">if</span> n <span class="op">&lt;</span> <span class="va">self</span>.target <span class="cf">else</span> <span class="st">"Lower!"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> use_hint(<span class="va">self</span>):</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Costs 5 guesses, reveals number within ±5"""</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.guesses <span class="op">+=</span> <span class="dv">5</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (<span class="va">self</span>.target <span class="op">-</span> <span class="dv">5</span>, <span class="va">self</span>.target <span class="op">+</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note grey">
+<p><strong>GUI 功能：</strong> 隨機數字 (1-100) 猜謎遊戲。包含 (1) 猜測追蹤，(2) 提示系統（消耗 5 次機會，縮小範圍到 ±5），(3) 勝利偵測與重設。使用 Qt Designer 設計介面，<code>frmGuess.py</code> 為自動生成的 UI 程式碼。</p>
+</div>
+<hr>
+</section>
+<section id="lab-8-arcgis-api-for-python-arcgis-python-api" class="level3">
+<h3 class="anchored" data-anchor-id="lab-8-arcgis-api-for-python-arcgis-python-api">Lab 8 — ArcGIS API for Python / ArcGIS Python API</h3>
+<p><strong>Topic / 主題：</strong> Programmatic map creation and spatial data querying with ArcGIS Online 使用 ArcGIS API 程式化建立地圖與查詢空間資料。</p>
+<p><strong>Key Concepts / 核心概念：</strong> ArcGIS authentication, WebMap, FeatureLayer queries, basemap cycling</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arcgis.gis <span class="im">import</span> GIS</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> arcgis.mapping <span class="im">import</span> WebMap</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>gis <span class="op">=</span> GIS(<span class="st">"https://www.arcgis.com"</span>, username, password)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> gis.<span class="bu">map</span>(<span class="st">"University of Texas at Dallas"</span>, zoomlevel<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Search and add feature layers</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> gis.content.search(<span class="st">"UTD Buildings"</span>, item_type<span class="op">=</span><span class="st">"Feature Layer"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>m.add_layer(items[<span class="dv">0</span>])</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Query building attributes</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>fl <span class="op">=</span> items[<span class="dv">0</span>].layers[<span class="dv">0</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fl.properties.fields  <span class="co"># Inspect field schema</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note teal">
+<p><strong>GIS 操作：</strong> 透過 Python API 連接 ArcGIS Online，以 UTD 校園為中心建立互動式地圖，搜尋並疊加建築物圖層，查詢屬性欄位結構，切換不同底圖樣式。</p>
+</div>
+<hr>
+</section>
+<section id="lab-10-web-scraping-apis-網頁爬蟲與-api" class="level3">
+<h3 class="anchored" data-anchor-id="lab-10-web-scraping-apis-網頁爬蟲與-api">Lab 10 — Web Scraping &amp; APIs / 網頁爬蟲與 API</h3>
+<p><strong>Topic / 主題：</strong> Data extraction from web sources using APIs and scraping tools 使用 API 與爬蟲工具從網頁來源擷取資料。</p>
+<p><strong>Key Concepts / 核心概念：</strong> requests, JSON parsing, BeautifulSoup (HTML), Selenium (dynamic content)</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart LR
+    A["requests GET     "] --&gt; B["JSON / HTML     "]
+    B --&gt; C["BeautifulSoup     "]
+    B --&gt; D["json.loads()     "]
+    C --&gt; E["Structured Data     "]
+    D --&gt; E
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style E fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># RESTful API request</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">"https://api.example.com/data"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> response.json()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML scraping</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> requests.get(<span class="st">"https://example.com"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(page.content, <span class="st">"html.parser"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> soup.find_all(<span class="st">"div"</span>, class_<span class="op">=</span><span class="st">"target"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="chart-note grey">
+<p><strong>兩種方法：</strong> (1) RESTful API — 發送 GET/POST 請求，解析 JSON 回應，(2) HTML 爬蟲 — 使用 BeautifulSoup 解析 DOM 結構，Selenium 處理動態載入內容。</p>
+</div>
+<hr>
+</section>
+<section id="lab-11-regular-expressions-geopandas-正規表達式與地理空間視覺化" class="level3">
+<h3 class="anchored" data-anchor-id="lab-11-regular-expressions-geopandas-正規表達式與地理空間視覺化">Lab 11 — Regular Expressions &amp; GeoPandas / 正規表達式與地理空間視覺化</h3>
+<p><strong>Topic / 主題：</strong> Parse structured text files with regex, create spatial visualizations with GeoPandas 使用正規表達式解析結構化文字，搭配 GeoPandas 製作地理空間視覺化。</p>
+<p><strong>Dataset / 資料集：</strong> <code>worldcities.txt</code> — city coordinates in degrees-minutes format</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse DMS coordinates with regex</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"</span><span class="dv">^</span><span class="kw">(</span><span class="dv">.</span><span class="op">*</span><span class="kw">)</span><span class="ch">\t</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="ch">\t</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs"> </span><span class="kw">(</span><span class="pp">[NS]</span><span class="kw">)</span><span class="ch">\t</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="ch">\t</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs"> </span><span class="kw">(</span><span class="pp">[EW]</span><span class="kw">)</span><span class="ch">\t</span><span class="kw">(</span><span class="dv">.</span><span class="op">*</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> <span class="bu">open</span>(<span class="st">"worldcities.txt"</span>):</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> re.match(pattern, line.strip())</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> match:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        city, lat_d, lat_m, ns, lon_d, lon_m, ew, country <span class="op">=</span> match.groups()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        lat <span class="op">=</span> (<span class="bu">int</span>(lat_d) <span class="op">+</span> <span class="bu">int</span>(lat_m)<span class="op">/</span><span class="dv">60</span>) <span class="op">*</span> (<span class="op">-</span><span class="dv">1</span> <span class="cf">if</span> ns <span class="op">==</span> <span class="st">'S'</span> <span class="cf">else</span> <span class="dv">1</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        lon <span class="op">=</span> (<span class="bu">int</span>(lon_d) <span class="op">+</span> <span class="bu">int</span>(lon_m)<span class="op">/</span><span class="dv">60</span>) <span class="op">*</span> (<span class="op">-</span><span class="dv">1</span> <span class="cf">if</span> ew <span class="op">==</span> <span class="st">'W'</span> <span class="cf">else</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_lab11_worldcities_map.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>World Cities Map — GeoPandas with Natural Earth basemap</figcaption>
+</figure>
+</div>
+<div class="chart-note teal">
+<p><strong>處理流程：</strong> Regex 從 <code>worldcities.txt</code> 擷取城市名、經緯度（度分格式）與國家 → 轉換 DMS 為十進位度數 → 建立 Shapely Point 幾何 → GeoPandas GeoDataFrame → 疊加 Natural Earth 底圖繪製全球城市分布圖。</p>
+</div>
+<hr>
+</section>
+</section>
+<section id="midterm" class="level2">
+<h2 class="anchored" data-anchor-id="midterm">Midterm / 期中考</h2>
+<section id="midterm-project-data-analysis-suite-資料分析組合" class="level3">
+<h3 class="anchored" data-anchor-id="midterm-project-data-analysis-suite-資料分析組合">Midterm Project — Data Analysis Suite / 資料分析組合</h3>
+<p>三個獨立的 Python 程式，展示檔案操作、資料分析與不動產查詢能力。</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart TD
+    A["Midterm Project     "] --&gt; B["Alumni Research     "]
+    A --&gt; C["File Manipulation     "]
+    A --&gt; D["Real Estate Search     "]
+
+    B --&gt; B1["Income &amp; Debt by Major     "]
+    C --&gt; C1["Recursive CSV Processing     "]
+    D --&gt; D1["Multi-criteria Property Filter     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style C fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style D fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style B1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style D1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="alumni-research-校友研究" class="level4">
+<h4 class="anchored" data-anchor-id="alumni-research-校友研究">1. Alumni Research / 校友研究</h4>
+<p>分析校友收入與學貸：按科系統計平均年齡、性別比例、收入排名、學貸還款計算器（以年收入 5% 為月還款）。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loan payoff calculator: 5% annual income as monthly payment</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loan_payoff(debt, annual_income, interest_rate<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    monthly_payment <span class="op">=</span> annual_income <span class="op">*</span> <span class="fl">0.05</span> <span class="op">/</span> <span class="dv">12</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    balance, months <span class="op">=</span> debt, <span class="dv">0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> balance <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        balance <span class="op">*=</span> (<span class="dv">1</span> <span class="op">+</span> interest_rate <span class="op">/</span> <span class="dv">12</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        balance <span class="op">-=</span> monthly_payment</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        months <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> months <span class="op">//</span> <span class="dv">12</span>, months <span class="op">%</span> <span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="file-manipulation-檔案操作" class="level4">
+<h4 class="anchored" data-anchor-id="file-manipulation-檔案操作">2. File Manipulation / 檔案操作</h4>
+<p>遞迴走訪目錄，偵測 CSV 檔案並以 tab 分隔格式美化輸出。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_directory(path):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.isfile(path) <span class="kw">and</span> path.endswith(<span class="st">'.csv'</span>):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        pretty_print_csv(path)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> os.path.isdir(path):</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> root, dirs, files <span class="kw">in</span> os.walk(path):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> f <span class="kw">in</span> files:</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> f.endswith(<span class="st">'.csv'</span>):</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                    pretty_print_csv(os.path.join(root, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="real-estate-search-不動產搜尋" class="level4">
+<h4 class="anchored" data-anchor-id="real-estate-search-不動產搜尋">3. Real Estate Search / 不動產搜尋</h4>
+<p>多條件過濾地產：州別代碼、最小居住面積、市價範圍、指定學區。</p>
+<div class="chart-note orange">
+<p><strong>期中總結：</strong> 三個程式分別展示 (1) pandas 資料分析與合併（<code>merge on ID</code>），(2) <code>os.walk()</code> 遞迴檔案處理，(3) 多條件邏輯篩選。涵蓋資料科學、系統操作與實務應用三大面向。</p>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="final-project" class="level2">
+<h2 class="anchored" data-anchor-id="final-project">Final Project / 期末專案</h2>
+<section id="svd-image-compression-application-svd-影像壓縮應用程式" class="level3">
+<h3 class="anchored" data-anchor-id="svd-image-compression-application-svd-影像壓縮應用程式">SVD Image Compression Application / SVD 影像壓縮應用程式</h3>
+<p><strong>Task / 任務：</strong> Build an interactive desktop application for image compression using Singular Value Decomposition (SVD), with real-time preview and quality metrics. 建立互動式桌面應用程式，使用奇異值分解 (SVD) 進行影像壓縮，具備即時預覽與品質指標。</p>
+<p><strong>Method / 方法：</strong> PyQt6 GUI + NumPy SVD + PIL image processing</p>
+<p><strong>Mathematical Foundation / 數學基礎：</strong> Eckart-Young Theorem — A_k = sum(sigma_i * u_i * v_i^T) for i=1 to k</p>
+<section id="application-architecture-應用程式架構" class="level4">
+<h4 class="anchored" data-anchor-id="application-architecture-應用程式架構">Application Architecture / 應用程式架構</h4>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart TD
+    A["Image Input (drag &amp; drop)     "] --&gt; B["RGB Channel Split     "]
+    B --&gt; C["np.linalg.svd per channel     "]
+    C --&gt; D["Low-rank Approximation A_k     "]
+    D --&gt; E["Reconstruct RGB     "]
+    E --&gt; F["PSNR + File Size     "]
+    F --&gt; G["Preview &amp; Export     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style E fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+    style F fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style G fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>SVD 原理：</strong> 任何矩陣 A 可分解為 A = U Sigma V^T。取前 k 個奇異值重建 A_k，即為最佳 rank-k 近似（Eckart-Young 定理）。k 越小壓縮率越高，但品質越低。</p>
+</div>
+</section>
+<section id="core-algorithm-核心演算法" class="level4">
+<h4 class="anchored" data-anchor-id="core-algorithm-核心演算法">Core Algorithm / 核心演算法</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> perform_svd(image_array):</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""SVD on each RGB channel separately"""</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    channels <span class="op">=</span> {}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">'R'</span>, <span class="st">'G'</span>, <span class="st">'B'</span>]):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        U, S, Vt <span class="op">=</span> np.linalg.svd(image_array[:, :, i], full_matrices<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        channels[name] <span class="op">=</span> (U, S, Vt)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> channels</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reconstruct(channels, k):</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Low-rank approximation with k singular values"""</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    reconstructed <span class="op">=</span> np.zeros_like(original)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="st">'R'</span>, <span class="st">'G'</span>, <span class="st">'B'</span>]):</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        U, S, Vt <span class="op">=</span> channels[name]</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        reconstructed[:, :, i] <span class="op">=</span> np.clip(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>            U[:, :k] <span class="op">@</span> np.diag(S[:k]) <span class="op">@</span> Vt[:k, :], <span class="dv">0</span>, <span class="dv">255</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reconstructed.astype(np.uint8)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_psnr(original, compressed):</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    mse <span class="op">=</span> np.mean((original.astype(<span class="bu">float</span>) <span class="op">-</span> compressed.astype(<span class="bu">float</span>)) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">10</span> <span class="op">*</span> np.log10(<span class="dv">255</span><span class="op">**</span><span class="dv">2</span> <span class="op">/</span> mse) <span class="cf">if</span> mse <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="gui-features-介面功能" class="level4">
+<h4 class="anchored" data-anchor-id="gui-features-介面功能">GUI Features / 介面功能</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PyQt6 GUI with dual slider control</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SVDCompressor(QMainWindow):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Drag-and-drop image upload</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dual slider: compression ratio ↔ target file size (linked)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Smart presets:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">#   Social media: 2 MB, ~35 dB PSNR</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">#   Email:        5 MB, ~40 dB PSNR</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">#   High quality: 80% compression, ~45 dB PSNR</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="application-demo-應用程式展示" class="level4">
+<h4 class="anchored" data-anchor-id="application-demo-應用程式展示">Application Demo / 應用程式展示</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_svd_app_screenshot.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>SVD Compression App — PyQt6 Desktop Application</figcaption>
+</figure>
+</div>
+<div class="chart-note orange">
+<p><strong>App 功能一覽：</strong></p>
+<ul>
+<li><strong>拖曳上傳</strong> — 將圖片拖移至介面即可載入</li>
+<li><strong>雙滑桿連動</strong> — 壓縮比例 ↔︎ 目標檔案大小（拖動一條另一條自動調整）</li>
+<li><strong>智慧建議</strong> — 三種預設模板：社群媒體 (2 MB)、郵件附件 (5 MB)、高品質存檔 (PSNR &gt; 40 dB)</li>
+<li><strong>即時預覽</strong> — 左右對比原圖 vs 壓縮後，下方顯示 PSNR / 檔案大小 / 壓縮比</li>
+<li><strong>品質警告</strong> — PSNR 低於 40 dB 時自動彈出警告</li>
+<li><strong>基於 Eckart-Young 定理</strong> — 理論保證最佳低秩近似</li>
+</ul>
+</div>
+<p>📎 <strong>Download：</strong> <a href="SVD_app.py">SVD_app.py (原始碼)</a></p>
+</section>
+<section id="svd-quality-analysis-svd-品質分析" class="level4">
+<h4 class="anchored" data-anchor-id="svd-quality-analysis-svd-品質分析">SVD Quality Analysis / SVD 品質分析</h4>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_svd_rgb_channels.png" class="img-fluid figure-img"></p>
+<figcaption>RGB Channel Decomposition</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gis_svd_metrics_vs_k.png" class="img-fluid figure-img"></p>
+<figcaption>SVD Metrics vs k (MSE, PSNR, norm, sigma)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in annotate("label", x = 300, y = 34, label = "k=300: 31.88 dB", :
+Ignoring unknown parameters: `label.size`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GISPY_files/figure-html/svd-psnr-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note pink">
+<p><strong>品質分析：</strong> 左圖 — PSNR 隨 k 增加而提升，k=300 時達 <strong>31.88 dB</strong>（超過 30 dB 門檻，<span style="color:#7A7A7A;">灰色虛線</span>），k=700 時接近原圖品質 (44.70 dB)。右圖 — MSE 呈指數下降，k=300 後改善趨緩。<strong>實務結論：</strong> k=200~400 是壓縮率與品質的最佳平衡區間。</p>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>k</th>
+<th>PSNR (dB)</th>
+<th>MSE</th>
+<th>Compression Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>12.50</td>
+<td>3650</td>
+<td>99.9%</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td>27.10</td>
+<td>127</td>
+<td>95.1%</td>
+</tr>
+<tr class="odd">
+<td>100</td>
+<td>29.50</td>
+<td>73</td>
+<td>90.3%</td>
+</tr>
+<tr class="even">
+<td><strong>300</strong></td>
+<td><strong>31.88</strong></td>
+<td><strong>42.29</strong></td>
+<td><strong>70.9%</strong></td>
+</tr>
+<tr class="odd">
+<td>700</td>
+<td>44.70</td>
+<td>2.2</td>
+<td>32.0%</td>
+</tr>
+</tbody>
+</table>
+<div class="chart-note orange">
+<p><strong>Eckart-Young 定理驗證：</strong> 實驗確認 ||A - A_k||₂ ≈ sigma_{k+1}，即低秩近似的誤差等於第 k+1 個奇異值。這為選擇最佳 k 值提供了理論依據 — 當 sigma_{k+1} 小於品質門檻時即可停止。</p>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="course-skills-summary-課程技能總覽" class="level2">
+<h2 class="anchored" data-anchor-id="course-skills-summary-課程技能總覽">Course Skills Summary / 課程技能總覽</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GISPY_files/figure-html/skills-summary-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>課程總結：</strong> 從基礎 Python（函式、OOP、檔案操作）到資料科學（pandas、視覺化）、GIS 空間分析（ArcGIS、GeoPandas）、GUI 開發（PyQt5/6）、網頁爬蟲（requests、BeautifulSoup），最終以 SVD 影像壓縮專案整合數學理論與軟體工程能力。</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

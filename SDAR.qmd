@@ -1,0 +1,45 @@
+---
+title: "MS of Social Data Analytics & Research"
+subtitle: "德州大學達拉斯分校 · The University of Texas at Dallas"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    toc-depth: 4
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+::: {.chart-note .teal}
+**學歷：** 德州大學達拉斯分校 社會數據分析與研究碩士 (Master of Science in Social Data Analytics and Research, UTD)。
+:::
+
+## About the Program
+
+The **Master of Science in Social Data Analytics and Research (SDAR)** program at The University of Texas at Dallas trains students to collect, manage, analyze, and visualize social and behavioral data. The curriculum spans GIS, data visualization, information management, and quantitative methods — equipping graduates with skills for data-driven decision-making in public policy, social science, and industry.
+
+## Coursework
+
+::: {.landing-cards}
+
+::: {.landing-card}
+### [GIS & Python Programming](GISPY.qmd#assignments)
+
+Geographic information systems, spatial data analysis, and Python programming — from basic scripting and GUI applications to web scraping and SVD image compression.
+:::
+
+::: {.landing-card}
+### [Data Visualization](EPPS6356.qmd#assignments)
+
+Principles of effective data visualization, grammar of graphics, and practical chart design — with assignments in R (ggplot2) and critical reviews of visualization literature.
+:::
+
+::: {.landing-card}
+### [Information Management](EPPS6354.qmd)
+
+Database design, SQL, information systems architecture, and data management strategies for social science research.
+:::
+
+:::

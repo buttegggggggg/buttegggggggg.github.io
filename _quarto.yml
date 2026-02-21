@@ -13,41 +13,40 @@ project:
   - Review of Edward Tufte.pdf
   - Tzu-Yuan’s Data Guide Checklist.pdf
   - Tzu-Yuan,Chen_review.pdf
+  - SVD_app.py
 
 website:
-  title: "Tzu-Yuan Chen"
+  title: "Tzu-Yuan"
   navbar:
     left:
       - text: Home
         href: index.qmd
       - text: About
-        href: about.qmd 
-      - text: Data Visualization
+        href: about.qmd
+      - text: BS of AM
+        href: AM.qmd
+      - text: MS of DSIC
         menu:
-          - text: Assignments
-            href: EPPS6356.qmd#assignments
-          - text: Final Project
-            href: EPPS6356.qmd#final-project
-          - text: Reviews
-            href: EPPS6356.qmd#reviews
-          - text: Notes
-            href: EPPS6356.qmd#notes
-          - text: Checklist
-            href: EPPS6356.qmd#checklist
-      - text: Information Management
-        menu:
-          - text: Assignments
-            href: EPPS6354.qmd
-          - text: Final Project
-            href: EPPS6354.qmd#final-project
-      - text: ML & Data Science
-        menu:
-          - text: Assignments
+          - text: Overview
+            href: DSIC.qmd
+          - text: ML & Data Science
             href: ML.qmd#assignments
-      - text: Deep Learning
-        menu:
-          - text: Assignments
+          - text: Deep Learning
             href: DL.qmd#assignments
+          - text: Big Data Analysis
+            href: BigData.qmd#assignments
+          - text: Data Analysis Math
+            href: DataAnalysis.qmd#assignments
+      - text: MS of SDAR
+        menu:
+          - text: Overview
+            href: SDAR.qmd
+          - text: GIS & Python
+            href: GISPY.qmd#assignments
+          - text: Data Visualization
+            href: EPPS6356.qmd#assignments
+          - text: Information Management
+            href: EPPS6354.qmd
 
 jupyter: python3
 
@@ -58,4 +57,4 @@ format:
     toc-depth: 3
     number-sections: true
     page-layout: article
-    css: styles.css
+    css: styles.scss
