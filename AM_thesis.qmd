@@ -67,13 +67,13 @@ We applied a **Hadamard gate (H-gate)** to a single qubit, putting it into super
 
 The simulator's cumulative probability converges **smoothly** to 0.5, perfectly following the law of large numbers:
 
-![Simulator: Cumulative P(0) over 20,000 measurements --- converges to 0.5](am_sim_20k.png){width=85%}
+![Simulator: Cumulative P(0) over 20,000 measurements --- converges to 0.5](am_qc_20k.png){width=85%}
 
 ### Real Quantum Computer Result
 
 The real quantum computer (IBM Osaka) shows a **systematic downward drift** --- the cumulative probability does NOT converge to 0.5:
 
-![IBM Osaka: Cumulative P(0) over 20,000 measurements --- drifts below 0.5](am_qc_20k.png){width=85%}
+![IBM Osaka: Cumulative P(0) over 20,000 measurements --- drifts below 0.5](am_sim_20k.png){width=85%}
 
 ::: {.chart-note .orange}
 **Key Finding:** The simulator perfectly follows the law of large numbers, but the real quantum computer exhibits a persistent bias. This divergence suggests that either: (1) hardware noise introduces systematic error, (2) the sample size is insufficient, or (3) quantum superposition may not produce truly objective randomness.

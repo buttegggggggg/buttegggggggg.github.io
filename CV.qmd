@@ -1,6 +1,6 @@
 ---
 title: "Tzu-Yuan Chen"
-subtitle: "Data Scientist / ML Engineer"
+subtitle: "M.S. Student · Seeking Data Science / ML Internship"
 format:
   html:
     theme: cosmo
@@ -147,12 +147,12 @@ format:
   <span><i class="bi bi-envelope-fill"></i> <a href="mailto:chen.tzuyuan666@gmail.com">chen.tzuyuan666@gmail.com</a></span>
   <span><i class="bi bi-github"></i> <a href="https://github.com/chentzuyuan" target="_blank">github.com/chentzuyuan</a></span>
   <span><i class="bi bi-globe2"></i> <a href="https://chentzuyuan.github.io" target="_blank">chentzuyuan.github.io</a></span>
-  <span><i class="bi bi-geo-alt-fill"></i> Dallas, TX / Taipei, Taiwan</span>
+  <span><i class="bi bi-geo-alt-fill"></i> Dallas, TX / Taichung, Taiwan</span>
 </div>
 ```
 
 ::: {.chart-note .teal}
-Data scientist and ML engineer with a strong mathematical foundation (BS Applied Mathematics) and dual master's degrees in Data Science and Social Data Analytics. Hands-on experience building end-to-end ML/DL pipelines — from image classification (**96.44%** on industrial defects) and medical image segmentation to distributed learning systems achieving **150x speedup**. Passionate about bridging rigorous numerical analysis with scalable, production-oriented ML solutions.
+M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. in Applied Mathematics. Seeking a **data science / ML internship** to apply hands-on project experience — including image classification (**96.44%** accuracy), medical image segmentation, and distributed learning (**150x speedup**) — in a professional setting. Strong foundation in numerical analysis, deep learning, and end-to-end ML pipelines.
 :::
 
 ```{=html}
@@ -362,7 +362,7 @@ Data scientist and ML engineer with a strong mathematical foundation (BS Applied
 </div>
 
 <div class="cv-work-item">
-  <span class="cv-work-date">2022 &ndash; 2023</span>
+  <span class="cv-work-date">2023 &ndash; 2024</span>
   <div class="cv-role">Undergraduate Thesis: Quantum Bayesian Inference</div>
   <div class="cv-org">Department of Applied Mathematics, NCHU</div>
   <ul>
@@ -372,7 +372,7 @@ Data scientist and ML engineer with a strong mathematical foundation (BS Applied
 </div>
 
 <div class="cv-work-item">
-  <span class="cv-work-date">2019 &ndash; 2024</span>
+  <span class="cv-work-date">2020 &ndash; 2024</span>
   <div class="cv-role">Part-Time Roles</div>
   <div class="cv-org">Various, Taiwan</div>
   <ul>
