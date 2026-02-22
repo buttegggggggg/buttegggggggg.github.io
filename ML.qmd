@@ -42,17 +42,17 @@ theme1 <- function() {
 }
 ```
 
-## Assignments / 作業
+## Assignments
 
-### Assignment 1 — Diabetes Prediction / 糖尿病預測
+### Assignment 1 — Diabetes Prediction
 
-**Task / 任務：** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation, feature engineering, and resampling before training a deep neural network. 以 Pima Indians 糖尿病資料集為基礎，先用迴歸填補缺失值、進行特徵工程與資料重抽樣，再訓練深層神經網路進行二元分類。
+**Task:** Predict the onset of diabetes using the Pima Indians Diabetes dataset, with a focus on handling missing values through regression-based imputation, feature engineering, and resampling before training a deep neural network.
 
-**Dataset / 資料集：** Pima Indians Diabetes Dataset — 768 samples, 8 features
+**Dataset:** Pima Indians Diabetes Dataset — 768 samples, 8 features
 
-**Method / 方法：** Regression imputation → Feature engineering → Resampling → DNN
+**Method:** Regression imputation → Feature engineering → Resampling → DNN
 
-#### Pipeline Overview / 整體流程
+#### Pipeline Overview
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35, "nodeSpacing": 25, "rankSpacing": 40}}}%%
@@ -74,20 +74,20 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**Pipeline 說明：** 原始資料中 Glucose、BMI 等欄位含有「零值」，實際上代表缺失。先以線性迴歸逐欄填補，再做特徵工程與重抽樣平衡正負樣本，最後以 4 層 DNN 進行二元分類，從 baseline 74% 提升至 **90.04%**。
+**Pipeline Description:** The raw data contains "zero values" in columns such as Glucose and BMI, which actually represent missing data. Linear regression is used to impute each column sequentially, followed by feature engineering and resampling to balance positive and negative samples. Finally, a 4-layer DNN performs binary classification, improving from a baseline of 74% to **90.04%**.
 :::
 
-#### Exploratory Data Analysis / 資料探索
+#### Exploratory Data Analysis
 
-Zero values in `Glucose`, `BMI`, `BloodPressure`, `SkinThickness`, and `Insulin` are treated as missing. After removing rows with missing values, 336 clean rows remain for fitting imputation models. 將 Glucose、BMI 等欄位的零值視為缺失。移除含缺失值的列後，336 筆乾淨資料用於訓練填補模型。
+Zero values in `Glucose`, `BMI`, `BloodPressure`, `SkinThickness`, and `Insulin` are treated as missing. After removing rows with missing values, 336 clean rows remain for fitting imputation models.
 
 ![Feature Correlation Matrix (after removing rows with NaN)](ml_hw1_correlation_matrix.png){width="70%"}
 
 ::: {.chart-note .orange}
-**Key observations / 重要觀察：** **Glucose → Outcome** 相關係數 0.50，是糖尿病最強預測變數；**SkinThickness ↔ BMI** 達 0.71，可用 BMI 填補 SkinThickness；**Insulin ↔ Glucose** 達 0.70，可用 Glucose 填補 Insulin；**Age ↔ Pregnancies** 為 0.54，符合生物學預期。
+**Key Observations:** **Glucose → Outcome** has a correlation of 0.50, making it the strongest predictor for diabetes; **SkinThickness ↔ BMI** reaches 0.71, allowing BMI to impute SkinThickness; **Insulin ↔ Glucose** reaches 0.70, allowing Glucose to impute Insulin; **Age ↔ Pregnancies** is 0.54, consistent with biological expectations.
 :::
 
-#### Missing Value Imputation / 缺失值填補
+#### Missing Value Imputation
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -118,7 +118,7 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**填補順序：** 利用相關性最高的已知欄位作為自變數，以線性迴歸依序填補：Outcome → Glucose → BMI → Insulin / SkinThickness → BloodPressure。每一步都只使用「已經存在或已填補」的欄位當作 predictor。
+**Imputation Order:** Using the most highly correlated known columns as independent variables, linear regression is applied sequentially: Outcome → Glucose → BMI → Insulin / SkinThickness → BloodPressure. Each step uses only columns that already exist or have already been imputed as predictors.
 :::
 
 ``` python
@@ -141,7 +141,7 @@ X_train = df_non_missing[['Age', 'BMI']]
 y_train = df_non_missing['BloodPressure']
 ```
 
-#### Model Architecture / 模型架構
+#### Model Architecture
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -163,7 +163,7 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ``` python
 model.compile(
@@ -174,7 +174,7 @@ model.compile(
 model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 ```
 
-#### Results / 結果
+#### Results
 
 | Metric | Value |
 |----|----|
@@ -215,22 +215,22 @@ ggplot(df_acc, aes(x = stage, y = accuracy, fill = stage)) +
 ```
 
 ::: {.chart-note .orange}
-**Accuracy 分析：** Baseline（直接丟棄缺失值）僅有 74.03%。迴歸填補後提升至 77.92%，特徵工程再加 \~5 pp，最終搭配 resampling + DNN 達到 **90.04%**，共提升 **+16 pp**。灰色虛線為 baseline 參考線，橘色箭頭標示整體增幅。
+**Accuracy Analysis:** The baseline (directly dropping missing values) achieves only 74.03%. After regression imputation, accuracy increases to 77.92%, feature engineering adds ~5 pp, and finally resampling + DNN reaches **90.04%**, a total improvement of **+16 pp**. The grey dashed line marks the baseline reference, and the orange arrow indicates the overall gain.
 :::
 
 ------------------------------------------------------------------------
 
-### Assignment 2 — US Wildfire Analysis / 美國野火分析與預測
+### Assignment 2 — US Wildfire Analysis
 
-**Task / 任務：** Analyze 1.88 million US wildfire records to model annual frequency trends using Poisson regression, and predict wildfire causes using a multi-layer perceptron. 分析 188 萬筆美國野火紀錄，用 Poisson 迴歸建立年度頻率趨勢模型，並以 MLP 預測野火成因。
+**Task:** Analyze 1.88 million US wildfire records to model annual frequency trends using Poisson regression, and predict wildfire causes using a multi-layer perceptron.
 
-**Dataset / 資料集：** US Wildfires (1992–2015) — 1,880,465 records, Kaggle
+**Dataset:** US Wildfires (1992–2015) — 1,880,465 records, Kaggle
 
-**Method / 方法：** Poisson Regression (trend analysis) + MLP (cause classification)
+**Method:** Poisson Regression (trend analysis) + MLP (cause classification)
 
-#### Poisson Regression / Poisson 迴歸
+#### Poisson Regression
 
-Models the annual count of wildfires as a function of year to estimate long-term trend. 建立野火年度數量對年份的 Poisson 迴歸，估計長期增長趨勢。
+Models the annual count of wildfires as a function of year to estimate the long-term trend.
 
 ``` python
 import statsmodels.api as sm
@@ -266,10 +266,10 @@ ggplot(df_fire) +
 ```
 
 ::: {.chart-note .teal}
-**Poisson 趨勢：** 以年份為自變數擬合 Poisson 迴歸，估計野火年度發生頻率以每年 **+0.44%** 的速度增長。[**橘色虛線**]{style="color:#E65100;"} 為迴歸擬合線，[**青色長條**]{style="color:#18A3A3;"} 為各年度實際數量。
+**Poisson Trend:** A Poisson regression fitted with year as the independent variable estimates that annual wildfire frequency increases at a rate of **+0.44%** per year. The [**orange dashed line**]{style="color:#E65100;"} is the regression fit, and the [**teal bars**]{style="color:#18A3A3;"} represent the actual counts for each year.
 :::
 
-#### MLP Model Architecture / MLP 模型架構
+#### MLP Model Architecture
 
 Features: `FIRE_SIZE`, `LATITUDE`, `LONGITUDE`, `FIRE_YEAR`, `MONTH`
 
@@ -287,7 +287,7 @@ flowchart LR
 ```
 
 ::: {.chart-note .grey}
-**Architecture 說明：** 兩層 Dense 64 + Dropout 0.3 的簡單 MLP。[**藍色**]{style="color:#1976D2;"} = Dense 層，[**橘色**]{style="color:#E65100;"} = Dropout 正則化，[**綠色**]{style="color:#2E7D32;"} = Softmax 輸出（10 類野火成因）。
+**Architecture Description:** A simple MLP with two Dense 64 layers + Dropout 0.3. [**Blue**]{style="color:#1976D2;"} = Dense layers, [**Orange**]{style="color:#E65100;"} = Dropout regularization, [**Green**]{style="color:#2E7D32;"} = Softmax output (10 wildfire cause classes).
 :::
 
 ``` python
@@ -305,14 +305,14 @@ model.compile(
 )
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ``` python
 model.fit(X_train, y_train, epochs=20, batch_size=32, validation_split=0.2)
 # Train/Test Split: 70/30
 ```
 
-#### Results / 結果
+#### Results
 
 | Metric                             | Value                  |
 |------------------------------------|------------------------|
@@ -344,20 +344,20 @@ ggplot(df_mlp, aes(x = acc, y = category, fill = category)) +
 ```
 
 ::: {.chart-note .pink}
-**結果分析：** 10 類隨機猜測 baseline 為 10%，MLP 達到 \~45.6%，遠優於隨機但仍有提升空間。分類準確率偏低反映了僅依靠地理位置（經緯度）與時間（年份、月份）來判斷野火成因的固有難度 — 許多成因（人為 vs 雷擊）在空間上高度重疊。
+**Results Analysis:** The 10-class random guess baseline is 10%, while the MLP achieves ~45.6%, far better than random but still with room for improvement. The relatively low classification accuracy reflects the inherent difficulty of determining wildfire causes based solely on geographic location (latitude/longitude) and time (year, month) -- many causes (human vs. lightning) overlap significantly in spatial distribution.
 :::
 
 ------------------------------------------------------------------------
 
-### Final Project — Cervical Cancer Screening / 子宮頸癌篩檢影像分類
+### Final Project — Cervical Cancer Screening
 
-**Task / 任務：** Classify cervical cell images into three types (Type 1, 2, 3) corresponding to different levels of cervical transformation zone, using transfer learning with EfficientNet-B7 and Focal Loss to handle class imbalance. 將子宮頸細胞影像分類為三種類型（Type 1/2/3），對應不同程度的子宮頸轉化帶，採用 EfficientNet-B7 遷移學習並以 Focal Loss 處理類別不平衡。
+**Task:** Classify cervical cell images into three types (Type 1, 2, 3) corresponding to different levels of cervical transformation zone, using transfer learning with EfficientNet-B7 and Focal Loss to handle class imbalance.
 
-**Dataset / 資料集：** Intel & MobileODT Cervical Cancer Screening (Kaggle) — 3-class image classification
+**Dataset:** Intel & MobileODT Cervical Cancer Screening (Kaggle) — 3-class image classification
 
-**Method / 方法：** EfficientNet-B7 (ImageNet pretrained, fine-tuned) + Focal Loss + Data Augmentation
+**Method:** EfficientNet-B7 (ImageNet pretrained, fine-tuned) + Focal Loss + Data Augmentation
 
-#### Transfer Learning Strategy / 遷移學習策略
+#### Transfer Learning Strategy
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -372,10 +372,10 @@ flowchart LR
 ```
 
 ::: {.chart-note .teal}
-**遷移學習策略：** 先凍結 EfficientNet-B7 的 ImageNet 預訓練 backbone 作為特徵提取器，僅訓練新增的分類頭。使用 Focal Loss 解決 Type 1/2/3 的樣本不平衡問題。
+**Transfer Learning Strategy:** The ImageNet-pretrained EfficientNet-B7 backbone is first frozen as a feature extractor, and only the newly added classification head is trained. Focal Loss is used to address the sample imbalance among Type 1/2/3.
 :::
 
-#### Model Architecture / 模型架構
+#### Model Architecture
 
 ``` python
 from torchvision.models import efficientnet_b7, EfficientNet_B7_Weights
@@ -386,9 +386,9 @@ model.classifier[1] = nn.Linear(num_features, num_classes)  # num_classes = 3
 model = model.to(device)
 ```
 
-#### Focal Loss / Focal Loss 實作
+#### Focal Loss Implementation
 
-Focal Loss down-weights easy examples and focuses training on hard, misclassified samples — especially useful for imbalanced class distributions. Focal Loss 降低簡單樣本的權重，讓訓練集中在難以分類的樣本，有效處理類別不平衡。
+Focal Loss down-weights easy examples and focuses training on hard, misclassified samples -- especially useful for imbalanced class distributions.
 
 ```{r focal-loss, echo=FALSE, fig.width=6, fig.height=4}
 pt <- seq(0.01, 0.99, length.out = 300)
@@ -422,7 +422,7 @@ ggplot(df_fl, aes(x = pt, y = loss, colour = gamma, linetype = gamma)) +
 ```
 
 ::: {.chart-note .orange}
-**Focal Loss 原理：** 當 gamma=0 等同於標準 Cross-Entropy。gamma 越大，對「已經分對的 easy examples」（右側[**綠色區域**]{style="color:darkgreen;"}）懲罰越小，讓模型集中學習 hard examples。本專案使用 [**gamma=2**]{style="color:#E65100;"}（[橘色虛線]{style="color:#E65100;"}）。
+**Focal Loss Principle:** When gamma=0, it is equivalent to standard Cross-Entropy. The larger the gamma, the less penalty is applied to "already correctly classified easy examples" (the [**green region**]{style="color:darkgreen;"} on the right), allowing the model to focus on learning hard examples. This project uses [**gamma=2**]{style="color:#E65100;"} ([orange dashed line]{style="color:#E65100;"}).
 :::
 
 ``` python
@@ -446,7 +446,7 @@ class FocalLoss(nn.Module):
 criterion = FocalLoss(alpha=1, gamma=2)
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ``` python
 optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -464,7 +464,7 @@ for epoch in range(num_epochs):
         optimizer.step()
 ```
 
-#### Results / 結果
+#### Results
 
 | Class  | Description                                    | Accuracy |
 |--------|------------------------------------------------|----------|
@@ -500,5 +500,5 @@ ggplot(df_cervical, aes(x = accuracy, y = class, fill = class)) +
 ```
 
 ::: {.chart-note .pink}
-**分類結果分析：** Type 2（部分可見轉化帶）準確率最高達 **92.3%**，因為特徵最明確。Type 3（轉化帶不可見）最低 78.5%，因為缺乏可辨識的表面結構特徵，分類難度最高。平均準確率 **86.1%**（灰色虛線）。Focal Loss 有效提升了少數類別的學習效果。
+**Classification Results Analysis:** Type 2 (partially visible transformation zone) achieves the highest accuracy at **92.3%** due to its most distinctive features. Type 3 (transformation zone not visible) has the lowest at 78.5%, as it lacks identifiable surface structural features, making classification the most difficult. The mean accuracy is **86.1%** (grey dashed line). Focal Loss effectively improved the learning performance on minority classes.
 :::

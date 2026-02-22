@@ -42,19 +42,18 @@ theme1 <- function() {
 }
 ```
 
-## Assignments / 作業
+## Assignments
 
-### Assignment 1 — AOI Defect Classification / 自動光學檢測缺陷分類
+### Assignment 1 — AOI Defect Classification
 
-**Task / 任務：** Classify industrial component images into 6 defect categories using a fine-tuned ResNet-18, trained on the AOI (Automated Optical Inspection) dataset.
-使用 ResNet-18 對工業元件影像進行 6 類缺陷分類（AOI 自動光學檢測資料集）。
+**Task:** Classify industrial component images into 6 defect categories using a fine-tuned ResNet-18, trained on the AOI (Automated Optical Inspection) dataset.
 
-**Dataset / 資料集：** AOI Dataset — 2,530 training images, 10,144 test images, 6 classes
+**Dataset:** AOI Dataset — 2,530 training images, 10,144 test images, 6 classes
 (normal, void, horizontal defect, vertical defect, edge defect, particle)
 
-**Method / 方法：** ResNet-18 (ImageNet pretrained) — frozen backbone, fine-tuned classifier head
+**Method:** ResNet-18 (ImageNet pretrained) — frozen backbone, fine-tuned classifier head
 
-#### Transfer Learning Strategy / 遷移學習策略
+#### Transfer Learning Strategy
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -69,10 +68,10 @@ flowchart LR
 ```
 
 ::: {.chart-note .teal}
-**遷移學習策略：** 凍結 ResNet-18 全部預訓練參數，僅替換最後一層 fc → 6 輸出，以 Adam optimizer (lr=0.001) 訓練分類頭。資料前處理：224x224 RGB，ImageNet mean/std 正規化。
+**Transfer Learning Strategy:** Freeze all pretrained parameters of ResNet-18, replace only the final fc layer with a 6-class output, and train the classifier head using Adam optimizer (lr=0.001). Data preprocessing: 224x224 RGB, normalized with ImageNet mean/std.
 :::
 
-#### Model Setup / 模型設定
+#### Model Setup
 
 ```python
 model = models.resnet18(pretrained=True)
@@ -89,7 +88,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = model.to(device)
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ```python
 criterion = nn.CrossEntropyLoss()
@@ -99,7 +98,7 @@ batch_size = 32
 # Input: 224x224 RGB, normalized to ImageNet mean/std
 ```
 
-#### Results / 結果
+#### Results
 
 | Epoch | Train Loss | Val Accuracy |
 |-------|-----------|--------------|
@@ -147,21 +146,20 @@ grid.arrange(p_loss, p_acc, ncol = 2,
 ```
 
 ::: {.chart-note .orange}
-**Training Curve 分析：** <span style="color:#FF4D8D;">**粉色**</span> Train Loss 在前 3 個 epoch 急遽下降，之後趨於平穩。<span style="color:#18A3A3;">**青色**</span> Val Accuracy 在 Epoch 6 達到最高 **96.44%**（<span style="color:#E65100;">橘色菱形</span>），之後出現輕微 overfitting（accuracy 微幅下降）。<span style="color:#E65100;">橘色虛線</span> 標示 best epoch 位置。
+**Training Curve Analysis:** <span style="color:#FF4D8D;">**Pink**</span> Train Loss drops sharply in the first 3 epochs and then plateaus. <span style="color:#18A3A3;">**Teal**</span> Val Accuracy reaches its peak of **96.44%** at Epoch 6 (<span style="color:#E65100;">orange diamond</span>), after which slight overfitting occurs (accuracy decreases marginally). The <span style="color:#E65100;">orange dashed line</span> marks the best epoch.
 :::
 
 ---
 
-### Assignment 2 — Retinal Vessel Segmentation / 視網膜血管分割
+### Assignment 2 — Retinal Vessel Segmentation
 
-**Task / 任務：** Perform binary semantic segmentation of blood vessels in retinal fundus images using a custom U-Net architecture trained on the DRIVE dataset.
-使用自製 U-Net 對 DRIVE 資料集的眼底影像進行視網膜血管二元語意分割。
+**Task:** Perform binary semantic segmentation of blood vessels in retinal fundus images using a custom U-Net architecture trained on the DRIVE dataset.
 
-**Dataset / 資料集：** DRIVE (Digital Retinal Images for Vessel Extraction) — 22 training, 20 test images, 512x512
+**Dataset:** DRIVE (Digital Retinal Images for Vessel Extraction) — 22 training, 20 test images, 512x512
 
-**Method / 方法：** U-Net (5-level encoder-decoder with skip connections) + Focal Tversky Loss
+**Method:** U-Net (5-level encoder-decoder with skip connections) + Focal Tversky Loss
 
-#### Sample Retinal Images from Dataset / 資料集視網膜影像範例
+#### Sample Retinal Images from Dataset
 
 ::: {layout-ncol=3}
 ![Sample 1 — fundus image](dl_hw2_retina_sample1.png)
@@ -171,7 +169,7 @@ grid.arrange(p_loss, p_acc, ncol = 2,
 ![Sample 3 — optic disc visible](dl_hw2_retina_sample3.png)
 :::
 
-#### U-Net Architecture / U-Net 模型架構
+#### U-Net Architecture
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -206,7 +204,7 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**U-Net 架構色碼：** <span style="color:#1565C0;">**淺藍色**</span> = Encoder（收縮路徑），<span style="color:#424242;">**淺灰色**</span> = MaxPool 下採樣，<span style="color:#E65100;">**淺橘色**</span> = Bottleneck（最底層 512→1024），<span style="color:#2E7D32;">**淺綠色**</span> = Decoder（擴展路徑）+ skip connection。每層 skip connection 把 encoder 的空間細節傳遞給 decoder，保留高解析度的血管邊緣資訊。
+**U-Net Architecture Color Code:** <span style="color:#1565C0;">**Light blue**</span> = Encoder (contracting path), <span style="color:#424242;">**Light gray**</span> = MaxPool downsampling, <span style="color:#E65100;">**Light orange**</span> = Bottleneck (deepest level, 512->1024), <span style="color:#2E7D32;">**Light green**</span> = Decoder (expanding path) + skip connections. Each skip connection passes spatial details from the encoder to the decoder, preserving high-resolution vessel edge information.
 :::
 
 ```python
@@ -232,7 +230,7 @@ class UNet(torch.nn.Module):
         self.conv10 = torch.nn.Conv2d(64, outchannel, 3, 1, 1)
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ```python
 # Focal Tversky Loss — handles class imbalance in vessel vs background
@@ -247,18 +245,17 @@ device = torch.device("mps")  # Apple Silicon
 num_epochs = 100
 ```
 
-#### Segmentation Results / 分割結果
+#### Segmentation Results
 
-Each row shows: **Original fundus image** → **Predicted segmentation mask** → **Ground truth mask**
-每列依序為：原始眼底影像 → 預測分割遮罩 → 真實標記遮罩
+Each row shows: **Original fundus image** -> **Predicted segmentation mask** -> **Ground truth mask**
 
 ![Segmentation output — Original / Segmentation / Ground Truth (all 20 test images)](dl_hw2_segmentation_results.png){width="60%"}
 
 ::: {.chart-note .teal}
-**分割結果觀察：** 模型成功識別主要血管走向與分佈，但在微血管（fine capillaries）的辨識上仍有提升空間。Ground truth 中可見許多極細的毛細血管，模型傾向於只預測較粗的血管結構。
+**Segmentation Results Observation:** The model successfully identifies major vessel trajectories and distributions, but there is still room for improvement in detecting fine capillaries. The ground truth shows many extremely thin capillaries, and the model tends to predict only the thicker vessel structures.
 :::
 
-#### Quantitative Results / 定量結果
+#### Quantitative Results
 
 | Metric | Value |
 |--------|-------|
@@ -311,21 +308,20 @@ grid.arrange(p_bar, p_venn, ncol = 2)
 ```
 
 ::: {.chart-note .pink}
-**mIoU 分析：** 左圖比較三者：隨機 baseline（0.05）、本模型 U-Net（**0.351**）、DRIVE 資料集 SOTA（~0.82）。右圖以 Venn 散點示意 IoU 概念 — <span style="color:#18A3A3;">**青色**</span> 為 Ground Truth、<span style="color:#FF4D8D;">**粉色**</span> 為 Prediction，重疊區域即 Intersection。mIoU 0.351 表示預測與標記的重疊程度約 35%，仍有提升空間（可嘗試更深網路、更多 data augmentation、class-weighted loss）。
+**mIoU Analysis:** The left chart compares three benchmarks: random baseline (0.05), this U-Net model (**0.351**), and DRIVE dataset SOTA (~0.82). The right chart uses a Venn-style scatter plot to illustrate the IoU concept -- <span style="color:#18A3A3;">**teal**</span> represents Ground Truth, <span style="color:#FF4D8D;">**pink**</span> represents Prediction, and the overlapping region is the Intersection. An mIoU of 0.351 means the overlap between predictions and labels is about 35%, with room for improvement (possible approaches: deeper network, more data augmentation, class-weighted loss).
 :::
 
 ---
 
-### Assignment 3 — Retinal Image Reconstruction / 視網膜影像重建
+### Assignment 3 — Retinal Image Reconstruction
 
-**Task / 任務：** Train a convolutional autoencoder to reconstruct retinal fundus images in an unsupervised manner, evaluated by Peak Signal-to-Noise Ratio (PSNR).
-以無監督方式訓練卷積自動編碼器重建眼底影像，以 PSNR 作為評估指標。
+**Task:** Train a convolutional autoencoder to reconstruct retinal fundus images in an unsupervised manner, evaluated by Peak Signal-to-Noise Ratio (PSNR).
 
-**Dataset / 資料集：** DRIVE — 21 training, 20 test images, 512x512 RGB
+**Dataset:** DRIVE — 21 training, 20 test images, 512x512 RGB
 
-**Method / 方法：** Convolutional Autoencoder (Encoder-Decoder with skip connections) + MSE Loss
+**Method:** Convolutional Autoencoder (Encoder-Decoder with skip connections) + MSE Loss
 
-#### AutoEncoder Architecture / 模型架構
+#### AutoEncoder Architecture
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -355,7 +351,7 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**Autoencoder 架構色碼：** <span style="color:#1565C0;">**淺藍色**</span> = Encoder，<span style="color:#E65100;">**淺橘色**</span> = Bottleneck（256→512 壓縮表示），<span style="color:#2E7D32;">**淺綠色**</span> = Decoder + skip connections。與 U-Net 相同的 encoder-decoder 結構，但目標是重建輸入影像（自監督學習），而非分割。
+**Autoencoder Architecture Color Code:** <span style="color:#1565C0;">**Light blue**</span> = Encoder, <span style="color:#E65100;">**Light orange**</span> = Bottleneck (256->512 compressed representation), <span style="color:#2E7D32;">**Light green**</span> = Decoder + skip connections. This shares the same encoder-decoder structure as U-Net, but the objective is to reconstruct the input image (self-supervised learning) rather than segmentation.
 :::
 
 ```python
@@ -378,7 +374,7 @@ class AutoEncoder(nn.Module):
         self.conv8 = nn.Conv2d(64, outchannel, 3, 1, 1)
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ```python
 criterion = nn.MSELoss()
@@ -389,7 +385,7 @@ batch_size = 1
 device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 ```
 
-#### Results / 結果
+#### Results
 
 | Epoch | Train Loss | Test Loss | PSNR (dB) |
 |-------|-----------|-----------|-----------|
@@ -456,21 +452,20 @@ grid.arrange(p_loss, p_psnr, ncol = 2,
 ```
 
 ::: {.chart-note .orange}
-**Training Curve 分析：** 左圖 — <span style="color:#FF4D8D;">**粉色**</span> Train Loss 與 <span style="color:#18A3A3;">**青色虛線**</span> Test Loss 都在前 3 epoch 急速下降，之後趨於平穩。右圖 — PSNR 在 Epoch 18 達到峰值 **30.84 dB**（超過 30 dB 門檻，<span style="color:#7A7A7A;">灰色虛線</span>），之後微幅下降（Epoch 20 為 29.50 dB），顯示 Epoch 18 為最佳停止點。
+**Training Curve Analysis:** Left chart -- <span style="color:#FF4D8D;">**Pink**</span> Train Loss and <span style="color:#18A3A3;">**teal dashed**</span> Test Loss both drop rapidly in the first 3 epochs and then plateau. Right chart -- PSNR peaks at **30.84 dB** at Epoch 18 (exceeding the 30 dB threshold, <span style="color:#7A7A7A;">gray dashed line</span>), then slightly decreases (29.50 dB at Epoch 20), indicating Epoch 18 is the optimal stopping point.
 :::
 
 ---
 
-### Assignment 4 — Western Blot Image Generation / Western Blot 影像生成
+### Assignment 4 — Western Blot Image Generation
 
-**Task / 任務：** Train a conditional GAN to generate Western blot images from two template images, learning the mapping from template patterns to realistic blot patterns.
-訓練條件式 GAN，從兩張模板影像生成 Western blot 影像，學習模板圖案到真實條帶紋路的映射。
+**Task:** Train a conditional GAN to generate Western blot images from two template images, learning the mapping from template patterns to realistic blot patterns.
 
-**Dataset / 資料集：** Western Blot Dataset — 402 template pairs + 402 target images, 64x64 grayscale
+**Dataset:** Western Blot Dataset — 402 template pairs + 402 target images, 64x64 grayscale
 
-**Method / 方法：** Conditional GAN — Encoder-Decoder Generator + PatchGAN-style Discriminator
+**Method:** Conditional GAN — Encoder-Decoder Generator + PatchGAN-style Discriminator
 
-#### Conditional GAN Training Flow / 條件式 GAN 訓練流程
+#### Conditional GAN Training Flow
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -496,10 +491,10 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**GAN 訓練流程：** 兩張 template 圖 concat 成 2-channel 輸入，經過 <span style="color:#1565C0;">**藍色 Generator**</span> 生成假 blot 影像（<span style="color:#E65100;">**橘色**</span>）。<span style="color:#C62828;">**粉紅色 Discriminator**</span> 判斷輸入是 <span style="color:#2E7D32;">**真（綠色）**</span> 還是 <span style="color:#E65100;">**假（橘色）**</span>，並分別回傳 G loss / D loss 更新各自的參數。
+**GAN Training Flow:** Two template images are concatenated into a 2-channel input, passed through the <span style="color:#1565C0;">**blue Generator**</span> to produce a fake blot image (<span style="color:#E65100;">**orange**</span>). The <span style="color:#C62828;">**pink Discriminator**</span> determines whether the input is <span style="color:#2E7D32;">**real (green)**</span> or <span style="color:#E65100;">**fake (orange)**</span>, and returns G loss / D loss to update their respective parameters.
 :::
 
-#### Generator Architecture / 生成器架構
+#### Generator Architecture
 
 ```python
 class TemplateToImageGenerator(nn.Module):
@@ -523,7 +518,7 @@ class TemplateToImageGenerator(nn.Module):
         )
 ```
 
-#### Discriminator Architecture / 判別器架構
+#### Discriminator Architecture
 
 ```python
 class TemplateToImageDiscriminator(nn.Module):
@@ -543,7 +538,7 @@ class TemplateToImageDiscriminator(nn.Module):
         )
 ```
 
-#### Training Setup / 訓練設定
+#### Training Setup
 
 ```python
 g_optimizer = optim.Adam(generator.parameters(),     lr=0.0002)
@@ -553,10 +548,9 @@ num_epochs  = 200    # trained on CPU, stopped at epoch 118
 batch_size  = 1
 ```
 
-#### Results / 結果
+#### Results
 
-Training ran on CPU and was recorded up to epoch 118/200. By that point the Discriminator had begun to dominate (D Loss < 0.1 in some steps), causing G Loss to climb — a classic sign the generator needs more capacity or learning rate balancing.
-訓練在 CPU 上進行，記錄至第 118 個 epoch。此時判別器開始主導訓練（D Loss 低至 0.03），導致 G Loss 攀升，為典型的判別器過強問題。
+Training ran on CPU and was recorded up to epoch 118/200. By that point the Discriminator had begun to dominate (D Loss < 0.1 in some steps), causing G Loss to climb -- a classic sign the generator needs more capacity or learning rate balancing.
 
 | Epoch | D Loss (sample) | G Loss (sample) |
 |-------|----------------|----------------|
@@ -618,5 +612,5 @@ grid.arrange(p_raw, p_avg, ncol = 2,
 ```
 
 ::: {.chart-note .pink}
-**GAN 訓練動態分析：** <span style="color:#7A7A7A;">**灰色虛線 ln(2)=0.693**</span> 為 GAN 理想均衡點（D 分不出真假時的 BCE loss）。左圖原始 log 可見早期 D Loss 接近 ln(2)（D/G 接近均衡），後期 <span style="color:#FF4D8D;">**粉色 D Loss**</span> 快速下降至接近 0，<span style="color:#18A3A3;">**青色 G Loss**</span> 攀升至 3-4，表示 **Discriminator 過強**（D 能輕鬆分辨真假）。右圖 per-epoch 平均趨勢更清楚呈現此分歧。可考慮降低 D 的學習率、增加 G 的容量、或加入 label smoothing 來緩解。
+**GAN Training Dynamics Analysis:** The <span style="color:#7A7A7A;">**gray dashed line ln(2)=0.693**</span> represents the ideal GAN equilibrium point (the BCE loss when D cannot distinguish real from fake). In the left chart (raw log), early-stage D Loss is close to ln(2) (D/G near equilibrium), but in later epochs <span style="color:#FF4D8D;">**pink D Loss**</span> drops rapidly toward 0 while <span style="color:#18A3A3;">**teal G Loss**</span> climbs to 3-4, indicating **Discriminator dominance** (D can easily distinguish real from fake). The right chart (per-epoch averages) shows this divergence more clearly. Possible remedies include lowering D's learning rate, increasing G's capacity, or adding label smoothing.
 :::
