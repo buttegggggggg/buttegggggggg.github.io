@@ -1,6 +1,6 @@
 ---
 title: "Big Data Analysis"
-subtitle: "巨量資料分析 · 國立中興大學 資料科學與資訊計算研究所"
+subtitle: "Big Data Analysis · NCHU Institute of Data Science and Information Computing"
 format:
   html:
     theme: cosmo
@@ -43,18 +43,18 @@ theme1 <- function() {
 }
 ```
 
-## Assignments / 作業 {#assignments}
+## Assignments {#assignments}
 
-### Reading Assignment — Nyström Method / 論文閱讀
+### Reading Assignment — Nystrom Method
 
-**Paper / 論文：** *Using the Nyström Method to Speed Up Kernel Machines*
-**Authors / 作者：** Christopher K. I. Williams & Matthias Seeger (NIPS 2000)
+**Paper:** *Using the Nystrom Method to Speed Up Kernel Machines*
+**Authors:** Christopher K. I. Williams & Matthias Seeger (NIPS 2000)
 
 ::: {.chart-note .teal}
-**論文摘要：** Kernel-based 方法（如 SVM、Gaussian Process）的主要瓶頸在於 Gram matrix 的計算與反矩陣操作，時間複雜度為 O(n³)。本論文提出使用 **Nyström method** 近似 Gram matrix — 從 n 筆訓練資料中僅抽出 m 筆，計算小矩陣後再展開為全域近似，將計算量從 **O(n³) 降為 O(m²n)**。
+**Paper Summary:** The main bottleneck of kernel-based methods (such as SVM, Gaussian Process) lies in the computation and matrix inversion of the Gram matrix, with a time complexity of O(n^3). This paper proposes using the **Nystrom method** to approximate the Gram matrix — sampling only m points from n training data points, computing a small matrix, and then expanding it into a full approximation, reducing the computation from **O(n^3) to O(m^2n)**.
 :::
 
-#### Core Idea / 核心概念
+#### Core Idea
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -74,35 +74,34 @@ flowchart LR
 ```
 
 ::: {.chart-note .grey}
-**Nyström 流程：** 從完整的 n×n Gram matrix（<span style="color:#C62828;">粉紅色</span>，計算成本極高）中，隨機抽取 m 筆樣本組成 <span style="color:#1565C0;">藍色</span> 子矩陣 K_mm 與 K_nm，再透過 eigen-decomposition（<span style="color:#E65100;">橘色</span>）重建 <span style="color:#2E7D32;">綠色</span> 近似矩陣。當 m << n 時大幅加速。
+**Nystrom Workflow:** From the full n x n Gram matrix (<span style="color:#C62828;">pink</span>, extremely costly to compute), m samples are randomly selected to form the <span style="color:#1565C0;">blue</span> sub-matrices K_mm and K_nm, then reconstructed via eigen-decomposition (<span style="color:#E65100;">orange</span>) into the <span style="color:#2E7D32;">green</span> approximate matrix. This yields significant speedup when m << n.
 :::
 
-#### Key Formulas / 關鍵公式
+#### Key Formulas
 
-**Mercer Expansion (Kernel 展開)：**
+**Mercer Expansion (Kernel Expansion):**
 
 $$K(x, y) = \sum_{i=1}^{\infty} \lambda_i \phi_i(x) \phi_i(y)$$
 
-**Nyström Approximation (近似公式)：**
+**Nystrom Approximation:**
 
 $$\tilde{K} = K_{nm} K_{mm}^{-1} K_{nm}^T$$
 
-**Complexity Reduction / 複雜度降低：**
+**Complexity Reduction:**
 
 $$O(n^3) \rightarrow O(m^2 n), \quad m \ll n$$
 
 ---
 
-### Homework — Nyström Kernel Ridge Classification / 作業：Nyström 加速 Kernel Ridge
+### Homework — Nystrom Kernel Ridge Classification
 
-**Task / 任務：** Implement the Nyström method to accelerate RBF Kernel Ridge Classification on the USPS handwritten digit dataset (binary: digit "4" vs. rest).
-實作 Nyström 方法加速 RBF Kernel Ridge 二元分類，資料集為 USPS 手寫數字（辨識數字 4）。
+**Task:** Implement the Nystrom method to accelerate RBF Kernel Ridge Classification on the USPS handwritten digit dataset (binary: digit "4" vs. rest).
 
-**Dataset / 資料集：** USPS — 7,291 training + 2,007 test images, 256 features (16×16 pixels)
+**Dataset:** USPS — 7,291 training + 2,007 test images, 256 features (16x16 pixels)
 
-**Method / 方法：** RBF Kernel (σ=4) + Ridge Regression (λ=0.001) + Nyström Approximation (m = 128, 256, 512)
+**Method:** RBF Kernel (sigma=4) + Ridge Regression (lambda=0.001) + Nystrom Approximation (m = 128, 256, 512)
 
-#### Pipeline Overview / 整體流程
+#### Pipeline Overview
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -124,10 +123,10 @@ flowchart LR
 ```
 
 ::: {.chart-note .teal}
-**Pipeline 說明：** USPS 資料先標準化，再分為兩條路徑：<span style="color:#C62828;">粉紅色</span> Full Kernel 計算完整 7291×7291 Gram matrix，<span style="color:#2E7D32;">綠色</span> Nyström 僅計算子集矩陣 K_mm + K_nm。兩者皆透過 Ridge Regression 求解係數向量 α，最終預測 ±1。
+**Pipeline Description:** USPS data is first standardized, then split into two paths: <span style="color:#C62828;">pink</span> Full Kernel computes the complete 7291x7291 Gram matrix, while <span style="color:#2E7D32;">green</span> Nystrom only computes the subset matrices K_mm + K_nm. Both solve the coefficient vector alpha via Ridge Regression, and ultimately predict +/-1.
 :::
 
-#### Implementation / 實作
+#### Implementation
 
 ```python
 # RBF Kernel function
@@ -153,14 +152,14 @@ def nystrom_approximation(X_train, m, sigma=4.0):
     return K_approx, indices, K_nm, K_mm_inv
 ```
 
-#### Results / 結果
+#### Results
 
 | Method | Errors | Accuracy | Train Time (s) |
 |--------|--------|----------|-----------------|
 | Full Kernel | 9 | 99.55% | 7.52 |
-| Nyström m=128 | 10 | 99.50% | 0.38 |
-| Nyström m=256 | 10 | 99.50% | 0.63 |
-| Nyström m=512 | 9 | 99.55% | 1.83 |
+| Nystrom m=128 | 10 | 99.50% | 0.38 |
+| Nystrom m=256 | 10 | 99.50% | 0.63 |
+| Nystrom m=512 | 9 | 99.55% | 1.83 |
 
 ```{r nystrom-results, echo=FALSE, fig.width=9, fig.height=4}
 df_ny <- data.frame(
@@ -201,31 +200,30 @@ grid.arrange(p_acc, p_time, ncol = 2,
 ```
 
 ::: {.chart-note .orange}
-**效能分析：** <span style="color:#FF4D8D;">**粉色**</span> Full Kernel 需 7.52 秒計算完整 7291×7291 Gram matrix。<span style="color:#18A3A3;">**青色**</span> Nyström m=128 僅需 **0.38 秒**（加速約 **20 倍**），且 accuracy 幾乎不變（99.50% vs 99.55%）。m=512 時精度完全匹配 Full Kernel，訓練時間仍節省 **75%**。
+**Performance Analysis:** <span style="color:#FF4D8D;">**Pink**</span> Full Kernel takes 7.52 seconds to compute the complete 7291x7291 Gram matrix. <span style="color:#18A3A3;">**Teal**</span> Nystrom m=128 takes only **0.38 seconds** (approximately **20x speedup**), with accuracy nearly unchanged (99.50% vs 99.55%). At m=512, precision fully matches Full Kernel, while training time is still reduced by **75%**.
 :::
 
-#### Gram Matrix Visualization / Gram 矩陣視覺化
+#### Gram Matrix Visualization
 
-![Full Kernel vs Nyström Approximation (first 100 samples)](bigdata_hw_2.png){width="75%"}
+![Full Kernel vs Nystrom Approximation (first 100 samples)](bigdata_hw_2.png){width="75%"}
 
 ::: {.chart-note .teal}
-**矩陣比較：** 左圖為完整 Gram matrix（前 100 筆樣本），右圖為 Nyström 近似結果。兩者結構高度相似，驗證了 Nyström 方法在保留 kernel 結構的同時大幅減少計算量。
+**Matrix Comparison:** The left figure shows the full Gram matrix (first 100 samples), and the right figure shows the Nystrom approximation result. The two are highly similar in structure, validating that the Nystrom method significantly reduces computation while preserving the kernel structure.
 :::
 
 ---
 
-## Final Project / 期末報告 {#final-project}
+## Final Project {#final-project}
 
-### Smoothed & Distributed SVM / 平滑化與分散式 SVM
+### Smoothed & Distributed SVM
 
-**Task / 任務：** Implement and compare three SVM variants: (1) standard LinearSVC, (2) Smoothed SVM using log-sum-exp approximation of hinge loss, and (3) Distributed Smoothed SVM with communication-efficient gradient aggregation.
-實作並比較三種 SVM 變體：標準 LinearSVC、平滑化 SVM（log-sum-exp 近似 hinge loss）、以及分散式平滑 SVM（通訊高效梯度聚合）。
+**Task:** Implement and compare three SVM variants: (1) standard LinearSVC, (2) Smoothed SVM using log-sum-exp approximation of hinge loss, and (3) Distributed Smoothed SVM with communication-efficient gradient aggregation.
 
-**Dataset / 資料集：** a9a (Adult Income) — 32,561 training + 16,281 test samples, 123 features
+**Dataset:** a9a (Adult Income) — 32,561 training + 16,281 test samples, 123 features
 
-**Method / 方法：** LinearSVC baseline → Smoothed Hinge Loss (β=5) + L-BFGS-B → Distributed SGD (K=5 workers)
+**Method:** LinearSVC baseline -> Smoothed Hinge Loss (beta=5) + L-BFGS-B -> Distributed SGD (K=5 workers)
 
-#### Three SVM Variants / 三種 SVM 變體
+#### Three SVM Variants
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -257,10 +255,10 @@ flowchart TD
 ```
 
 ::: {.chart-note .grey}
-**架構說明：** <span style="color:#424242;">灰色</span> = sklearn LinearSVC baseline，<span style="color:#E65100;">**橘色**</span> = 單節點 Smoothed SVM（L-BFGS-B 最佳化），<span style="color:#2E7D32;">**綠色**</span> = 分散式版本（K=5 workers，每輪各 worker 計算局部梯度再聚合）。
+**Architecture Overview:** <span style="color:#424242;">Grey</span> = sklearn LinearSVC baseline, <span style="color:#E65100;">**orange**</span> = single-node Smoothed SVM (L-BFGS-B optimization), <span style="color:#2E7D32;">**green**</span> = distributed version (K=5 workers, each worker computes local gradients per round then aggregates).
 :::
 
-#### Smoothed Hinge Loss / 平滑化 Hinge Loss
+#### Smoothed Hinge Loss
 
 Standard hinge loss is non-differentiable at u=1. The smoothed version uses log-sum-exp to create a differentiable approximation:
 
@@ -292,10 +290,10 @@ ggplot(df_hinge, aes(x = u, y = loss, colour = type, linetype = type)) +
 ```
 
 ::: {.chart-note .teal}
-**Loss 比較：** <span style="color:#7A7A7A;">**灰色虛線**</span> 標準 Hinge Loss 在 u=1 處不可微。<span style="color:#E65100;">**橘色**</span> Smoothed (β=5) 近似度最高，接近原始 hinge 但處處可微。<span style="color:#18A3A3;">**青色**</span> (β=1) 較平滑但離原始 hinge 較遠。β 越大越接近原始形狀。
+**Loss Comparison:** <span style="color:#7A7A7A;">**Grey dashed line**</span> Standard Hinge Loss is non-differentiable at u=1. <span style="color:#E65100;">**Orange**</span> Smoothed (beta=5) provides the closest approximation to the original hinge while being differentiable everywhere. <span style="color:#18A3A3;">**Teal**</span> (beta=1) is smoother but deviates more from the original hinge. The larger the beta, the closer it is to the original shape.
 :::
 
-#### Distributed Gradient Aggregation / 分散式梯度聚合
+#### Distributed Gradient Aggregation
 
 ```python
 # Distributed Smoothed SVM — Communication-efficient gradient
@@ -318,10 +316,10 @@ for b in range(B):
 ```
 
 ::: {.chart-note .orange}
-**分散式策略：** 資料分成 K=5 份。每輪僅需一個 pilot worker 計算完整梯度，其餘 workers 計算「與 pilot 的梯度差」（correction term），最後聚合。相比每個 worker 都傳完整梯度，此方法大幅降低通訊量。
+**Distributed Strategy:** Data is split into K=5 partitions. Each round, only one pilot worker computes the full gradient, while the remaining workers compute "gradient differences from the pilot" (correction terms), which are then aggregated. Compared to having every worker transmit full gradients, this method significantly reduces communication overhead.
 :::
 
-#### Results / 結果
+#### Results
 
 | Model | Test Accuracy | Training Time |
 |-------|--------------|---------------|
@@ -368,12 +366,12 @@ grid.arrange(p_acc_svm, p_time_svm, ncol = 2,
 ```
 
 ::: {.chart-note .pink}
-**Trade-off 分析：** <span style="color:#7A7A7A;">**灰色**</span> LinearSVC 為 baseline（84.93%）。<span style="color:#E65100;">**橘色**</span> Smoothed SVM 精度幾乎相同（84.88%），但因 L-BFGS-B 最佳化更高效而更快（0.78s vs 1.52s）。<span style="color:#18A3A3;">**青色**</span> Distributed 版本犧牲 ~1.1% 精度換取 **150 倍加速**（0.01s），展現了分散式計算在大規模資料下的潛力。
+**Trade-off Analysis:** <span style="color:#7A7A7A;">**Grey**</span> LinearSVC serves as the baseline (84.93%). <span style="color:#E65100;">**Orange**</span> Smoothed SVM achieves nearly identical accuracy (84.88%), but is faster due to more efficient L-BFGS-B optimization (0.78s vs 1.52s). <span style="color:#18A3A3;">**Teal**</span> Distributed version sacrifices ~1.1% accuracy in exchange for **150x speedup** (0.01s), demonstrating the potential of distributed computing for large-scale data.
 :::
 
-#### Ablation Study — β Sensitivity / 消融實驗：β 敏感度
+#### Ablation Study — Beta Sensitivity
 
-| β (smoothness) | Test Accuracy |
+| Beta (smoothness) | Test Accuracy |
 |----------------|--------------|
 | 1 | 83.69% |
 | 2 | 83.79% |
@@ -402,5 +400,5 @@ ggplot(df_beta, aes(x = factor(beta), y = accuracy)) +
 ```
 
 ::: {.chart-note .orange}
-**β 選擇建議：** β=2 和 β=5 表現最佳且相同（83.79%）。β 太大（=20）反而導致精度下降至 81.21%，因為過度逼近不可微的原始 hinge loss，造成 gradient 估計不穩定。**β=5 為最佳平衡點**。
+**Beta Selection Recommendation:** Beta=2 and beta=5 perform best with identical results (83.79%). A beta that is too large (=20) actually causes accuracy to drop to 81.21%, because over-approximating the non-differentiable original hinge loss leads to unstable gradient estimates. **Beta=5 is the optimal balance point**.
 :::

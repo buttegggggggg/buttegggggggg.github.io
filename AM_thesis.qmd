@@ -1,6 +1,6 @@
 ---
 title: "Quantum Bayesian Inference"
-subtitle: "專題研究 · 量子貝氏推論：實測與延伸"
+subtitle: "Quantum Bayesian Inference: Experimental Validation and Extensions · NCHU Department of Applied Mathematics"
 format:
   html:
     theme: cosmo
@@ -13,8 +13,8 @@ format:
 ---
 
 ::: {.chart-note .orange}
-**科技部大專生研究計畫 (NSTC Undergraduate Research Project)**
-Project No. 112-2813-C-005-038-E · Advisor: Prof. 戴淯琮 · Period: 2023/07 -- 2024/02
+**NSTC Undergraduate Research Project**
+Project No. 112-2813-C-005-038-E · Advisor: Prof. Yu-Tsung Tai · Period: 2023/07 -- 2024/02
 :::
 
 ## Overview

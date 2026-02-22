@@ -308,16 +308,24 @@ header#title-block-header { display: none !important; }
 <!-- ── Stat Bar ── -->
 <div class="home-stats">
   <div class="home-stat">
-    <div class="num">12<span>+</span></div>
-    <div class="label">Domains</div>
-  </div>
-  <div class="home-stat">
     <div class="num">37</div>
     <div class="label">Projects</div>
   </div>
   <div class="home-stat">
+    <div class="num">12<span>+</span></div>
+    <div class="label">Domains</div>
+  </div>
+  <div class="home-stat">
     <div class="num"><span>3</span></div>
-    <div class="label">Degree Programs</div>
+    <div class="label">Degrees</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">2.3M<span>+</span></div>
+    <div class="label">Max Data Processed</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">150<span>x</span></div>
+    <div class="label">Algorithm Speedup</div>
   </div>
 </div>
 ```
@@ -408,7 +416,7 @@ header#title-block-header { display: none !important; }
     <span class="research-badge">In Progress</span>
   </div>
   <p class="research-desc">
-    Evaluating the effectiveness of an adaptive learning platform (&ldquo;\u56e0\u6750\u7db2&rdquo;) on Grade 5 math performance across Taichung City. 50.4% of classes had zero platform usage; within-school adjusted analysis reveals a weak negative correlation, suggesting usage alone does not predict higher scores.
+    Evaluating the effectiveness of an adaptive learning platform on Grade 5 math performance across Taichung City. 50.4% of classes had zero platform usage; within-school adjusted analysis reveals a weak negative correlation, suggesting usage alone does not predict higher scores.
   </p>
   <div class="research-metrics">
     <div class="metric">

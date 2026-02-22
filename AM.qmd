@@ -1,6 +1,6 @@
 ---
 title: "BS of Applied Mathematics"
-subtitle: "國立中興大學 應用數學系 · National Chung Hsing University"
+subtitle: "National Chung Hsing University · Department of Applied Mathematics"
 format:
   html:
     theme: cosmo
@@ -11,7 +11,7 @@ format:
 ---
 
 ::: {.chart-note .teal}
-**學歷：** 國立中興大學 應用數學系 學士 (B.S. Applied Mathematics, NCHU, 2020 -- 2024)
+**Education:** Bachelor of Science, Department of Applied Mathematics, National Chung Hsing University (B.S. Applied Mathematics, NCHU, 2020 -- 2024)
 :::
 
 ## About the Program
@@ -27,7 +27,7 @@ The **Department of Applied Mathematics** at National Chung Hsing University pro
 ::: {.landing-card}
 ### [Quantum Bayesian Inference](AM_thesis.qmd)
 
-**科技部大專生研究計畫** (NSTC 112-2813-C-005-038-E)
+**NSTC Undergraduate Research Project** (NSTC 112-2813-C-005-038-E)
 
 Investigated whether quantum computer outputs conform to Bayesian probability laws. Developed Qiskit programs on IBMQ hardware and simulators to test the law of large numbers, revealing divergence between actual quantum runs and simulator predictions.
 

@@ -1,6 +1,6 @@
 ---
 title: "MS of Data Science & Information Computing"
-subtitle: "國立中興大學 資料科學與資訊計算研究所 · National Chung Hsing University"
+subtitle: "Graduate Institute of Data Science and Information Computing · National Chung Hsing University"
 format:
   html:
     theme: cosmo
@@ -50,16 +50,16 @@ theme1 <- function() {
 ```
 
 ::: {.chart-note .teal}
-**學歷：** 國立中興大學 資料科學與資訊計算研究所 碩士 (Master of Science in Data Science and Information Computing, NCHU)。
+**Education:** Master of Science, Graduate Institute of Data Science and Information Computing, National Chung Hsing University (Master of Science in Data Science and Information Computing, NCHU).
 :::
 
-## About the Program / 研究所簡介
+## About the Program
 
-**資料科學與資訊計算研究所**（Graduate Institute of Data Science and Information Computing）隸屬國立中興大學理學院，成立宗旨在培養兼具資料科學理論基礎與資訊計算實作能力的跨領域人才。課程涵蓋機器學習、深度學習、大數據分析、影像處理、最佳化方法與高效能計算等，強調「從數學到實作」的完整訓練。
+The **Graduate Institute of Data Science and Information Computing** is affiliated with the College of Science at National Chung Hsing University. It was established to cultivate interdisciplinary talent with both a solid theoretical foundation in data science and practical competence in information computing. The curriculum covers machine learning, deep learning, big data analytics, image processing, optimization methods, and high-performance computing, emphasizing a complete training pipeline "from mathematics to implementation."
 
 The program integrates mathematical foundations with modern computing to train professionals in **machine learning**, **deep learning**, **computer vision**, and **big data analytics**. Students are equipped to bridge the gap between theoretical models and real-world applications across domains including healthcare, industry, and scientific research.
 
-## Research Focus Areas / 研究方向
+## Research Focus Areas
 
 ::: {.column-screen-inset style="text-align:center;"}
 ```{mermaid}
@@ -123,10 +123,10 @@ flowchart LR
 :::
 
 ::: {.chart-note .grey}
-**色碼說明：** <span style="color:#2E7D32;">**綠色**</span> = Machine Learning，<span style="color:#E65100;">**橘色**</span> = Deep Learning，<span style="color:#6A1B9A;">**紫色**</span> = Computer Vision，<span style="color:#C62828;">**粉紅色**</span> = Optimization。以上為課程中涵蓋的主要研究領域。
+**Color Legend:** <span style="color:#2E7D32;">**Green**</span> = Machine Learning, <span style="color:#E65100;">**Orange**</span> = Deep Learning, <span style="color:#6A1B9A;">**Purple**</span> = Computer Vision, <span style="color:#C62828;">**Pink**</span> = Optimization. The above are the main research areas covered in the coursework.
 :::
 
-## Skills Acquired / 習得技能
+## Skills Acquired
 
 ```{r skills-chart, echo=FALSE, fig.width=8, fig.height=4.5}
 df_skills <- data.frame(
@@ -160,88 +160,88 @@ ggplot(df_skills, aes(x = proficiency, y = skill, fill = source)) +
 ```
 
 ::: {.chart-note .teal}
-**技能來源：** <span style="color:#FF4D8D;">**粉色**</span> = ML + DL 兩門課都有訓練到的技能，<span style="color:#18A3A3;">**青色**</span> = 主要來自 ML 課程，<span style="color:#E65100;">**橘色**</span> = 主要來自 DL 課程。Python/PyTorch 為兩門課的共同程式語言，Transfer Learning 與 Model Evaluation 也跨課程反覆練習。
+**Skill Sources:** <span style="color:#FF4D8D;">**Pink**</span> = Skills trained in both ML and DL courses, <span style="color:#18A3A3;">**Teal**</span> = Primarily from ML course, <span style="color:#E65100;">**Orange**</span> = Primarily from DL course. Python/PyTorch is the shared programming language across both courses, and Transfer Learning and Model Evaluation were also practiced repeatedly across courses.
 :::
 
-## Coursework / 課程作品
+## Coursework
 
 ::: {.landing-cards}
 
 ::: {.landing-card}
 ### [Machine Learning & Data Science](ML.qmd#assignments)
 
-**課程重點：** 監督式/非監督式學習、模型評估、特徵工程、資料前處理
+**Course Focus:** Supervised/Unsupervised learning, model evaluation, feature engineering, data preprocessing
 
-**Assignments：**
+**Assignments:**
 
-- **HW1 — Diabetes Prediction：** Pima Indians 糖尿病預測。迴歸填補 → 特徵工程 → DNN，從 baseline 74% → **90.04%**
-- **HW2 — US Wildfire Analysis：** 188 萬筆野火紀錄。Poisson 迴歸趨勢分析 + MLP 成因分類（45.6%）
-- **Final — Cervical Cancer Screening：** EfficientNet-B7 遷移學習 + Focal Loss，三類別影像分類，平均 **86.1%**
+- **HW1 -- Diabetes Prediction:** Pima Indians diabetes prediction. Regression imputation -> Feature engineering -> DNN, from baseline 74% -> **90.04%**
+- **HW2 -- US Wildfire Analysis:** 1.88 million wildfire records. Poisson regression trend analysis + MLP cause classification (45.6%)
+- **Final -- Cervical Cancer Screening:** EfficientNet-B7 transfer learning + Focal Loss, three-class image classification, average **86.1%**
 
-**Key Tools：** Python · Keras · scikit-learn · statsmodels · PyTorch (final)
+**Key Tools:** Python · Keras · scikit-learn · statsmodels · PyTorch (final)
 :::
 
 ::: {.landing-card}
 ### [Deep Learning](DL.qmd#assignments)
 
-**課程重點：** CNN 架構、遷移學習、語意分割、影像生成、自動編碼器
+**Course Focus:** CNN architectures, transfer learning, semantic segmentation, image generation, autoencoders
 
-**Assignments：**
+**Assignments:**
 
-- **HW1 — AOI Defect Classification：** ResNet-18 遷移學習，6 類工業缺陷分類，**96.44%** Val Acc
-- **HW2 — Retinal Vessel Segmentation：** U-Net (5-level) + Focal Tversky Loss，DRIVE 資料集，mIoU 0.351
-- **HW3 — Retinal Image Reconstruction：** Convolutional Autoencoder，PSNR 峰值 **30.84 dB**（Epoch 18）
-- **HW4 — Western Blot Generation：** Conditional GAN（Generator + PatchGAN Discriminator），分析 D/G 訓練動態
+- **HW1 -- AOI Defect Classification:** ResNet-18 transfer learning, 6-class industrial defect classification, **96.44%** Val Acc
+- **HW2 -- Retinal Vessel Segmentation:** U-Net (5-level) + Focal Tversky Loss, DRIVE dataset, mIoU 0.351
+- **HW3 -- Retinal Image Reconstruction:** Convolutional Autoencoder, peak PSNR **30.84 dB** (Epoch 18)
+- **HW4 -- Western Blot Generation:** Conditional GAN (Generator + PatchGAN Discriminator), analyzing D/G training dynamics
 
-**Key Tools：** Python · PyTorch · torchvision · Apple Silicon (MPS)
+**Key Tools:** Python · PyTorch · torchvision · Apple Silicon (MPS)
 :::
 
 ::: {.landing-card}
-### [Big Data Analysis / 巨量資料分析](BigData.qmd#assignments)
+### [Big Data Analysis](BigData.qmd#assignments)
 
-**課程重點：** Kernel Methods 加速、大規模最佳化、分散式機器學習
+**Course Focus:** Kernel method acceleration, large-scale optimization, distributed machine learning
 
-**Assignments：**
+**Assignments:**
 
-- **Reading — Nyström Method：** 論文閱讀 (NIPS 2000)，Gram matrix 低秩近似，O(n³) → O(m²n)
-- **HW — Kernel Ridge + Nyström：** USPS 手寫數字分類，m=128 加速 **20 倍**，accuracy 99.50%
-- **Final — Smoothed & Distributed SVM：** a9a 資料集，Smoothed Hinge Loss + 分散式梯度聚合（K=5 workers），加速 **150 倍**
+- **Reading -- Nystrom Method:** Paper reading (NIPS 2000), Gram matrix low-rank approximation, O(n^3) -> O(m^2n)
+- **HW -- Kernel Ridge + Nystrom:** USPS handwritten digit classification, m=128 achieving **20x** speedup, accuracy 99.50%
+- **Final -- Smoothed & Distributed SVM:** a9a dataset, Smoothed Hinge Loss + distributed gradient aggregation (K=5 workers), **150x** speedup
 
-**Key Tools：** Python · NumPy · scikit-learn · SciPy (L-BFGS-B)
+**Key Tools:** Python · NumPy · scikit-learn · SciPy (L-BFGS-B)
 :::
 
 ::: {.landing-card}
-### [Data Analysis Mathematics / 數據分析數學](DataAnalysis.qmd#assignments)
+### [Mathematics for Data Analysis](DataAnalysis.qmd#assignments)
 
-**課程重點：** SVD 理論與應用、矩陣低秩近似、Eckart-Young 定理、手寫辨識
+**Course Focus:** SVD theory and applications, low-rank matrix approximation, Eckart-Young theorem, handwritten digit recognition
 
-**Assignments：**
+**Assignments:**
 
-- **HW1 — SVD Image Compression：** 以照片驗證 Eckart-Young 定理，Monte Carlo 近似 2-norm，PSNR 達 **44.7 dB** (k=700)
-- **HW2 — Handwritten Digit Recognition：** USPS 資料集，比較 8 種方法（Mean / SVD / HOSVD / SVM / KNN / RF / CNN），**CNN 95.76%** 最高
+- **HW1 -- SVD Image Compression:** Validating the Eckart-Young theorem with photographs, Monte Carlo approximation of 2-norm, PSNR reaching **44.7 dB** (k=700)
+- **HW2 -- Handwritten Digit Recognition:** USPS dataset, comparing 8 methods (Mean / SVD / HOSVD / SVM / KNN / RF / CNN), **CNN 95.76%** highest
 
-**Key Tools：** Python · NumPy · PyTorch · tensorly · scikit-learn
+**Key Tools:** Python · NumPy · PyTorch · tensorly · scikit-learn
 :::
 
 :::
 
-## Project Highlights / 作品亮點
+## Project Highlights
 
 | Course | Project | Highlight |
 |--------|---------|-----------|
-| **Machine Learning** | Diabetes Prediction | Baseline 74% → **90.04%**（+16 pp） |
-| | Wildfire Analysis | 188 萬筆 · Poisson 趨勢 + MLP 分類 |
+| **Machine Learning** | Diabetes Prediction | Baseline 74% -> **90.04%** (+16 pp) |
+| | Wildfire Analysis | 1.88 million records · Poisson trend + MLP classification |
 | | Cervical Cancer | EfficientNet-B7 + Focal Loss · **86.1%** |
 | **Deep Learning** | AOI Defect Detection | ResNet-50 Fine-tune · **96.4%** |
-| | U-Net Segmentation | Dice 0.91 · 醫學影像語意分割 |
-| | AutoEncoder | 影像重建 **30.8 dB** PSNR |
-| | cGAN Blot Removal | 條件式 GAN 去除墨漬 |
-| **Big Data** | Nyström Approximation | Kernel Ridge 加速 **20×** |
-| | Smoothed SVM | Hinge Loss 平滑化 · 梯度法求解 |
-| | Distributed SVM | 分散式計算加速 **150×** |
-| **Data Analysis Math** | SVD Image Compression | Eckart-Young 驗證 · PSNR **44.7 dB** |
-| | Digit Recognition (8 models) | CNN **95.76%** · KNN 最佳性價比 |
+| | U-Net Segmentation | Dice 0.91 · Medical image semantic segmentation |
+| | AutoEncoder | Image reconstruction **30.8 dB** PSNR |
+| | cGAN Blot Removal | Conditional GAN for blot removal |
+| **Big Data** | Nystrom Approximation | Kernel Ridge **20x** speedup |
+| | Smoothed SVM | Hinge Loss smoothing · Gradient-based solving |
+| | Distributed SVM | Distributed computing **150x** speedup |
+| **Data Analysis Math** | SVD Image Compression | Eckart-Young validation · PSNR **44.7 dB** |
+| | Digit Recognition (8 models) | CNN **95.76%** · KNN best cost-effectiveness |
 
 ::: {.chart-note .orange}
-**學習歷程：** 從 Data Analysis Math 的數學基礎（SVD、矩陣近似）→ ML 課程的經典模型（迴歸、DNN、遷移學習）→ DL 課程的進階架構（U-Net、AutoEncoder、GAN）→ Big Data 的大規模加速方法（Nyström、Smoothed SVM、分散式計算）。每個 project 都涵蓋完整的 pipeline — 從資料前處理、模型設計、訓練、到結果分析與視覺化。
+**Learning Journey:** Starting from the mathematical foundations in Data Analysis Math (SVD, matrix approximation) -> Classical models in the ML course (regression, DNN, transfer learning) -> Advanced architectures in the DL course (U-Net, AutoEncoder, GAN) -> Large-scale acceleration methods in Big Data (Nystrom, Smoothed SVM, distributed computing). Each project covers a complete pipeline -- from data preprocessing, model design, training, to result analysis and visualization.
 :::

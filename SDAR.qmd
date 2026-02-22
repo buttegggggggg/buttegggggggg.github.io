@@ -1,6 +1,6 @@
 ---
 title: "MS of Social Data Analytics & Research"
-subtitle: "德州大學達拉斯分校 · The University of Texas at Dallas"
+subtitle: "The University of Texas at Dallas"
 format:
   html:
     theme: cosmo
@@ -13,7 +13,7 @@ format:
 ---
 
 ::: {.chart-note .teal}
-**學歷：** 德州大學達拉斯分校 社會數據分析與研究碩士 (Master of Science in Social Data Analytics and Research, UTD)。
+**Education:** Master of Science in Social Data Analytics and Research (SDAR), The University of Texas at Dallas (UTD).
 :::
 
 ## About the Program

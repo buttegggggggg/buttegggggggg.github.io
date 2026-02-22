@@ -1,6 +1,6 @@
 ---
 title: "Data Analysis Mathematics"
-subtitle: "數據分析數學 · 國立中興大學 資料科學與資訊計算研究所"
+subtitle: "Data Analysis Mathematics · National Chung Hsing University, Graduate Institute of Data Science and Information Computing"
 format:
   html:
     theme: cosmo
@@ -38,17 +38,17 @@ theme1 <- function() {
 }
 ```
 
-## Assignments / 作業 {#assignments}
+## Assignments {#assignments}
 
 ---
 
-## HW1 — SVD Image Compression / SVD 影像壓縮
+## HW1 — SVD Image Compression
 
-**Topic / 主題：** 以 SVD 分解驗證 Eckart-Young 定理：$\|A - A_k\|_2 = \sigma_{k+1}$
+**Topic:** Verify the Eckart-Young theorem using SVD decomposition: $\|A - A_k\|_2 = \sigma_{k+1}$
 
-**Dataset：** 彩色照片 1546×1029 pixels（RGB 三通道）
+**Dataset:** Color photo 1546×1029 pixels (RGB three channels)
 
-### Pipeline Overview / 整體流程
+### Pipeline Overview
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -68,20 +68,20 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**方法說明：** 以照片作為矩陣 A，對 RGB 三通道分別做 SVD。刻意不使用 `np.linalg.norm(ord=2)`（因為其內部實作就是 SVD，會造成循環論證），改用 **Monte Carlo 隨機向量法** 近似 operator 2-norm，再與 σ_{k+1} 比較趨勢。
+**Method Description:** The photo is treated as matrix A, and SVD is performed separately on each of the RGB channels. We deliberately avoid using `np.linalg.norm(ord=2)` (since its internal implementation relies on SVD, which would create circular reasoning), and instead use a **Monte Carlo random vector method** to approximate the operator 2-norm, then compare its trend with σ_{k+1}.
 :::
 
-### Key Formulas / 關鍵公式
+### Key Formulas
 
-**SVD 分解：**
+**SVD Decomposition:**
 
 $$A = U \Sigma V^T, \quad A_k = \sum_{i=1}^{k} \sigma_i u_i v_i^T$$
 
-**Eckart-Young 定理：**
+**Eckart-Young Theorem:**
 
 $$\|A - A_k\|_2 = \sigma_{k+1}$$
 
-### Results / 結果
+### Results
 
 | k | 2-norm (approx) | σ_{k+1} | MSE | PSNR (dB) |
 |--:|:---:|:---:|:---:|:---:|
@@ -93,52 +93,52 @@ $$\|A - A_k\|_2 = \sigma_{k+1}$$
 | 500 | 116 | 340 | 10 | 38.04 |
 | 700 | 54 | 172 | 2.2 | 44.70 |
 
-### Reconstruction Quality / 重建品質
+### Reconstruction Quality
 
-![SVD 影像重建 — 不同 k 值的壓縮效果](da_svd_3.png)
+![SVD Image Reconstruction — Compression results at different k values](da_svd_3.png)
 
 ::: {.chart-note .grey}
-**視覺化：** k=1 時幾乎看不出原圖；k=50 開始可辨識主要輪廓；k=300 以上接近原圖。右下方 k=507 時 PSNR 已達 38 dB，肉眼幾乎無法分辨與原圖差異。
+**Visualization:** At k=1, the original image is barely recognizable; at k=50, the main contours become distinguishable; above k=300, the result closely resembles the original. At k=507 (bottom right), PSNR reaches 38 dB, making differences from the original virtually imperceptible to the human eye.
 :::
 
 ### MSE / PSNR / 2-norm Analysis
 
-![MSE、PSNR、2-norm vs σ_{k+1} 隨 k 值變化](da_svd_2.png)
+![MSE, PSNR, 2-norm vs σ_{k+1} as k varies](da_svd_2.png)
 
 ::: {.chart-note .orange}
-**結論：** MSE 隨 k 遞減、PSNR 遞增，且 2-norm 與 σ_{k+1} 呈現相同遞減趨勢，間接驗證 Eckart-Young 定理。Monte Carlo 法因隨機抽樣會低估真實 2-norm，但趨勢一致。
+**Conclusion:** MSE decreases and PSNR increases as k grows, and the 2-norm follows the same decreasing trend as σ_{k+1}, indirectly verifying the Eckart-Young theorem. The Monte Carlo method underestimates the true 2-norm due to random sampling, but the overall trend remains consistent.
 :::
 
 ---
 
-## HW2 — Handwritten Digit Recognition / 手寫數字辨識
+## HW2 — Handwritten Digit Recognition
 
-**Topic / 主題：** 比較 8 種分類方法在 USPS 手寫數字資料集上的表現
+**Topic:** Comparing 8 classification methods on the USPS handwritten digit dataset
 
-**Dataset：** USPS 手寫數字（16×16 灰階，0-9 共 10 類）
+**Dataset:** USPS handwritten digits (16×16 grayscale, 10 classes for digits 0-9)
 
-### Dataset Samples / 資料集樣本
+### Dataset Samples
 
-![USPS 訓練集樣本 — 16×16 灰階手寫數字](da_digit_1.png)
+![USPS training set samples — 16×16 grayscale handwritten digits](da_digit_1.png)
 
 ::: {.chart-note .grey}
-**資料特徵：** 每張圖片僅 16×16 = 256 pixels，解析度極低但保留了數字的基本結構。這使得矩陣分解方法（SVD / HOSVD）能夠有效捕捉低維特徵。
+**Data Characteristics:** Each image is only 16×16 = 256 pixels, an extremely low resolution that still preserves the basic structure of digits. This allows matrix decomposition methods (SVD / HOSVD) to effectively capture low-dimensional features.
 :::
 
-### Methods / 方法總覽
+### Methods Overview
 
 | Category | Method | Description |
 |----------|--------|-------------|
-| **Baseline** | Mean Method | 計算每類平均影像，以歐氏距離分類 |
-| | Enhanced Mean | 迭代修正，考慮類間混淆模式 |
-| **矩陣分解** | SVD (k=20) | 建立每類 SVD 基底，投影殘差分類 |
-| | HOSVD | Tucker 分解 (tensorly)，rank (10,10,20) |
-| **傳統 ML** | SVM | sklearn SVC |
+| **Baseline** | Mean Method | Compute the mean image for each class and classify by Euclidean distance |
+| | Enhanced Mean | Iterative refinement considering inter-class confusion patterns |
+| **Matrix Decomposition** | SVD (k=20) | Build SVD basis for each class and classify by projection residual |
+| | HOSVD | Tucker decomposition (tensorly), rank (10,10,20) |
+| **Traditional ML** | SVM | sklearn SVC |
 | | KNN | sklearn KNeighborsClassifier |
 | | Random Forest | sklearn RandomForestClassifier |
-| **深度學習** | CNN (PyTorch) | Conv2D → MaxPool → Dense，50 epochs |
+| **Deep Learning** | CNN (PyTorch) | Conv2D → MaxPool → Dense, 50 epochs |
 
-### Accuracy Comparison / 準確率比較
+### Accuracy Comparison
 
 ```{r hw2-accuracy, echo=FALSE, fig.width=8, fig.height=5}
 df_acc <- data.frame(
@@ -168,10 +168,10 @@ ggplot(df_acc, aes(x = model, y = accuracy, fill = category)) +
 ```
 
 ::: {.chart-note .teal}
-**結果分析：** Mean 方法僅 81.42% 作為 baseline。SVD (k=20) 跳升至 94.12%，說明低秩近似能有效捕捉數字結構。傳統 ML（SVM 94.92%）與 SVD 系列表現接近。**CNN 以 95.76% 勝出**，但訓練時間為 98 秒，遠高於 KNN 的 0.45 秒。
+**Results Analysis:** The Mean method achieves only 81.42% as a baseline. SVD (k=20) jumps to 94.12%, demonstrating that low-rank approximation effectively captures digit structure. Traditional ML (SVM at 94.92%) performs similarly to the SVD family. **CNN wins at 95.76%**, but its training time is 98 seconds, far higher than KNN's 0.45 seconds.
 :::
 
-### Training Time Comparison / 訓練時間比較
+### Training Time Comparison
 
 ```{r hw2-time, echo=FALSE, fig.width=8, fig.height=4}
 df_time <- data.frame(
@@ -198,31 +198,31 @@ ggplot(df_time, aes(x = model, y = time, fill = category)) +
 ```
 
 ::: {.chart-note .orange}
-**速度 vs 精度：** KNN 以 0.45 秒達到 94.47%，是**性價比最高**的模型。CNN 雖然最準（95.76%）但耗時 98 秒。HOSVD（Tucker 分解）精度與 SVD 接近但慢了 30 倍。
+**Speed vs Accuracy:** KNN achieves 94.47% in just 0.45 seconds, making it the **most cost-effective** model. CNN is the most accurate (95.76%) but takes 98 seconds. HOSVD (Tucker decomposition) achieves similar accuracy to SVD but is 30 times slower.
 :::
 
 ### SVD Confusion Matrix
 
-![SVD (k=20) Confusion Matrix — USPS 手寫數字分類](da_digit_14.png)
+![SVD (k=20) Confusion Matrix — USPS handwritten digit classification](da_digit_14.png)
 
 ::: {.chart-note .grey}
-**混淆矩陣分析：** SVD 方法對 0、1 的辨識最佳（353/264 正確），對 3、7 的混淆較高（3→5 有 13 筆誤判）。整體 94.12% 的準確率在無需訓練的矩陣分解方法中表現優異。
+**Confusion Matrix Analysis:** The SVD method performs best on digits 0 and 1 (353/264 correct), while confusion is higher for digits 3 and 7 (13 misclassifications of 3 as 5). The overall 94.12% accuracy is excellent for a training-free matrix decomposition method.
 :::
 
-### Misclassified Samples / 誤判樣本
+### Misclassified Samples
 
-![Mean Method 誤判案例 — True label vs Predicted label](da_digit_4.png)
+![Mean Method misclassification examples — True label vs Predicted label](da_digit_4.png)
 
 ::: {.chart-note .orange}
-**誤判分析：** 這些樣本即使是人眼也不容易辨識。例如 True: 6 被判成 2（筆畫圓弧相似）、True: 3 被判成 8（形狀接近）。低解析度 16×16 下，部分數字的結構差異極小。
+**Misclassification Analysis:** These samples are difficult to identify even for the human eye. For example, True: 6 is predicted as 2 (similar curved strokes), and True: 3 is predicted as 8 (similar shapes). At the low resolution of 16×16, the structural differences between some digits are extremely small.
 :::
 
-### Real Handwriting Test / 手寫實測
+### Real Handwriting Test
 
-![外部手寫數字照片樣本](da_digit_34.png)
+![External handwritten digit photo samples](da_digit_34.png)
 
-![8 種模型在外部手寫照片上的準確率](da_digit_35.png)
+![Accuracy of 8 models on external handwritten photos](da_digit_35.png)
 
 ::: {.chart-note .pink}
-**外部驗證：** 用手機拍攝手寫數字照片測試所有模型。**CNN 達到 100%** 完美辨識，Random Forest 95%，而 Enhanced Mean 僅 56%。這驗證了深度學習對真實世界手寫變異的泛化能力最強。
+**External Validation:** All models were tested using handwritten digit photos taken with a phone. **CNN achieves 100%** perfect recognition, Random Forest 95%, while Enhanced Mean only 56%. This confirms that deep learning has the strongest generalization ability for real-world handwriting variations.
 :::
