@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -224,6 +259,16 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#question-2-1" id="toc-question-2-1" class="nav-link" data-scroll-target="#question-2-1">Question 2</a></li>
   <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
   <li><a href="#question-4-1" id="toc-question-4-1" class="nav-link" data-scroll-target="#question-4-1">Question 4</a></li>
+  </ul></li>
+  <li><a href="#assignment-4" id="toc-assignment-4" class="nav-link" data-scroll-target="#assignment-4">Assignment 4</a>
+  <ul>
+  <li><a href="#question-1-3" id="toc-question-1-3" class="nav-link" data-scroll-target="#question-1-3">Question 1</a></li>
+  <li><a href="#question-2-2" id="toc-question-2-2" class="nav-link" data-scroll-target="#question-2-2">Question 2</a></li>
+  <li><a href="#question-3-1" id="toc-question-3-1" class="nav-link" data-scroll-target="#question-3-1">Question 3</a>
+  <ul>
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a">3a</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b">3b</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
@@ -594,6 +639,112 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Q4 — Instructors who have never given an A grade</figcaption>
 </figure>
 </div>
+</section>
+</section>
+<section id="assignment-4" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-4">Assignment 4</h3>
+<section id="question-1-3" class="level4">
+<h4 class="anchored" data-anchor-id="question-1-3">Question 1</h4>
+<p><strong>Explain the difference between a weak entity set and a strong entity set. Use an example other than the one in Chapter 6 to illustrate.</strong> (Consult Ch. 6, 6.5.3)</p>
+<p>A <strong>strong entity set</strong> is an entity set that has a primary key of its own and can exist independently. For example, an <code>Order</code> entity with <code>order_id</code> as its primary key can uniquely identify each order without relying on any other entity.</p>
+<p>A <strong>weak entity set</strong> is an entity set that does not have a sufficient set of attributes to form a primary key on its own. Instead, it depends on a related strong entity set (called the <strong>identifying entity set</strong>) for its identification. A weak entity set uses a <strong>discriminator</strong> (also called a partial key) that, when combined with the primary key of the identifying entity, uniquely identifies each entity in the weak set.</p>
+<p><strong>Example: Order and Order Item</strong></p>
+<p>Consider an e-commerce system:</p>
+<ul>
+<li><code>Order</code> is a <strong>strong entity set</strong> with primary key <code>order_id</code>.</li>
+<li><code>Order_Item</code> is a <strong>weak entity set</strong> with discriminator <code>item_number</code>.</li>
+</ul>
+<p>An <code>Order_Item</code> cannot be uniquely identified by <code>item_number</code> alone, because “item number 3” is meaningless without knowing which order it belongs to. The full identification requires: <code>order_id</code> (from the identifying entity <code>Order</code>) + <code>item_number</code> (the discriminator).</p>
+<p>The relationship between <code>Order</code> and <code>Order_Item</code> is an <strong>identifying relationship</strong>, which means the existence of an <code>Order_Item</code> depends entirely on the existence of its associated <code>Order</code>.</p>
+<p><strong>E-R Diagram Notation:</strong></p>
+<ul>
+<li>Weak entity set: drawn with a <strong>double-border rectangle</strong></li>
+<li>Discriminator: marked with a <strong>dashed underline</strong></li>
+<li>Identifying relationship: drawn with a <strong>double-border diamond</strong></li>
+<li>The connection from the weak entity to the identifying relationship uses a <strong>double line</strong> (total participation), because every weak entity must be associated with an identifying entity</li>
+</ul>
+</section>
+<section id="question-2-2" class="level4">
+<h4 class="anchored" data-anchor-id="question-2-2">Question 2</h4>
+<p><strong>Design an E-R diagram for keeping track of the scoring statistics of your favorite sports team.</strong> You should store the matches played, the scores in each match, the players in each match, and individual player scoring statistics for each match. Summary statistics should be modeled as derived attributes with an explanation as to how they are computed.</p>
+<p><strong>a) E-R diagram for a single team (Liverpool FC)</strong></p>
+<p>The diagram models two entities: <code>match</code> and <code>player</code>, connected by a many-to-many relationship <code>played</code>. The relationship attributes <code>points_scored</code>, <code>minutes_played</code>, and <code>starter_flag</code> record individual player statistics for each match. Derived attributes on <code>player</code> include <code>total_points()</code> and <code>avg_points_per_match()</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_4_2a.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Figure 2a — E-R diagram for favorite team statistics (Liverpool FC)</figcaption>
+</figure>
+</div>
+<p><strong>Derived attribute definitions:</strong></p>
+<ul>
+<li><code>total_points()</code> = sum(points_scored) across all matches</li>
+<li><code>avg_points_per_match()</code> = total_points / matches_played</li>
+</ul>
+<p><strong>b) Expanded to all teams in the league</strong></p>
+<p>A <code>team</code> entity is added with attributes <code>team_id</code>, <code>team_name</code>, <code>city</code>, and derived attribute <code>win_count()</code>. Two new relationships connect <code>team</code> to <code>match</code>: <code>home_team</code> and <code>away_team</code>. A <code>belongs_to</code> relationship connects <code>player</code> to <code>team</code> (N:1). The <code>match</code> entity is updated with <code>home_team_score</code>, <code>away_team_score</code>, and derived attribute <code>winner()</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_4_2b.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Figure 2b — E-R diagram for sports league (all teams)</figcaption>
+</figure>
+</div>
+<p><strong>Additional derived attribute definitions:</strong></p>
+<ul>
+<li><code>win_count()</code> = count of matches won by the team</li>
+<li><code>winner()</code> = team with higher score</li>
+</ul>
+</section>
+<section id="question-3-1" class="level4">
+<h4 class="anchored" data-anchor-id="question-3-1">Question 3</h4>
+<section id="a" class="level5">
+<h5 class="anchored" data-anchor-id="a">3a</h5>
+<p><strong>Consider the following query:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> course_id, semester, <span class="dt">year</span>, sec_id, <span class="fu">avg</span> (tot_cred)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> takes <span class="kw">natural</span> <span class="kw">join</span> student</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> <span class="dt">year</span> <span class="op">=</span> <span class="dv">2017</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">group</span> <span class="kw">by</span> course_id, semester, <span class="dt">year</span>, sec_id</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">having</span> <span class="fu">count</span> (<span class="kw">ID</span>) <span class="op">&gt;=</span> <span class="dv">2</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>i. Explain why appending <code>natural join section</code> in the <code>from</code> clause would not change the result.</strong></p>
+<p>The relation <code>takes</code> already contains the attributes <code>(course_id, sec_id, semester, year)</code>, which together form the primary key of the <code>section</code> relation. Because of the foreign key constraint from <code>takes</code> to <code>section</code>, every tuple in <code>takes</code> is guaranteed to have a matching tuple in <code>section</code>.</p>
+<p>Therefore, adding <code>natural join section</code> to the <code>from</code> clause is a <strong>lossless join</strong>:</p>
+<ul>
+<li><strong>No rows are added</strong>, because each tuple in <code>takes</code> matches at most one tuple in <code>section</code> (since the join is on the primary key of <code>section</code>).</li>
+<li><strong>No rows are removed</strong>, because every tuple in <code>takes</code> has a corresponding tuple in <code>section</code> (due to the foreign key constraint).</li>
+</ul>
+<p>The only effect of the additional join is that extra attributes from <code>section</code> (such as <code>building</code>, <code>room_number</code>, and <code>time_slot_id</code>) are appended to each tuple. However, since these attributes do not appear in the <code>select</code>, <code>where</code>, <code>group by</code>, or <code>having</code> clauses, they have no impact on the query result. The output remains identical.</p>
+<p><strong>ii. Test the results using the Online SQL interpreter.</strong></p>
+<p>Without <code>natural join section</code>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_4_3a_without_section.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3a — Original query without natural join section</figcaption>
+</figure>
+</div>
+<p>With <code>natural join section</code> appended:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_4_3a_with_section.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3a — Query with natural join section appended</figcaption>
+</figure>
+</div>
+<p>Both queries return identical results (CS-101, CS-190, CS-347), confirming that appending <code>natural join section</code> does not change the output.</p>
+</section>
+<section id="b" class="level5">
+<h5 class="anchored" data-anchor-id="b">3b</h5>
+<p><strong>Write an SQL query using the university schema to find the ID of each student who has never taken a course at the university. Do this using no subqueries and no set operations (use an outer join).</strong> (Consult Ch. 4, 4.1.3)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> s.<span class="kw">ID</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> student s</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">left</span> <span class="kw">outer</span> <span class="kw">join</span> takes t <span class="kw">on</span> s.<span class="kw">ID</span> <span class="op">=</span> t.<span class="kw">ID</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> t.<span class="kw">ID</span> <span class="kw">is</span> <span class="kw">null</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>left outer join</code> preserves every tuple from the <code>student</code> relation. For students who have no matching record in <code>takes</code> (i.e., they have never enrolled in any course), all attributes from <code>takes</code> are filled with <code>null</code>. The <code>where t.ID is null</code> condition filters the result to include only those students whose <code>ID</code> has no match in <code>takes</code>, meaning they have never taken any course.</p>
+<p>This approach avoids subqueries and set operations by leveraging the property of outer joins: unmatched rows from the preserved (left) side produce <code>null</code> values on the non-preserved (right) side, which can then be detected with an <code>is null</code> test.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_4_3b.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3b — Students who have never taken a course</figcaption>
+</figure>
+</div>
+</section>
 </section>
 </section>
 </section>

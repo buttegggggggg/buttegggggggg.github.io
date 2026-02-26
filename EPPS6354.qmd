@@ -563,6 +563,176 @@ course trivially satisfy this condition.)**
 ![Q4 — Instructors who have never given an A
 grade](EPPS6354_assignment_3_screenshot_8.png){width="80%"}
 
+### Assignment 4
+
+#### Question 1
+
+**Explain the difference between a weak entity set and a strong entity
+set. Use an example other than the one in Chapter 6 to illustrate.**
+(Consult Ch. 6, 6.5.3)
+
+A **strong entity set** is an entity set that has a primary key of its
+own and can exist independently. For example, an `Order` entity with
+`order_id` as its primary key can uniquely identify each order without
+relying on any other entity.
+
+A **weak entity set** is an entity set that does not have a sufficient
+set of attributes to form a primary key on its own. Instead, it depends
+on a related strong entity set (called the **identifying entity set**)
+for its identification. A weak entity set uses a **discriminator**
+(also called a partial key) that, when combined with the primary key of
+the identifying entity, uniquely identifies each entity in the weak set.
+
+**Example: Order and Order Item**
+
+Consider an e-commerce system:
+
+-   `Order` is a **strong entity set** with primary key `order_id`.
+-   `Order_Item` is a **weak entity set** with discriminator
+    `item_number`.
+
+An `Order_Item` cannot be uniquely identified by `item_number` alone,
+because "item number 3" is meaningless without knowing which order it
+belongs to. The full identification requires: `order_id` (from the
+identifying entity `Order`) + `item_number` (the discriminator).
+
+The relationship between `Order` and `Order_Item` is an **identifying
+relationship**, which means the existence of an `Order_Item` depends
+entirely on the existence of its associated `Order`.
+
+**E-R Diagram Notation:**
+
+-   Weak entity set: drawn with a **double-border rectangle**
+-   Discriminator: marked with a **dashed underline**
+-   Identifying relationship: drawn with a **double-border diamond**
+-   The connection from the weak entity to the identifying relationship
+    uses a **double line** (total participation), because every weak
+    entity must be associated with an identifying entity
+
+#### Question 2
+
+**Design an E-R diagram for keeping track of the scoring statistics of
+your favorite sports team.** You should store the matches played, the
+scores in each match, the players in each match, and individual player
+scoring statistics for each match. Summary statistics should be modeled
+as derived attributes with an explanation as to how they are computed.
+
+**a) E-R diagram for a single team (Liverpool FC)**
+
+The diagram models two entities: `match` and `player`, connected by a
+many-to-many relationship `played`. The relationship attributes
+`points_scored`, `minutes_played`, and `starter_flag` record individual
+player statistics for each match. Derived attributes on `player` include
+`total_points()` and `avg_points_per_match()`.
+
+![Figure 2a — E-R diagram for favorite team statistics (Liverpool
+FC)](EPPS6354_assignment_4_2a.png){width="80%"}
+
+**Derived attribute definitions:**
+
+-   `total_points()` = sum(points_scored) across all matches
+-   `avg_points_per_match()` = total_points / matches_played
+
+**b) Expanded to all teams in the league**
+
+A `team` entity is added with attributes `team_id`, `team_name`, `city`,
+and derived attribute `win_count()`. Two new relationships connect
+`team` to `match`: `home_team` and `away_team`. A `belongs_to`
+relationship connects `player` to `team` (N:1). The `match` entity is
+updated with `home_team_score`, `away_team_score`, and derived attribute
+`winner()`.
+
+![Figure 2b — E-R diagram for sports league (all
+teams)](EPPS6354_assignment_4_2b.png){width="80%"}
+
+**Additional derived attribute definitions:**
+
+-   `win_count()` = count of matches won by the team
+-   `winner()` = team with higher score
+
+#### Question 3
+
+##### 3a
+
+**Consider the following query:**
+
+```sql
+select course_id, semester, year, sec_id, avg (tot_cred)
+from takes natural join student
+where year = 2017
+group by course_id, semester, year, sec_id
+having count (ID) >= 2;
+```
+
+**i. Explain why appending `natural join section` in the `from` clause
+would not change the result.**
+
+The relation `takes` already contains the attributes `(course_id,
+sec_id, semester, year)`, which together form the primary key of the
+`section` relation. Because of the foreign key constraint from `takes`
+to `section`, every tuple in `takes` is guaranteed to have a matching
+tuple in `section`.
+
+Therefore, adding `natural join section` to the `from` clause is a
+**lossless join**:
+
+-   **No rows are added**, because each tuple in `takes` matches at
+    most one tuple in `section` (since the join is on the primary key of
+    `section`).
+-   **No rows are removed**, because every tuple in `takes` has a
+    corresponding tuple in `section` (due to the foreign key
+    constraint).
+
+The only effect of the additional join is that extra attributes from
+`section` (such as `building`, `room_number`, and `time_slot_id`) are
+appended to each tuple. However, since these attributes do not appear in
+the `select`, `where`, `group by`, or `having` clauses, they have no
+impact on the query result. The output remains identical.
+
+**ii. Test the results using the Online SQL interpreter.**
+
+Without `natural join section`:
+
+![Q3a — Original query without natural join
+section](EPPS6354_assignment_4_3a_without_section.png){width="80%"}
+
+With `natural join section` appended:
+
+![Q3a — Query with natural join section
+appended](EPPS6354_assignment_4_3a_with_section.png){width="80%"}
+
+Both queries return identical results (CS-101, CS-190, CS-347), confirming
+that appending `natural join section` does not change the output.
+
+##### 3b
+
+**Write an SQL query using the university schema to find the ID of each
+student who has never taken a course at the university. Do this using no
+subqueries and no set operations (use an outer join).** (Consult Ch. 4,
+4.1.3)
+
+```sql
+select s.ID
+from student s
+left outer join takes t on s.ID = t.ID
+where t.ID is null;
+```
+
+The `left outer join` preserves every tuple from the `student` relation.
+For students who have no matching record in `takes` (i.e., they have
+never enrolled in any course), all attributes from `takes` are filled
+with `null`. The `where t.ID is null` condition filters the result to
+include only those students whose `ID` has no match in `takes`, meaning
+they have never taken any course.
+
+This approach avoids subqueries and set operations by leveraging the
+property of outer joins: unmatched rows from the preserved (left) side
+produce `null` values on the non-preserved (right) side, which can then
+be detected with an `is null` test.
+
+![Q3b — Students who have never taken a
+course](EPPS6354_assignment_4_3b.png){width="80%"}
+
 ## Final Project
 
 ### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation
