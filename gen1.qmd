@@ -1,0 +1,106 @@
+---
+title: "Gen1：Selective Prediction（已棄用）"
+subtitle: "2025 年初｜AA Snowflake 內部資料｜為期 14 天的快速原型"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+```{=html}
+<nav style="margin-bottom:1.5rem;">
+  <small><a href="index.html">首頁</a> › <a href="research-overview.html">研究流程圖</a> › Gen1</small>
+  <br>
+  <a href="research-overview.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← 返回研究流程圖</a>
+</nav>
+```
+
+::: {.panel-tabset}
+
+## Overview
+
+**研究目標：** "When NOT to Use Flight Delay Prediction Models"
+
+**核心概念：**
+
+- **Selective Prediction**：模型可以選擇「拒絕預測」某些樣本，只對有信心的航班給出預測
+- **Slice Discovery**：自動找出模型表現特別差的子群體（slices）
+- **Model Calibration**：確保模型預測的機率接近真實比例
+- **Cost-based Abstention**：根據成本函數決定何時拒絕預測
+- **Novelty Detection**：偵測訓練時沒見過的異常樣本
+
+**資料集：** American Airlines Snowflake 內部資料，2.7M 航班
+
+**規模：** 30 個 Python 腳本（code_001 到 code_030）
+
+## Key Results
+
+::: {.callout-note appearance="minimal"}
+**Selective Prediction 80% coverage：** BA = 0.9083
+:::
+
+::: {.callout-note appearance="minimal"}
+**Cost-based abstention 最佳點：** coverage = 18.3%, BA = 0.9390
+:::
+
+::: {.callout-note appearance="minimal"}
+**Test AUC-ROC：** 0.9280
+:::
+
+::: {.callout-note appearance="minimal"}
+**LSTM test BA：** 0.8638
+:::
+
+::: {.callout-note appearance="minimal"}
+**FT-Transformer test BA：** 0.8642
+:::
+
+Tree-based models 與 deep learning 模型表現相當，且訓練成本遠低於 DL。
+
+## ETD Leakage {#etd-leakage}
+
+::: {.callout-warning}
+## FATAL ISSUE：ETD Data Leakage
+
+**ETD（Estimated Time of Departure）** 的定義是由**實際起飛時間**計算而來，並非預測當下可得的資訊。
+:::
+
+**問題詳情：**
+
+- ETD 與 arrival delay 的相關性：**~0.92**
+- Gen1 所有 9 個「do-not-use」切片都是基於 ETD deviation bins（`late_5-30`, `late_30-60`, `late_>60`）
+- 這代表分析**全部無效**——模型只是在「看答案」
+
+**影響：**
+
+- AUC 0.928 是**虛高的**，因為 ETD 直接編碼了答案
+- 所有基於 ETD 的 selective prediction 分析、slice discovery 結果均不可信
+
+::: {.callout-warning}
+## 結論
+
+Gen1 **全部作廢**。研究方向從「何時不用模型」轉向「如何在零 leakage 下嚴格建模」→ 進入 Gen2。
+:::
+
+:::
+
+```{=html}
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var tabs = document.querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var target = tabs[i].getAttribute('data-bs-target') || tabs[i].getAttribute('href') || '';
+    if (target.indexOf(hash) !== -1) {
+      tabs[i].click();
+      break;
+    }
+  }
+});
+</script>
+```

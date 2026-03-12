@@ -1,0 +1,274 @@
+---
+title: "Gen2：Systematic Feature Engineering"
+subtitle: "AA DFW Hub｜804,728 flights｜12 版本 × 9 實驗 = 108 次實驗"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+```{=html}
+<nav style="margin-bottom:1.5rem;">
+  <small><a href="index.html">首頁</a> › <a href="research-overview.html">研究流程圖</a> › Gen2</small>
+  <br>
+  <a href="research-overview.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← 返回研究流程圖</a>
+</nav>
+```
+
+::: {.panel-tabset}
+
+## Overview
+
+**資料集：** AA DFW Hub, 804,728 航班, delay rate 23.3% (arrival ≥15min)
+
+**Temporal split：**
+
+| Set | Period |
+|---|---|
+| Train | 2021–2022 |
+| Validation | 2023 H1 |
+| Test | 2023 H2 |
+
+**實驗矩陣：** 3 feature sets (Clean 11, T-2h 45, T-2h+Enhanced 44) × 3 models (RF, XGBoost, XGB+CatBoost) = 9 experiments per version
+
+**核心原則：** Zero data leakage — 所有 feature 必須在 T-2h 前可得
+
+::: {.callout-tip}
+## Gen2 核心教訓
+只有真正新的外部資訊才能提升 AUC，同源重編碼全部無效。
+:::
+
+## V1 Baseline {#v1}
+
+**內容：** Schedule features + DFW METAR weather + simple tail chain（前一班延誤）
+
+::: {.callout-note appearance="minimal"}
+**AUC 0.7167** — 遠低於目標 0.80
+:::
+
+**問題：** 特徵資訊量不足，需要更豐富的特徵來源。
+
+**下一步：** V2 加入文獻驅動的特徵。
+
+## V2 Literature Features {#v2}
+
+**新增特徵：**
+
+- **Multi-hop tail chain：** 前 2、3 班延誤、累積延誤
+- **Airport congestion：** 每小時起飛數、3h 平均延誤、3h 延誤率
+- **Weather severity composite index**
+
+::: {.callout-tip}
+## 全 12 版本中最大單次提升
+AUC **+0.0185**
+:::
+
+這是唯一一次「同源但文獻驗證過的特徵工程」奏效的例子。Multi-hop tail chain 捕捉到了延誤的傳播效應。
+
+**下一步：** 繼續嘗試新資料源。
+
+## V3–V5 Internal Recombination {#v3v5}
+
+### V3：Two-stage prediction
+
+- **概念：** Stage I XGBoost 先預測 departure delay（連續值），Stage II 用預測值當特徵
+
+::: {.callout-warning}
+## 失敗
+Stage I R² 只有 **0.18**，嚴重限制 Stage II 品質。同源 meta-feature 不 work，第一次確認此模式。
+:::
+
+### V4：Destination METAR weather (11 features)
+
+- 加入目的地 NOAA IEM METAR（抵達前 T-2h 的觀測值）
+
+::: {.callout-warning}
+## 失敗
+只有 **+0.0016**。目的地天氣快照是資訊瓶頸——到達前 2 小時的單一時間點天氣觀測，捕捉不到飛行途中的天氣變化。
+:::
+
+### V5：BTS monthly airport statistics (6 features)
+
+- 加入機場月度統計：delay rate, avg delay, delay std dev (origin/dest 各三個)
+
+::: {.callout-warning}
+## 失敗
+結果為負。月度粒度對個別航班預測太粗，categorical 機場編碼已隱含這些資訊。
+:::
+
+## V6 SHAP + Optuna {#v6}
+
+**兩個部分：**
+
+1. **SHAP backward elimination：** 49 → 35 特徵，+0.0009 on val
+2. **Optuna 100-trial Bayesian HPO：** 找到 lr=0.006, depth=10, gamma=4.79
+
+::: {.callout-note appearance="minimal"}
+**綜合提升 +0.0047**
+:::
+
+優化邊際效益遞減。特徵空間與模型已接近上限，進一步的 HPO 回報很小。
+
+## V7–V8 Redundant Features {#v7v8}
+
+### V7：Temporal + Route features (8 new features)
+
+- 新增：`dest_delay_rate_7d/30d`, `route_daily_freq`, `aircraft_legs_today`, `dfw_delay_rate_1h/6h`
+
+::: {.callout-warning}
+## 12 版本中最差
+**−0.0054**。depth=10 的樹模型已自動捕捉這些時序模式，手動特徵全部冗餘。
+:::
+
+### V8：SHAP interaction features + Focal Loss
+
+- 15 個 SHAP 識別的交叉特徵（如 `dep_hour × wx_severity`）
+- 同時測試 Focal Loss 處理類別不平衡
+
+::: {.callout-warning}
+## 失敗
+兩者皆負。depth=10 已隱式捕捉交叉效果；Focal Loss 在 23.3% 不平衡下犧牲 AUC 換 F1。
+:::
+
+## V9 TAF Forecasts {#v9}
+
+**新增 9 個 TAF 特徵（IEM 來源）：** forecast wind, gust, visibility, ceiling, precip (DFW + dest)
+
+::: {.callout-tip}
+## V2 之後第一次正向結果
+**+0.002**
+:::
+
+**關鍵說明：** TAF 是天氣「預報」而非「觀測」，與 METAR 本質不同。
+
+**為何有效：** 帶入了真正新的外部資訊——氣象預報系統的未來預測，而非歷史觀測值的重編碼。
+
+**確認模式：**「只有全新外部資訊才能突破 AUC 上限」。
+
+## V10–V12 All Negative {#v10v12}
+
+### V10：Target Encoding + Network hub weather proxy
+
+- Target Encoding 處理高基數特徵 (carrier, airport)
+- Network Weather：9 大 hub 平均天氣作為系統代理
+
+::: {.callout-warning}
+## 失敗
+兩者皆負。TE 對 depth=10 XGBoost 冗餘；Hub 天氣已被 DFW 本地特徵覆蓋。
+:::
+
+### V11：NOTEARS DAG + 3-model OOF stacking
+
+- NOTEARS 線性 DAG 用於因果特徵篩選
+- XGB + CatBoost + LightGBM 三模型 OOF stacking
+
+::: {.callout-warning}
+## 失敗
+兩者皆負。線性 NOTEARS 不適用二元分類；stacking 沒有超過單一 XGBoost。
+:::
+
+### V12：Delay-Absorption meta-feature
+
+- 複製 Li (2025) AbsorbScore：Stage I CatBoost 預測 delay absorption
+- Stage I OOF AUC 只有 0.6946
+
+::: {.callout-warning}
+## 失敗
+負向結果。Li (2025) 的 AUC=0.898 依賴 departure delay leakage，我們的嚴格版本無法複製。
+:::
+
+## V9c 定稿 {#v9c}
+
+**問題發現：** V9 tail chain 使用排班週轉門檻判斷前班是否已到，可能引入細微 leakage。
+
+**修正：** 改用實際到達時間判斷。
+
+**影響範圍：**
+
+- T-2h 版本：只有 **1.04%** 的航班受影響
+- T-24h 版本：受影響 **77.9%**，永久棄用
+
+::: {.callout-note appearance="minimal"}
+**AUC 0.7418**（−0.0022 vs V9）— 這是 Gen2 最終結果
+:::
+
+V9c 成為所有後續分析的基準。
+
+## Phase 1–4 綜合分析 {#phases}
+
+### Phase 1：Literature Leakage Audit
+
+系統性審查 12 篇文獻的 data leakage：
+
+- 只有 **2/12** 用 temporal split
+- 只有 **2/12** 特徵完全乾淨
+- **5/12** 有嚴重或致命 leakage
+
+::: {.callout-warning}
+有 leakage 的論文報告 AUC **0.87–0.99**；乾淨的時序研究報告 **0.62–0.74**。
+:::
+
+結論：我們的 AUC 0.7418 在方法論嚴格的條件下具有競爭力。
+
+### Phase 2：Literature Method Reproduction
+
+在相同 temporal split 條件下複製 6 個文獻方法：
+
+| Method | AUC Change |
+|---|---|
+| SMOTE | −0.028 |
+| ADASYN | −0.029 |
+| SelectKBest | −0.023 |
+| FSFS | −0.018 |
+| ATT-BI-LSTM | −0.028 |
+| LightGBM | +0.008 |
+
+Aeolus benchmark：4 個 GBDT 全部優於 7 個 DL 模型。
+
+### Phase 3：SHAP Feature Importance
+
+::: {.callout-tip}
+## 我們的貢獻佔總 SHAP 42.8%
+
+- **Tail Chain：** 22.7%
+- **TAF Forecasts：** 12.4%
+- **Dest METAR：** 7.7%
+:::
+
+### Phase 4：Ablation Study
+
+**Incremental addition：**
+
+| Feature Group | AUC | Delta |
+|---|---|---|
+| Schedule only | 0.6226 | — |
+| + Aircraft/Infra | 0.6710 | +0.048 |
+| + DFW METAR | 0.6928 | +0.022 |
+| + Dest METAR | 0.7048 | +0.012 |
+| + TAF | 0.6969 | −0.008 |
+| + Tail Chain | 0.7279 | +0.031 |
+
+**Leave-one-out：** 移除 Tail Chain **−0.031**（最關鍵）；移除 Aircraft/Infra **−0.023**。
+
+:::
+
+```{=html}
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var tabs = document.querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var target = tabs[i].getAttribute('data-bs-target') || tabs[i].getAttribute('href') || '';
+    if (target.indexOf(hash) !== -1) {
+      tabs[i].click();
+      break;
+    }
+  }
+});
+</script>
+```

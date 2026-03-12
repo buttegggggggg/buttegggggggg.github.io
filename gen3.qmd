@@ -1,0 +1,130 @@
+---
+title: "Gen3：Public BTS Replication"
+subtitle: "全美公開資料｜19,150,000 flights｜可重現的研究結果"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+```{=html}
+<nav style="margin-bottom:1.5rem;">
+  <small><a href="index.html">首頁</a> › <a href="research-overview.html">研究流程圖</a> › Gen3</small>
+  <br>
+  <a href="research-overview.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← 返回研究流程圖</a>
+</nav>
+```
+
+::: {.panel-tabset}
+
+## Overview
+
+**動機：** Gen2 使用 AA 私有 Snowflake 資料，無法公開重現。需要在公開資料上驗證方法論。
+
+**資料來源：** BTS（Bureau of Transportation Statistics）公開資料
+
+::: {.callout-note appearance="minimal"}
+**規模：** 19,150,000 美國國內航班
+:::
+
+**目標：** 在公開資料上複製並延伸 Gen2 的方法論框架
+
+**核心差異：**
+
+- Gen2：單一航空公司（AA）單一 Hub（DFW）
+- Gen3：全美所有航空公司、所有航班
+
+::: {.callout-note appearance="minimal"}
+**AUC 0.7681**（Chimera model）
+:::
+
+## SHAP Source-Group 分析 {#shap}
+
+**方法說明：** 將所有特徵按資料來源分組，計算各組 SHAP 貢獻總和。
+
+**分組結果：**
+
+| Source Group | SHAP Contribution |
+|---|---|
+| Tail Chain | 35.5% |
+| Schedule | 18.6% |
+| Congestion | 14.4% |
+| Weather METAR | Low |
+| Weather TAF | Low |
+
+::: {.callout-tip}
+## Key Finding
+
+`dep_hour` 是單一最重要特徵（#1 individual feature）。在嚴格 leakage control 下，schedule-derived information 系統性主導預測。
+:::
+
+## Schedule 結構性主導 {#schedule}
+
+::: {.callout-tip}
+## 核心發現：看排班就知道會不會延誤
+
+延誤有超過一半的可預測部分，在排班表確定的那一刻就已決定了。
+:::
+
+**白話解釋：** 延誤不是隨機意外，而是系統性的結構問題。航班的出發時間、使用的機型、航線的繁忙程度——這些在排班表公布時就已經決定的因素，主導了延誤的可預測性。
+
+**文獻對比：**
+
+- 現有文獻認為天氣是主要因素之一
+- 但這些研究大多沒有嚴格控制 leakage
+- 在我們嚴格條件下，schedule 遠比天氣重要
+
+**這個結論的新穎性：**
+
+- 有論文（FDPP-ML, 2023, *Journal of Big Data*）曾說「目前沒有研究能只靠 schedule 特徵預測延誤」然後自己做到了
+- 但沒有論文用 SHAP 量化並解釋「schedule 主導的比例是多少、為什麼」
+- 在全美 19.15M 航班的規模上嚴格驗證，不是地理特例
+
+## Weather 貢獻近零 {#weather}
+
+::: {.callout-tip}
+## 核心發現
+
+在嚴格 pre-departure leakage control 下，weather features 的 SHAP 貢獻接近零。
+:::
+
+**解釋為什麼：**
+
+- 起飛前 2–6 小時的天氣觀測（METAR）代表的是**現在的天氣**，不是航班到達時的天氣
+- 目的地天氣預報（TAF）在長程航班下預測誤差大
+- 天氣在其他論文裡「有用」，很可能是因為使用了起飛後或到達後的天氣觀測值（leakage）
+
+**文獻對比：**
+
+- Hatipoglu & Tosun (2024, MDPI)：也發現天氣不重要，但歸因於土耳其氣候穩定
+- Alfarhood et al. (2024, Wiley)：沙烏地阿拉伯天氣不重要，歸因於沙漠氣候
+- **我們的發現不同**：美國天氣複雜，但天氣仍近零 → 原因是**方法論**，不是地理
+
+::: {.callout-warning}
+## 文獻啟示
+
+現有多數文獻的 weather feature importance 可能因 leakage 而被高估。
+:::
+
+:::
+
+```{=html}
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var tabs = document.querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var target = tabs[i].getAttribute('data-bs-target') || tabs[i].getAttribute('href') || '';
+    if (target.indexOf(hash) !== -1) {
+      tabs[i].click();
+      break;
+    }
+  }
+});
+</script>
+```
