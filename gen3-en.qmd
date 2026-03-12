@@ -28,38 +28,161 @@ format:
 **Data Source:** BTS (Bureau of Transportation Statistics) public data
 
 ::: {.callout-note appearance="minimal"}
-**Scale:** 19,150,000 U.S. domestic flights
+**Scale:** 19,150,000 U.S. domestic flights (2021-2023)
 :::
 
-**Goal:** Replicate and extend Gen2's methodological framework on public data
+**Temporal split:**
+
+| Set | Period | Rows |
+|---|---|---|
+| Train | 2021-2022 | ~12.4M |
+| Val | 2023 H1 | ~3.3M |
+| Test | 2023 H2 | ~3.5M |
 
 **Key Differences:**
 
-- Gen2: Single airline (AA), single hub (DFW)
-- Gen3: All U.S. carriers, all flights
+- Gen2: Single airline (AA), single hub (DFW), 804K flights
+- Gen3: All U.S. carriers, all airports, 19.15M flights
+
+**Two versions:**
+
+| Version | Features | HPO | Test AUC |
+|---|---|---|---|
+| V2 Full Pipeline | 41 (with tail chain + congestion) | Optuna 100-trial | **0.7681** |
+| V4 Clean Baseline | 34 (no tail chain, no congestion) | Default | **0.7011** |
+
+## V2 Full Pipeline {#v2}
+
+**Content:** Full replication of Gen2 methodology - SHAP feature selection + Optuna HPO + XGBoost
+
+**41 Features (7 source groups):**
+
+| Source Group | # Features | SHAP % |
+|---|---|---|
+| Tail Chain | 6 | 35.5% |
+| Schedule (BTS) | 6 | 18.6% |
+| Congestion | 3 | 14.4% |
+| Origin METAR | 8 | 9.4% |
+| Airport (FAA) | 3 | 7.5% |
+| TAF Forecasts | 9 | 7.4% |
+| Dest METAR | 6 | 7.1% |
+
+**Model comparison (Test set):**
+
+| Model | AUC |
+|---|---|
+| XGBoost (Optuna) | **0.7681** |
+| CatBoost | 0.7627 |
+| Random Forest | 0.7497 |
 
 ::: {.callout-note appearance="minimal"}
-**AUC 0.7681** (Chimera model)
+**Best: XGBoost AUC 0.7681** (Optuna HPO, lr=0.0145, depth=8)
 :::
 
-## SHAP Source-Group Analysis {#shap}
+**Top-5 SHAP features:** `dep_hour` (Schedule) > `turnaround_pressure` (Tail Chain) > `prev_2_flight_delay` (Tail Chain) > `turnaround_min` (Tail Chain) > `prev_flight_arvl_delay` (Tail Chain)
 
-**Method:** Group all features by data source and compute total SHAP contribution per group.
+## V4 Clean Baseline {#v4}
 
-**Results:**
+**Core purpose:** Establish the strictest leakage-free baseline - removing all features requiring aircraft identity or aggregation.
 
-| Source Group | SHAP Contribution |
+### 12-Rule Leakage Control Framework
+
+| # | Rule | V4 Compliance |
+|---|---|---|
+| 1 | T_pred = CRS_DEP_TIME - 2h | PASS |
+| 2 | Temporal gating: all features <= T_pred | PASS |
+| 3 | Aircraft identity: no TAIL_NUM, no tail chain | PASS |
+| 4 | Actual outcomes: DEP_TIME/ARR_TIME removed | PASS |
+| 5 | Aggregation: no congestion (baseline) | PASS |
+| 6 | Weather timestamps: METAR backward, TAF issue < T_pred | PASS |
+| 7 | Network propagation: not used | PASS |
+| 8 | Label leakage: ARR_DELAY -> binary, then dropped | PASS |
+| 9 | Dataset split: temporal only | PASS |
+| 10 | Global statistics: not used | PASS |
+| 11 | Feature verification: per-feature audit log | PASS |
+| 12 | Leakage audit: assertion pass required | PASS |
+
+::: {.callout-note appearance="minimal"}
+**34/34 features passed leakage audit**
+:::
+
+**34 SAFE Features (6 source groups):**
+
+| Source Group | # Features | SHAP % |
+|---|---|---|
+| Schedule (BTS) | 8 | **59.4%** |
+| Origin METAR | 8 | 11.7% |
+| Airport Static (FAA) | 4 | 8.6% |
+| Dest METAR | 6 | 8.0% |
+| TAF Forecasts | 7 | 6.8% |
+| Calendar | 1 | 5.4% |
+
+**Model comparison (Default hyperparameters):**
+
+| Model | AUC |
+|---|---|
+| CatBoost | **0.7011** |
+| XGBoost Default | 0.7009 |
+| Random Forest | 0.6915 |
+
+::: {.callout-note appearance="minimal"}
+**Best: CatBoost AUC 0.7011** (default hyperparameters, 34 features)
+:::
+
+### V2 vs V4 Difference
+
+V4 is **0.0670 AUC** lower than V2, quantifying the combined contribution of:
+
+1. Tail chain features (6 features)
+2. Congestion features (3 features)
+3. Optuna HPO
+4. SHAP feature selection
+
+## Aeolus Benchmark {#aeolus}
+
+**Purpose:** Compare GBDT and Deep Learning models on the same BTS data.
+
+::: {.callout-tip}
+## GBDT Comprehensively Outperforms DL
+
+**XGBoost AUC = 0.687 >> Best DL AUC = 0.623** (ΔAUC = +0.064)
+:::
+
+All 4 GBDT models outperformed all 7 DL models, consistent with Gen2 Phase 2 findings.
+
+## SHAP Analysis {#shap}
+
+### V2 SHAP (with tail chain)
+
+`dep_hour` is the single most important feature. Tail Chain accounts for 35.5% overall, the largest source group.
+
+| Source Group | SHAP % |
 |---|---|
 | Tail Chain | 35.5% |
 | Schedule | 18.6% |
 | Congestion | 14.4% |
-| Weather METAR | Low |
-| Weather TAF | Low |
+| Origin METAR | 9.4% |
+| TAF | 7.4% |
+| Airport | 7.5% |
+| Dest METAR | 7.1% |
+
+### V4 SHAP (without tail chain)
+
+After removing tail chain and congestion, Schedule's SHAP share jumped from 18.6% to **59.4%**.
+
+| Source Group | SHAP % |
+|---|---|
+| Schedule | **59.4%** |
+| Origin METAR | 11.7% |
+| Airport Static | 8.6% |
+| Dest METAR | 8.0% |
+| TAF | 6.8% |
+| Calendar | 5.4% |
 
 ::: {.callout-tip}
-## Key Finding
+## Key Insight
 
-`dep_hour` is the single most important feature (#1 individual feature). Under strict leakage control, schedule-derived information systematically dominates prediction.
+Regardless of whether tail chain is included, **Schedule is always the most important source group**. In V2, tail chain suppressed schedule's apparent share, but V4 reveals schedule's true dominance.
 :::
 
 ## Schedule Dominance {#schedule}
@@ -67,47 +190,53 @@ format:
 ::: {.callout-tip}
 ## Core Finding: The Schedule Tells You If a Flight Will Be Delayed
 
-More than half of the predictable component of delays is already determined the moment the schedule is published.
+In V4 Clean Baseline, schedule-derived features account for **59.4%** of total SHAP. Most of the predictable component of delays is already determined the moment the schedule is published.
 :::
 
-**Plain Language:** Delays are not random accidents but systematic structural problems. Departure time, aircraft type, route traffic — these factors, already determined when the schedule is published, dominate delay predictability.
+**Plain Language:** Delays are not random accidents but systematic structural problems. Departure time, aircraft type, route traffic - these factors, already determined when the schedule is published, dominate delay predictability.
+
+**Consistency across versions:**
+
+- V2 (with tail chain): Schedule 18.6%, but `dep_hour` is still #1 individual feature
+- V4 (without tail chain): Schedule **59.4%**, structural dominance is even more pronounced
 
 **Comparison with Literature:**
 
-- Existing literature considers weather a major factor
-- However, most of these studies did not strictly control for leakage
-- Under our strict conditions, schedule is far more important than weather
-
-**Novelty of This Finding:**
-
-- One paper (FDPP-ML, 2023, *Journal of Big Data*) stated "no current study can predict delays from schedule features alone" and then did so themselves
+- FDPP-ML (2023, *Journal of Big Data*): Stated "no current study can predict delays from schedule features alone" and then did so themselves
 - But no paper has used SHAP to quantify and explain "what proportion does schedule dominate, and why"
 - Rigorously validated on 19.15M flights nationwide, not a geographic anomaly
 
-## Weather Near-Zero Contribution {#weather}
+## Weather Contribution {#weather}
 
-::: {.callout-tip}
-## Core Finding
+::: {.callout-warning}
+## Correction: Weather Is Not "Near-Zero"
 
-Under strict pre-departure leakage control, weather features' SHAP contribution approaches zero.
+V4 Clean Baseline SHAP results: Origin METAR 11.7% + Dest METAR 8.0% + TAF 6.8% = **total 26.5%**
 :::
 
-**Why:**
+**Weather contribution difference between V2 and V4:**
 
-- Weather observations (METAR) 2-6 hours before departure represent **current weather**, not weather at arrival time
-- Destination weather forecasts (TAF) have large prediction errors for long-haul flights
-- Weather appearing "useful" in other papers is likely due to using post-departure or post-arrival weather observations (leakage)
+| Version | Weather Total | Reason |
+|---|---|---|
+| V2 | ~23.9% | Suppressed by tail chain (35.5%), lower apparent share |
+| V4 | **26.5%** | No tail chain, weather's true contribution is clearer |
+
+**Corrected conclusions:**
+
+- Weather still accounts for **26.5%** under strict leakage control, not "near-zero"
+- Gen2 V9's TAF bringing +0.002 AUC also confirms weather has a positive contribution
+- The previous "weather near-zero" claim was likely an artifact of weather being suppressed by tail chain in V2
 
 **Comparison with Literature:**
 
-- Hatipoglu & Tosun (2024, MDPI): Also found weather unimportant, but attributed it to Turkey's stable climate
+- Hatipoglu & Tosun (2024, MDPI): Found weather unimportant, attributed to Turkey's stable climate
 - Alfarhood et al. (2024, Wiley): Weather unimportant in Saudi Arabia, attributed to desert climate
-- **Our finding differs**: U.S. weather is complex, yet weather still near-zero → the reason is **methodological**, not geographic
+- **Our finding**: Under strict leakage control, weather still accounts for about one-quarter of SHAP contribution
 
-::: {.callout-warning}
+::: {.callout-tip}
 ## Implication for Literature
 
-Most existing literature's weather feature importance may be overestimated due to leakage.
+Most existing literature's weather feature importance may be overestimated due to leakage. However, under strict conditions, weather remains a meaningful predictor (~26.5%), just far below schedule's dominance.
 :::
 
 :::

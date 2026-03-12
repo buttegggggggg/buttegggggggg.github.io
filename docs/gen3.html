@@ -210,7 +210,7 @@ ul.task-list li input[type="checkbox"] {
   <a href="research-overview.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← 返回研究流程圖</a>
 </nav>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">SHAP Source-Group 分析</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Schedule 結構性主導</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Weather 貢獻近零</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V2 Full Pipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V4 Clean Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Aeolus Benchmark</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">SHAP 分析</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">Schedule 結構性主導</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">Weather 貢獻</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><strong>動機：</strong> Gen2 使用 AA 私有 Snowflake 資料，無法公開重現。需要在公開資料上驗證方法論。</p>
@@ -221,35 +221,356 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>規模：</strong> 19,150,000 美國國內航班</p>
+<p><strong>規模：</strong> 19,150,000 美國國內航班（2021–2023）</p>
 </div>
 </div>
 </div>
-<p><strong>目標：</strong> 在公開資料上複製並延伸 Gen2 的方法論框架</p>
+<p><strong>Temporal split：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Set</th>
+<th>Period</th>
+<th>Rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Train</td>
+<td>2021–2022</td>
+<td>~12.4M</td>
+</tr>
+<tr class="even">
+<td>Val</td>
+<td>2023 H1</td>
+<td>~3.3M</td>
+</tr>
+<tr class="odd">
+<td>Test</td>
+<td>2023 H2</td>
+<td>~3.5M</td>
+</tr>
+</tbody>
+</table>
 <p><strong>核心差異：</strong></p>
 <ul>
-<li>Gen2：單一航空公司（AA）單一 Hub（DFW）</li>
-<li>Gen3：全美所有航空公司、所有航班</li>
+<li>Gen2：單一航空公司（AA）單一 Hub（DFW），804K 航班</li>
+<li>Gen3：全美所有航空公司、所有機場，19.15M 航班</li>
 </ul>
+<p><strong>兩個版本：</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Version</th>
+<th>Features</th>
+<th>HPO</th>
+<th>Test AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>V2 Full Pipeline</td>
+<td>41（含 tail chain + congestion）</td>
+<td>Optuna 100-trial</td>
+<td><strong>0.7681</strong></td>
+</tr>
+<tr class="even">
+<td>V4 Clean Baseline</td>
+<td>34（無 tail chain、無 congestion）</td>
+<td>Default</td>
+<td><strong>0.7011</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><strong>內容：</strong> 完整復刻 Gen2 方法論 — SHAP feature selection + Optuna HPO + XGBoost</p>
+<p><strong>41 Features（7 source groups）：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source Group</th>
+<th># Features</th>
+<th>SHAP %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tail Chain</td>
+<td>6</td>
+<td>35.5%</td>
+</tr>
+<tr class="even">
+<td>Schedule (BTS)</td>
+<td>6</td>
+<td>18.6%</td>
+</tr>
+<tr class="odd">
+<td>Congestion</td>
+<td>3</td>
+<td>14.4%</td>
+</tr>
+<tr class="even">
+<td>Origin METAR</td>
+<td>8</td>
+<td>9.4%</td>
+</tr>
+<tr class="odd">
+<td>Airport (FAA)</td>
+<td>3</td>
+<td>7.5%</td>
+</tr>
+<tr class="even">
+<td>TAF Forecasts</td>
+<td>9</td>
+<td>7.4%</td>
+</tr>
+<tr class="odd">
+<td>Dest METAR</td>
+<td>6</td>
+<td>7.1%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>模型比較（Test set）：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>XGBoost (Optuna)</td>
+<td><strong>0.7681</strong></td>
+</tr>
+<tr class="even">
+<td>CatBoost</td>
+<td>0.7627</td>
+</tr>
+<tr class="odd">
+<td>Random Forest</td>
+<td>0.7497</td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>AUC 0.7681</strong>（Chimera model）</p>
+<p><strong>Best: XGBoost AUC 0.7681</strong>（Optuna HPO, lr=0.0145, depth=8）</p>
 </div>
 </div>
 </div>
+<p><strong>Top-5 SHAP features：</strong> <code>dep_hour</code>（Schedule）&gt; <code>turnaround_pressure</code>（Tail Chain）&gt; <code>prev_2_flight_delay</code>（Tail Chain）&gt; <code>turnaround_min</code>（Tail Chain）&gt; <code>prev_flight_arvl_delay</code>（Tail Chain）</p>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p><strong>方法說明：</strong> 將所有特徵按資料來源分組，計算各組 SHAP 貢獻總和。</p>
-<p><strong>分組結果：</strong></p>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p><strong>核心目的：</strong> 建立最嚴格的 leakage-free baseline — 移除所有需要 aircraft identity 或 aggregation 的特徵。</p>
+<section id="rule-leakage-control-framework" class="level3">
+<h3 class="anchored" data-anchor-id="rule-leakage-control-framework">12-Rule Leakage Control Framework</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Rule</th>
+<th>V4 Compliance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>T_pred = CRS_DEP_TIME - 2h</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Temporal gating: all features &lt;= T_pred</td>
+<td>PASS</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Aircraft identity: no TAIL_NUM, no tail chain</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Actual outcomes: DEP_TIME/ARR_TIME removed</td>
+<td>PASS</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Aggregation: no congestion (baseline)</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Weather timestamps: METAR backward, TAF issue &lt; T_pred</td>
+<td>PASS</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Network propagation: not used</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Label leakage: ARR_DELAY -&gt; binary, then dropped</td>
+<td>PASS</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Dataset split: temporal only</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Global statistics: not used</td>
+<td>PASS</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Feature verification: per-feature audit log</td>
+<td>PASS</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Leakage audit: assertion pass required</td>
+<td>PASS</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>34/34 features 全部通過 leakage audit</strong></p>
+</div>
+</div>
+</div>
+<p><strong>34 SAFE Features（6 source groups）：</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Source Group</th>
-<th>SHAP Contribution</th>
+<th># Features</th>
+<th>SHAP %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Schedule (BTS)</td>
+<td>8</td>
+<td><strong>59.4%</strong></td>
+</tr>
+<tr class="even">
+<td>Origin METAR</td>
+<td>8</td>
+<td>11.7%</td>
+</tr>
+<tr class="odd">
+<td>Airport Static (FAA)</td>
+<td>4</td>
+<td>8.6%</td>
+</tr>
+<tr class="even">
+<td>Dest METAR</td>
+<td>6</td>
+<td>8.0%</td>
+</tr>
+<tr class="odd">
+<td>TAF Forecasts</td>
+<td>7</td>
+<td>6.8%</td>
+</tr>
+<tr class="even">
+<td>Calendar</td>
+<td>1</td>
+<td>5.4%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>模型比較（Default hyperparameters）：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CatBoost</td>
+<td><strong>0.7011</strong></td>
+</tr>
+<tr class="even">
+<td>XGBoost Default</td>
+<td>0.7009</td>
+</tr>
+<tr class="odd">
+<td>Random Forest</td>
+<td>0.6915</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Best: CatBoost AUC 0.7011</strong>（default hyperparameters, 34 features）</p>
+</div>
+</div>
+</div>
+</section>
+<section id="v2-vs-v4-差異" class="level3">
+<h3 class="anchored" data-anchor-id="v2-vs-v4-差異">V2 vs V4 差異</h3>
+<p>V4 比 V2 少了 <strong>0.0670 AUC</strong>，量化了以下四項的綜合貢獻：</p>
+<ol type="1">
+<li>Tail chain features（6 features）</li>
+<li>Congestion features（3 features）</li>
+<li>Optuna HPO</li>
+<li>SHAP feature selection</li>
+</ol>
+</section>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p><strong>目的：</strong> 在相同 BTS 資料上比較 GBDT 與 Deep Learning 模型。</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+GBDT 全面優於 DL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>XGBoost AUC = 0.687 &gt;&gt; Best DL AUC = 0.623</strong>（ΔAUC = +0.064）</p>
+</div>
+</div>
+<p>所有 4 個 GBDT 模型均優於全部 7 個 DL 模型，與 Gen2 Phase 2 結論一致。</p>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<section id="v2-shap含-tail-chain" class="level3">
+<h3 class="anchored" data-anchor-id="v2-shap含-tail-chain">V2 SHAP（含 tail chain）</h3>
+<p><code>dep_hour</code> 是單一最重要特徵。Tail Chain 整體佔 35.5%，是最大的 source group。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source Group</th>
+<th>SHAP %</th>
 </tr>
 </thead>
 <tbody>
@@ -266,12 +587,58 @@ ul.task-list li input[type="checkbox"] {
 <td>14.4%</td>
 </tr>
 <tr class="even">
-<td>Weather METAR</td>
-<td>Low</td>
+<td>Origin METAR</td>
+<td>9.4%</td>
 </tr>
 <tr class="odd">
-<td>Weather TAF</td>
-<td>Low</td>
+<td>TAF</td>
+<td>7.4%</td>
+</tr>
+<tr class="even">
+<td>Airport</td>
+<td>7.5%</td>
+</tr>
+<tr class="odd">
+<td>Dest METAR</td>
+<td>7.1%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="v4-shap無-tail-chain" class="level3">
+<h3 class="anchored" data-anchor-id="v4-shap無-tail-chain">V4 SHAP（無 tail chain）</h3>
+<p>移除 tail chain 和 congestion 後，Schedule 的 SHAP 佔比從 18.6% 躍升至 <strong>59.4%</strong>。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source Group</th>
+<th>SHAP %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Schedule</td>
+<td><strong>59.4%</strong></td>
+</tr>
+<tr class="even">
+<td>Origin METAR</td>
+<td>11.7%</td>
+</tr>
+<tr class="odd">
+<td>Airport Static</td>
+<td>8.6%</td>
+</tr>
+<tr class="even">
+<td>Dest METAR</td>
+<td>8.0%</td>
+</tr>
+<tr class="odd">
+<td>TAF</td>
+<td>6.8%</td>
+</tr>
+<tr class="even">
+<td>Calendar</td>
+<td>5.4%</td>
 </tr>
 </tbody>
 </table>
@@ -281,15 +648,16 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Key Finding
+Key Insight
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>dep_hour</code> 是單一最重要特徵（#1 individual feature）。在嚴格 leakage control 下，schedule-derived information 系統性主導預測。</p>
+<p>無論是否包含 tail chain，<strong>Schedule 都是最重要的 source group</strong>。V2 中 tail chain 壓制了 schedule 的表面佔比，但 V4 揭示了 schedule 的真實主導地位。</p>
 </div>
 </div>
+</section>
 </div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -300,50 +668,71 @@ Key Finding
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>延誤有超過一半的可預測部分，在排班表確定的那一刻就已決定了。</p>
+<p>在 V4 Clean Baseline 中，schedule-derived features 佔 SHAP 總量的 <strong>59.4%</strong>。延誤的可預測部分，大部分在排班表確定的那一刻就已決定。</p>
 </div>
 </div>
 <p><strong>白話解釋：</strong> 延誤不是隨機意外，而是系統性的結構問題。航班的出發時間、使用的機型、航線的繁忙程度——這些在排班表公布時就已經決定的因素，主導了延誤的可預測性。</p>
+<p><strong>兩個版本的一致性：</strong></p>
+<ul>
+<li>V2（含 tail chain）：Schedule 18.6%，但 <code>dep_hour</code> 仍是 #1 individual feature</li>
+<li>V4（無 tail chain）：Schedule <strong>59.4%</strong>，結構性主導更加明顯</li>
+</ul>
 <p><strong>文獻對比：</strong></p>
 <ul>
-<li>現有文獻認為天氣是主要因素之一</li>
-<li>但這些研究大多沒有嚴格控制 leakage</li>
-<li>在我們嚴格條件下，schedule 遠比天氣重要</li>
-</ul>
-<p><strong>這個結論的新穎性：</strong></p>
-<ul>
-<li>有論文（FDPP-ML, 2023, <em>Journal of Big Data</em>）曾說「目前沒有研究能只靠 schedule 特徵預測延誤」然後自己做到了</li>
+<li>FDPP-ML (2023, <em>Journal of Big Data</em>)：曾說「目前沒有研究能只靠 schedule 特徵預測延誤」然後自己做到了</li>
 <li>但沒有論文用 SHAP 量化並解釋「schedule 主導的比例是多少、為什麼」</li>
 <li>在全美 19.15M 航班的規模上嚴格驗證，不是地理特例</li>
 </ul>
 </div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<div class="callout callout-style-default callout-tip callout-titled">
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-核心發現
+修正：Weather 並非「近零」
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>在嚴格 pre-departure leakage control 下，weather features 的 SHAP 貢獻接近零。</p>
+<p>V4 Clean Baseline SHAP 結果：Origin METAR 11.7% + Dest METAR 8.0% + TAF 6.8% = <strong>合計 26.5%</strong></p>
 </div>
 </div>
-<p><strong>解釋為什麼：</strong></p>
+<p><strong>V2 vs V4 的天氣貢獻差異：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Version</th>
+<th>Weather Total</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>V2</td>
+<td>~23.9%</td>
+<td>被 tail chain（35.5%）壓制，表面佔比低</td>
+</tr>
+<tr class="even">
+<td>V4</td>
+<td><strong>26.5%</strong></td>
+<td>無 tail chain，天氣的真實貢獻更清晰</td>
+</tr>
+</tbody>
+</table>
+<p><strong>修正後的結論：</strong></p>
 <ul>
-<li>起飛前 2–6 小時的天氣觀測（METAR）代表的是<strong>現在的天氣</strong>，不是航班到達時的天氣</li>
-<li>目的地天氣預報（TAF）在長程航班下預測誤差大</li>
-<li>天氣在其他論文裡「有用」，很可能是因為使用了起飛後或到達後的天氣觀測值（leakage）</li>
+<li>天氣在嚴格 leakage control 下<strong>仍佔 26.5%</strong>，不是「近零」</li>
+<li>Gen2 V9 中 TAF 帶來 +0.002 AUC 也證實天氣有正向貢獻</li>
+<li>先前「天氣近零」的說法可能是 V2 中天氣被 tail chain 壓制的假象</li>
 </ul>
 <p><strong>文獻對比：</strong></p>
 <ul>
-<li>Hatipoglu &amp; Tosun (2024, MDPI)：也發現天氣不重要，但歸因於土耳其氣候穩定</li>
+<li>Hatipoglu &amp; Tosun (2024, MDPI)：發現天氣不重要，歸因於土耳其氣候穩定</li>
 <li>Alfarhood et al.&nbsp;(2024, Wiley)：沙烏地阿拉伯天氣不重要，歸因於沙漠氣候</li>
-<li><strong>我們的發現不同</strong>：美國天氣複雜，但天氣仍近零 → 原因是<strong>方法論</strong>，不是地理</li>
+<li><strong>我們的發現</strong>：在嚴格 leakage control 下，天氣仍佔約四分之一的 SHAP 貢獻</li>
 </ul>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -353,7 +742,7 @@ Key Finding
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>現有多數文獻的 weather feature importance 可能因 leakage 而被高估。</p>
+<p>現有多數文獻的 weather feature importance 可能因 leakage 而被高估。但在嚴格條件下，天氣仍是有意義的預測因子（~26.5%），只是遠不及 schedule 的主導地位。</p>
 </div>
 </div>
 </div>
