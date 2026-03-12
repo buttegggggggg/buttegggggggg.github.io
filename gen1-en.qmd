@@ -1,0 +1,106 @@
+---
+title: "Gen1: Selective Prediction (Deprecated)"
+subtitle: "Early 2025 | AA Snowflake Internal Data | 14-Day Rapid Prototype"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+```{=html}
+<nav style="margin-bottom:1.5rem;">
+  <small><a href="index.html">Home</a> › <a href="research-overview-en.html">Research Overview</a> › Gen1</small>
+  <br>
+  <a href="research-overview-en.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← Back to Research Overview</a>
+</nav>
+```
+
+::: {.panel-tabset}
+
+## Overview
+
+**Research Goal:** "When NOT to Use Flight Delay Prediction Models"
+
+**Core Concepts:**
+
+- **Selective Prediction:** The model can choose to "abstain" from predicting certain samples, only making predictions for flights it is confident about
+- **Slice Discovery:** Automatically identify subgroups (slices) where the model performs particularly poorly
+- **Model Calibration:** Ensure predicted probabilities match actual proportions
+- **Cost-based Abstention:** Decide when to abstain based on a cost function
+- **Novelty Detection:** Detect anomalous samples not seen during training
+
+**Dataset:** American Airlines Snowflake internal data, 2.7M flights
+
+**Scale:** 30 Python scripts (code_001 to code_030)
+
+## Key Results
+
+::: {.callout-note appearance="minimal"}
+**Selective Prediction 80% coverage:** BA = 0.9083
+:::
+
+::: {.callout-note appearance="minimal"}
+**Cost-based abstention optimal point:** coverage = 18.3%, BA = 0.9390
+:::
+
+::: {.callout-note appearance="minimal"}
+**Test AUC-ROC:** 0.9280
+:::
+
+::: {.callout-note appearance="minimal"}
+**LSTM test BA:** 0.8638
+:::
+
+::: {.callout-note appearance="minimal"}
+**FT-Transformer test BA:** 0.8642
+:::
+
+Tree-based models performed comparably to deep learning models, with significantly lower training cost.
+
+## ETD Leakage {#etd-leakage}
+
+::: {.callout-warning}
+## FATAL ISSUE: ETD Data Leakage
+
+**ETD (Estimated Time of Departure)** is derived from the **actual departure time**, not information available at the time of prediction.
+:::
+
+**Issue Details:**
+
+- Correlation between ETD and arrival delay: **~0.92**
+- All 9 "do-not-use" slices in Gen1 were based on ETD deviation bins (`late_5-30`, `late_30-60`, `late_>60`)
+- This means the analysis is **entirely invalid** — the model was simply "seeing the answer"
+
+**Impact:**
+
+- AUC 0.928 is **artificially inflated** because ETD directly encodes the answer
+- All selective prediction analyses and slice discovery results based on ETD are unreliable
+
+::: {.callout-warning}
+## Conclusion
+
+Gen1 is **entirely invalidated**. Research direction shifted from "when not to use models" to "how to build models with zero leakage" → entered Gen2.
+:::
+
+:::
+
+```{=html}
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var tabs = document.querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var target = tabs[i].getAttribute('data-bs-target') || tabs[i].getAttribute('href') || '';
+    if (target.indexOf(hash) !== -1) {
+      tabs[i].click();
+      break;
+    }
+  }
+});
+</script>
+```

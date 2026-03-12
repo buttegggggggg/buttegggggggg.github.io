@@ -1,0 +1,130 @@
+---
+title: "Gen3: Public BTS Replication"
+subtitle: "Nationwide Public Data | 19,150,000 flights | Reproducible Results"
+format:
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 2
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+```{=html}
+<nav style="margin-bottom:1.5rem;">
+  <small><a href="index.html">Home</a> › <a href="research-overview-en.html">Research Overview</a> › Gen3</small>
+  <br>
+  <a href="research-overview-en.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← Back to Research Overview</a>
+</nav>
+```
+
+::: {.panel-tabset}
+
+## Overview
+
+**Motivation:** Gen2 used AA's proprietary Snowflake data, which cannot be publicly reproduced. Validation on public data was needed.
+
+**Data Source:** BTS (Bureau of Transportation Statistics) public data
+
+::: {.callout-note appearance="minimal"}
+**Scale:** 19,150,000 U.S. domestic flights
+:::
+
+**Goal:** Replicate and extend Gen2's methodological framework on public data
+
+**Key Differences:**
+
+- Gen2: Single airline (AA), single hub (DFW)
+- Gen3: All U.S. carriers, all flights
+
+::: {.callout-note appearance="minimal"}
+**AUC 0.7681** (Chimera model)
+:::
+
+## SHAP Source-Group Analysis {#shap}
+
+**Method:** Group all features by data source and compute total SHAP contribution per group.
+
+**Results:**
+
+| Source Group | SHAP Contribution |
+|---|---|
+| Tail Chain | 35.5% |
+| Schedule | 18.6% |
+| Congestion | 14.4% |
+| Weather METAR | Low |
+| Weather TAF | Low |
+
+::: {.callout-tip}
+## Key Finding
+
+`dep_hour` is the single most important feature (#1 individual feature). Under strict leakage control, schedule-derived information systematically dominates prediction.
+:::
+
+## Schedule Dominance {#schedule}
+
+::: {.callout-tip}
+## Core Finding: The Schedule Tells You If a Flight Will Be Delayed
+
+More than half of the predictable component of delays is already determined the moment the schedule is published.
+:::
+
+**Plain Language:** Delays are not random accidents but systematic structural problems. Departure time, aircraft type, route traffic — these factors, already determined when the schedule is published, dominate delay predictability.
+
+**Comparison with Literature:**
+
+- Existing literature considers weather a major factor
+- However, most of these studies did not strictly control for leakage
+- Under our strict conditions, schedule is far more important than weather
+
+**Novelty of This Finding:**
+
+- One paper (FDPP-ML, 2023, *Journal of Big Data*) stated "no current study can predict delays from schedule features alone" and then did so themselves
+- But no paper has used SHAP to quantify and explain "what proportion does schedule dominate, and why"
+- Rigorously validated on 19.15M flights nationwide, not a geographic anomaly
+
+## Weather Near-Zero Contribution {#weather}
+
+::: {.callout-tip}
+## Core Finding
+
+Under strict pre-departure leakage control, weather features' SHAP contribution approaches zero.
+:::
+
+**Why:**
+
+- Weather observations (METAR) 2-6 hours before departure represent **current weather**, not weather at arrival time
+- Destination weather forecasts (TAF) have large prediction errors for long-haul flights
+- Weather appearing "useful" in other papers is likely due to using post-departure or post-arrival weather observations (leakage)
+
+**Comparison with Literature:**
+
+- Hatipoglu & Tosun (2024, MDPI): Also found weather unimportant, but attributed it to Turkey's stable climate
+- Alfarhood et al. (2024, Wiley): Weather unimportant in Saudi Arabia, attributed to desert climate
+- **Our finding differs**: U.S. weather is complex, yet weather still near-zero → the reason is **methodological**, not geographic
+
+::: {.callout-warning}
+## Implication for Literature
+
+Most existing literature's weather feature importance may be overestimated due to leakage.
+:::
+
+:::
+
+```{=html}
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  var tabs = document.querySelectorAll('[data-bs-toggle="tab"], [data-bs-toggle="pill"]');
+  for (var i = 0; i < tabs.length; i++) {
+    var target = tabs[i].getAttribute('data-bs-target') || tabs[i].getAttribute('href') || '';
+    if (target.indexOf(hash) !== -1) {
+      tabs[i].click();
+      break;
+    }
+  }
+});
+</script>
+```
