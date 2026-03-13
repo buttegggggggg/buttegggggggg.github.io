@@ -211,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V4 Clean Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Full Pipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">SHAP Source-Group 分析</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">Schedule 結構性主導</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">Weather 貢獻近零</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V4 Clean Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Full Pipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">V5 Prescriptive</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">SHAP Source-Group 分析</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">Schedule 結構性主導</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">Weather 貢獻近零</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <section id="為什麼需要-gen3" class="level3">
@@ -344,6 +344,11 @@ Tip
 <td><strong>V2（Full Pipeline）</strong></td>
 <td>41 特徵，Optuna HPO，3 模型比較</td>
 <td><strong>0.7681</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>V5（Prescriptive）</strong></td>
+<td>逆向工程 V4 CatBoost，萃取排程建議</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
@@ -516,6 +521,390 @@ Tip
 </section>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="背景與動機" class="level3">
+<h3 class="anchored" data-anchor-id="背景與動機">背景與動機</h3>
+<blockquote class="blockquote">
+<p><strong>教授指示：「不能想著證明我有多會訓練模型⋯要找出黑盒子裡的內容⋯怎麼排程才不會延誤航班？方法論才是最重要的。」</strong></p>
+</blockquote>
+<p>V5 不改模型、不追 AUC，而是<strong>逆向工程 V4 CatBoost（AUC = 0.7011）</strong>，萃取可行動的排程建議。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>項目</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>模型</td>
+<td>V4 CatBoost（AUC=0.7011，34 features，iterations=1000）</td>
+</tr>
+<tr class="even">
+<td>資料</td>
+<td>gen3_v4_feat.parquet（19.15M rows × 36 cols）</td>
+</tr>
+<tr class="odd">
+<td>分析數量</td>
+<td>11 項分析（Part A 6 項 + Part B 5 項）</td>
+</tr>
+<tr class="even">
+<td>產出</td>
+<td>40 張圖 + 8 個 JSON + 2 份報告（EN/ZH）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="part-ashap-逆向工程" class="level3">
+<h3 class="anchored" data-anchor-id="part-ashap-逆向工程">Part A：SHAP 逆向工程</h3>
+<section id="shap-dependence-deep-dive" class="level4">
+<h4 class="anchored" data-anchor-id="shap-dependence-deep-dive">1. SHAP Dependence Deep Dive</h4>
+<p>Top-10 特徵各一張 SHAP dependence plot（自動交互上色），揭示非線性關係：</p>
+<ul>
+<li><strong>dep_hour</strong>：下午時段風險急劇升高</li>
+<li><strong>distance</strong>：短程航班延誤風險更高</li>
+<li><strong>schd_block_min</strong>：更多緩衝時間可降低延誤機率</li>
+<li><strong>carrier_encoded</strong>：航空公司間存在顯著差異</li>
+<li><strong>is_holiday_period</strong>：假日有明確的二元風險增加</li>
+</ul>
+</section>
+<section id="shap-interaction-分析" class="level4">
+<h4 class="anchored" data-anchor-id="shap-interaction-分析">2. SHAP Interaction 分析</h4>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>CatBoost 不支援 <code>shap_interaction_values</code> → 訓練 XGBoost 代理（AUC = 0.7009），15K 子樣本計算交互矩陣。</p>
+</div>
+</div>
+</div>
+<p>6 組關鍵交互效應：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>交互對</th>
+<th>發現</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dep_hour × distance</td>
+<td>下午短程更危險</td>
+</tr>
+<tr class="even">
+<td>dep_hour × carrier</td>
+<td>航空公司高峰管理能力差異</td>
+</tr>
+<tr class="odd">
+<td>dep_hour × wx_severity</td>
+<td>天氣 × 高峰複合效應</td>
+</tr>
+<tr class="even">
+<td>distance × schd_block_min</td>
+<td>長程需要更多緩衝</td>
+</tr>
+<tr class="odd">
+<td>is_holiday_period × dep_hour</td>
+<td>假日哪個時段更脆弱</td>
+</tr>
+<tr class="even">
+<td>wx_temp_f × dep_month</td>
+<td>季節性天氣效應</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pdp-ice-ale-交叉驗證" class="level4">
+<h4 class="anchored" data-anchor-id="pdp-ice-ale-交叉驗證">3. PDP + ICE + ALE 交叉驗證</h4>
+<p>三種獨立方法（PDP、ICE、ALE）交叉驗證 SHAP 發現。ALE 修正了相關特徵偏誤（例如 distance 與 block time 的相關性）。包含 2D PDP 等高線圖：dep_hour × distance、dep_hour × schd_block_min。</p>
+</section>
+<section id="counterfactual-what-if-分析" class="level4">
+<h4 class="anchored" data-anchor-id="counterfactual-what-if-分析">4. Counterfactual What-If 分析</h4>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>固定天氣，只改排程變數，測試 4 種干預方案（1,000 班延誤航班）：</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>干預方案</th>
+<th>基準延誤率</th>
+<th>干預後</th>
+<th>降幅</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A. 移至早班（6AM）</strong></td>
+<td>63.1%</td>
+<td>10.1%</td>
+<td><strong>−53.0pp</strong></td>
+</tr>
+<tr class="even">
+<td>B. 增加緩衝（+45min）</td>
+<td>63.1%</td>
+<td>46.0%</td>
+<td>−17.1pp</td>
+</tr>
+<tr class="odd">
+<td>C. 非假日（472 班假日航班）</td>
+<td>76.7%</td>
+<td>64.4%</td>
+<td>−12.3pp</td>
+</tr>
+<tr class="even">
+<td>D. 好天氣+早班</td>
+<td>52.8%</td>
+<td>19.2%</td>
+<td>−33.6pp</td>
+</tr>
+<tr class="odd">
+<td>D. 壞天氣+早班</td>
+<td>73.4%</td>
+<td>33.4%</td>
+<td><strong>−40.0pp</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>早班轉移是最有效的單一干預：延誤率從 63.1% 降至 10.1%。</strong></p>
+</div>
+</div>
+</section>
+<section id="risk-profiling" class="level4">
+<h4 class="anchored" data-anchor-id="risk-profiling">5. Risk Profiling</h4>
+<p>全 test set（3.46M 航班）按預測機率分 5 個 quintile：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>指標</th>
+<th>Q1（最安全）</th>
+<th>Q5（最危險）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>實際延誤率</td>
+<td>6.8%</td>
+<td>37.1%</td>
+</tr>
+<tr class="even">
+<td>平均出發時間</td>
+<td>9:00 AM</td>
+<td>4:40 PM</td>
+</tr>
+<tr class="odd">
+<td>平均距離</td>
+<td>691 mi</td>
+<td>874 mi</td>
+</tr>
+<tr class="even">
+<td>平均 Block Time</td>
+<td>130 min</td>
+<td>149 min</td>
+</tr>
+<tr class="odd">
+<td>假日佔比</td>
+<td>22.9%</td>
+<td>59.4%</td>
+</tr>
+<tr class="even">
+<td>主要航空公司</td>
+<td>DL, WN, UA</td>
+<td>WN, AA, UA</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="part-b數學特徵提取" class="level3">
+<h3 class="anchored" data-anchor-id="part-b數學特徵提取">Part B：數學特徵提取</h3>
+<section id="surrogate-decision-tree" class="level4">
+<h4 class="anchored" data-anchor-id="surrogate-decision-tree">6. Surrogate Decision Tree</h4>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>淺層決策樹（depth=5）近似 CatBoost 預測</strong></p>
+<p>保真度 = <strong>0.7985</strong>｜32 葉節點</p>
+<p>代理樹特徵重要性：dep_hour（54.2%）&gt; carrier（16.8%）&gt; holiday（15.8%）&gt; taf_dest_has_precip（5.0%）&gt; wx_precip_1hr_in（4.1%）</p>
+</div>
+</div>
+</div>
+<p>代理樹提取了人類可讀的 IF-THEN 規則（98 行），核心邏輯：</p>
+<ul>
+<li><strong>dep_hour ≤ 12.5</strong> 且 <strong>dep_hour ≤ 8.5</strong> 且無目的地降水 → <strong>不延誤</strong></li>
+<li><strong>dep_hour &gt; 12.5</strong> 且 <strong>carrier = 特定航空公司</strong> 且假日 → <strong>延誤</strong></li>
+</ul>
+</section>
+<section id="piecewise-linear-breakpoints" class="level4">
+<h4 class="anchored" data-anchor-id="piecewise-linear-breakpoints">7. Piecewise Linear Breakpoints</h4>
+<p>對 SHAP 曲線做 3 段分段線性回歸，量化精確的風險轉折點：</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>特徵</th>
+<th>轉折點 1</th>
+<th>轉折點 2</th>
+<th>R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>dep_hour</strong></td>
+<td><strong>5.5h</strong></td>
+<td><strong>15.5h</strong></td>
+<td>0.943</td>
+</tr>
+<tr class="even">
+<td>distance</td>
+<td>786 mi</td>
+<td>2,639 mi</td>
+<td>0.986</td>
+</tr>
+<tr class="odd">
+<td>schd_block_min</td>
+<td>101 min</td>
+<td>342 min</td>
+<td>0.995</td>
+</tr>
+<tr class="even">
+<td>wx_temp_f</td>
+<td>43.6°F</td>
+<td>69.2°F</td>
+<td>0.974</td>
+</tr>
+<tr class="odd">
+<td>wx_severity</td>
+<td>0.35</td>
+<td>0.37</td>
+<td>0.985</td>
+</tr>
+</tbody>
+</table>
+<p><strong>dep_hour 的轉折點</strong>：5:30 前風險快速下降，15:30 後風險急劇上升。</p>
+</div>
+</div>
+</section>
+<section id="symbolic-regression" class="level4">
+<h4 class="anchored" data-anchor-id="symbolic-regression">8. Symbolic Regression</h4>
+<p>gplearn 遺傳規劃（population=1000，generations=30）發現閉合公式：</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>公式：log(log(log(Departure Hour)))</strong></p>
+<p>R² = 0.3795｜Length = 4｜Depth = 3</p>
+<p>含義：出發時間對延誤的影響是高度非線性的三重對數壓縮——凌晨到上午的風險變化劇烈，下午到晚上的變化趨於平緩。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="shap-clustering-延誤原型" class="level4">
+<h4 class="anchored" data-anchor-id="shap-clustering-延誤原型">9. SHAP Clustering — 延誤原型</h4>
+<p>K-Means（elbow method → K=4）在 SHAP 值向量上聚類，發現 4 種延誤原型：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>群集</th>
+<th>佔比</th>
+<th>延誤率</th>
+<th>主驅動</th>
+<th>解讀</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C0</td>
+<td>38.8%</td>
+<td>19.6%</td>
+<td>distance（+）</td>
+<td>長程延誤型</td>
+</tr>
+<tr class="even">
+<td>C1</td>
+<td>13.4%</td>
+<td>24.9%</td>
+<td>dest_precip</td>
+<td>天氣降水型</td>
+</tr>
+<tr class="odd">
+<td>C2</td>
+<td>46.9%</td>
+<td>14.5%</td>
+<td>distance（−）</td>
+<td>短程正常型</td>
+</tr>
+<tr class="even">
+<td><strong>C3</strong></td>
+<td><strong>0.9%</strong></td>
+<td><strong>51.4%</strong></td>
+<td><strong>wx_severity</strong></td>
+<td><strong>極端天氣型</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>C3（極端天氣型）</strong> 僅佔 0.9% 航班，但延誤率高達 51.4%——這是唯一天氣真正主導延誤的場景，與「天氣貢獻近零」的整體發現一致：天氣只在極端情況下才是主因。</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="處方式建議彙總" class="level3">
+<h3 class="anchored" data-anchor-id="處方式建議彙總">處方式建議彙總</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>最佳出發時段</strong>：5:00–8:00 AM（最安全）｜18:00–21:00 PM（最危險）</p>
+<p><strong>緩衝建議</strong>：+15 min → 延誤率 57.5%｜+30 min → 50.9%｜+45 min → 46.0%</p>
+<p><strong>航空公司基準</strong>：最佳 9E｜最差 G4｜AA = SHAP +0.054</p>
+<p><strong>最有效干預</strong>：早班轉移（−53.0pp）&gt; 壞天氣+早班（−40.0pp）&gt; 緩衝+45min（−17.1pp）&gt; 非假日（−12.3pp）</p>
+</div>
+</div>
+<hr>
+</section>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <section id="方法" class="level3">
 <h3 class="anchored" data-anchor-id="方法">方法</h3>
 <p>將 41 個特徵按資料來源分組，對 XGBoost（AUC=0.7681）計算各組 SHAP 貢獻總和，在 50K 測試樣本上計算。</p>
@@ -615,7 +1004,7 @@ Tip
 <hr>
 </section>
 </div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <section id="核心發現" class="level3">
 <h3 class="anchored" data-anchor-id="核心發現">核心發現</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -659,7 +1048,7 @@ Tip
 <hr>
 </section>
 </div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
 <section id="核心發現-1" class="level3">
 <h3 class="anchored" data-anchor-id="核心發現-1">核心發現</h3>
 <div class="callout callout-style-default callout-tip callout-titled">

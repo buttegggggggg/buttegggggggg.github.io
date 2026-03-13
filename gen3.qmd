@@ -74,6 +74,7 @@ TAF 預報：使用預報時間 ≤ T-2h 且預報效期涵蓋到達時刻的資
 |------|------|---------|
 | **V4（Clean Baseline）** | 34 特徵，預設超參數，完整 SHAP 分析 | **0.7011** |
 | **V2（Full Pipeline）** | 41 特徵，Optuna HPO，3 模型比較 | **0.7681** |
+| **V5（Prescriptive）** | 逆向工程 V4 CatBoost，萃取排程建議 | — |
 
 ---
 
@@ -159,6 +160,163 @@ HPO 時間：3238 秒（54.0 分鐘）
 | CatBoost | 0.7627 | 0.7627 | +0.0000 |
 
 SHAP 特徵篩選在 Gen3 V2 中移除 0 個特徵（41→41 全保留），確認 backward elimination 停止標準（ΔAUC > 0.001）的保守性在全美大資料集上的合理性。
+
+---
+
+## V5 Prescriptive {#v5-prescriptive}
+
+### 背景與動機
+
+> **教授指示：「不能想著證明我有多會訓練模型⋯要找出黑盒子裡的內容⋯怎麼排程才不會延誤航班？方法論才是最重要的。」**
+
+V5 不改模型、不追 AUC，而是**逆向工程 V4 CatBoost（AUC = 0.7011）**，萃取可行動的排程建議。
+
+| 項目 | 內容 |
+|------|------|
+| 模型 | V4 CatBoost（AUC=0.7011，34 features，iterations=1000） |
+| 資料 | gen3_v4_feat.parquet（19.15M rows × 36 cols） |
+| 分析數量 | 11 項分析（Part A 6 項 + Part B 5 項） |
+| 產出 | 40 張圖 + 8 個 JSON + 2 份報告（EN/ZH） |
+
+---
+
+### Part A：SHAP 逆向工程
+
+#### 1. SHAP Dependence Deep Dive
+
+Top-10 特徵各一張 SHAP dependence plot（自動交互上色），揭示非線性關係：
+
+- **dep_hour**：下午時段風險急劇升高
+- **distance**：短程航班延誤風險更高
+- **schd_block_min**：更多緩衝時間可降低延誤機率
+- **carrier_encoded**：航空公司間存在顯著差異
+- **is_holiday_period**：假日有明確的二元風險增加
+
+#### 2. SHAP Interaction 分析
+
+::: {.callout-note appearance="minimal"}
+CatBoost 不支援 `shap_interaction_values` → 訓練 XGBoost 代理（AUC = 0.7009），15K 子樣本計算交互矩陣。
+:::
+
+6 組關鍵交互效應：
+
+| 交互對 | 發現 |
+|--------|------|
+| dep_hour × distance | 下午短程更危險 |
+| dep_hour × carrier | 航空公司高峰管理能力差異 |
+| dep_hour × wx_severity | 天氣 × 高峰複合效應 |
+| distance × schd_block_min | 長程需要更多緩衝 |
+| is_holiday_period × dep_hour | 假日哪個時段更脆弱 |
+| wx_temp_f × dep_month | 季節性天氣效應 |
+
+#### 3. PDP + ICE + ALE 交叉驗證
+
+三種獨立方法（PDP、ICE、ALE）交叉驗證 SHAP 發現。ALE 修正了相關特徵偏誤（例如 distance 與 block time 的相關性）。包含 2D PDP 等高線圖：dep_hour × distance、dep_hour × schd_block_min。
+
+#### 4. Counterfactual What-If 分析
+
+::: {.callout-tip}
+**固定天氣，只改排程變數，測試 4 種干預方案（1,000 班延誤航班）：**
+
+| 干預方案 | 基準延誤率 | 干預後 | 降幅 |
+|---------|----------|--------|------|
+| **A. 移至早班（6AM）** | 63.1% | 10.1% | **−53.0pp** |
+| B. 增加緩衝（+45min） | 63.1% | 46.0% | −17.1pp |
+| C. 非假日（472 班假日航班） | 76.7% | 64.4% | −12.3pp |
+| D. 好天氣+早班 | 52.8% | 19.2% | −33.6pp |
+| D. 壞天氣+早班 | 73.4% | 33.4% | **−40.0pp** |
+
+**早班轉移是最有效的單一干預：延誤率從 63.1% 降至 10.1%。**
+:::
+
+#### 5. Risk Profiling
+
+全 test set（3.46M 航班）按預測機率分 5 個 quintile：
+
+| 指標 | Q1（最安全） | Q5（最危險） |
+|------|------------|------------|
+| 實際延誤率 | 6.8% | 37.1% |
+| 平均出發時間 | 9:00 AM | 4:40 PM |
+| 平均距離 | 691 mi | 874 mi |
+| 平均 Block Time | 130 min | 149 min |
+| 假日佔比 | 22.9% | 59.4% |
+| 主要航空公司 | DL, WN, UA | WN, AA, UA |
+
+---
+
+### Part B：數學特徵提取
+
+#### 6. Surrogate Decision Tree
+
+::: {.callout-note appearance="minimal"}
+**淺層決策樹（depth=5）近似 CatBoost 預測**
+
+保真度 = **0.7985**｜32 葉節點
+
+代理樹特徵重要性：dep_hour（54.2%）> carrier（16.8%）> holiday（15.8%）> taf_dest_has_precip（5.0%）> wx_precip_1hr_in（4.1%）
+:::
+
+代理樹提取了人類可讀的 IF-THEN 規則（98 行），核心邏輯：
+
+- **dep_hour ≤ 12.5** 且 **dep_hour ≤ 8.5** 且無目的地降水 → **不延誤**
+- **dep_hour > 12.5** 且 **carrier = 特定航空公司** 且假日 → **延誤**
+
+#### 7. Piecewise Linear Breakpoints
+
+對 SHAP 曲線做 3 段分段線性回歸，量化精確的風險轉折點：
+
+::: {.callout-tip}
+| 特徵 | 轉折點 1 | 轉折點 2 | R² |
+|------|---------|---------|-----|
+| **dep_hour** | **5.5h** | **15.5h** | 0.943 |
+| distance | 786 mi | 2,639 mi | 0.986 |
+| schd_block_min | 101 min | 342 min | 0.995 |
+| wx_temp_f | 43.6°F | 69.2°F | 0.974 |
+| wx_severity | 0.35 | 0.37 | 0.985 |
+
+**dep_hour 的轉折點**：5:30 前風險快速下降，15:30 後風險急劇上升。
+:::
+
+#### 8. Symbolic Regression
+
+gplearn 遺傳規劃（population=1000，generations=30）發現閉合公式：
+
+::: {.callout-note appearance="minimal"}
+**公式：log(log(log(Departure Hour)))**
+
+R² = 0.3795｜Length = 4｜Depth = 3
+
+含義：出發時間對延誤的影響是高度非線性的三重對數壓縮——凌晨到上午的風險變化劇烈，下午到晚上的變化趨於平緩。
+:::
+
+#### 9. SHAP Clustering — 延誤原型
+
+K-Means（elbow method → K=4）在 SHAP 值向量上聚類，發現 4 種延誤原型：
+
+| 群集 | 佔比 | 延誤率 | 主驅動 | 解讀 |
+|------|------|--------|--------|------|
+| C0 | 38.8% | 19.6% | distance（+） | 長程延誤型 |
+| C1 | 13.4% | 24.9% | dest_precip | 天氣降水型 |
+| C2 | 46.9% | 14.5% | distance（−） | 短程正常型 |
+| **C3** | **0.9%** | **51.4%** | **wx_severity** | **極端天氣型** |
+
+::: {.callout-warning}
+**C3（極端天氣型）** 僅佔 0.9% 航班，但延誤率高達 51.4%——這是唯一天氣真正主導延誤的場景，與「天氣貢獻近零」的整體發現一致：天氣只在極端情況下才是主因。
+:::
+
+---
+
+### 處方式建議彙總
+
+::: {.callout-tip}
+**最佳出發時段**：5:00–8:00 AM（最安全）｜18:00–21:00 PM（最危險）
+
+**緩衝建議**：+15 min → 延誤率 57.5%｜+30 min → 50.9%｜+45 min → 46.0%
+
+**航空公司基準**：最佳 9E｜最差 G4｜AA = SHAP +0.054
+
+**最有效干預**：早班轉移（−53.0pp）> 壞天氣+早班（−40.0pp）> 緩衝+45min（−17.1pp）> 非假日（−12.3pp）
+:::
 
 ---
 

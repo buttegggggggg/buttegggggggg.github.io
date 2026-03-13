@@ -74,6 +74,7 @@ Tail chain features: Uses actual arrival time to determine if previous flight is
 |---------|-------------|---------|
 | **V4 (Clean Baseline)** | 34 features, default hyperparameters, full SHAP analysis | **0.7011** |
 | **V2 (Full Pipeline)** | 41 features, Optuna HPO, 3-model comparison | **0.7681** |
+| **V5 (Prescriptive)** | Reverse-engineering V4 CatBoost for scheduling recommendations | — |
 
 ---
 
@@ -159,6 +160,163 @@ HPO time: 3238 seconds (54.0 minutes)
 | CatBoost | 0.7627 | 0.7627 | +0.0000 |
 
 SHAP feature selection removed 0 features in Gen3 V2 (41→41 all retained), confirming the conservativeness of the backward elimination stopping criterion (ΔAUC > 0.001) on nationwide large-scale datasets.
+
+---
+
+## V5 Prescriptive {#v5-prescriptive}
+
+### Background & Motivation
+
+> **Advisor's directive: "Don't focus on proving how well you can train models... find what's inside the black box... how should schedules be arranged to avoid flight delays? Methodology is what matters most."**
+
+V5 does not modify the model or pursue AUC — instead, it **reverse-engineers the V4 CatBoost (AUC = 0.7011)** to extract actionable scheduling recommendations.
+
+| Item | Details |
+|------|---------|
+| Model | V4 CatBoost (AUC=0.7011, 34 features, iterations=1000) |
+| Data | gen3_v4_feat.parquet (19.15M rows × 36 cols) |
+| Analyses | 11 analyses (Part A: 6 + Part B: 5) |
+| Output | 40 figures + 8 JSONs + 2 reports (EN/ZH) |
+
+---
+
+### Part A: SHAP Reverse Engineering
+
+#### 1. SHAP Dependence Deep Dive
+
+SHAP dependence plots for the top-10 features with automatic interaction coloring, revealing non-linear relationships:
+
+- **dep_hour**: Risk increases sharply in afternoon hours
+- **distance**: Short-haul flights show higher delay risk
+- **schd_block_min**: More buffer time reduces delay probability
+- **carrier_encoded**: Significant variation across airlines
+- **is_holiday_period**: Clear binary increase in delay risk
+
+#### 2. SHAP Interaction Analysis
+
+::: {.callout-note appearance="minimal"}
+CatBoost does not support `shap_interaction_values` → trained XGBoost surrogate (AUC = 0.7009), 15K subsample for interaction matrix computation.
+:::
+
+6 key interaction effects:
+
+| Interaction Pair | Finding |
+|-----------------|---------|
+| dep_hour × distance | Afternoon short-haul is more dangerous |
+| dep_hour × carrier | Airline peak management capability varies |
+| dep_hour × wx_severity | Weather × peak compound effect |
+| distance × schd_block_min | Long-haul needs more buffer |
+| is_holiday_period × dep_hour | Which holiday time slots are most vulnerable |
+| wx_temp_f × dep_month | Seasonal weather effects |
+
+#### 3. PDP + ICE + ALE Cross-Validation
+
+Three independent methods (PDP, ICE, ALE) cross-validate SHAP findings. ALE corrects for correlated feature bias (e.g., distance and block time correlation). Includes 2D PDP contour plots: dep_hour × distance, dep_hour × schd_block_min.
+
+#### 4. Counterfactual What-If Analysis
+
+::: {.callout-tip}
+**Holding weather constant, varying only scheduling variables, testing 4 interventions on 1,000 delayed flights:**
+
+| Intervention | Baseline Delay | Post-Intervention | Reduction |
+|-------------|---------------|-------------------|-----------|
+| **A. Morning shift (6 AM)** | 63.1% | 10.1% | **−53.0pp** |
+| B. Buffer increase (+45 min) | 63.1% | 46.0% | −17.1pp |
+| C. Non-holiday (472 holiday flights) | 76.7% | 64.4% | −12.3pp |
+| D. Good weather + morning | 52.8% | 19.2% | −33.6pp |
+| D. Bad weather + morning | 73.4% | 33.4% | **−40.0pp** |
+
+**Morning shift is the most effective single intervention: delay rate drops from 63.1% to 10.1%.**
+:::
+
+#### 5. Risk Profiling
+
+All test flights (3.46M) classified into 5 risk quintiles by predicted delay probability:
+
+| Metric | Q1 (Safest) | Q5 (Riskiest) |
+|--------|-------------|---------------|
+| Actual Delay Rate | 6.8% | 37.1% |
+| Avg Departure Time | 9:00 AM | 4:40 PM |
+| Avg Distance | 691 mi | 874 mi |
+| Avg Block Time | 130 min | 149 min |
+| Holiday % | 22.9% | 59.4% |
+| Top Carriers | DL, WN, UA | WN, AA, UA |
+
+---
+
+### Part B: Mathematical Feature Extraction
+
+#### 6. Surrogate Decision Tree
+
+::: {.callout-note appearance="minimal"}
+**Shallow decision tree (depth=5) approximating CatBoost predictions**
+
+Fidelity = **0.7985** | 32 leaf nodes
+
+Surrogate feature importance: dep_hour (54.2%) > carrier (16.8%) > holiday (15.8%) > taf_dest_has_precip (5.0%) > wx_precip_1hr_in (4.1%)
+:::
+
+The surrogate tree extracted human-readable IF-THEN rules (98 lines), core logic:
+
+- **dep_hour ≤ 12.5** AND **dep_hour ≤ 8.5** AND no destination precipitation → **No delay**
+- **dep_hour > 12.5** AND **carrier = specific airline** AND holiday → **Delay**
+
+#### 7. Piecewise Linear Breakpoints
+
+3-segment piecewise linear regression on SHAP curves, quantifying exact risk inflection points:
+
+::: {.callout-tip}
+| Feature | Breakpoint 1 | Breakpoint 2 | R² |
+|---------|-------------|-------------|-----|
+| **dep_hour** | **5.5h** | **15.5h** | 0.943 |
+| distance | 786 mi | 2,639 mi | 0.986 |
+| schd_block_min | 101 min | 342 min | 0.995 |
+| wx_temp_f | 43.6°F | 69.2°F | 0.974 |
+| wx_severity | 0.35 | 0.37 | 0.985 |
+
+**dep_hour breakpoints**: Risk drops rapidly before 5:30 AM, rises sharply after 3:30 PM.
+:::
+
+#### 8. Symbolic Regression
+
+gplearn genetic programming (population=1000, generations=30) discovered a closed-form formula:
+
+::: {.callout-note appearance="minimal"}
+**Formula: log(log(log(Departure Hour)))**
+
+R² = 0.3795 | Length = 4 | Depth = 3
+
+Interpretation: Departure hour's impact on delays follows a highly non-linear triple logarithmic compression — risk changes dramatically from dawn to morning, then plateaus from afternoon to evening.
+:::
+
+#### 9. SHAP Clustering — Delay Archetypes
+
+K-Means (elbow method → K=4) clustering on SHAP value vectors revealed 4 delay archetypes:
+
+| Cluster | Share | Delay Rate | Dominant Driver | Interpretation |
+|---------|-------|-----------|----------------|----------------|
+| C0 | 38.8% | 19.6% | distance (+) | Long-haul delay type |
+| C1 | 13.4% | 24.9% | dest_precip | Weather precipitation type |
+| C2 | 46.9% | 14.5% | distance (−) | Short-haul normal type |
+| **C3** | **0.9%** | **51.4%** | **wx_severity** | **Extreme weather type** |
+
+::: {.callout-warning}
+**C3 (Extreme Weather)** accounts for only 0.9% of flights but has a 51.4% delay rate — this is the only scenario where weather truly dominates delays, consistent with the overall "weather near-zero" finding: weather is only the primary driver in extreme cases.
+:::
+
+---
+
+### Prescriptive Recommendations Summary
+
+::: {.callout-tip}
+**Optimal departure windows**: 5:00–8:00 AM (safest) | 18:00–21:00 PM (riskiest)
+
+**Buffer recommendations**: +15 min → 57.5% delay | +30 min → 50.9% | +45 min → 46.0%
+
+**Carrier benchmarks**: Best: 9E | Worst: G4 | AA = SHAP +0.054
+
+**Most effective interventions**: Morning shift (−53.0pp) > Bad weather + morning (−40.0pp) > Buffer +45min (−17.1pp) > Non-holiday (−12.3pp)
+:::
 
 ---
 

@@ -211,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V4 Clean Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Full Pipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">SHAP Source-Group Analysis</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">Schedule Structural Dominance</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">Weather Near-Zero Contribution</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V4 Clean Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Full Pipeline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">V5 Prescriptive</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">SHAP Source-Group Analysis</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">Schedule Structural Dominance</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">Weather Near-Zero Contribution</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <section id="why-gen3" class="level3">
@@ -349,6 +349,11 @@ Tip
 <td><strong>V2 (Full Pipeline)</strong></td>
 <td>41 features, Optuna HPO, 3-model comparison</td>
 <td><strong>0.7681</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>V5 (Prescriptive)</strong></td>
+<td>Reverse-engineering V4 CatBoost for scheduling recommendations</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
@@ -521,6 +526,401 @@ Tip
 </section>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="background-motivation" class="level3">
+<h3 class="anchored" data-anchor-id="background-motivation">Background &amp; Motivation</h3>
+<blockquote class="blockquote">
+<p><strong>Advisor’s directive: “Don’t focus on proving how well you can train models… find what’s inside the black box… how should schedules be arranged to avoid flight delays? Methodology is what matters most.”</strong></p>
+</blockquote>
+<p>V5 does not modify the model or pursue AUC — instead, it <strong>reverse-engineers the V4 CatBoost (AUC = 0.7011)</strong> to extract actionable scheduling recommendations.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Model</td>
+<td>V4 CatBoost (AUC=0.7011, 34 features, iterations=1000)</td>
+</tr>
+<tr class="even">
+<td>Data</td>
+<td>gen3_v4_feat.parquet (19.15M rows × 36 cols)</td>
+</tr>
+<tr class="odd">
+<td>Analyses</td>
+<td>11 analyses (Part A: 6 + Part B: 5)</td>
+</tr>
+<tr class="even">
+<td>Output</td>
+<td>40 figures + 8 JSONs + 2 reports (EN/ZH)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="part-a-shap-reverse-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="part-a-shap-reverse-engineering">Part A: SHAP Reverse Engineering</h3>
+<section id="shap-dependence-deep-dive" class="level4">
+<h4 class="anchored" data-anchor-id="shap-dependence-deep-dive">1. SHAP Dependence Deep Dive</h4>
+<p>SHAP dependence plots for the top-10 features with automatic interaction coloring, revealing non-linear relationships:</p>
+<ul>
+<li><strong>dep_hour</strong>: Risk increases sharply in afternoon hours</li>
+<li><strong>distance</strong>: Short-haul flights show higher delay risk</li>
+<li><strong>schd_block_min</strong>: More buffer time reduces delay probability</li>
+<li><strong>carrier_encoded</strong>: Significant variation across airlines</li>
+<li><strong>is_holiday_period</strong>: Clear binary increase in delay risk</li>
+</ul>
+</section>
+<section id="shap-interaction-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="shap-interaction-analysis">2. SHAP Interaction Analysis</h4>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>CatBoost does not support <code>shap_interaction_values</code> → trained XGBoost surrogate (AUC = 0.7009), 15K subsample for interaction matrix computation.</p>
+</div>
+</div>
+</div>
+<p>6 key interaction effects:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 65%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Interaction Pair</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dep_hour × distance</td>
+<td>Afternoon short-haul is more dangerous</td>
+</tr>
+<tr class="even">
+<td>dep_hour × carrier</td>
+<td>Airline peak management capability varies</td>
+</tr>
+<tr class="odd">
+<td>dep_hour × wx_severity</td>
+<td>Weather × peak compound effect</td>
+</tr>
+<tr class="even">
+<td>distance × schd_block_min</td>
+<td>Long-haul needs more buffer</td>
+</tr>
+<tr class="odd">
+<td>is_holiday_period × dep_hour</td>
+<td>Which holiday time slots are most vulnerable</td>
+</tr>
+<tr class="even">
+<td>wx_temp_f × dep_month</td>
+<td>Seasonal weather effects</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pdp-ice-ale-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="pdp-ice-ale-cross-validation">3. PDP + ICE + ALE Cross-Validation</h4>
+<p>Three independent methods (PDP, ICE, ALE) cross-validate SHAP findings. ALE corrects for correlated feature bias (e.g., distance and block time correlation). Includes 2D PDP contour plots: dep_hour × distance, dep_hour × schd_block_min.</p>
+</section>
+<section id="counterfactual-what-if-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="counterfactual-what-if-analysis">4. Counterfactual What-If Analysis</h4>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Holding weather constant, varying only scheduling variables, testing 4 interventions on 1,000 delayed flights:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Intervention</th>
+<th>Baseline Delay</th>
+<th>Post-Intervention</th>
+<th>Reduction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A. Morning shift (6 AM)</strong></td>
+<td>63.1%</td>
+<td>10.1%</td>
+<td><strong>−53.0pp</strong></td>
+</tr>
+<tr class="even">
+<td>B. Buffer increase (+45 min)</td>
+<td>63.1%</td>
+<td>46.0%</td>
+<td>−17.1pp</td>
+</tr>
+<tr class="odd">
+<td>C. Non-holiday (472 holiday flights)</td>
+<td>76.7%</td>
+<td>64.4%</td>
+<td>−12.3pp</td>
+</tr>
+<tr class="even">
+<td>D. Good weather + morning</td>
+<td>52.8%</td>
+<td>19.2%</td>
+<td>−33.6pp</td>
+</tr>
+<tr class="odd">
+<td>D. Bad weather + morning</td>
+<td>73.4%</td>
+<td>33.4%</td>
+<td><strong>−40.0pp</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning shift is the most effective single intervention: delay rate drops from 63.1% to 10.1%.</strong></p>
+</div>
+</div>
+</section>
+<section id="risk-profiling" class="level4">
+<h4 class="anchored" data-anchor-id="risk-profiling">5. Risk Profiling</h4>
+<p>All test flights (3.46M) classified into 5 risk quintiles by predicted delay probability:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Q1 (Safest)</th>
+<th>Q5 (Riskiest)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual Delay Rate</td>
+<td>6.8%</td>
+<td>37.1%</td>
+</tr>
+<tr class="even">
+<td>Avg Departure Time</td>
+<td>9:00 AM</td>
+<td>4:40 PM</td>
+</tr>
+<tr class="odd">
+<td>Avg Distance</td>
+<td>691 mi</td>
+<td>874 mi</td>
+</tr>
+<tr class="even">
+<td>Avg Block Time</td>
+<td>130 min</td>
+<td>149 min</td>
+</tr>
+<tr class="odd">
+<td>Holiday %</td>
+<td>22.9%</td>
+<td>59.4%</td>
+</tr>
+<tr class="even">
+<td>Top Carriers</td>
+<td>DL, WN, UA</td>
+<td>WN, AA, UA</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="part-b-mathematical-feature-extraction" class="level3">
+<h3 class="anchored" data-anchor-id="part-b-mathematical-feature-extraction">Part B: Mathematical Feature Extraction</h3>
+<section id="surrogate-decision-tree" class="level4">
+<h4 class="anchored" data-anchor-id="surrogate-decision-tree">6. Surrogate Decision Tree</h4>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Shallow decision tree (depth=5) approximating CatBoost predictions</strong></p>
+<p>Fidelity = <strong>0.7985</strong> | 32 leaf nodes</p>
+<p>Surrogate feature importance: dep_hour (54.2%) &gt; carrier (16.8%) &gt; holiday (15.8%) &gt; taf_dest_has_precip (5.0%) &gt; wx_precip_1hr_in (4.1%)</p>
+</div>
+</div>
+</div>
+<p>The surrogate tree extracted human-readable IF-THEN rules (98 lines), core logic:</p>
+<ul>
+<li><strong>dep_hour ≤ 12.5</strong> AND <strong>dep_hour ≤ 8.5</strong> AND no destination precipitation → <strong>No delay</strong></li>
+<li><strong>dep_hour &gt; 12.5</strong> AND <strong>carrier = specific airline</strong> AND holiday → <strong>Delay</strong></li>
+</ul>
+</section>
+<section id="piecewise-linear-breakpoints" class="level4">
+<h4 class="anchored" data-anchor-id="piecewise-linear-breakpoints">7. Piecewise Linear Breakpoints</h4>
+<p>3-segment piecewise linear regression on SHAP curves, quantifying exact risk inflection points:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Breakpoint 1</th>
+<th>Breakpoint 2</th>
+<th>R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>dep_hour</strong></td>
+<td><strong>5.5h</strong></td>
+<td><strong>15.5h</strong></td>
+<td>0.943</td>
+</tr>
+<tr class="even">
+<td>distance</td>
+<td>786 mi</td>
+<td>2,639 mi</td>
+<td>0.986</td>
+</tr>
+<tr class="odd">
+<td>schd_block_min</td>
+<td>101 min</td>
+<td>342 min</td>
+<td>0.995</td>
+</tr>
+<tr class="even">
+<td>wx_temp_f</td>
+<td>43.6°F</td>
+<td>69.2°F</td>
+<td>0.974</td>
+</tr>
+<tr class="odd">
+<td>wx_severity</td>
+<td>0.35</td>
+<td>0.37</td>
+<td>0.985</td>
+</tr>
+</tbody>
+</table>
+<p><strong>dep_hour breakpoints</strong>: Risk drops rapidly before 5:30 AM, rises sharply after 3:30 PM.</p>
+</div>
+</div>
+</section>
+<section id="symbolic-regression" class="level4">
+<h4 class="anchored" data-anchor-id="symbolic-regression">8. Symbolic Regression</h4>
+<p>gplearn genetic programming (population=1000, generations=30) discovered a closed-form formula:</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Formula: log(log(log(Departure Hour)))</strong></p>
+<p>R² = 0.3795 | Length = 4 | Depth = 3</p>
+<p>Interpretation: Departure hour’s impact on delays follows a highly non-linear triple logarithmic compression — risk changes dramatically from dawn to morning, then plateaus from afternoon to evening.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="shap-clustering-delay-archetypes" class="level4">
+<h4 class="anchored" data-anchor-id="shap-clustering-delay-archetypes">9. SHAP Clustering — Delay Archetypes</h4>
+<p>K-Means (elbow method → K=4) clustering on SHAP value vectors revealed 4 delay archetypes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 18%">
+<col style="width: 27%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cluster</th>
+<th>Share</th>
+<th>Delay Rate</th>
+<th>Dominant Driver</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C0</td>
+<td>38.8%</td>
+<td>19.6%</td>
+<td>distance (+)</td>
+<td>Long-haul delay type</td>
+</tr>
+<tr class="even">
+<td>C1</td>
+<td>13.4%</td>
+<td>24.9%</td>
+<td>dest_precip</td>
+<td>Weather precipitation type</td>
+</tr>
+<tr class="odd">
+<td>C2</td>
+<td>46.9%</td>
+<td>14.5%</td>
+<td>distance (−)</td>
+<td>Short-haul normal type</td>
+</tr>
+<tr class="even">
+<td><strong>C3</strong></td>
+<td><strong>0.9%</strong></td>
+<td><strong>51.4%</strong></td>
+<td><strong>wx_severity</strong></td>
+<td><strong>Extreme weather type</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>C3 (Extreme Weather)</strong> accounts for only 0.9% of flights but has a 51.4% delay rate — this is the only scenario where weather truly dominates delays, consistent with the overall “weather near-zero” finding: weather is only the primary driver in extreme cases.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="prescriptive-recommendations-summary" class="level3">
+<h3 class="anchored" data-anchor-id="prescriptive-recommendations-summary">Prescriptive Recommendations Summary</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Optimal departure windows</strong>: 5:00–8:00 AM (safest) | 18:00–21:00 PM (riskiest)</p>
+<p><strong>Buffer recommendations</strong>: +15 min → 57.5% delay | +30 min → 50.9% | +45 min → 46.0%</p>
+<p><strong>Carrier benchmarks</strong>: Best: 9E | Worst: G4 | AA = SHAP +0.054</p>
+<p><strong>Most effective interventions</strong>: Morning shift (−53.0pp) &gt; Bad weather + morning (−40.0pp) &gt; Buffer +45min (−17.1pp) &gt; Non-holiday (−12.3pp)</p>
+</div>
+</div>
+<hr>
+</section>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <section id="method" class="level3">
 <h3 class="anchored" data-anchor-id="method">Method</h3>
 <p>Grouped 41 features by data source, computed SHAP contribution sums for XGBoost (AUC=0.7681) on 50K test samples.</p>
@@ -620,7 +1020,7 @@ Tip
 <hr>
 </section>
 </div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <section id="core-finding" class="level3">
 <h3 class="anchored" data-anchor-id="core-finding">Core Finding</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -664,7 +1064,7 @@ Tip
 <hr>
 </section>
 </div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
 <section id="core-finding-1" class="level3">
 <h3 class="anchored" data-anchor-id="core-finding-1">Core Finding</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
