@@ -1,6 +1,6 @@
 ---
-title: "Gen1: Selective Prediction (Deprecated)"
-subtitle: "Early 2025 | AA Snowflake Internal Data | 14-Day Rapid Prototype"
+title: "Gen1: Selective Prediction"
+subtitle: "Early 2025 | AA Snowflake Internal Data | Deprecated"
 format:
   html:
     toc: true
@@ -19,74 +19,171 @@ format:
 </nav>
 ```
 
+> **Status: Deprecated.** The core feature ETD has fatal data leakage; all analysis results are invalid.
+
+---
+
 ::: {.panel-tabset}
 
-## Overview
+## Overview {#overview}
 
-**Research Goal:** "When NOT to Use Flight Delay Prediction Models"
+### Research Objective
 
-**Core Concepts:**
+*"When NOT to Use Flight Delay Prediction Models"*
 
-- **Selective Prediction:** The model can choose to "abstain" from predicting certain samples, only making predictions for flights it is confident about
-- **Slice Discovery:** Automatically identify subgroups (slices) where the model performs particularly poorly
-- **Model Calibration:** Ensure predicted probabilities match actual proportions
-- **Cost-based Abstention:** Decide when to abstain based on a cost function
-- **Novelty Detection:** Detect anomalous samples not seen during training
+The core concept is **Selective Prediction** — allowing the model to actively refuse predictions when uncertain, rather than forcing incorrect answers.
 
-**Dataset:** American Airlines Snowflake internal data, 2.7M flights
+| Item | Details |
+|------|---------|
+| Dataset | American Airlines Snowflake Internal Data |
+| Flights | 2.7M (full fleet) |
+| Label | Arrival delay ≥ 15 minutes (`delayed_15`) |
+| Temporal Split | Train 2020–2023 / Val 2024H1 / Test 2024H2 |
+| Scale | 30 Python scripts (code_001 → code_030) |
+| Development | ~14 days rapid prototype |
 
-**Scale:** 30 Python scripts (code_001 to code_030)
+### Core Technical Framework
 
-## Key Results
+- **Selective Classification** — Reject low-confidence predictions, only answer when confident
+- **Model Calibration** — Temperature Scaling for probability calibration (T = 1.050)
+- **Cost-based Abstention** — Find optimal rejection threshold based on loss function
+- **Novelty Detection** — MSP (Maximum Softmax Probability) for out-of-distribution detection
+- **Exceptional Model Mining (EMM)** — Identify subgroups where the model fails
+
+---
+
+## Key Results {#key-results}
+
+### Base Model Performance
+
+| Model | Train BA | Val BA |
+|-------|----------|--------|
+| Logistic Regression | 0.8583 | 0.8555 |
+| Random Forest | 0.8648 | 0.8576 |
+| **XGBoost** | **0.8733** | **0.8597** |
 
 ::: {.callout-note appearance="minimal"}
-**Selective Prediction 80% coverage:** BA = 0.9083
+**Test AUC-ROC = 0.9280** | Test BA = 0.8656
 :::
+
+### Selective Prediction Results
+
+::: {.callout-tip}
+**Recommended Operating Point (Coverage ≥ 80%)**
+
+- Threshold: 0.760
+- Coverage: **81.0%**
+- Balanced Accuracy: **0.9083** (vs full 0.8597, +0.0486)
+:::
+
+AURC (Area Under Risk-Coverage Curve) = **0.078363** (lower is better)
+
+Full Risk-Coverage Trade-off:
+
+| Operating Mode | Coverage | BA |
+|---------------|----------|-----|
+| Conservative (BA ≥ 0.90) | 84.0% | 0.9025 |
+| Balanced (BA ≥ 0.88) | 92.8% | 0.8815 |
+| **High-Coverage (≥ 80%)** | **81.0%** | **0.9083** |
+| Cost-Optimal (ε = 0.05) | 18.3% | 0.9390 |
+| Full Model (no rejection) | 100.0% | 0.8597 |
+
+### Cost-based Abstention Optimal Point
 
 ::: {.callout-note appearance="minimal"}
-**Cost-based abstention optimal point:** coverage = 18.3%, BA = 0.9390
+**ε = 0.05 optimal point: Coverage = 18.3%, BA = 0.9390**
+
+In the accepted 19% subset: precision = 0.9652, recall = 0.9903, F1 = 0.9776
 :::
 
-::: {.callout-note appearance="minimal"}
-**Test AUC-ROC:** 0.9280
-:::
+### Architecture Comparison (Tree vs Deep Learning)
 
-::: {.callout-note appearance="minimal"}
-**LSTM test BA:** 0.8638
-:::
+| Architecture | Test BA | Test AUC |
+|-------------|---------|----------|
+| XGBoost | 0.8656 | 0.9280 |
+| LSTM | 0.8638 | 0.9223 |
+| FT-Transformer | 0.8642 | 0.9234 |
 
-::: {.callout-note appearance="minimal"}
-**FT-Transformer test BA:** 0.8642
-:::
+> **Conclusion**: Tree-based models perform comparably to deep learning on tabular data, supporting Grinsztajn et al. (2022). Architecture is not the key — reliability boundaries are.
 
-Tree-based models performed comparably to deep learning models, with significantly lower training cost.
+### Regression Task Supplementary Analysis
+
+| Method | MAE (min) | R² |
+|--------|-----------|-----|
+| ETD deviation baseline | 19.80 | 0.3871 |
+| XGBoost Regressor | 18.68 | 0.4203 |
+
+Selective Regression (Conformal coverage = 0.909):
+
+- Top 80% confidence: MAE = 11.84 min
+- Top 90% confidence: MAE = 14.12 min
+- Classification vs Regression agreement: **96.8%**
+
+---
 
 ## ETD Leakage {#etd-leakage}
+
+### What is ETD?
+
+**ETD (Estimated Time of Departure)** is a real-time output computed by the airline's operations system — it reflects "how much longer the airline believes this flight will take to depart."
+
+The problem: **ETD directly encodes the answer.**
 
 ::: {.callout-warning}
 ## FATAL ISSUE: ETD Data Leakage
 
-**ETD (Estimated Time of Departure)** is derived from the **actual departure time**, not information available at the time of prediction.
+**ETD deviation correlation with arrival delay: ≈ 0.92**
+
+This means the model is essentially learning "whatever ETD says the flight is late by, predict that amount of delay." This is not prediction — it is parroting.
 :::
 
-**Issue Details:**
+### ETD Subgroup Survival Analysis
 
-- Correlation between ETD and arrival delay: **~0.92**
-- All 9 "do-not-use" slices in Gen1 were based on ETD deviation bins (`late_5-30`, `late_30-60`, `late_>60`)
-- This means the analysis is **entirely invalid** — the model was simply "seeing the answer"
+The subset with ETD deviation > 5 minutes contains 347,436 flights, of which 118,033 (34.0%) still arrived on time ("survivors"):
 
-**Impact:**
+| ETD Bin | Survival Rate (On-time) | Sample Size |
+|---------|------------------------|-------------|
+| 5–30 min | 45.2% | 256,905 |
+| 30–60 min | 3.4% | 54,127 |
+| > 60 min | 0.6% | 36,404 |
 
-- AUC 0.928 is **artificially inflated** because ETD directly encodes the answer
-- All selective prediction analyses and slice discovery results based on ETD are unreliable
+### 9 "Do-Not-Use" Slices
+
+Gen1 discovered 9 model failure subgroups, all with BA ≤ 0.51:
 
 ::: {.callout-warning}
-## Conclusion
+**All 9 slices share a common characteristic: they are all ETD deviation segments**
 
-Gen1 is **entirely invalidated**. Research direction shifted from "when not to use models" to "how to build models with zero leakage" → entered Gen2.
+| Slice Condition | BA |
+|----------------|-----|
+| ETD deviation = late_>60 | 0.5000 |
+| ETD deviation = late_30-60 | 0.5000 |
+| ETD deviation = late_>60 AND aircraft = EMJ | 0.5000 |
+| ETD deviation = late_30-60 AND aircraft = EMJ | 0.5000 |
+| ETD deviation = late_>60 AND aircraft = CRJ | 0.5000 |
+| ETD deviation = late_30-60 AND aircraft = CRJ | 0.5000 |
+| ETD deviation = late_5-30 AND aircraft = EMJ | 0.5098 |
+| ETD deviation = late_5-30 AND aircraft = CRJ | 0.5121 |
+| ETD deviation = late_5-30 | 0.5143 |
+
+**Not a single slice is related to weather, route, or time of day.**
+:::
+
+### Why AUC 0.928 is Fake
+
+When a flight's ETD is already 30–60 minutes late, the model assumes it "will definitely be delayed" (all samples predicted as delay), resulting in BA = 0.5 (coin flip). This shows the model learned no useful delay patterns — it was merely relaying ETD information.
+
+::: {.callout-warning}
+**Conclusion: Gen1 is entirely invalidated**
+
+- AUC 0.9280 is inflated — ETD directly encodes arrival delay
+- All 9 "do-not-use" slices are byproducts of ETD bins
+- Research question shifted from "when not to use the model" to "how to build a truly predictive model under strict conditions"
 :::
 
 :::
+
+---
 
 ```{=html}
 <script>

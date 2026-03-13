@@ -1,6 +1,6 @@
 ---
-title: "Gen1：Selective Prediction（已棄用）"
-subtitle: "2025 年初｜AA Snowflake 內部資料｜為期 14 天的快速原型"
+title: "Gen1：Selective Prediction"
+subtitle: "2025年初｜AA Snowflake 內部資料｜已棄用"
 format:
   html:
     toc: true
@@ -19,74 +19,171 @@ format:
 </nav>
 ```
 
+> **研究狀態：已棄用。** 核心特徵 ETD 存在致命數據洩漏，所有分析結果無效。
+
+---
+
 ::: {.panel-tabset}
 
-## Overview
+## Overview {#overview}
 
-**研究目標：** "When NOT to Use Flight Delay Prediction Models"
+### 研究目標
 
-**核心概念：**
+*"When NOT to Use Flight Delay Prediction Models"*
 
-- **Selective Prediction**：模型可以選擇「拒絕預測」某些樣本，只對有信心的航班給出預測
-- **Slice Discovery**：自動找出模型表現特別差的子群體（slices）
-- **Model Calibration**：確保模型預測的機率接近真實比例
-- **Cost-based Abstention**：根據成本函數決定何時拒絕預測
-- **Novelty Detection**：偵測訓練時沒見過的異常樣本
+核心概念是 **Selective Prediction（選擇性預測）**——讓模型在不確定時主動拒絕預測，而非強迫給出錯誤答案。
 
-**資料集：** American Airlines Snowflake 內部資料，2.7M 航班
+| 項目 | 內容 |
+|------|------|
+| 資料集 | American Airlines Snowflake 內部資料 |
+| 航班數 | 2.7M（含全機隊） |
+| 標籤 | 到達延誤 ≥ 15 分鐘（`delayed_15`） |
+| 時間分割 | Train 2020–2023 / Val 2024H1 / Test 2024H2 |
+| 規模 | 30 個 Python 腳本（code_001 → code_030） |
+| 開發週期 | 約 14 天快速原型 |
 
-**規模：** 30 個 Python 腳本（code_001 到 code_030）
+### 核心技術框架
 
-## Key Results
+- **Selective Classification** — 拒絕低信心預測，只在有把握時回答
+- **Model Calibration** — Temperature Scaling 校準機率（T = 1.050）
+- **Cost-based Abstention** — 基於損失函數找最佳拒絕閾值
+- **Novelty Detection** — MSP（Maximum Softmax Probability）偵測分布外樣本
+- **Exceptional Model Mining (EMM)** — 識別模型失效的子群體
+
+---
+
+## Key Results {#key-results}
+
+### 模型基礎性能
+
+| 模型 | Train BA | Val BA |
+|------|----------|--------|
+| Logistic Regression | 0.8583 | 0.8555 |
+| Random Forest | 0.8648 | 0.8576 |
+| **XGBoost** | **0.8733** | **0.8597** |
 
 ::: {.callout-note appearance="minimal"}
-**Selective Prediction 80% coverage：** BA = 0.9083
+**Test AUC-ROC = 0.9280**｜Test BA = 0.8656
 :::
+
+### Selective Prediction 結果
+
+::: {.callout-tip}
+**推薦操作點（Coverage ≥ 80%）**
+
+- Threshold: 0.760
+- Coverage: **81.0%**
+- Balanced Accuracy: **0.9083**（vs 全量 0.8597，+0.0486）
+:::
+
+AURC（Area Under Risk-Coverage Curve）= **0.078363**（越低越好）
+
+完整 Risk-Coverage Trade-off：
+
+| 操作模式 | Coverage | BA |
+|---------|----------|-----|
+| Conservative (BA ≥ 0.90) | 84.0% | 0.9025 |
+| Balanced (BA ≥ 0.88) | 92.8% | 0.8815 |
+| **High-Coverage (≥ 80%)** | **81.0%** | **0.9083** |
+| Cost-Optimal (ε = 0.05) | 18.3% | 0.9390 |
+| Full Model (no rejection) | 100.0% | 0.8597 |
+
+### Cost-based Abstention 最佳點
 
 ::: {.callout-note appearance="minimal"}
-**Cost-based abstention 最佳點：** coverage = 18.3%, BA = 0.9390
+**ε = 0.05 最佳點：Coverage = 18.3%，BA = 0.9390**
+
+接受預測的 19% 子集中：precision = 0.9652，recall = 0.9903，F1 = 0.9776
 :::
 
-::: {.callout-note appearance="minimal"}
-**Test AUC-ROC：** 0.9280
-:::
+### 架構比較（Tree vs Deep Learning）
 
-::: {.callout-note appearance="minimal"}
-**LSTM test BA：** 0.8638
-:::
+| 架構 | Test BA | Test AUC |
+|------|---------|----------|
+| XGBoost | 0.8656 | 0.9280 |
+| LSTM | 0.8638 | 0.9223 |
+| FT-Transformer | 0.8642 | 0.9234 |
 
-::: {.callout-note appearance="minimal"}
-**FT-Transformer test BA：** 0.8642
-:::
+> **結論**：Tree-based 模型與深度學習在表格資料上表現相當，支持 Grinsztajn et al. (2022) 的發現。架構不是關鍵，可靠度邊界才是。
 
-Tree-based models 與 deep learning 模型表現相當，且訓練成本遠低於 DL。
+### 回歸任務補充分析
+
+| 方法 | MAE (min) | R² |
+|------|-----------|-----|
+| ETD 偏差基準 | 19.80 | 0.3871 |
+| XGBoost Regressor | 18.68 | 0.4203 |
+
+Selective Regression（Conformal coverage = 0.909）：
+
+- Top 80% 信心：MAE = 11.84 min
+- Top 90% 信心：MAE = 14.12 min
+- 分類 vs 回歸一致率：**96.8%**
+
+---
 
 ## ETD Leakage {#etd-leakage}
 
-::: {.callout-warning}
-## FATAL ISSUE：ETD Data Leakage
+### 什麼是 ETD？
 
-**ETD（Estimated Time of Departure）** 的定義是由**實際起飛時間**計算而來，並非預測當下可得的資訊。
-:::
+**ETD（Estimated Time of Departure，預計起飛時間）** 是由航空公司運營系統即時計算的輸出值——它反映的是「航空公司在當下認為這班機還要多久才起飛」。
 
-**問題詳情：**
-
-- ETD 與 arrival delay 的相關性：**~0.92**
-- Gen1 所有 9 個「do-not-use」切片都是基於 ETD deviation bins（`late_5-30`, `late_30-60`, `late_>60`）
-- 這代表分析**全部無效**——模型只是在「看答案」
-
-**影響：**
-
-- AUC 0.928 是**虛高的**，因為 ETD 直接編碼了答案
-- 所有基於 ETD 的 selective prediction 分析、slice discovery 結果均不可信
+問題在於：**ETD 直接編碼了答案。**
 
 ::: {.callout-warning}
-## 結論
+## FATAL ISSUE：ETD 數據洩漏
 
-Gen1 **全部作廢**。研究方向從「何時不用模型」轉向「如何在零 leakage 下嚴格建模」→ 進入 Gen2。
+**ETD 偏差（ETD deviation）與到達延誤的相關性：≈ 0.92**
+
+這意味著模型幾乎只是在學「ETD 說班機晚多少分鐘，就預測它晚多少分鐘」。這不是預測，是複讀。
+:::
+
+### ETD 子群體存活率分析
+
+ETD 偏差 > 5 分鐘的子集共 347,436 航班，其中仍準時到達的「倖存者」有 118,033 班（34.0%）：
+
+| ETD Bin | 倖存率（準時到達） | 樣本數 |
+|---------|------------------|--------|
+| 5–30 min | 45.2% | 256,905 |
+| 30–60 min | 3.4% | 54,127 |
+| > 60 min | 0.6% | 36,404 |
+
+### 9 個「Do-Not-Use」切片
+
+Gen1 發現的 9 個模型失效子群體，BA 全部 ≤ 0.51：
+
+::: {.callout-warning}
+**所有 9 個切片的共同特徵：都是 ETD 偏差分段**
+
+| 切片條件 | BA |
+|---------|-----|
+| ETD偏差 = late_>60 | 0.5000 |
+| ETD偏差 = late_30-60 | 0.5000 |
+| ETD偏差 = late_>60 AND 機型 = EMJ | 0.5000 |
+| ETD偏差 = late_30-60 AND 機型 = EMJ | 0.5000 |
+| ETD偏差 = late_>60 AND 機型 = CRJ | 0.5000 |
+| ETD偏差 = late_30-60 AND 機型 = CRJ | 0.5000 |
+| ETD偏差 = late_5-30 AND 機型 = EMJ | 0.5098 |
+| ETD偏差 = late_5-30 AND 機型 = CRJ | 0.5121 |
+| ETD偏差 = late_5-30 | 0.5143 |
+
+**沒有任何一個切片與天氣、路線、時段有關。**
+:::
+
+### 為什麼 AUC 0.928 是假的
+
+當班機 ETD 已經晚了 30–60 分鐘時，模型認為它「一定會延誤」（所有樣本都預測為 delay），因此 BA = 0.5（猜硬幣）。這說明模型根本沒有學到任何有用的延誤規律，只是在轉述 ETD 的資訊。
+
+::: {.callout-warning}
+**結論：Gen1 全部作廢**
+
+- AUC 0.9280 是虛高的，ETD 直接編碼了到達延誤
+- 所有 9 個「do-not-use」切片都是 ETD-bin 的副產品
+- 研究問題從「何時不用模型」轉向「如何在嚴格條件下建立真正有預測力的模型」
 :::
 
 :::
+
+---
 
 ```{=html}
 <script>

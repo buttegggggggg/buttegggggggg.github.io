@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Gen2: Systematic Feature Engineering</h1>
-<p class="subtitle lead">AA DFW Hub | 804,728 flights | 12 versions x 9 experiments = 108 experiments</p>
+<p class="subtitle lead">AA DFW Hub | 804,728 flights | V1–V12 x 12 versions x 9 experiments = 108 experiments</p>
 </div>
 
 
@@ -209,26 +209,63 @@ ul.task-list li input[type="checkbox"] {
   <br>
   <a href="research-overview-en.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← Back to Research Overview</a>
 </nav>
+<hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V1 Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Literature Features</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">V3-V5 Internal Recombination</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">V6 SHAP + Optuna</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">V7-V8 Redundant Features</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">V9 TAF Forecasts</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false">V10-V12 All Negative</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false">V9c Finalized</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-10" role="tab" aria-controls="tabset-1-10" aria-selected="false">Phase 1-4 Comprehensive Analysis</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">V1 Baseline</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">V2 Literature Features</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">V3–V5 Same-Source Re-encoding Failures</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">V6 SHAP + Optuna</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">V7–V8 Feature Redundancy Failures</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">V9 TAF Weather Forecasts</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false">V10–V12 All Negative</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false">V9c Finalized</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-10" role="tab" aria-controls="tabset-1-10" aria-selected="false">Phase 1–4 Comprehensive Analysis</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><strong>Dataset:</strong> AA DFW Hub, 804,728 flights, delay rate 23.3% (arrival &gt;=15min)</p>
-<p><strong>Temporal split:</strong></p>
+<section id="core-design-principles" class="level3">
+<h3 class="anchored" data-anchor-id="core-design-principles">Core Design Principles</h3>
+<p>Gen1’s ETD leakage forced a complete restart. Gen2’s core question became:</p>
+<blockquote class="blockquote">
+<p><strong>Under strict pre-departure leakage control, which features truly have predictive power?</strong></p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Core Finding (across 12 versions): Only genuinely new external information can improve AUC; same-source re-encoding is universally ineffective.</strong></p>
+</div>
+</div>
+</section>
+<section id="dataset" class="level3">
+<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Set</th>
-<th>Period</th>
+<th>Item</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Train</td>
-<td>2021-2022</td>
+<td>Data Source</td>
+<td>American Airlines Snowflake Database</td>
 </tr>
 <tr class="even">
-<td>Validation</td>
+<td>Scope</td>
+<td>DFW Hub departures</td>
+</tr>
+<tr class="odd">
+<td>Total Flights</td>
+<td>804,728</td>
+</tr>
+<tr class="even">
+<td>Delay Rate</td>
+<td>23.3% (arrival delay ≥ 15 min)</td>
+</tr>
+<tr class="odd">
+<td>Train</td>
+<td>2021–2022</td>
+</tr>
+<tr class="even">
+<td>Val</td>
 <td>2023 H1</td>
 </tr>
 <tr class="odd">
@@ -237,288 +274,198 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><strong>Experiment matrix:</strong> 3 feature sets (Clean 11, T-2h 45, T-2h+Enhanced 44) x 3 models (RF, XGBoost, XGB+CatBoost) = 9 experiments per version</p>
-<p><strong>Core principle:</strong> Zero data leakage — all features must be available before T-2h</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Gen2 Core Lesson
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Only genuinely new external information can improve AUC; same-source re-encoding is entirely ineffective.</p>
-</div>
-</div>
+</section>
+<section id="experiment-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="experiment-matrix">Experiment Matrix</h3>
+<p>Each version (V1–V12) was evaluated across 3 feature sets x 3 models = <strong>9 experiments</strong>, totaling <strong>108 experiments</strong> across 12 versions.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature Set</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clean</td>
+<td>Schedule + calendar only (cleanest baseline)</td>
+</tr>
+<tr class="even">
+<td>T-24h</td>
+<td>+ tail chain + weather + external (available 24h prior)</td>
+</tr>
+<tr class="odd">
+<td>T-2h</td>
+<td>+ real-time weather snapshot (2h before departure)</td>
+</tr>
+<tr class="even">
+<td>T-2h+Enhanced</td>
+<td>+ literature-inspired advanced features</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Random Forest</td>
+<td>Baseline ensemble</td>
+</tr>
+<tr class="even">
+<td>XGBoost</td>
+<td>Primary GBDT model</td>
+</tr>
+<tr class="odd">
+<td>XGBoost + CatBoost</td>
+<td>Ensemble method</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="version-auc-summary" class="level3">
+<h3 class="anchored" data-anchor-id="version-auc-summary">12-Version AUC Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Version</th>
+<th>Best AUC</th>
+<th>vs Previous</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>V1</td>
+<td>0.7623</td>
+<td>—</td>
+<td>Baseline (with ETD, later deprecated)</td>
+</tr>
+<tr class="even">
+<td><strong>V2</strong></td>
+<td><strong>0.7352</strong></td>
+<td>—</td>
+<td>✅ Removed ETD, literature features</td>
+</tr>
+<tr class="odd">
+<td>V3</td>
+<td>0.7357</td>
+<td>+0.0005</td>
+<td>⚪ Two-stage slightly positive but marginal</td>
+</tr>
+<tr class="even">
+<td>V4</td>
+<td>0.7373</td>
+<td>+0.0021</td>
+<td>✅ Dest METAR positive</td>
+</tr>
+<tr class="odd">
+<td>V5</td>
+<td>0.7355</td>
+<td>−0.0018</td>
+<td>❌ BTS monthly statistics</td>
+</tr>
+<tr class="even">
+<td><strong>V6</strong></td>
+<td><strong>0.7420</strong></td>
+<td>+0.0047</td>
+<td>✅ SHAP selection + Optuna</td>
+</tr>
+<tr class="odd">
+<td>V7</td>
+<td>0.7366</td>
+<td>−0.0054</td>
+<td>❌ Temporal/route features</td>
+</tr>
+<tr class="even">
+<td>V8</td>
+<td>0.7407</td>
+<td>−0.0013</td>
+<td>❌ SHAP interaction + Focal Loss</td>
+</tr>
+<tr class="odd">
+<td><strong>V9</strong></td>
+<td><strong>0.7440</strong></td>
+<td>+0.0020</td>
+<td>✅ TAF weather forecasts</td>
+</tr>
+<tr class="even">
+<td>V10</td>
+<td>0.7429</td>
+<td>−0.0011</td>
+<td>❌ Target Encoding + network weather</td>
+</tr>
+<tr class="odd">
+<td>V11</td>
+<td>0.7414</td>
+<td>−0.0026</td>
+<td>❌ NOTEARS DAG + Stacking</td>
+</tr>
+<tr class="even">
+<td>V12</td>
+<td>0.7423</td>
+<td>−0.0017</td>
+<td>❌ Delay Absorption meta-feature</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p><strong>Content:</strong> Schedule features + DFW METAR weather + simple tail chain (previous flight delay)</p>
+<section id="design" class="level3">
+<h3 class="anchored" data-anchor-id="design">Design</h3>
+<p>V1 includes three feature categories with strict temporal splitting (but retains ETD for comparison):</p>
+<ul>
+<li><strong>Schedule + Calendar</strong>: Departure month, day of week, time period, route</li>
+<li><strong>Tail Chain</strong>: Previous flight delay (simple one-hop)</li>
+<li><strong>DFW METAR Weather</strong>: Real-time weather observation at T-2h</li>
+<li><strong>ETD Snapshot</strong> (T-2h+ETD version): Airline operations system’s estimated departure time deviation</li>
+</ul>
+<p>Literature references: Zhou (2025) AUC=0.898, Berkeley (2025) F1=62.9%, Chen (2019) Tail chain, Qu (2023) CNN-MLSTM</p>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>AUC 0.7167</strong> — far below the target of 0.80</p>
-</div>
-</div>
-</div>
-<p><strong>Problem:</strong> Insufficient feature information; richer feature sources needed.</p>
-<p><strong>Next step:</strong> V2 adds literature-driven features.</p>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p><strong>New features:</strong></p>
-<ul>
-<li><strong>Multi-hop tail chain:</strong> Delay from 2nd and 3rd previous flights, cumulative delay</li>
-<li><strong>Airport congestion:</strong> Hourly departure count, 3h average delay, 3h delay rate</li>
-<li><strong>Weather severity composite index</strong></li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Largest single improvement across all 12 versions
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>AUC <strong>+0.0185</strong></p>
-</div>
-</div>
-<p>This is the only case where “same-source but literature-validated feature engineering” worked. Multi-hop tail chain captured the delay propagation effect.</p>
-<p><strong>Next step:</strong> Continue exploring new data sources.</p>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<section id="v3-two-stage-prediction" class="level3">
-<h3 class="anchored" data-anchor-id="v3-two-stage-prediction">V3: Two-stage prediction</h3>
-<ul>
-<li><strong>Concept:</strong> Stage I XGBoost predicts departure delay (continuous value), Stage II uses the prediction as a feature</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stage I R-squared was only <strong>0.18</strong>, severely limiting Stage II quality. Same-source meta-features do not work — first confirmation of this pattern.</p>
-</div>
-</div>
-</section>
-<section id="v4-destination-metar-weather-11-features" class="level3">
-<h3 class="anchored" data-anchor-id="v4-destination-metar-weather-11-features">V4: Destination METAR weather (11 features)</h3>
-<ul>
-<li>Added destination NOAA IEM METAR (observations at T-2h before arrival)</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Only <strong>+0.0016</strong>. Destination weather snapshot is an information bottleneck — a single time-point weather observation 2 hours before arrival cannot capture in-flight weather changes.</p>
-</div>
-</div>
-</section>
-<section id="v5-bts-monthly-airport-statistics-6-features" class="level3">
-<h3 class="anchored" data-anchor-id="v5-bts-monthly-airport-statistics-6-features">V5: BTS monthly airport statistics (6 features)</h3>
-<ul>
-<li>Added monthly airport statistics: delay rate, avg delay, delay std dev (origin/dest, 3 each)</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Negative result. Monthly granularity is too coarse for individual flight prediction; categorical airport codes already implicitly contain this information.</p>
-</div>
-</div>
-</section>
-</div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<p><strong>Two components:</strong></p>
-<ol type="1">
-<li><strong>SHAP backward elimination:</strong> 49 → 35 features, +0.0009 on val</li>
-<li><strong>Optuna 100-trial Bayesian HPO:</strong> Found lr=0.006, depth=10, gamma=4.79</li>
-</ol>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>Combined improvement +0.0047</strong></p>
-</div>
-</div>
-</div>
-<p>Diminishing marginal returns from optimization. Feature space and model are approaching their ceiling; further HPO yields minimal returns.</p>
-</div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-<section id="v7-temporal-route-features-8-new-features" class="level3">
-<h3 class="anchored" data-anchor-id="v7-temporal-route-features-8-new-features">V7: Temporal + Route features (8 new features)</h3>
-<ul>
-<li>Added: <code>dest_delay_rate_7d/30d</code>, <code>route_daily_freq</code>, <code>aircraft_legs_today</code>, <code>dfw_delay_rate_1h/6h</code></li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Worst across all 12 versions
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>-0.0054</strong>. Tree models with depth=10 already capture these temporal patterns automatically; manual features are entirely redundant.</p>
-</div>
-</div>
-</section>
-<section id="v8-shap-interaction-features-focal-loss" class="level3">
-<h3 class="anchored" data-anchor-id="v8-shap-interaction-features-focal-loss">V8: SHAP interaction features + Focal Loss</h3>
-<ul>
-<li>15 SHAP-identified interaction features (e.g., <code>dep_hour x wx_severity</code>)</li>
-<li>Also tested Focal Loss for class imbalance</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both negative. depth=10 already implicitly captures interaction effects; Focal Loss at 23.3% imbalance sacrifices AUC for F1.</p>
-</div>
-</div>
-</section>
-</div>
-<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
-<p><strong>Added 9 TAF features (IEM source):</strong> forecast wind, gust, visibility, ceiling, precip (DFW + dest)</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-First positive result since V2
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>+0.002</strong></p>
-</div>
-</div>
-<p><strong>Key distinction:</strong> TAF is a weather “forecast,” not an “observation” — fundamentally different from METAR.</p>
-<p><strong>Why it works:</strong> Brings in genuinely new external information — the meteorological forecast system’s future predictions, not re-encoding of historical observations.</p>
-<p><strong>Pattern confirmed:</strong> “Only genuinely new external information can break through the AUC ceiling.”</p>
-</div>
-<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
-<section id="v10-target-encoding-network-hub-weather-proxy" class="level3">
-<h3 class="anchored" data-anchor-id="v10-target-encoding-network-hub-weather-proxy">V10: Target Encoding + Network hub weather proxy</h3>
-<ul>
-<li>Target Encoding for high-cardinality features (carrier, airport)</li>
-<li>Network Weather: Average weather across 9 major hubs as a system proxy</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both negative. TE is redundant for depth=10 XGBoost; hub weather is already covered by DFW local features.</p>
-</div>
-</div>
-</section>
-<section id="v11-notears-dag-3-model-oof-stacking" class="level3">
-<h3 class="anchored" data-anchor-id="v11-notears-dag-3-model-oof-stacking">V11: NOTEARS DAG + 3-model OOF stacking</h3>
-<ul>
-<li>NOTEARS linear DAG for causal feature selection</li>
-<li>XGB + CatBoost + LightGBM three-model OOF stacking</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both negative. Linear NOTEARS is unsuitable for binary classification; stacking did not outperform single XGBoost.</p>
-</div>
-</div>
-</section>
-<section id="v12-delay-absorption-meta-feature" class="level3">
-<h3 class="anchored" data-anchor-id="v12-delay-absorption-meta-feature">V12: Delay-Absorption meta-feature</h3>
-<ul>
-<li>Replicated Li (2025) AbsorbScore: Stage I CatBoost predicts delay absorption</li>
-<li>Stage I OOF AUC was only 0.6946</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Failed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Negative result. Li (2025)’s AUC=0.898 relied on departure delay leakage; our strict version could not replicate it.</p>
-</div>
-</div>
-</section>
-</div>
-<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
-<p><strong>Issue discovered:</strong> V9 tail chain used scheduled turnaround threshold to determine whether the previous flight had arrived, potentially introducing subtle leakage.</p>
-<p><strong>Fix:</strong> Switched to actual arrival time for determination.</p>
-<p><strong>Impact scope:</strong></p>
-<ul>
-<li>T-2h version: Only <strong>1.04%</strong> of flights affected</li>
-<li>T-24h version: <strong>77.9%</strong> affected, permanently abandoned</li>
-</ul>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>AUC 0.7418</strong> (-0.0022 vs V9) — This is the Gen2 final result</p>
-</div>
-</div>
-</div>
-<p>V9c becomes the baseline for all subsequent analyses.</p>
-</div>
-<div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
-<section id="phase-1-literature-leakage-audit" class="level3">
-<h3 class="anchored" data-anchor-id="phase-1-literature-leakage-audit">Phase 1: Literature Leakage Audit</h3>
-<p>Systematic review of data leakage in 12 papers:</p>
-<ul>
-<li>Only <strong>2/12</strong> used temporal split</li>
-<li>Only <strong>2/12</strong> had completely clean features</li>
-<li><strong>5/12</strong> had severe or fatal leakage</li>
-</ul>
+<p><strong>V1 Best (T-2h+ETD + XGBoost): AUC = 0.7623, F1 = 0.5031</strong></p>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature Set</th>
+<th>Best AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clean (schedule + calendar)</td>
+<td>0.6226</td>
+</tr>
+<tr class="even">
+<td>T-24h (+ tail chain + weather)</td>
+<td>~0.70</td>
+</tr>
+<tr class="odd">
+<td>T-2h (+ real-time weather)</td>
+<td>~0.72</td>
+</tr>
+<tr class="even">
+<td>T-2h+ETD (+ operations snapshot)</td>
+<td><strong>0.7623</strong></td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -529,119 +476,913 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Papers with leakage reported AUC <strong>0.87-0.99</strong>; clean temporal studies reported <strong>0.62-0.74</strong>.</p>
+<p><strong>V1’s ETD Problem</strong>: The high AUC of the T-2h+ETD version comes from ETD deviation directly reflecting delay status. Same fatal leakage as Gen1. ETD removed from V2 onward.</p>
 </div>
 </div>
-<p>Conclusion: Our AUC 0.7418 is competitive under methodologically rigorous conditions.</p>
 </section>
-<section id="phase-2-literature-method-reproduction" class="level3">
-<h3 class="anchored" data-anchor-id="phase-2-literature-method-reproduction">Phase 2: Literature Method Reproduction</h3>
-<p>Reproduced 6 literature methods under the same temporal split conditions:</p>
+<section id="key-conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="key-conclusions">Key Conclusions</h3>
+<ul>
+<li>XGBoost outperforms RF and DNN across all feature versions</li>
+<li>Tail chain (previous flight delay) contributed the largest AUC improvement in T-24h version</li>
+<li>Deep learning (DNN) does not outperform tree-based models on tabular data</li>
+</ul>
+<hr>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="design-1" class="level3">
+<h3 class="anchored" data-anchor-id="design-1">Design</h3>
+<p>Removed ETD, added 9 literature-validated original features:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 26%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Method</th>
-<th>AUC Change</th>
+<th>Feature Group</th>
+<th>Features</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>SMOTE</td>
-<td>-0.028</td>
+<td>Multi-hop Tail Chain</td>
+<td>prev_2/3_flight_delay, tail_chain_cumul_delay</td>
+<td>Previous 2, 3 flight cumulative delays</td>
 </tr>
 <tr class="even">
-<td>ADASYN</td>
-<td>-0.029</td>
+<td>Airport Congestion</td>
+<td>dfw_dep_count_1h, dfw_avg_delay_3h, dfw_delay_rate_3h</td>
+<td>DFW real-time congestion metrics</td>
 </tr>
 <tr class="odd">
-<td>SelectKBest</td>
-<td>-0.023</td>
+<td>Weather Severity</td>
+<td>wx_severity</td>
+<td>Composite weather severity index</td>
 </tr>
 <tr class="even">
-<td>FSFS</td>
-<td>-0.018</td>
-</tr>
-<tr class="odd">
-<td>ATT-BI-LSTM</td>
-<td>-0.028</td>
-</tr>
-<tr class="even">
-<td>LightGBM</td>
-<td>+0.008</td>
+<td>Turnaround Pressure</td>
+<td>turnaround_pressure, prev_flight_landed</td>
+<td>Turnaround pressure</td>
 </tr>
 </tbody>
 </table>
-<p>Aeolus benchmark: All 4 GBDT models outperformed all 7 DL models.</p>
 </section>
-<section id="phase-3-shap-feature-importance" class="level3">
-<h3 class="anchored" data-anchor-id="phase-3-shap-feature-importance">Phase 3: SHAP Feature Importance</h3>
+<section id="results-1" class="level3">
+<h3 class="anchored" data-anchor-id="results-1">Results</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Our contributions account for 42.8% of total SHAP
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><strong>Tail Chain:</strong> 22.7%</li>
-<li><strong>TAF Forecasts:</strong> 12.4%</li>
-<li><strong>Dest METAR:</strong> 7.7%</li>
-</ul>
+<p><strong>V2 Best (T-2h+Enhanced + XGBoost): AUC = 0.7352</strong></p>
+<p>T-2h+Enhanced vs T-2h baseline: <strong>+0.0176</strong> (largest single feature engineering improvement across 12 versions)</p>
 </div>
 </div>
-</section>
-<section id="phase-4-ablation-study" class="level3">
-<h3 class="anchored" data-anchor-id="phase-4-ablation-study">Phase 4: Ablation Study</h3>
-<p><strong>Incremental addition:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Feature Group</th>
-<th>AUC</th>
-<th>Delta</th>
+<th>Feature Set</th>
+<th>V2 AUC</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Schedule only</td>
+<td>Clean</td>
+<td>~0.62</td>
+</tr>
+<tr class="even">
+<td>T-24h</td>
+<td>~0.70</td>
+</tr>
+<tr class="odd">
+<td>T-2h</td>
+<td>0.7176</td>
+</tr>
+<tr class="even">
+<td>T-2h+Enhanced</td>
+<td><strong>0.7352</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="why-v2-is-an-important-milestone" class="level3">
+<h3 class="anchored" data-anchor-id="why-v2-is-an-important-milestone">Why V2 is an Important Milestone</h3>
+<p>This is the only case where “same-source but literature-validated feature engineering” produced a significant improvement. Subsequent versions repeatedly confirmed: <strong>only genuinely new external information can break the AUC ceiling</strong>. V2’s 9 features are a borderline case (manually designed features with strong literature support).</p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<section id="v3-two-stage-departure-delay-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="v3-two-stage-departure-delay-prediction">V3: Two-Stage Departure Delay Prediction</h3>
+<p><strong>Design</strong>: Stage I uses XGBoost regressor to predict departure delay, Stage II adds the prediction as a feature for arrival delay prediction.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Stage I R² only 0.05–0.18</strong>, insufficient prediction quality to support Stage II</p>
+<p>Stage I root cause: Most departure delay variance comes from events after T-2h (ground delays, ATC directives, sudden weather), which are unknowable at T-2h.</p>
+</div>
+</div>
+<p>V3 best AUC = 0.7357 (T-2h+Enhanced + RF), <strong>only +0.0005 above V2</strong>, practically meaningless.</p>
+<p><strong>First pattern confirmation</strong>: Same-source meta-features are ineffective.</p>
+<hr>
+</section>
+<section id="v4-destination-airport-metar-weather-11-features" class="level3">
+<h3 class="anchored" data-anchor-id="v4-destination-airport-metar-weather-11-features">V4: Destination Airport METAR Weather (11 features)</h3>
+<p><strong>Design</strong>: Added NOAA IEM ASOS/METAR observations from 277 destination airports (T-2h).</p>
+<p>New features: dest_wx_temp_f, wind_speed_kt, wind_gust_kt, visibility_mi, precip_1hr_in, ceiling_ft, has_thunder, has_fog, has_snow, pressure_hpa, wx_severity</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>V4 Best AUC = 0.7373 (T-2h+Enhanced + XGBoost)</strong>, vs V2’s 0.7352, <strong>+0.0021</strong></p>
+</div>
+</div>
+</div>
+<p>Positive but marginal. Reason: T-2h destination weather snapshot is a single time-point observation, unable to capture in-flight weather dynamics.</p>
+<hr>
+</section>
+<section id="v5-bts-monthly-airport-statistics-6-features" class="level3">
+<h3 class="anchored" data-anchor-id="v5-bts-monthly-airport-statistics-6-features">V5: BTS Monthly Airport Statistics (6 features)</h3>
+<p><strong>Design</strong>: Added BTS destination airport monthly statistics (delay rate, avg delay, delay std dev, for both origin/dest).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V5 Best AUC = 0.7355 (−0.0018 vs V4) — negative result</strong></p>
+<p>Monthly granularity is too coarse for individual flight prediction; dest_airport_encoded already implicitly captures airport-level delay tendencies. Coverage: 204/286 destination airports (71.3%), 724,660 flights (90.1%).</p>
+</div>
+</div>
+<p><strong>Second pattern confirmation</strong>: Coarse-grained same-source information is ineffective.</p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<section id="design-2" class="level3">
+<h3 class="anchored" data-anchor-id="design-2">Design</h3>
+<p>V6 builds on V4 (then-best AUC=0.7373) with two optimization steps:</p>
+<p><strong>Step 1: SHAP Backward Elimination</strong></p>
+<p>Removed 14 low-contribution features from T-2h+Enhanced, including: dfw_avg_aadt, wx_has_snow, dest_wx_has_snow, prev_flight_landed, dest_wx_has_fog, dest_wx_has_thunder, is_weekend, dest_wx_visibility_mi, dest_wx_wind_gust_kt, prev_flight_delayed_15, wx_has_fog, dest_is_international, wx_visibility_mi, is_holiday</p>
+<p><strong>Step 2: Optuna Bayesian HPO (100 trials)</strong></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Optuna Best Val AUC = 0.7541</strong> | Search time: 2310 seconds (38.5 minutes)</p>
+<p>Best hyperparameters (XGBoost): learning_rate = 0.006, max_depth = 10, gamma = 4.79, colsample_bytree = 0.33</p>
+</div>
+</div>
+</div>
+</section>
+<section id="results-2" class="level3">
+<h3 class="anchored" data-anchor-id="results-2">Results</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V6 Best AUC = 0.7420 (T-2h+Enhanced + XGBoost)</strong>, vs V4’s 0.7373, <strong>+0.0047</strong></p>
+</div>
+</div>
+<p>Literature: Borboudakis &amp; Tsamardinos (arXiv:2410.06815) — SHAP backward elimination; Akiba et al.&nbsp;(2019) Optuna; Bergstra et al.&nbsp;(2011) HPO</p>
+<p><strong>V6 became the baseline for all subsequent versions.</strong></p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<section id="v7-temporal-route-features-8-new-features" class="level3">
+<h3 class="anchored" data-anchor-id="v7-temporal-route-features-8-new-features">V7: Temporal + Route Features (8 new features)</h3>
+<p>Added: dest_delay_rate_7d/30d, route_daily_freq, aircraft_legs_today, dfw_delay_rate_1h/6h</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V7 Best AUC = 0.7366 (T-2h+Enhanced + XGB+CatBoost)</strong>, vs V6’s 0.7420, <strong>−0.0054</strong></p>
+<p>Worst single-version regression across 12 versions.</p>
+<p>Root cause: XGBoost with depth=10 already captures these temporal patterns automatically; all 8 new features are redundant. V6’s colsample_bytree=0.33 was not re-optimized for new features.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="v8-shap-interaction-features-focal-loss" class="level3">
+<h3 class="anchored" data-anchor-id="v8-shap-interaction-features-focal-loss">V8: SHAP Interaction Features + Focal Loss</h3>
+<p><strong>Two attempts</strong>: 1. SHAP interaction features (15, e.g., dep_hour × wx_severity) 2. Focal Loss for class imbalance (positive rate 23.3%)</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V8 Best AUC = 0.7407</strong>, both negative</p>
+<p>SHAP interactions: depth=10 already implicitly captures interaction effects; manual addition is redundant. Focal Loss: At 23.3% imbalance, it trades AUC for F1 (F1 improved to 0.4744, but AUC decreased).</p>
+</div>
+</div>
+<p><strong>V7 and V8 consecutive negative results confirm: AUC ≈ 0.74 is the current feature space ceiling. Entirely new external information is needed to break through.</strong></p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<section id="design-3" class="level3">
+<h3 class="anchored" data-anchor-id="design-3">Design</h3>
+<p>V9 introduces <strong>TAF (Terminal Aerodrome Forecast)</strong> weather forecast data — fundamentally different from V4 METAR “observations”: TAF forecasts “future weather conditions at arrival time.”</p>
+<p>Data source: Iowa Environmental Mesonet (IEM) public archive, 212 airports (covering 89.9% of destinations)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>taf_dest_wind_kt</td>
+<td>76.8%</td>
+</tr>
+<tr class="even">
+<td>taf_dest_gust_kt</td>
+<td>76.8%</td>
+</tr>
+<tr class="odd">
+<td>taf_dest_visibility_mi</td>
+<td>85.6%</td>
+</tr>
+<tr class="even">
+<td>taf_dest_ceiling_ft</td>
+<td>35.6%</td>
+</tr>
+<tr class="odd">
+<td>taf_dest_has_precip</td>
+<td>85.6%</td>
+</tr>
+<tr class="even">
+<td>taf_dfw_wind_kt</td>
+<td>93.3%</td>
+</tr>
+<tr class="odd">
+<td>taf_dfw_ceiling_ft</td>
+<td>38.9%</td>
+</tr>
+<tr class="even">
+<td>taf_dest_ceil_delta</td>
+<td>35.6%</td>
+</tr>
+<tr class="odd">
+<td>taf_severity</td>
+<td>100.0%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="results-3" class="level3">
+<h3 class="anchored" data-anchor-id="results-3">Results</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V9 Best AUC = 0.7440 (T-2h+Enhanced + XGBoost)</strong>, vs V6’s 0.7420, <strong>+0.0020</strong></p>
+<p>Broke the V7–V8 negative streak.</p>
+</div>
+</div>
+</section>
+<section id="why-taf-works-but-metar-is-limited" class="level3">
+<h3 class="anchored" data-anchor-id="why-taf-works-but-metar-is-limited">Why TAF Works but METAR is Limited</h3>
+<p>TAF is a forecast system output of “future weather prediction,” reflecting expected weather conditions at the arrival time window even at T-2h prediction time; METAR is only “current weather observation,” with limited representativeness for destination weather on long-haul flights (flight time &gt; 2 hours).</p>
+<p><strong>Pattern confirmed again</strong>: Only genuinely new external information (meteorological forecast system output) can break the AUC ceiling.</p>
+<p>Literature: Rebollo &amp; Balakrishnan (2014); Kim et al.&nbsp;(2016)</p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<section id="v10-target-encoding-network-weather-proxy" class="level3">
+<h3 class="anchored" data-anchor-id="v10-target-encoding-network-weather-proxy">V10: Target Encoding + Network Weather Proxy</h3>
+<p><strong>Target Encoding</strong>: Replace dest_airport, gate, subfleet label encoding with sklearn TargetEncoder(cv=5).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Negative reason</strong>: XGBoost depth=10 is already effective enough with label encoding; TE advantages are mainly seen in linear models and shallow trees (Pargent et al.&nbsp;2022).</p>
+</div>
+</div>
+<p><strong>Network Weather Proxy</strong>: Average weather severity across 9 major Hub airports (ATL, ORD, DEN, LAX, CLT, JFK, SFO, EWR, LAS).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V10 Best AUC = 0.7429 (−0.0011 vs V9)</strong></p>
+<p>Network proxy reason: Existing DFW congestion features already capture local delay status; remote Hub weather impact on DFW is too weak within the T-2h window.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="v11-notears-dag-3-model-oof-stacking" class="level3">
+<h3 class="anchored" data-anchor-id="v11-notears-dag-3-model-oof-stacking">V11: NOTEARS DAG + 3-Model OOF Stacking</h3>
+<p><strong>NOTEARS DAG</strong>: Use continuous optimization to learn causal graphs, add features from same causal clusters to XGBoost’s interaction_constraints.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Fatal issue: Linear NOTEARS found 0 edges from any feature to delayed_15.</strong></p>
+<p>Markov Blanket is empty; interaction_constraints severely restrict XGBoost’s learning ability. XGB_DAG AUC plummeted to 0.6793 in T-2h+Enhanced (vs V9’s 0.7440, a 0.065 gap).</p>
+</div>
+</div>
+<p><strong>3-Model OOF Stacking</strong>: XGBoost + CatBoost + LightGBM, logistic regression meta-learner.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V11 Best AUC = 0.7414 (−0.0026 vs V9)</strong></p>
+<p>Three GBDT models are too correlated; Stacking cannot benefit from complementarity. LightGBM received negative weight in the meta-learner.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="v12-delay-absorption-meta-feature" class="level3">
+<h3 class="anchored" data-anchor-id="v12-delay-absorption-meta-feature">V12: Delay-Absorption Meta-Feature</h3>
+<p><strong>Inspiration</strong>: arXiv:2512.08197 (Li 2025, AUC=0.898, but relies on departure delay features)</p>
+<p><strong>Design</strong>: Stage I CatBoost predicts “whether previous delay is absorbed” (absorb_label), Stage II adds absorb_score.</p>
+<p>Stage I OOF AUC = <strong>0.6946</strong> (absorption label absorb=1 accounts for 69.5%)</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>V12 Best AUC = 0.7423 (−0.0017 vs V9)</strong></p>
+<p>Stage I quality insufficient; 8 input features (turnaround_min, etc.) already exist directly in V9 feature set — Stage I is just nonlinear reorganization, not new information. Li (2025)’s high AUC relies on departure delay features (leakage); our strict version cannot replicate.</p>
+</div>
+</div>
+<p><strong>V9 confirmed as the best model across all 12 versions (AUC = 0.7440).</strong></p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<section id="issue-discovery" class="level3">
+<h3 class="anchored" data-anchor-id="issue-discovery">Issue Discovery</h3>
+<p>V9’s tail chain uses scheduled turnaround thresholds to determine “whether the previous flight has arrived” — but this judgment has a subtle leakage risk: at prediction time (T-2h), some previous flights haven’t actually arrived but are incorrectly marked as arrived.</p>
+</section>
+<section id="fix" class="level3">
+<h3 class="anchored" data-anchor-id="fix">Fix</h3>
+<p>Changed to using <strong>actual arrival time</strong> instead of scheduled time to determine tail chain availability.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 54%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Impact Scope</th>
+<th>Proportion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T-2h version affected flights</td>
+<td><strong>1.04%</strong></td>
+</tr>
+<tr class="even">
+<td>T-24h version affected flights</td>
+<td>77.9% (→ T-24h version permanently deprecated)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>V9c Final AUC = 0.7418</strong> (−0.0022 vs V9, only 1.04% flights affected)</p>
+<p>V9c became Gen2’s official finalized version, the foundation for all subsequent analyses (Phases 1–4).</p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="v9d-right-censored-tail-chain-research-use" class="level3">
+<h3 class="anchored" data-anchor-id="v9d-right-censored-tail-chain-research-use">V9d: Right-Censored Tail Chain (Research Use)</h3>
+<p>V9d further changes tail chain from “previous arrived → use actual delay, not arrived → use 0” to <strong>right-censoring</strong>, using 7 features to encode “known partial information when previous flight hasn’t arrived” (overtime minutes, estimated remaining time, etc.), NaN for “unknowable at this time.”</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>V9d Temporal AUC = 0.7291</strong> (vs V9c 0.7418, −0.0127)</p>
+<p>Random split AUC = <strong>0.7760</strong> (+0.047), the gap reconfirms the importance of temporal splitting.</p>
+</div>
+</div>
+</div>
+<p>V9d is used for Phase 1–4 comprehensive analysis (43 features, including 7 right-censored tail chain features).</p>
+<hr>
+</section>
+</div>
+<div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
+<section id="phase-1-literature-leakage-audit" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-literature-leakage-audit">Phase 1: Literature Leakage Audit</h3>
+<p>Systematic review of data leakage across 12 published papers:</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Using temporal split</td>
+<td>2/12 (16.7%)</td>
+</tr>
+<tr class="even">
+<td>Completely clean features</td>
+<td>2/12 (16.7%)</td>
+</tr>
+<tr class="odd">
+<td>Severe or fatal leakage</td>
+<td>5/12 (41.7%)</td>
+</tr>
+<tr class="even">
+<td>Leaked papers reported AUC</td>
+<td>0.87–0.99</td>
+</tr>
+<tr class="odd">
+<td>Strict temporal studies reported AUC</td>
+<td>0.62–0.74</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion: Our temporal AUC = 0.7291 (V9d) is competitive under methodologically strict conditions.</strong></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="phase-2-literature-method-replication" class="level3">
+<h3 class="anchored" data-anchor-id="phase-2-literature-method-replication">Phase 2: Literature Method Replication</h3>
+<p>Replicated 6 literature methods under identical temporal split + V9d features (bootstrap 95% CI):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 9%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>AUC</th>
+<th>95% CI</th>
+<th>Δ</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>XGBoost (V6 Optuna) ★</strong></td>
+<td><strong>0.7291</strong></td>
+<td>[0.7257, 0.7323]</td>
+<td>—</td>
+<td>Baseline</td>
+</tr>
+<tr class="even">
+<td>SMOTE + XGBoost</td>
+<td>0.7015</td>
+<td>[0.6981, 0.7048]</td>
+<td>−0.0276</td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td>ADASYN + XGBoost</td>
+<td>0.7003</td>
+<td>[0.6970, 0.7035]</td>
+<td>−0.0288</td>
+<td>❌</td>
+</tr>
+<tr class="even">
+<td>SelectKBest + XGBoost</td>
+<td>0.7062</td>
+<td>[0.7029, 0.7094]</td>
+<td>−0.0229</td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td>FSFS + XGBoost</td>
+<td>0.7108</td>
+<td>[0.7075, 0.7140]</td>
+<td>−0.0183</td>
+<td>❌</td>
+</tr>
+<tr class="even">
+<td><strong>LightGBM</strong></td>
+<td><strong>0.7367</strong></td>
+<td><strong>[0.7334, 0.7398]</strong></td>
+<td><strong>+0.0076</strong></td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>ATT-BI-LSTM</td>
+<td>0.7014</td>
+<td>[0.6980, 0.7047]</td>
+<td>−0.0277</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>LightGBM significantly outperforms XGBoost (CIs non-overlapping)</strong>, but GBDT overall substantially outperforms deep learning, supporting the Aeolus benchmark (NeurIPS 2025) conclusion.</p>
+</div>
+</div>
+<p>SMOTE/ADASYN failure reason: XGBoost scale_pos_weight is already sufficient; oversampling introduces synthetic noise in feature spaces with NaN.</p>
+<hr>
+</section>
+<section id="phase-3-shap-feature-importance-analysis-v9d-43-features" class="level3">
+<h3 class="anchored" data-anchor-id="phase-3-shap-feature-importance-analysis-v9d-43-features">Phase 3: SHAP Feature Importance Analysis (V9d, 43 features)</h3>
+<p><strong>Top 10 Individual Features (mean |SHAP|):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 29%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rank</th>
+<th>Feature</th>
+<th></th>
+<th>SHAP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>prev_arr_delay_known</td>
+<td>0.0592</td>
+<td>Right-censored tail chain <strong>[Our contribution]</strong></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>dep_month</td>
+<td>0.0536</td>
+<td>Schedule (BTS)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>subfleet_encoded</td>
+<td>0.0487</td>
+<td>Aircraft/Infrastructure</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>dep_hour</td>
+<td>0.0383</td>
+<td>Schedule (BTS)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>prev_turnaround_avail</td>
+<td>0.0333</td>
+<td>Right-censored tail chain <strong>[Our contribution]</strong></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>dfw_dep_count_1h</td>
+<td>0.0301</td>
+<td>Aircraft/Infrastructure</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>taf_dfw_ceiling_ft</td>
+<td>0.0291</td>
+<td>TAF Forecast <strong>[New]</strong></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>is_holiday_period</td>
+<td>0.0235</td>
+<td>Schedule (BTS)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>wx_pressure_hpa</td>
+<td>0.0219</td>
+<td>DFW METAR</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>prev2_arr_delay_known</td>
+<td>0.0213</td>
+<td>Right-censored tail chain <strong>[Our contribution]</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>By Data Source Group (SHAP Percentage):</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 6%">
+<col style="width: 20%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Total SHAP</th>
+<th>%</th>
+<th>Features</th>
+<th>Per-Feature Avg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Schedule (BTS)</td>
+<td>0.1283</td>
+<td>22.2%</td>
+<td>7</td>
+<td>0.0183</td>
+</tr>
+<tr class="even">
+<td>Aircraft/Infrastructure</td>
+<td>0.1184</td>
+<td>20.5%</td>
+<td>6</td>
+<td>0.0197</td>
+</tr>
+<tr class="odd">
+<td>DFW METAR (NOAA)</td>
+<td>0.0832</td>
+<td>14.4%</td>
+<td>8</td>
+<td>0.0104</td>
+</tr>
+<tr class="even">
+<td><strong>Right-censored tail chain [Ours]</strong></td>
+<td><strong>0.1312</strong></td>
+<td><strong>22.7%</strong></td>
+<td><strong>7</strong></td>
+<td><strong>0.0187</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>TAF Forecast [New]</strong></td>
+<td><strong>0.0714</strong></td>
+<td><strong>12.4%</strong></td>
+<td><strong>9</strong></td>
+<td><strong>0.0079</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Dest METAR [New]</strong></td>
+<td><strong>0.0447</strong></td>
+<td><strong>7.7%</strong></td>
+<td><strong>6</strong></td>
+<td><strong>0.0075</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Our three contributions combined: 42.8% (22.7% + 12.4% + 7.7%)</strong></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="phase-4-ablation-study" class="level3">
+<h3 class="anchored" data-anchor-id="phase-4-ablation-study">Phase 4: Ablation Study</h3>
+<p><strong>Incremental Addition:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Added Source</th>
+<th>Features</th>
+<th>AUC</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Schedule (BTS)</td>
+<td>7</td>
 <td>0.6226</td>
 <td>—</td>
 </tr>
 <tr class="even">
-<td>+ Aircraft/Infra</td>
+<td>2</td>
+<td>+ Aircraft/Infrastructure</td>
+<td>13</td>
 <td>0.6710</td>
-<td>+0.048</td>
+<td>+0.0484</td>
 </tr>
 <tr class="odd">
+<td>3</td>
 <td>+ DFW METAR</td>
+<td>21</td>
 <td>0.6928</td>
-<td>+0.022</td>
+<td>+0.0218</td>
 </tr>
 <tr class="even">
-<td>+ Dest METAR</td>
+<td>4</td>
+<td>+ Dest METAR [New]</td>
+<td>27</td>
 <td>0.7048</td>
-<td>+0.012</td>
+<td>+0.0120</td>
 </tr>
 <tr class="odd">
-<td>+ TAF</td>
+<td>5</td>
+<td>+ TAF Forecast [New]</td>
+<td>36</td>
 <td>0.6969</td>
-<td>-0.008</td>
+<td><strong>−0.0079</strong></td>
 </tr>
 <tr class="even">
-<td>+ Tail Chain</td>
+<td>6</td>
+<td>+ Right-censored tail chain [Ours]</td>
+<td>43</td>
 <td>0.7279</td>
-<td>+0.031</td>
+<td><strong>+0.0311</strong></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Leave-one-out:</strong> Removing Tail Chain <strong>-0.031</strong> (most critical); removing Aircraft/Infra <strong>-0.023</strong>.</p>
+<p><strong>Leave-One-Source-Out:</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Removed Source</th>
+<th>AUC</th>
+<th>Δ</th>
+<th>Impact Level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Full model</td>
+<td>0.7279</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>− Right-censored tail chain</td>
+<td>0.6969</td>
+<td><strong>−0.0311</strong></td>
+<td><strong>Most critical</strong></td>
+</tr>
+<tr class="odd">
+<td>− Aircraft/Infrastructure</td>
+<td>0.7053</td>
+<td>−0.0226</td>
+<td>Critical</td>
+</tr>
+<tr class="even">
+<td>− Schedule</td>
+<td>0.7175</td>
+<td>−0.0104</td>
+<td>Moderate</td>
+</tr>
+<tr class="odd">
+<td>− DFW METAR</td>
+<td>0.7255</td>
+<td>−0.0024</td>
+<td>Marginal</td>
+</tr>
+<tr class="even">
+<td>− Dest METAR</td>
+<td><strong>0.7380</strong></td>
+<td><strong>+0.0101</strong></td>
+<td>Removal improves performance</td>
+</tr>
+<tr class="odd">
+<td>− TAF Forecast</td>
+<td>0.7285</td>
+<td>+0.0006</td>
+<td>Removal makes almost no difference</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tail chain is the most critical single source (removal −0.031) — this is our original contribution.</strong> Dest METAR and TAF interfere when combined (each effective alone, but redundant together).</p>
+</div>
+</div>
 </section>
 </div>
 </div>
 </div>
+<hr>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
   var hash = window.location.hash.replace('#', '');

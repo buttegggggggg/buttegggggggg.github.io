@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gen1: Selective Prediction (Deprecated) – Tzu-Yuan</title>
+<title>Gen1: Selective Prediction – Tzu-Yuan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -186,8 +186,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Gen1: Selective Prediction (Deprecated)</h1>
-<p class="subtitle lead">Early 2025 | AA Snowflake Internal Data | 14-Day Rapid Prototype</p>
+<h1 class="title">Gen1: Selective Prediction</h1>
+<p class="subtitle lead">Early 2025 | AA Snowflake Internal Data | Deprecated</p>
 </div>
 
 
@@ -209,76 +209,247 @@ ul.task-list li input[type="checkbox"] {
   <br>
   <a href="research-overview-en.html" style="display:inline-block;margin-top:0.5rem;padding:0.3rem 0.8rem;border:1px solid #ccc;border-radius:4px;text-decoration:none;font-size:0.9rem;">← Back to Research Overview</a>
 </nav>
+<blockquote class="blockquote">
+<p><strong>Status: Deprecated.</strong> The core feature ETD has fatal data leakage; all analysis results are invalid.</p>
+</blockquote>
+<hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Key Results</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">ETD Leakage</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><strong>Research Goal:</strong> “When NOT to Use Flight Delay Prediction Models”</p>
-<p><strong>Core Concepts:</strong></p>
+<section id="research-objective" class="level3">
+<h3 class="anchored" data-anchor-id="research-objective">Research Objective</h3>
+<p><em>“When NOT to Use Flight Delay Prediction Models”</em></p>
+<p>The core concept is <strong>Selective Prediction</strong> — allowing the model to actively refuse predictions when uncertain, rather than forcing incorrect answers.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dataset</td>
+<td>American Airlines Snowflake Internal Data</td>
+</tr>
+<tr class="even">
+<td>Flights</td>
+<td>2.7M (full fleet)</td>
+</tr>
+<tr class="odd">
+<td>Label</td>
+<td>Arrival delay ≥ 15 minutes (<code>delayed_15</code>)</td>
+</tr>
+<tr class="even">
+<td>Temporal Split</td>
+<td>Train 2020–2023 / Val 2024H1 / Test 2024H2</td>
+</tr>
+<tr class="odd">
+<td>Scale</td>
+<td>30 Python scripts (code_001 → code_030)</td>
+</tr>
+<tr class="even">
+<td>Development</td>
+<td>~14 days rapid prototype</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="core-technical-framework" class="level3">
+<h3 class="anchored" data-anchor-id="core-technical-framework">Core Technical Framework</h3>
 <ul>
-<li><strong>Selective Prediction:</strong> The model can choose to “abstain” from predicting certain samples, only making predictions for flights it is confident about</li>
-<li><strong>Slice Discovery:</strong> Automatically identify subgroups (slices) where the model performs particularly poorly</li>
-<li><strong>Model Calibration:</strong> Ensure predicted probabilities match actual proportions</li>
-<li><strong>Cost-based Abstention:</strong> Decide when to abstain based on a cost function</li>
-<li><strong>Novelty Detection:</strong> Detect anomalous samples not seen during training</li>
+<li><strong>Selective Classification</strong> — Reject low-confidence predictions, only answer when confident</li>
+<li><strong>Model Calibration</strong> — Temperature Scaling for probability calibration (T = 1.050)</li>
+<li><strong>Cost-based Abstention</strong> — Find optimal rejection threshold based on loss function</li>
+<li><strong>Novelty Detection</strong> — MSP (Maximum Softmax Probability) for out-of-distribution detection</li>
+<li><strong>Exceptional Model Mining (EMM)</strong> — Identify subgroups where the model fails</li>
 </ul>
-<p><strong>Dataset:</strong> American Airlines Snowflake internal data, 2.7M flights</p>
-<p><strong>Scale:</strong> 30 Python scripts (code_001 to code_030)</p>
+<hr>
+</section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="base-model-performance" class="level3">
+<h3 class="anchored" data-anchor-id="base-model-performance">Base Model Performance</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Train BA</th>
+<th>Val BA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Logistic Regression</td>
+<td>0.8583</td>
+<td>0.8555</td>
+</tr>
+<tr class="even">
+<td>Random Forest</td>
+<td>0.8648</td>
+<td>0.8576</td>
+</tr>
+<tr class="odd">
+<td><strong>XGBoost</strong></td>
+<td><strong>0.8733</strong></td>
+<td><strong>0.8597</strong></td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Selective Prediction 80% coverage:</strong> BA = 0.9083</p>
+<p><strong>Test AUC-ROC = 0.9280</strong> | Test BA = 0.8656</p>
 </div>
 </div>
 </div>
+</section>
+<section id="selective-prediction-results" class="level3">
+<h3 class="anchored" data-anchor-id="selective-prediction-results">Selective Prediction Results</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Recommended Operating Point (Coverage ≥ 80%)</strong></p>
+<ul>
+<li>Threshold: 0.760</li>
+<li>Coverage: <strong>81.0%</strong></li>
+<li>Balanced Accuracy: <strong>0.9083</strong> (vs full 0.8597, +0.0486)</li>
+</ul>
+</div>
+</div>
+<p>AURC (Area Under Risk-Coverage Curve) = <strong>0.078363</strong> (lower is better)</p>
+<p>Full Risk-Coverage Trade-off:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Operating Mode</th>
+<th>Coverage</th>
+<th>BA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conservative (BA ≥ 0.90)</td>
+<td>84.0%</td>
+<td>0.9025</td>
+</tr>
+<tr class="even">
+<td>Balanced (BA ≥ 0.88)</td>
+<td>92.8%</td>
+<td>0.8815</td>
+</tr>
+<tr class="odd">
+<td><strong>High-Coverage (≥ 80%)</strong></td>
+<td><strong>81.0%</strong></td>
+<td><strong>0.9083</strong></td>
+</tr>
+<tr class="even">
+<td>Cost-Optimal (ε = 0.05)</td>
+<td>18.3%</td>
+<td>0.9390</td>
+</tr>
+<tr class="odd">
+<td>Full Model (no rejection)</td>
+<td>100.0%</td>
+<td>0.8597</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cost-based-abstention-optimal-point" class="level3">
+<h3 class="anchored" data-anchor-id="cost-based-abstention-optimal-point">Cost-based Abstention Optimal Point</h3>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Cost-based abstention optimal point:</strong> coverage = 18.3%, BA = 0.9390</p>
+<p><strong>ε = 0.05 optimal point: Coverage = 18.3%, BA = 0.9390</strong></p>
+<p>In the accepted 19% subset: precision = 0.9652, recall = 0.9903, F1 = 0.9776</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>Test AUC-ROC:</strong> 0.9280</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>LSTM test BA:</strong> 0.8638</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><strong>FT-Transformer test BA:</strong> 0.8642</p>
-</div>
-</div>
-</div>
-<p>Tree-based models performed comparably to deep learning models, with significantly lower training cost.</p>
+</section>
+<section id="architecture-comparison-tree-vs-deep-learning" class="level3">
+<h3 class="anchored" data-anchor-id="architecture-comparison-tree-vs-deep-learning">Architecture Comparison (Tree vs Deep Learning)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Architecture</th>
+<th>Test BA</th>
+<th>Test AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>XGBoost</td>
+<td>0.8656</td>
+<td>0.9280</td>
+</tr>
+<tr class="even">
+<td>LSTM</td>
+<td>0.8638</td>
+<td>0.9223</td>
+</tr>
+<tr class="odd">
+<td>FT-Transformer</td>
+<td>0.8642</td>
+<td>0.9234</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Conclusion</strong>: Tree-based models perform comparably to deep learning on tabular data, supporting Grinsztajn et al.&nbsp;(2022). Architecture is not the key — reliability boundaries are.</p>
+</blockquote>
+</section>
+<section id="regression-task-supplementary-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="regression-task-supplementary-analysis">Regression Task Supplementary Analysis</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>MAE (min)</th>
+<th>R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ETD deviation baseline</td>
+<td>19.80</td>
+<td>0.3871</td>
+</tr>
+<tr class="even">
+<td>XGBoost Regressor</td>
+<td>18.68</td>
+<td>0.4203</td>
+</tr>
+</tbody>
+</table>
+<p>Selective Regression (Conformal coverage = 0.909):</p>
+<ul>
+<li>Top 80% confidence: MAE = 11.84 min</li>
+<li>Top 90% confidence: MAE = 14.12 min</li>
+<li>Classification vs Regression agreement: <strong>96.8%</strong></li>
+</ul>
+<hr>
+</section>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="what-is-etd" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-etd">What is ETD?</h3>
+<p><strong>ETD (Estimated Time of Departure)</strong> is a real-time output computed by the airline’s operations system — it reflects “how much longer the airline believes this flight will take to depart.”</p>
+<p>The problem: <strong>ETD directly encodes the answer.</strong></p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -289,36 +460,131 @@ FATAL ISSUE: ETD Data Leakage
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>ETD (Estimated Time of Departure)</strong> is derived from the <strong>actual departure time</strong>, not information available at the time of prediction.</p>
+<p><strong>ETD deviation correlation with arrival delay: ≈ 0.92</strong></p>
+<p>This means the model is essentially learning “whatever ETD says the flight is late by, predict that amount of delay.” This is not prediction — it is parroting.</p>
 </div>
 </div>
-<p><strong>Issue Details:</strong></p>
-<ul>
-<li>Correlation between ETD and arrival delay: <strong>~0.92</strong></li>
-<li>All 9 “do-not-use” slices in Gen1 were based on ETD deviation bins (<code>late_5-30</code>, <code>late_30-60</code>, <code>late_&gt;60</code>)</li>
-<li>This means the analysis is <strong>entirely invalid</strong> — the model was simply “seeing the answer”</li>
-</ul>
-<p><strong>Impact:</strong></p>
-<ul>
-<li>AUC 0.928 is <strong>artificially inflated</strong> because ETD directly encodes the answer</li>
-<li>All selective prediction analyses and slice discovery results based on ETD are unreliable</li>
-</ul>
+</section>
+<section id="etd-subgroup-survival-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="etd-subgroup-survival-analysis">ETD Subgroup Survival Analysis</h3>
+<p>The subset with ETD deviation &gt; 5 minutes contains 347,436 flights, of which 118,033 (34.0%) still arrived on time (“survivors”):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ETD Bin</th>
+<th>Survival Rate (On-time)</th>
+<th>Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5–30 min</td>
+<td>45.2%</td>
+<td>256,905</td>
+</tr>
+<tr class="even">
+<td>30–60 min</td>
+<td>3.4%</td>
+<td>54,127</td>
+</tr>
+<tr class="odd">
+<td>&gt; 60 min</td>
+<td>0.6%</td>
+<td>36,404</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="do-not-use-slices" class="level3">
+<h3 class="anchored" data-anchor-id="do-not-use-slices">9 “Do-Not-Use” Slices</h3>
+<p>Gen1 discovered 9 model failure subgroups, all with BA ≤ 0.51:</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Conclusion
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Gen1 is <strong>entirely invalidated</strong>. Research direction shifted from “when not to use models” to “how to build models with zero leakage” → entered Gen2.</p>
+<p><strong>All 9 slices share a common characteristic: they are all ETD deviation segments</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Slice Condition</th>
+<th>BA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ETD deviation = late_&gt;60</td>
+<td>0.5000</td>
+</tr>
+<tr class="even">
+<td>ETD deviation = late_30-60</td>
+<td>0.5000</td>
+</tr>
+<tr class="odd">
+<td>ETD deviation = late_&gt;60 AND aircraft = EMJ</td>
+<td>0.5000</td>
+</tr>
+<tr class="even">
+<td>ETD deviation = late_30-60 AND aircraft = EMJ</td>
+<td>0.5000</td>
+</tr>
+<tr class="odd">
+<td>ETD deviation = late_&gt;60 AND aircraft = CRJ</td>
+<td>0.5000</td>
+</tr>
+<tr class="even">
+<td>ETD deviation = late_30-60 AND aircraft = CRJ</td>
+<td>0.5000</td>
+</tr>
+<tr class="odd">
+<td>ETD deviation = late_5-30 AND aircraft = EMJ</td>
+<td>0.5098</td>
+</tr>
+<tr class="even">
+<td>ETD deviation = late_5-30 AND aircraft = CRJ</td>
+<td>0.5121</td>
+</tr>
+<tr class="odd">
+<td>ETD deviation = late_5-30</td>
+<td>0.5143</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Not a single slice is related to weather, route, or time of day.</strong></p>
+</div>
+</div>
+</section>
+<section id="why-auc-0.928-is-fake" class="level3">
+<h3 class="anchored" data-anchor-id="why-auc-0.928-is-fake">Why AUC 0.928 is Fake</h3>
+<p>When a flight’s ETD is already 30–60 minutes late, the model assumes it “will definitely be delayed” (all samples predicted as delay), resulting in BA = 0.5 (coin flip). This shows the model learned no useful delay patterns — it was merely relaying ETD information.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Conclusion: Gen1 is entirely invalidated</strong></p>
+<ul>
+<li>AUC 0.9280 is inflated — ETD directly encodes arrival delay</li>
+<li>All 9 “do-not-use” slices are byproducts of ETD bins</li>
+<li>Research question shifted from “when not to use the model” to “how to build a truly predictive model under strict conditions”</li>
+</ul>
+</div>
+</div>
+</section>
 </div>
 </div>
 </div>
-</div>
-</div>
+<hr>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
   var hash = window.location.hash.replace('#', '');

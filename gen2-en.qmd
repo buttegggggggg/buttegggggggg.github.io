@@ -1,6 +1,6 @@
 ---
 title: "Gen2: Systematic Feature Engineering"
-subtitle: "AA DFW Hub | 804,728 flights | 12 versions x 9 experiments = 108 experiments"
+subtitle: "AA DFW Hub | 804,728 flights | V1–V12 x 12 versions x 9 experiments = 108 experiments"
 format:
   html:
     toc: true
@@ -19,242 +19,494 @@ format:
 </nav>
 ```
 
+---
+
 ::: {.panel-tabset}
 
-## Overview
+## Overview {#overview}
 
-**Dataset:** AA DFW Hub, 804,728 flights, delay rate 23.3% (arrival >=15min)
+### Core Design Principles
 
-**Temporal split:**
+Gen1's ETD leakage forced a complete restart. Gen2's core question became:
 
-| Set | Period |
-|---|---|
-| Train | 2021-2022 |
-| Validation | 2023 H1 |
-| Test | 2023 H2 |
-
-**Experiment matrix:** 3 feature sets (Clean 11, T-2h 45, T-2h+Enhanced 44) x 3 models (RF, XGBoost, XGB+CatBoost) = 9 experiments per version
-
-**Core principle:** Zero data leakage — all features must be available before T-2h
+> **Under strict pre-departure leakage control, which features truly have predictive power?**
 
 ::: {.callout-tip}
-## Gen2 Core Lesson
-Only genuinely new external information can improve AUC; same-source re-encoding is entirely ineffective.
+**Core Finding (across 12 versions): Only genuinely new external information can improve AUC; same-source re-encoding is universally ineffective.**
 :::
+
+### Dataset
+
+| Item | Value |
+|------|-------|
+| Data Source | American Airlines Snowflake Database |
+| Scope | DFW Hub departures |
+| Total Flights | 804,728 |
+| Delay Rate | 23.3% (arrival delay ≥ 15 min) |
+| Train | 2021–2022 |
+| Val | 2023 H1 |
+| Test | 2023 H2 |
+
+### Experiment Matrix
+
+Each version (V1–V12) was evaluated across 3 feature sets x 3 models = **9 experiments**, totaling **108 experiments** across 12 versions.
+
+| Feature Set | Description |
+|-------------|-------------|
+| Clean | Schedule + calendar only (cleanest baseline) |
+| T-24h | + tail chain + weather + external (available 24h prior) |
+| T-2h | + real-time weather snapshot (2h before departure) |
+| T-2h+Enhanced | + literature-inspired advanced features |
+
+| Model | Description |
+|-------|-------------|
+| Random Forest | Baseline ensemble |
+| XGBoost | Primary GBDT model |
+| XGBoost + CatBoost | Ensemble method |
+
+### 12-Version AUC Summary
+
+| Version | Best AUC | vs Previous | Result |
+|---------|----------|-------------|--------|
+| V1 | 0.7623 | — | Baseline (with ETD, later deprecated) |
+| **V2** | **0.7352** | — | ✅ Removed ETD, literature features |
+| V3 | 0.7357 | +0.0005 | ⚪ Two-stage slightly positive but marginal |
+| V4 | 0.7373 | +0.0021 | ✅ Dest METAR positive |
+| V5 | 0.7355 | −0.0018 | ❌ BTS monthly statistics |
+| **V6** | **0.7420** | +0.0047 | ✅ SHAP selection + Optuna |
+| V7 | 0.7366 | −0.0054 | ❌ Temporal/route features |
+| V8 | 0.7407 | −0.0013 | ❌ SHAP interaction + Focal Loss |
+| **V9** | **0.7440** | +0.0020 | ✅ TAF weather forecasts |
+| V10 | 0.7429 | −0.0011 | ❌ Target Encoding + network weather |
+| V11 | 0.7414 | −0.0026 | ❌ NOTEARS DAG + Stacking |
+| V12 | 0.7423 | −0.0017 | ❌ Delay Absorption meta-feature |
+
+---
 
 ## V1 Baseline {#v1}
 
-**Content:** Schedule features + DFW METAR weather + simple tail chain (previous flight delay)
+### Design
+
+V1 includes three feature categories with strict temporal splitting (but retains ETD for comparison):
+
+- **Schedule + Calendar**: Departure month, day of week, time period, route
+- **Tail Chain**: Previous flight delay (simple one-hop)
+- **DFW METAR Weather**: Real-time weather observation at T-2h
+- **ETD Snapshot** (T-2h+ETD version): Airline operations system's estimated departure time deviation
+
+Literature references: Zhou (2025) AUC=0.898, Berkeley (2025) F1=62.9%, Chen (2019) Tail chain, Qu (2023) CNN-MLSTM
+
+### Results
 
 ::: {.callout-note appearance="minimal"}
-**AUC 0.7167** — far below the target of 0.80
+**V1 Best (T-2h+ETD + XGBoost): AUC = 0.7623, F1 = 0.5031**
 :::
 
-**Problem:** Insufficient feature information; richer feature sources needed.
+| Feature Set | Best AUC |
+|-------------|----------|
+| Clean (schedule + calendar) | 0.6226 |
+| T-24h (+ tail chain + weather) | ~0.70 |
+| T-2h (+ real-time weather) | ~0.72 |
+| T-2h+ETD (+ operations snapshot) | **0.7623** |
 
-**Next step:** V2 adds literature-driven features.
+::: {.callout-warning}
+**V1's ETD Problem**: The high AUC of the T-2h+ETD version comes from ETD deviation directly reflecting delay status. Same fatal leakage as Gen1. ETD removed from V2 onward.
+:::
+
+### Key Conclusions
+
+- XGBoost outperforms RF and DNN across all feature versions
+- Tail chain (previous flight delay) contributed the largest AUC improvement in T-24h version
+- Deep learning (DNN) does not outperform tree-based models on tabular data
+
+---
 
 ## V2 Literature Features {#v2}
 
-**New features:**
+### Design
 
-- **Multi-hop tail chain:** Delay from 2nd and 3rd previous flights, cumulative delay
-- **Airport congestion:** Hourly departure count, 3h average delay, 3h delay rate
-- **Weather severity composite index**
+Removed ETD, added 9 literature-validated original features:
+
+| Feature Group | Features | Description |
+|---------------|----------|-------------|
+| Multi-hop Tail Chain | prev_2/3_flight_delay, tail_chain_cumul_delay | Previous 2, 3 flight cumulative delays |
+| Airport Congestion | dfw_dep_count_1h, dfw_avg_delay_3h, dfw_delay_rate_3h | DFW real-time congestion metrics |
+| Weather Severity | wx_severity | Composite weather severity index |
+| Turnaround Pressure | turnaround_pressure, prev_flight_landed | Turnaround pressure |
+
+### Results
 
 ::: {.callout-tip}
-## Largest single improvement across all 12 versions
-AUC **+0.0185**
+**V2 Best (T-2h+Enhanced + XGBoost): AUC = 0.7352**
+
+T-2h+Enhanced vs T-2h baseline: **+0.0176** (largest single feature engineering improvement across 12 versions)
 :::
 
-This is the only case where "same-source but literature-validated feature engineering" worked. Multi-hop tail chain captured the delay propagation effect.
+| Feature Set | V2 AUC |
+|-------------|--------|
+| Clean | ~0.62 |
+| T-24h | ~0.70 |
+| T-2h | 0.7176 |
+| T-2h+Enhanced | **0.7352** |
 
-**Next step:** Continue exploring new data sources.
+### Why V2 is an Important Milestone
 
-## V3-V5 Internal Recombination {#v3v5}
+This is the only case where "same-source but literature-validated feature engineering" produced a significant improvement. Subsequent versions repeatedly confirmed: **only genuinely new external information can break the AUC ceiling**. V2's 9 features are a borderline case (manually designed features with strong literature support).
 
-### V3: Two-stage prediction
+---
 
-- **Concept:** Stage I XGBoost predicts departure delay (continuous value), Stage II uses the prediction as a feature
+## V3–V5 Same-Source Re-encoding Failures {#v3v5}
+
+### V3: Two-Stage Departure Delay Prediction
+
+**Design**: Stage I uses XGBoost regressor to predict departure delay, Stage II adds the prediction as a feature for arrival delay prediction.
 
 ::: {.callout-warning}
-## Failed
-Stage I R-squared was only **0.18**, severely limiting Stage II quality. Same-source meta-features do not work — first confirmation of this pattern.
+**Stage I R² only 0.05–0.18**, insufficient prediction quality to support Stage II
+
+Stage I root cause: Most departure delay variance comes from events after T-2h (ground delays, ATC directives, sudden weather), which are unknowable at T-2h.
 :::
 
-### V4: Destination METAR weather (11 features)
+V3 best AUC = 0.7357 (T-2h+Enhanced + RF), **only +0.0005 above V2**, practically meaningless.
 
-- Added destination NOAA IEM METAR (observations at T-2h before arrival)
+**First pattern confirmation**: Same-source meta-features are ineffective.
+
+---
+
+### V4: Destination Airport METAR Weather (11 features)
+
+**Design**: Added NOAA IEM ASOS/METAR observations from 277 destination airports (T-2h).
+
+New features: dest_wx_temp_f, wind_speed_kt, wind_gust_kt, visibility_mi, precip_1hr_in, ceiling_ft, has_thunder, has_fog, has_snow, pressure_hpa, wx_severity
+
+::: {.callout-note appearance="minimal"}
+**V4 Best AUC = 0.7373 (T-2h+Enhanced + XGBoost)**, vs V2's 0.7352, **+0.0021**
+:::
+
+Positive but marginal. Reason: T-2h destination weather snapshot is a single time-point observation, unable to capture in-flight weather dynamics.
+
+---
+
+### V5: BTS Monthly Airport Statistics (6 features)
+
+**Design**: Added BTS destination airport monthly statistics (delay rate, avg delay, delay std dev, for both origin/dest).
 
 ::: {.callout-warning}
-## Failed
-Only **+0.0016**. Destination weather snapshot is an information bottleneck — a single time-point weather observation 2 hours before arrival cannot capture in-flight weather changes.
+**V5 Best AUC = 0.7355 (−0.0018 vs V4) — negative result**
+
+Monthly granularity is too coarse for individual flight prediction; dest_airport_encoded already implicitly captures airport-level delay tendencies.
+Coverage: 204/286 destination airports (71.3%), 724,660 flights (90.1%).
 :::
 
-### V5: BTS monthly airport statistics (6 features)
+**Second pattern confirmation**: Coarse-grained same-source information is ineffective.
 
-- Added monthly airport statistics: delay rate, avg delay, delay std dev (origin/dest, 3 each)
-
-::: {.callout-warning}
-## Failed
-Negative result. Monthly granularity is too coarse for individual flight prediction; categorical airport codes already implicitly contain this information.
-:::
+---
 
 ## V6 SHAP + Optuna {#v6}
 
-**Two components:**
+### Design
 
-1. **SHAP backward elimination:** 49 → 35 features, +0.0009 on val
-2. **Optuna 100-trial Bayesian HPO:** Found lr=0.006, depth=10, gamma=4.79
+V6 builds on V4 (then-best AUC=0.7373) with two optimization steps:
+
+**Step 1: SHAP Backward Elimination**
+
+Removed 14 low-contribution features from T-2h+Enhanced, including: dfw_avg_aadt, wx_has_snow, dest_wx_has_snow, prev_flight_landed, dest_wx_has_fog, dest_wx_has_thunder, is_weekend, dest_wx_visibility_mi, dest_wx_wind_gust_kt, prev_flight_delayed_15, wx_has_fog, dest_is_international, wx_visibility_mi, is_holiday
+
+**Step 2: Optuna Bayesian HPO (100 trials)**
 
 ::: {.callout-note appearance="minimal"}
-**Combined improvement +0.0047**
+**Optuna Best Val AUC = 0.7541** | Search time: 2310 seconds (38.5 minutes)
+
+Best hyperparameters (XGBoost): learning_rate = 0.006, max_depth = 10, gamma = 4.79, colsample_bytree = 0.33
 :::
 
-Diminishing marginal returns from optimization. Feature space and model are approaching their ceiling; further HPO yields minimal returns.
-
-## V7-V8 Redundant Features {#v7v8}
-
-### V7: Temporal + Route features (8 new features)
-
-- Added: `dest_delay_rate_7d/30d`, `route_daily_freq`, `aircraft_legs_today`, `dfw_delay_rate_1h/6h`
-
-::: {.callout-warning}
-## Worst across all 12 versions
-**-0.0054**. Tree models with depth=10 already capture these temporal patterns automatically; manual features are entirely redundant.
-:::
-
-### V8: SHAP interaction features + Focal Loss
-
-- 15 SHAP-identified interaction features (e.g., `dep_hour x wx_severity`)
-- Also tested Focal Loss for class imbalance
-
-::: {.callout-warning}
-## Failed
-Both negative. depth=10 already implicitly captures interaction effects; Focal Loss at 23.3% imbalance sacrifices AUC for F1.
-:::
-
-## V9 TAF Forecasts {#v9}
-
-**Added 9 TAF features (IEM source):** forecast wind, gust, visibility, ceiling, precip (DFW + dest)
+### Results
 
 ::: {.callout-tip}
-## First positive result since V2
-**+0.002**
+**V6 Best AUC = 0.7420 (T-2h+Enhanced + XGBoost)**, vs V4's 0.7373, **+0.0047**
 :::
 
-**Key distinction:** TAF is a weather "forecast," not an "observation" — fundamentally different from METAR.
+Literature: Borboudakis & Tsamardinos (arXiv:2410.06815) — SHAP backward elimination; Akiba et al. (2019) Optuna; Bergstra et al. (2011) HPO
 
-**Why it works:** Brings in genuinely new external information — the meteorological forecast system's future predictions, not re-encoding of historical observations.
+**V6 became the baseline for all subsequent versions.**
 
-**Pattern confirmed:** "Only genuinely new external information can break through the AUC ceiling."
+---
 
-## V10-V12 All Negative {#v10v12}
+## V7–V8 Feature Redundancy Failures {#v7v8}
 
-### V10: Target Encoding + Network hub weather proxy
+### V7: Temporal + Route Features (8 new features)
 
-- Target Encoding for high-cardinality features (carrier, airport)
-- Network Weather: Average weather across 9 major hubs as a system proxy
+Added: dest_delay_rate_7d/30d, route_daily_freq, aircraft_legs_today, dfw_delay_rate_1h/6h
 
 ::: {.callout-warning}
-## Failed
-Both negative. TE is redundant for depth=10 XGBoost; hub weather is already covered by DFW local features.
+**V7 Best AUC = 0.7366 (T-2h+Enhanced + XGB+CatBoost)**, vs V6's 0.7420, **−0.0054**
+
+Worst single-version regression across 12 versions.
+
+Root cause: XGBoost with depth=10 already captures these temporal patterns automatically; all 8 new features are redundant. V6's colsample_bytree=0.33 was not re-optimized for new features.
 :::
 
-### V11: NOTEARS DAG + 3-model OOF stacking
+---
 
-- NOTEARS linear DAG for causal feature selection
-- XGB + CatBoost + LightGBM three-model OOF stacking
+### V8: SHAP Interaction Features + Focal Loss
+
+**Two attempts**:
+1. SHAP interaction features (15, e.g., dep_hour × wx_severity)
+2. Focal Loss for class imbalance (positive rate 23.3%)
 
 ::: {.callout-warning}
-## Failed
-Both negative. Linear NOTEARS is unsuitable for binary classification; stacking did not outperform single XGBoost.
+**V8 Best AUC = 0.7407**, both negative
+
+SHAP interactions: depth=10 already implicitly captures interaction effects; manual addition is redundant.
+Focal Loss: At 23.3% imbalance, it trades AUC for F1 (F1 improved to 0.4744, but AUC decreased).
 :::
 
-### V12: Delay-Absorption meta-feature
+**V7 and V8 consecutive negative results confirm: AUC ≈ 0.74 is the current feature space ceiling. Entirely new external information is needed to break through.**
 
-- Replicated Li (2025) AbsorbScore: Stage I CatBoost predicts delay absorption
-- Stage I OOF AUC was only 0.6946
+---
+
+## V9 TAF Weather Forecasts {#v9}
+
+### Design
+
+V9 introduces **TAF (Terminal Aerodrome Forecast)** weather forecast data — fundamentally different from V4 METAR "observations": TAF forecasts "future weather conditions at arrival time."
+
+Data source: Iowa Environmental Mesonet (IEM) public archive, 212 airports (covering 89.9% of destinations)
+
+| Feature | Coverage |
+|---------|----------|
+| taf_dest_wind_kt | 76.8% |
+| taf_dest_gust_kt | 76.8% |
+| taf_dest_visibility_mi | 85.6% |
+| taf_dest_ceiling_ft | 35.6% |
+| taf_dest_has_precip | 85.6% |
+| taf_dfw_wind_kt | 93.3% |
+| taf_dfw_ceiling_ft | 38.9% |
+| taf_dest_ceil_delta | 35.6% |
+| taf_severity | 100.0% |
+
+### Results
+
+::: {.callout-tip}
+**V9 Best AUC = 0.7440 (T-2h+Enhanced + XGBoost)**, vs V6's 0.7420, **+0.0020**
+
+Broke the V7–V8 negative streak.
+:::
+
+### Why TAF Works but METAR is Limited
+
+TAF is a forecast system output of "future weather prediction," reflecting expected weather conditions at the arrival time window even at T-2h prediction time; METAR is only "current weather observation," with limited representativeness for destination weather on long-haul flights (flight time > 2 hours).
+
+**Pattern confirmed again**: Only genuinely new external information (meteorological forecast system output) can break the AUC ceiling.
+
+Literature: Rebollo & Balakrishnan (2014); Kim et al. (2016)
+
+---
+
+## V10–V12 All Negative {#v10v12}
+
+### V10: Target Encoding + Network Weather Proxy
+
+**Target Encoding**: Replace dest_airport, gate, subfleet label encoding with sklearn TargetEncoder(cv=5).
 
 ::: {.callout-warning}
-## Failed
-Negative result. Li (2025)'s AUC=0.898 relied on departure delay leakage; our strict version could not replicate it.
+**Negative reason**: XGBoost depth=10 is already effective enough with label encoding; TE advantages are mainly seen in linear models and shallow trees (Pargent et al. 2022).
 :::
+
+**Network Weather Proxy**: Average weather severity across 9 major Hub airports (ATL, ORD, DEN, LAX, CLT, JFK, SFO, EWR, LAS).
+
+::: {.callout-warning}
+**V10 Best AUC = 0.7429 (−0.0011 vs V9)**
+
+Network proxy reason: Existing DFW congestion features already capture local delay status; remote Hub weather impact on DFW is too weak within the T-2h window.
+:::
+
+---
+
+### V11: NOTEARS DAG + 3-Model OOF Stacking
+
+**NOTEARS DAG**: Use continuous optimization to learn causal graphs, add features from same causal clusters to XGBoost's interaction_constraints.
+
+::: {.callout-warning}
+**Fatal issue: Linear NOTEARS found 0 edges from any feature to delayed_15.**
+
+Markov Blanket is empty; interaction_constraints severely restrict XGBoost's learning ability. XGB_DAG AUC plummeted to 0.6793 in T-2h+Enhanced (vs V9's 0.7440, a 0.065 gap).
+:::
+
+**3-Model OOF Stacking**: XGBoost + CatBoost + LightGBM, logistic regression meta-learner.
+
+::: {.callout-warning}
+**V11 Best AUC = 0.7414 (−0.0026 vs V9)**
+
+Three GBDT models are too correlated; Stacking cannot benefit from complementarity. LightGBM received negative weight in the meta-learner.
+:::
+
+---
+
+### V12: Delay-Absorption Meta-Feature
+
+**Inspiration**: arXiv:2512.08197 (Li 2025, AUC=0.898, but relies on departure delay features)
+
+**Design**: Stage I CatBoost predicts "whether previous delay is absorbed" (absorb_label), Stage II adds absorb_score.
+
+Stage I OOF AUC = **0.6946** (absorption label absorb=1 accounts for 69.5%)
+
+::: {.callout-warning}
+**V12 Best AUC = 0.7423 (−0.0017 vs V9)**
+
+Stage I quality insufficient; 8 input features (turnaround_min, etc.) already exist directly in V9 feature set — Stage I is just nonlinear reorganization, not new information. Li (2025)'s high AUC relies on departure delay features (leakage); our strict version cannot replicate.
+:::
+
+**V9 confirmed as the best model across all 12 versions (AUC = 0.7440).**
+
+---
 
 ## V9c Finalized {#v9c}
 
-**Issue discovered:** V9 tail chain used scheduled turnaround threshold to determine whether the previous flight had arrived, potentially introducing subtle leakage.
+### Issue Discovery
 
-**Fix:** Switched to actual arrival time for determination.
+V9's tail chain uses scheduled turnaround thresholds to determine "whether the previous flight has arrived" — but this judgment has a subtle leakage risk: at prediction time (T-2h), some previous flights haven't actually arrived but are incorrectly marked as arrived.
 
-**Impact scope:**
+### Fix
 
-- T-2h version: Only **1.04%** of flights affected
-- T-24h version: **77.9%** affected, permanently abandoned
+Changed to using **actual arrival time** instead of scheduled time to determine tail chain availability.
+
+| Impact Scope | Proportion |
+|-------------|-----------|
+| T-2h version affected flights | **1.04%** |
+| T-24h version affected flights | 77.9% (→ T-24h version permanently deprecated) |
 
 ::: {.callout-note appearance="minimal"}
-**AUC 0.7418** (-0.0022 vs V9) — This is the Gen2 final result
+**V9c Final AUC = 0.7418** (−0.0022 vs V9, only 1.04% flights affected)
+
+V9c became Gen2's official finalized version, the foundation for all subsequent analyses (Phases 1–4).
 :::
 
-V9c becomes the baseline for all subsequent analyses.
+---
 
-## Phase 1-4 Comprehensive Analysis {#phases}
+### V9d: Right-Censored Tail Chain (Research Use)
+
+V9d further changes tail chain from "previous arrived → use actual delay, not arrived → use 0" to **right-censoring**, using 7 features to encode "known partial information when previous flight hasn't arrived" (overtime minutes, estimated remaining time, etc.), NaN for "unknowable at this time."
+
+::: {.callout-note appearance="minimal"}
+**V9d Temporal AUC = 0.7291** (vs V9c 0.7418, −0.0127)
+
+Random split AUC = **0.7760** (+0.047), the gap reconfirms the importance of temporal splitting.
+:::
+
+V9d is used for Phase 1–4 comprehensive analysis (43 features, including 7 right-censored tail chain features).
+
+---
+
+## Phase 1–4 Comprehensive Analysis {#phases}
 
 ### Phase 1: Literature Leakage Audit
 
-Systematic review of data leakage in 12 papers:
-
-- Only **2/12** used temporal split
-- Only **2/12** had completely clean features
-- **5/12** had severe or fatal leakage
+Systematic review of data leakage across 12 published papers:
 
 ::: {.callout-warning}
-Papers with leakage reported AUC **0.87-0.99**; clean temporal studies reported **0.62-0.74**.
+| Metric | Value |
+|--------|-------|
+| Using temporal split | 2/12 (16.7%) |
+| Completely clean features | 2/12 (16.7%) |
+| Severe or fatal leakage | 5/12 (41.7%) |
+| Leaked papers reported AUC | 0.87–0.99 |
+| Strict temporal studies reported AUC | 0.62–0.74 |
+
+**Conclusion: Our temporal AUC = 0.7291 (V9d) is competitive under methodologically strict conditions.**
 :::
 
-Conclusion: Our AUC 0.7418 is competitive under methodologically rigorous conditions.
+---
 
-### Phase 2: Literature Method Reproduction
+### Phase 2: Literature Method Replication
 
-Reproduced 6 literature methods under the same temporal split conditions:
+Replicated 6 literature methods under identical temporal split + V9d features (bootstrap 95% CI):
 
-| Method | AUC Change |
-|---|---|
-| SMOTE | -0.028 |
-| ADASYN | -0.029 |
-| SelectKBest | -0.023 |
-| FSFS | -0.018 |
-| ATT-BI-LSTM | -0.028 |
-| LightGBM | +0.008 |
-
-Aeolus benchmark: All 4 GBDT models outperformed all 7 DL models.
-
-### Phase 3: SHAP Feature Importance
+| Method | AUC | 95% CI | Δ | Result |
+|--------|-----|--------|---|--------|
+| **XGBoost (V6 Optuna) ★** | **0.7291** | [0.7257, 0.7323] | — | Baseline |
+| SMOTE + XGBoost | 0.7015 | [0.6981, 0.7048] | −0.0276 | ❌ |
+| ADASYN + XGBoost | 0.7003 | [0.6970, 0.7035] | −0.0288 | ❌ |
+| SelectKBest + XGBoost | 0.7062 | [0.7029, 0.7094] | −0.0229 | ❌ |
+| FSFS + XGBoost | 0.7108 | [0.7075, 0.7140] | −0.0183 | ❌ |
+| **LightGBM** | **0.7367** | **[0.7334, 0.7398]** | **+0.0076** | ✅ |
+| ATT-BI-LSTM | 0.7014 | [0.6980, 0.7047] | −0.0277 | ❌ |
 
 ::: {.callout-tip}
-## Our contributions account for 42.8% of total SHAP
-
-- **Tail Chain:** 22.7%
-- **TAF Forecasts:** 12.4%
-- **Dest METAR:** 7.7%
+**LightGBM significantly outperforms XGBoost (CIs non-overlapping)**, but GBDT overall substantially outperforms deep learning, supporting the Aeolus benchmark (NeurIPS 2025) conclusion.
 :::
+
+SMOTE/ADASYN failure reason: XGBoost scale_pos_weight is already sufficient; oversampling introduces synthetic noise in feature spaces with NaN.
+
+---
+
+### Phase 3: SHAP Feature Importance Analysis (V9d, 43 features)
+
+**Top 10 Individual Features (mean |SHAP|):**
+
+| Rank | Feature | |SHAP| | Source |
+|------|---------|--------|--------|
+| 1 | prev_arr_delay_known | 0.0592 | Right-censored tail chain **[Our contribution]** |
+| 2 | dep_month | 0.0536 | Schedule (BTS) |
+| 3 | subfleet_encoded | 0.0487 | Aircraft/Infrastructure |
+| 4 | dep_hour | 0.0383 | Schedule (BTS) |
+| 5 | prev_turnaround_avail | 0.0333 | Right-censored tail chain **[Our contribution]** |
+| 6 | dfw_dep_count_1h | 0.0301 | Aircraft/Infrastructure |
+| 7 | taf_dfw_ceiling_ft | 0.0291 | TAF Forecast **[New]** |
+| 8 | is_holiday_period | 0.0235 | Schedule (BTS) |
+| 9 | wx_pressure_hpa | 0.0219 | DFW METAR |
+| 10 | prev2_arr_delay_known | 0.0213 | Right-censored tail chain **[Our contribution]** |
+
+**By Data Source Group (SHAP Percentage):**
+
+::: {.callout-tip}
+| Source | Total SHAP | % | Features | Per-Feature Avg |
+|--------|-----------|---|----------|----------------|
+| Schedule (BTS) | 0.1283 | 22.2% | 7 | 0.0183 |
+| Aircraft/Infrastructure | 0.1184 | 20.5% | 6 | 0.0197 |
+| DFW METAR (NOAA) | 0.0832 | 14.4% | 8 | 0.0104 |
+| **Right-censored tail chain [Ours]** | **0.1312** | **22.7%** | **7** | **0.0187** |
+| **TAF Forecast [New]** | **0.0714** | **12.4%** | **9** | **0.0079** |
+| **Dest METAR [New]** | **0.0447** | **7.7%** | **6** | **0.0075** |
+
+**Our three contributions combined: 42.8% (22.7% + 12.4% + 7.7%)**
+:::
+
+---
 
 ### Phase 4: Ablation Study
 
-**Incremental addition:**
+**Incremental Addition:**
 
-| Feature Group | AUC | Delta |
-|---|---|---|
-| Schedule only | 0.6226 | — |
-| + Aircraft/Infra | 0.6710 | +0.048 |
-| + DFW METAR | 0.6928 | +0.022 |
-| + Dest METAR | 0.7048 | +0.012 |
-| + TAF | 0.6969 | -0.008 |
-| + Tail Chain | 0.7279 | +0.031 |
+| Step | Added Source | Features | AUC | Δ |
+|------|------------|----------|-----|---|
+| 1 | Schedule (BTS) | 7 | 0.6226 | — |
+| 2 | + Aircraft/Infrastructure | 13 | 0.6710 | +0.0484 |
+| 3 | + DFW METAR | 21 | 0.6928 | +0.0218 |
+| 4 | + Dest METAR [New] | 27 | 0.7048 | +0.0120 |
+| 5 | + TAF Forecast [New] | 36 | 0.6969 | **−0.0079** |
+| 6 | + Right-censored tail chain [Ours] | 43 | 0.7279 | **+0.0311** |
 
-**Leave-one-out:** Removing Tail Chain **-0.031** (most critical); removing Aircraft/Infra **-0.023**.
+**Leave-One-Source-Out:**
+
+::: {.callout-tip}
+| Removed Source | AUC | Δ | Impact Level |
+|---------------|-----|---|-------------|
+| Full model | 0.7279 | — | — |
+| − Right-censored tail chain | 0.6969 | **−0.0311** | **Most critical** |
+| − Aircraft/Infrastructure | 0.7053 | −0.0226 | Critical |
+| − Schedule | 0.7175 | −0.0104 | Moderate |
+| − DFW METAR | 0.7255 | −0.0024 | Marginal |
+| − Dest METAR | **0.7380** | **+0.0101** | Removal improves performance |
+| − TAF Forecast | 0.7285 | +0.0006 | Removal makes almost no difference |
+
+**Tail chain is the most critical single source (removal −0.031) — this is our original contribution.**
+Dest METAR and TAF interfere when combined (each effective alone, but redundant together).
+:::
 
 :::
+
+---
 
 ```{=html}
 <script>
