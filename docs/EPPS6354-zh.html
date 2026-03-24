@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>資訊管理 – Tzu-Yuan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Tzu-Yuan</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bs-of-am" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">BS of AM</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-bs-of-am">    
+        <li>
+    <a class="dropdown-item" href="./AM.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./AM_thesis.html">
+ <span class="dropdown-text">Quantum Bayesian Inference</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of DSIC</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-dsic">    
+        <li>
+    <a class="dropdown-item" href="./DSIC.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./ML.html#assignments">
+ <span class="dropdown-text">ML &amp; Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DL.html#assignments">
+ <span class="dropdown-text">Deep Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./BigData.html#assignments">
+ <span class="dropdown-text">Big Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DataAnalysis.html#assignments">
+ <span class="dropdown-text">Data Analysis Math</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-sdar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of SDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-sdar">    
+        <li>
+    <a class="dropdown-item" href="./SDAR.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GISPY.html#assignments">
+ <span class="dropdown-text">GIS &amp; Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6356.html#assignments">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6354.html">
+ <span class="dropdown-text">Information Management</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#作業" id="toc-作業" class="nav-link active" data-scroll-target="#作業">作業</a>
+  <ul>
+  <li><a href="#作業-1" id="toc-作業-1" class="nav-link" data-scroll-target="#作業-1">作業 1</a>
+  <ul>
+  <li><a href="#問題-1" id="toc-問題-1" class="nav-link" data-scroll-target="#問題-1">問題 1</a></li>
+  <li><a href="#問題-2" id="toc-問題-2" class="nav-link" data-scroll-target="#問題-2">問題 2</a>
+  <ul>
+  <li><a href="#衣櫥管理資料庫" id="toc-衣櫥管理資料庫" class="nav-link" data-scroll-target="#衣櫥管理資料庫">衣櫥管理資料庫</a>
+  <ul class="collapse">
+  <li><a href="#i.-目的" id="toc-i.-目的" class="nav-link" data-scroll-target="#i.-目的">i. 目的</a></li>
+  <li><a href="#ii.-功能" id="toc-ii.-功能" class="nav-link" data-scroll-target="#ii.-功能">ii. 功能</a></li>
+  <li><a href="#iii.-簡易介面設計" id="toc-iii.-簡易介面設計" class="nav-link" data-scroll-target="#iii.-簡易介面設計">iii. 簡易介面設計</a></li>
+  </ul></li>
+  <li><a href="#d-列印農場訂單與排程資料庫" id="toc-d-列印農場訂單與排程資料庫" class="nav-link" data-scroll-target="#d-列印農場訂單與排程資料庫">3D 列印農場訂單與排程資料庫</a>
+  <ul class="collapse">
+  <li><a href="#i.-目的-1" id="toc-i.-目的-1" class="nav-link" data-scroll-target="#i.-目的-1">i. 目的</a></li>
+  <li><a href="#ii.-功能-1" id="toc-ii.-功能-1" class="nav-link" data-scroll-target="#ii.-功能-1">ii. 功能</a></li>
+  <li><a href="#iii.-簡易介面設計-1" id="toc-iii.-簡易介面設計-1" class="nav-link" data-scroll-target="#iii.-簡易介面設計-1">iii. 簡易介面設計</a></li>
+  </ul></li>
+  <li><a href="#農場灌溉管理資料庫" id="toc-農場灌溉管理資料庫" class="nav-link" data-scroll-target="#農場灌溉管理資料庫">農場灌溉管理資料庫</a>
+  <ul class="collapse">
+  <li><a href="#i.-目的-2" id="toc-i.-目的-2" class="nav-link" data-scroll-target="#i.-目的-2">i. 目的</a></li>
+  <li><a href="#ii.-功能-2" id="toc-ii.-功能-2" class="nav-link" data-scroll-target="#ii.-功能-2">ii. 功能</a></li>
+  <li><a href="#iii.-簡易介面設計-2" id="toc-iii.-簡易介面設計-2" class="nav-link" data-scroll-target="#iii.-簡易介面設計-2">iii. 簡易介面設計</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#問題-5" id="toc-問題-5" class="nav-link" data-scroll-target="#問題-5">問題 5</a></li>
+  <li><a href="#問題-6" id="toc-問題-6" class="nav-link" data-scroll-target="#問題-6">問題 6</a></li>
+  </ul></li>
+  <li><a href="#作業-2" id="toc-作業-2" class="nav-link" data-scroll-target="#作業-2">作業 2</a>
+  <ul>
+  <li><a href="#問題-1-1" id="toc-問題-1-1" class="nav-link" data-scroll-target="#問題-1-1">問題 1</a></li>
+  <li><a href="#問題-2-3" id="toc-問題-2-3" class="nav-link" data-scroll-target="#問題-2-3">問題 2 &amp; 3</a></li>
+  <li><a href="#問題-4" id="toc-問題-4" class="nav-link" data-scroll-target="#問題-4">問題 4</a></li>
+  </ul></li>
+  <li><a href="#作業-3" id="toc-作業-3" class="nav-link" data-scroll-target="#作業-3">作業 3</a>
+  <ul>
+  <li><a href="#問題-1-2" id="toc-問題-1-2" class="nav-link" data-scroll-target="#問題-1-2">問題 1</a></li>
+  <li><a href="#問題-2-1" id="toc-問題-2-1" class="nav-link" data-scroll-target="#問題-2-1">問題 2</a></li>
+  <li><a href="#問題-3" id="toc-問題-3" class="nav-link" data-scroll-target="#問題-3">問題 3</a></li>
+  <li><a href="#問題-4-1" id="toc-問題-4-1" class="nav-link" data-scroll-target="#問題-4-1">問題 4</a></li>
+  </ul></li>
+  <li><a href="#作業-6" id="toc-作業-6" class="nav-link" data-scroll-target="#作業-6">作業 6</a>
+  <ul>
+  <li><a href="#問題-1-使用-json-和-xml-的網站" id="toc-問題-1-使用-json-和-xml-的網站" class="nav-link" data-scroll-target="#問題-1-使用-json-和-xml-的網站">問題 1 — 使用 JSON 和 XML 的網站</a>
+  <ul>
+  <li><a href="#a-json-範例-github-api-使用者資料" id="toc-a-json-範例-github-api-使用者資料" class="nav-link" data-scroll-target="#a-json-範例-github-api-使用者資料">a) JSON 範例 — GitHub API 使用者資料</a></li>
+  <li><a href="#b-xml-範例-apple-網站地圖" id="toc-b-xml-範例-apple-網站地圖" class="nav-link" data-scroll-target="#b-xml-範例-apple-網站地圖">b) XML 範例 — Apple 網站地圖</a></li>
+  <li><a href="#快速比較" id="toc-快速比較" class="nav-link" data-scroll-target="#快速比較">快速比較</a></li>
+  </ul></li>
+  <li><a href="#問題-2-sql-練習" id="toc-問題-2-sql-練習" class="nav-link" data-scroll-target="#問題-2-sql-練習">問題 2 — SQL 練習</a>
+  <ul>
+  <li><a href="#i.-沒有指導教授的學生左外連接" id="toc-i.-沒有指導教授的學生左外連接" class="nav-link" data-scroll-target="#i.-沒有指導教授的學生左外連接">i. 沒有指導教授的學生（左外連接）</a></li>
+  <li><a href="#ii.-教授其系所所有課程的教師" id="toc-ii.-教授其系所所有課程的教師" class="nav-link" data-scroll-target="#ii.-教授其系所所有課程的教師">ii. 教授其系所所有課程的教師</a></li>
+  </ul></li>
+  <li><a href="#問題-3-r-與-postgresql" id="toc-問題-3-r-與-postgresql" class="nav-link" data-scroll-target="#問題-3-r-與-postgresql">問題 3 — R 與 PostgreSQL</a>
+  <ul>
+  <li><a href="#a-匯入完整資料庫" id="toc-a-匯入完整資料庫" class="nav-link" data-scroll-target="#a-匯入完整資料庫">a) 匯入完整資料庫</a></li>
+  <li><a href="#b-執行-rpostgres01.r" id="toc-b-執行-rpostgres01.r" class="nav-link" data-scroll-target="#b-執行-rpostgres01.r">b) 執行 RPostgres01.R</a></li>
+  <li><a href="#c-結果" id="toc-c-結果" class="nav-link" data-scroll-target="#c-結果">c) 結果</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#期末專案" id="toc-期末專案" class="nav-link" data-scroll-target="#期末專案">期末專案</a>
+  <ul>
+  <li><a href="#天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統" id="toc-天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統" class="nav-link" data-scroll-target="#天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統">天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統</a>
+  <ul>
+  <li><a href="#專案概述" id="toc-專案概述" class="nav-link" data-scroll-target="#專案概述">專案概述</a></li>
+  <li><a href="#資料庫資料表" id="toc-資料庫資料表" class="nav-link" data-scroll-target="#資料庫資料表">資料庫資料表</a>
+  <ul>
+  <li><a href="#參照資料表" id="toc-參照資料表" class="nav-link" data-scroll-target="#參照資料表">參照資料表</a></li>
+  <li><a href="#風格與行事曆" id="toc-風格與行事曆" class="nav-link" data-scroll-target="#風格與行事曆">風格與行事曆</a></li>
+  <li><a href="#衣物項目與標籤" id="toc-衣物項目與標籤" class="nav-link" data-scroll-target="#衣物項目與標籤">衣物項目與標籤</a></li>
+  <li><a href="#天氣" id="toc-天氣" class="nav-link" data-scroll-target="#天氣">天氣</a></li>
+  <li><a href="#穿搭" id="toc-穿搭" class="nav-link" data-scroll-target="#穿搭">穿搭</a></li>
+  <li><a href="#評分規則" id="toc-評分規則" class="nav-link" data-scroll-target="#評分規則">評分規則</a></li>
+  <li><a href="#穿著追蹤與洗衣" id="toc-穿著追蹤與洗衣" class="nav-link" data-scroll-target="#穿著追蹤與洗衣">穿著追蹤與洗衣</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">資訊管理</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="作業" class="level2">
+<h2 class="anchored" data-anchor-id="作業">作業</h2>
+<section id="作業-1" class="level3">
+<h3 class="anchored" data-anchor-id="作業-1">作業 1</h3>
+<section id="問題-1" class="level4">
+<h4 class="anchored" data-anchor-id="問題-1">問題 1</h4>
+<p><strong>請列舉並描述三個你使用過的、透過資料庫系統來儲存與存取持久性資料的應用程式。</strong>（例如：航空公司、線上交易、銀行、大學系統）</p>
+<p>第一個例子是電子遊戲。在遊戲中，玩家的等級和經驗值，以及獲得的道具和裝備都會被記錄下來，這樣玩家下次登入時仍然可以存取這些資料。另一個例子是線上購物。例如 Amazon 會記錄每件商品的價格、所屬目錄、是否符合免運資格，以及是否有庫存等資訊。第三個例子是串流平台，如 Netflix，會記錄使用者的地區和訂閱等級。所有這些資料都被持久性地儲存，並可在之後隨時存取。</p>
+</section>
+<section id="問題-2" class="level4">
+<h4 class="anchored" data-anchor-id="問題-2">問題 2</h4>
+<p><strong>請針對領域專案提出三個應用程式</strong>（例如：犯罪學、經濟學、腦科學等）。請確保包含：i. 目的 ii. 功能 iii. 簡易介面設計</p>
+<section id="衣櫥管理資料庫" class="level5">
+<h5 class="anchored" data-anchor-id="衣櫥管理資料庫">衣櫥管理資料庫</h5>
+<section id="i.-目的" class="level6">
+<h6 class="anchored" data-anchor-id="i.-目的">i. 目的</h6>
+<p>這個衣櫥管理資料庫的主要目的是減少出門前選擇穿搭所花費的時間。</p>
+<p>對許多人來說，每日穿搭的困難不在於缺少衣物，而在於需要同時考慮顏色、風格、場合與整體搭配，這導致了很高的決策成本。</p>
+<p>因此，我將衣櫥建模為關聯式資料庫，不僅記錄個別衣物，還描述衣物之間的關係，讓穿搭選擇能以系統化的方式處理。</p>
+<p>透過結構化衣物資料，此系統旨在將「每天重新思考要穿什麼」轉變為「從資料庫中快速選擇最佳組合」。</p>
+</section>
+<section id="ii.-功能" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-功能">ii. 功能</h6>
+<p>在此系統中，每件衣物被視為一個資料實體，並以一組屬性來描述，例如：</p>
+<ul>
+<li>類別（T恤、牛仔褲、外套、鞋子）</li>
+<li>顏色（包含各顏色的比例）</li>
+<li>風格（簡約風、正式、復古、運動等）</li>
+<li>材質（牛仔、亞麻、棉質）</li>
+</ul>
+<p>這些屬性被正規化為多個資料表，並使用多對多關係來表示一件衣物可以屬於多種風格或適合不同場合。</p>
+<p>此資料庫的核心功能不僅在於儲存衣物，更在於描述衣物之間的搭配性。</p>
+<p>系統使用搭配規則來定義：</p>
+<ul>
+<li>視覺美學限制，例如單套穿搭不超過三種顏色，並限制風格標籤數量以維持整體一致性</li>
+<li>氣候適應性，根據保暖相關變數評估組合，確保上下半身的保暖度平衡，且隨溫度降低偏好更高的整體保暖度</li>
+</ul>
+<p>當使用者選擇特定衣物（例如一件粉紅色 T 恤）時，系統可以根據資料庫中的關係和規則，立即推薦其他高度搭配的衣物（如淺藍色牛仔褲和白色運動鞋），並按搭配分數排列這些組合，幫助使用者更有效率地做出決策。</p>
+<p>此外，隨著資料累積，系統可以分析衣櫥的整體結構，例如：</p>
+<ul>
+<li>某些風格或衣物類別是否欠缺</li>
+<li>顏色或衣物類型是否過度集中</li>
+<li>新購買的衣物是否與現有衣物功能重疊</li>
+<li>哪些舊衣物長期未使用，可考慮淘汰</li>
+</ul>
+<p>這使得衣櫥不僅僅是一個物品清單，而是一個可以查詢、分析和優化的系統，並可延伸至穿搭推薦和購買決策支援等日常生活應用。</p>
+<p>此問題特別適合使用關聯式資料庫，因為穿搭選擇本質上涉及結構化資料和多對多關係（如衣物、風格和搭配規則），這些可以透過關聯式查詢進行高效的組合與分析。</p>
+</section>
+<section id="iii.-簡易介面設計" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-簡易介面設計">iii. 簡易介面設計</h6>
+<p>使用者進入系統時，首頁顯示衣櫥中所有衣物的表格視圖，包含類別、顏色、風格、材質和季節性等基本資訊。介面支援多選功能。</p>
+<p>使用者可以選擇一件或多件計畫穿著的衣物，並提交選擇以產生穿搭結果。</p>
+<p>根據所選衣物和資料庫中儲存的搭配規則，系統會產生多個候選穿搭。</p>
+<p>穿搭結果頁面提供不同的排序選項，例如按舒適度分數、美觀分數或氣候適合度分數排序。</p>
+<p>每套穿搭都顯示對應的數值分數，讓使用者可以快速比較選項並選擇最合適的組合，無需反覆試穿或過度思考。</p>
+<p>介面支援快速決策：選擇衣物 → 產生穿搭 → 按分數排序 → 挑選最佳搭配。</p>
+</section>
+</section>
+<section id="d-列印農場訂單與排程資料庫" class="level5">
+<h5 class="anchored" data-anchor-id="d-列印農場訂單與排程資料庫">3D 列印農場訂單與排程資料庫</h5>
+<section id="i.-目的-1" class="level6">
+<h6 class="anchored" data-anchor-id="i.-目的-1">i. 目的</h6>
+<p>此 3D 列印農場資料庫的目的是將整個工作流程系統化——從客戶下單到自動估算、機器排程和進度追蹤——使農場能在訂單量增長時高效運作。目標是縮短交貨時間、減少人工排程錯誤、提高機器利用率並最大化收益。</p>
+<p>在實務中，3D 列印訂單差異很大（模型大小、材料、解析度、多色需求，以及後處理如上色等）。如果定價和排程依賴人工判斷，很容易低估時間/成本、分配錯誤的機器，或在訂單佇列中造成瓶頸。因此，此系統使用關聯式資料庫以結構化方式儲存訂單、機器能力、材料用量和排程狀態，透過規則和查詢實現快速且一致的決策。</p>
+</section>
+<section id="ii.-功能-1" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-功能-1">ii. 功能</h6>
+<p><strong>訂單接收與需求標記</strong></p>
+<p>當客戶提交訂單時，系統將其儲存為具有結構化屬性的訂單記錄，例如：</p>
+<ul>
+<li>模型大小與體積（包圍盒 / 體積）</li>
+<li>列印類型（FDM / SLA）</li>
+<li>解析度設定（層高 / 解析度）</li>
+<li>多色需求</li>
+<li>材料類型</li>
+<li>後處理需求（例如上色/打磨）</li>
+<li>其他客製化需求（以標籤儲存）</li>
+</ul>
+<p>這些欄位可正規化為多個資料表，使用多對多關係來表示一張訂單可以有多個需求標籤。</p>
+<p><strong>逐機估算</strong></p>
+<p>關鍵不僅在於計算訂單的整體價格，而是估算同一訂單在不同機器上的表現，因為時間、成本和完成時間可能因機器而異。這有助於更好的機器分配和排程決策。</p>
+<p>對於每台候選機器，系統套用定價規則或估算模型進行逐機估算，包括：</p>
+<ul>
+<li>預估列印時間</li>
+<li>預估材料用量</li>
+<li>機器專屬的預估成本與報價</li>
+<li>預估完成時間（考慮當前工作負載）</li>
+</ul>
+<p>系統儲存這些「訂單 × 機器」的估算結果，以便使用不同目標函數進行查詢和排名，例如最低成本、最早完成或在期限內最穩定的選項。</p>
+<p><strong>訂單佇列與狀態追蹤</strong></p>
+<p>所有訂單自動加入訂單佇列，每張訂單維護清楚的狀態，例如：</p>
+<ul>
+<li>pending（待處理）</li>
+<li>queued（已排入佇列）</li>
+<li>printing（列印中）</li>
+<li>post-processing（後處理中）</li>
+<li>completed（已完成）</li>
+<li>failed（失敗）</li>
+</ul>
+<p>管理者可以查詢：</p>
+<ul>
+<li>目前佇列中有什麼及其優先順序</li>
+<li>哪些訂單正在列印 vs.&nbsp;等待機器</li>
+<li>哪些失敗的訂單需要重印或人工介入</li>
+</ul>
+<p><strong>機器能力建模與分配建議</strong></p>
+<p>資料庫儲存每台機器的能力和限制，例如： - 機器類型：多色 / 單色 / SLA / FDM - 最大建構體積 - 支援的材料 - 速度/品質特性 - 當前工作負載與可用性</p>
+<p>當新訂單到達時，系統先進行限制過濾（例如大小、材料、多色需求）以識別可行的機器，然後使用逐機估算產生推薦分配，例如：</p>
+<ul>
+<li>最早完成時間</li>
+<li>最低預估成本</li>
+<li>平衡選項（期限 + 穩定性）</li>
+</ul>
+<p>這將排程轉變為決策支援流程，而非人工猜測。</p>
+</section>
+<section id="iii.-簡易介面設計-1" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-簡易介面設計-1">iii. 簡易介面設計</h6>
+<p>在客戶端，系統提供客戶訂單頁面，使用者可上傳 3D 模型或指定列印需求，如大小、材料、解析度、多色選項和後處理需求。根據這些資訊，系統自動回傳預估價格和預估交貨時間。</p>
+<p>在管理端，系統提供訂單儀表板，顯示當前訂單佇列和訂單狀態。管理者可按期限、優先順序或處理狀態排序或篩選訂單，以更有效率地管理工作流程。</p>
+<p>系統還包含機器儀表板，列出所有可用機器及其機器類型、最大建構體積、支援的材料、當前工作負載和預估可用性。這讓操作人員可以快速了解機器容量和限制。</p>
+<p>當選擇一張訂單時，排程視圖呈現可完成該訂單的候選機器清單。對於每台候選機器，系統顯示預估列印時間、預估材料用量、機器專屬成本與報價，以及預估完成時間。介面支援一鍵排序選項，例如最快、最便宜或最穩定，以協助管理者做出分配決策。</p>
+<p>介面支援高效操作：提交訂單 → 逐機估算 → 排入佇列 → 推薦機器 → 排程與追蹤進度。</p>
+</section>
+</section>
+<section id="農場灌溉管理資料庫" class="level5">
+<h5 class="anchored" data-anchor-id="農場灌溉管理資料庫">農場灌溉管理資料庫</h5>
+<section id="i.-目的-2" class="level6">
+<h6 class="anchored" data-anchor-id="i.-目的-2">i. 目的</h6>
+<p>此系統的目的是使用關聯式資料庫管理農場的核心資訊——如田地、作物類型、生長階段和灌溉設備。</p>
+<p>同時，系統透過天氣預報服務提供的 API 擷取並儲存天氣資料，並結合這些資訊與一組灌溉規則，自動產生每日灌溉排程。</p>
+<p>目標是降低人工決策成本，同時提高用水效率和作物管理的一致性。</p>
+</section>
+<section id="ii.-功能-2" class="level6">
+<h6 class="anchored" data-anchor-id="ii.-功能-2">ii. 功能</h6>
+<p>在此系統中，資料庫不僅用於資料儲存。其核心功能是整合農場內部資訊與外部天氣資料，並根據預定義的規則自動產生灌溉決策。</p>
+<p><strong>核心資料管理</strong></p>
+<p>系統使用關聯式架構管理農場的主要實體，包括：</p>
+<ul>
+<li>田地：田地 ID、位置、面積，以及目前種植的作物</li>
+<li>作物：作物類型及其基本用水需求</li>
+<li>生長階段：如發芽、生長、開花和結果等階段，每個階段有不同的用水需求</li>
+<li>灌溉設備：設備類型（如滴灌、噴灌）、流量或效率係數，以及可用狀態</li>
+</ul>
+<p>這些實體透過關係連接。例如，每塊田地關聯到特定作物和當前生長階段，並可分配可用的灌溉設備。</p>
+<p><strong>天氣資料整合</strong></p>
+<p>系統透過外部天氣預報 API 擷取天氣資訊，例如：</p>
+<ul>
+<li>預測降雨量</li>
+<li>降水機率</li>
+<li>溫度範圍</li>
+</ul>
+<p>此天氣資料儲存在資料庫中，作為每日灌溉決策的重要輸入，無需使用者手動輸入。</p>
+<p><strong>灌溉規則與排程產生</strong></p>
+<p>系統維護一組灌溉規則，描述不同條件下的灌溉需求，例如：</p>
+<ul>
+<li>作物類型 × 生長階段 → 建議基準灌溉量</li>
+<li>若預測降雨量超過某一門檻 → 自動減少或取消當日灌溉</li>
+<li>灌溉設備效率差異 → 調整實際灌溉時間</li>
+</ul>
+<p>當每日排程流程執行時，系統結合：</p>
+<ul>
+<li>每塊田地的作物類型和生長階段</li>
+<li>當日天氣預報</li>
+<li>灌溉設備的可用性和效率</li>
+</ul>
+<p>根據這些資訊，系統自動產生每日灌溉排程，指示每塊田地是否需要灌溉以及建議的用水量或灌溉時間。</p>
+</section>
+<section id="iii.-簡易介面設計-2" class="level6">
+<h6 class="anchored" data-anchor-id="iii.-簡易介面設計-2">iii. 簡易介面設計</h6>
+<p>使用者進入系統時，首頁顯示農場所有田地的表格視圖，包含當前作物類型、生長階段，以及系統當日的灌溉建議。</p>
+<p>使用者可以透過單一操作產生每日灌溉排程。根據田地資訊、天氣預報和灌溉規則，系統列出哪些田地需要灌溉，並提供建議的用水量或灌溉時間。</p>
+<p>排程以簡單的清單格式呈現，讓使用者可以快速檢閱並執行灌溉任務。完成後，使用者可標記灌溉狀態以供記錄和日後參考。</p>
+</section>
+</section>
+</section>
+<section id="問題-5" class="level4">
+<h4 class="anchored" data-anchor-id="問題-5">問題 5</h4>
+<p><strong>當前資料庫系統無法做到的事情有哪些？</strong></p>
+<p>當前資料庫系統無法理解資料背後的語義。因此，在更複雜的應用中，它們通常依賴人工定義的規則或持續調整的權重來產生合理的輸出。此外，資料庫在處理跨情境決策方面能力有限，即需要同時平衡多個相互競爭的目標。</p>
+<p>例如，在衣櫥管理資料庫中，系統可以根據結構化標準（如色彩組合、風格標籤、材質屬性和天氣條件）評估穿搭。它可以為美觀度、舒適度和氣候適合度等因素評分，並產生多個符合預定義規則的候選穿搭。然而，資料庫無法判斷哪套穿搭在視覺吸引力、舒適度和天氣適合度之間達到最佳平衡。</p>
+<p>這個限制源於「好看」或「舒適」等偏好本質上是主觀且依情境而定的，不存在適用於所有使用者或所有情境的單一最佳解。因此，資料庫的角色不是做出最終決策，而是透過過濾不可行的選項、結構化相關資訊，以及呈現具有透明評估指標的可比較替代方案來支援決策。</p>
+<p>最終，最終選擇必須由使用者做出，他們可以在特定情境中決定優先考慮舒適度、美觀度還是氣候適合度。這突顯了當前資料庫系統的根本限制：它們在決策支援方面很有效，但無法在複雜的、價值驅動的決策中取代人類判斷。</p>
+</section>
+<section id="問題-6" class="level4">
+<h4 class="anchored" data-anchor-id="問題-6">問題 6</h4>
+<p><strong>描述至少三個可能用於儲存社交網路/社群媒體系統（如 Twitter 或 Reddit）資訊的資料表。</strong></p>
+<p>社交網路或社群媒體系統（如 Twitter 或 Reddit）至少可能由以下三個核心資料表支撐：</p>
+<p><strong>1. 使用者資料表（User Table）</strong></p>
+<p>使用者資料表儲存使用者的基本資訊，例如： - user_id - username - 帳號建立時間 - 個人檔案元資料（如自我介紹或狀態）</p>
+<p>此資料表代表使用者的身分，並作為系統中其他資料表的參照。</p>
+<p><strong>2. 貼文資料表（Post Table）</strong></p>
+<p>貼文資料表儲存使用者建立的內容，例如：</p>
+<ul>
+<li>post_id</li>
+<li>author_id（外鍵，參照 User 資料表）</li>
+<li>content</li>
+<li>timestamp</li>
+</ul>
+<p>每篇貼文關聯到特定使用者，形成使用者與貼文之間的一對多關係。</p>
+<p><strong>3. 留言資料表（Comment Table）</strong></p>
+<p>留言資料表儲存對貼文（或其他留言）的回覆，例如：</p>
+<ul>
+<li>comment_id</li>
+<li>post_id（外鍵，參照 Post 資料表）</li>
+<li>author_id</li>
+<li>content</li>
+<li>timestamp</li>
+</ul>
+<p>此資料表支援串連式討論，允許多位使用者參與同一貼文下的對話。</p>
+<p>這些資料表被分開以支援關聯式查詢、維護資料一致性，並實現使用者、貼文和討論串的高效檢索。</p>
+</section>
+</section>
+<section id="作業-2" class="level3">
+<h3 class="anchored" data-anchor-id="作業-2">作業 2</h3>
+<section id="問題-1-1" class="level4">
+<h4 class="anchored" data-anchor-id="問題-1-1">問題 1</h4>
+<p><strong>關聯式綱要（relation schema）、關聯（relation）和實例（instance）之間有什麼區別？請以大學資料庫為例說明。</strong></p>
+<ul>
+<li><p><strong>關聯式綱要（Relation Schema）</strong> = 關聯的邏輯結構：一組屬性名稱及其定義域的列表。它不隨時間改變。<br>
+<em>範例：</em> <code>instructor(ID, name, dept_name, salary)</code></p></li>
+<li><p><strong>關聯（Relation）</strong> = 非正式地用來同時指綱要和實例。<br>
+<em>範例：</em> 「department 關聯」可以指綱要 <code>department(dept_name, building, budget)</code> 或其目前持有的實際資料。</p></li>
+<li><p><strong>實例（Instance）</strong> = 關聯在特定時間點的實際資料快照。它隨著元組的插入、更新或刪除而改變。<br>
+<em>範例：</em> 圖 2.5 中的 department 關聯實例包含 7 個元組。如果大學新增一個「Data Science」學系，實例會增長到 8 個元組，但綱要仍為 <code>department(dept_name, building, budget)</code>。</p></li>
+</ul>
+</section>
+<section id="問題-2-3" class="level4">
+<h4 class="anchored" data-anchor-id="問題-2-3">問題 2 &amp; 3</h4>
+<p><strong>請繪製以下銀行資料庫的綱要圖。標示主鍵（底線）和外鍵。</strong></p>
+<p>此銀行資料庫由以下關聯組成：</p>
+<ul>
+<li><code>branch(branch_name, branch_city, assets)</code></li>
+<li><code>customer(ID, customer_name, customer_street, customer_city)</code></li>
+<li><code>loan(loan_number, branch_name, amount)</code></li>
+<li><code>borrower(ID, loan_number)</code></li>
+<li><code>account(account_number, branch_name, balance)</code></li>
+<li><code>depositor(ID, account_number)</code></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../imhw2pic.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>銀行資料庫綱要圖</figcaption>
+</figure>
+</div>
+</section>
+<section id="問題-4" class="level4">
+<h4 class="anchored" data-anchor-id="問題-4">問題 4</h4>
+<p><strong>描述人工智慧或 LLM 可以如何協助管理或查詢資料庫的兩種方式。在回答中，簡要說明每種方式相比傳統（非 AI）方法如何提升效率或準確度。（3-5 句）</strong></p>
+<ol type="1">
+<li><p><strong>自然語言轉 SQL（查詢）：</strong> LLM 可以將自然語言問題直接翻譯為可執行的 SQL 查詢，降低非技術使用者的門檻，並減少手寫 SQL 時的語法錯誤。</p></li>
+<li><p><strong>AI 驅動的資料庫調優（管理）：</strong> LLM 可以自動分析慢速查詢並建議索引優化，取代 DBA 手動檢查查詢日誌和執行計畫這一傳統耗時的過程。</p></li>
+</ol>
+<p>整體而言，這兩種方法都減少了對專業知識的需求，並相比傳統手動方法實現更快、更準確的資料庫操作。</p>
+</section>
+</section>
+<section id="作業-3" class="level3">
+<h3 class="anchored" data-anchor-id="作業-3">作業 3</h3>
+<section id="問題-1-2" class="level4">
+<h4 class="anchored" data-anchor-id="問題-1-2">問題 1</h4>
+<p>開啟線上 SQL 直譯器並載入大學資料庫。</p>
+</section>
+<section id="問題-2-1" class="level4">
+<h4 class="anchored" data-anchor-id="問題-2-1">問題 2</h4>
+<p><strong>撰寫 SQL 程式碼以取得以下清單：i. 學生 ID、ii. 教師、iii. 系所</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q2 — 學生 ID（來自 <code>takes</code>）、教師和系所</figcaption>
+</figure>
+</div>
+</section>
+<section id="問題-3" class="level4">
+<h4 class="anchored" data-anchor-id="問題-3">問題 3</h4>
+<p><strong>撰寫 SQL 程式碼執行以下查詢：</strong></p>
+<p><strong>i. 找出修過至少一門資訊科學課程的每位學生的 ID 和姓名；確保結果中沒有重複姓名。</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3i — 修過至少一門資訊科學課程的學生</figcaption>
+</figure>
+</div>
+<p><strong>ii. 將成績加入清單</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3ii — 將成績加入結果</figcaption>
+</figure>
+</div>
+<p><strong>iii. 找出未修過任何 2017 年之前開設課程的每位學生的 ID 和姓名。</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_4.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3iii — 未修過任何 2017 年之前課程的學生</figcaption>
+</figure>
+</div>
+<p><strong>iv. 對每個系所，找出該系教師的最高薪資。</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_5.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3iv — 每系教師最高薪資</figcaption>
+</figure>
+</div>
+<p><strong>v. 找出前一題計算的各系最高薪資中的最低值。</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_6.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3v — 各系最高薪資中的最低值</figcaption>
+</figure>
+</div>
+<p><strong>vi. 將教師姓名加入清單</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_7.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q3vi — 將教師姓名加入結果</figcaption>
+</figure>
+</div>
+</section>
+<section id="問題-4-1" class="level4">
+<h4 class="anchored" data-anchor-id="問題-4-1">問題 4</h4>
+<p><strong>找出從未在其教授的任何課程中給過 A 等成績的教師（含姓名和 ID）。（從未教過課程的教師自然滿足此條件。）</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../EPPS6354_assignment_3_screenshot_8.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q4 — 從未給過 A 等成績的教師</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="作業-6" class="level3">
+<h3 class="anchored" data-anchor-id="作業-6">作業 6</h3>
+<section id="問題-1-使用-json-和-xml-的網站" class="level4">
+<h4 class="anchored" data-anchor-id="問題-1-使用-json-和-xml-的網站">問題 1 — 使用 JSON 和 XML 的網站</h4>
+<p><strong>查找包含以下資料表示方式的網站：a) 使用 JSON、b) 使用 XML。分析這些網站的結構與組成，並說明用於建立網頁資料庫的技術/方法。</strong></p>
+<section id="a-json-範例-github-api-使用者資料" class="level5">
+<h5 class="anchored" data-anchor-id="a-json-範例-github-api-使用者資料">a) JSON 範例 — GitHub API 使用者資料</h5>
+<p><strong>URL：</strong> <code>https://api.github.com/users/octocat</code></p>
+<p>此頁面以 JSON 格式顯示公開的 GitHub 使用者資料。資料以 JSON 物件回傳，包含許多鍵值對，例如 <code>login</code>、<code>id</code>、<code>html_url</code>、<code>followers</code> 和 <code>created_at</code>。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>GitHub API JSON 回應 — octocat 使用者</figcaption>
+</figure>
+</div>
+<p><strong>結構與組成：</strong></p>
+<ul>
+<li>外層結構是由 <code>{ }</code> 標記的 JSON 物件。</li>
+<li>每個欄位以鍵值對儲存，例如 <code>"login": "octocat"</code>。</li>
+<li>回應包含字串、數字、URL、布林值和 null 值。</li>
+<li>此格式輕量且便於網站和應用程式交換資料。</li>
+</ul>
+<p><strong>可能使用的技術/方法：</strong></p>
+<ul>
+<li>REST API</li>
+<li>後端網路服務</li>
+<li>資料庫支援，如 PostgreSQL、MySQL 或 NoSQL 系統</li>
+<li>JSON 回應用於網頁和應用程式資料交換</li>
+</ul>
+</section>
+<section id="b-xml-範例-apple-網站地圖" class="level5">
+<h5 class="anchored" data-anchor-id="b-xml-範例-apple-網站地圖">b) XML 範例 — Apple 網站地圖</h5>
+<p><strong>URL：</strong> <code>https://www.apple.com/sitemap.xml</code></p>
+<p>此頁面以 XML 格式顯示 Apple 的網站地圖。它列出網頁連結，以便搜尋引擎發現和索引該網站。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Apple 網站地圖 XML 格式</figcaption>
+</figure>
+</div>
+<p><strong>結構與組成：</strong></p>
+<ul>
+<li>根元素為 <code>&lt;urlset&gt;</code>。</li>
+<li>每個網頁條目儲存在重複的 <code>&lt;url&gt;</code> 元素中。</li>
+<li>實際頁面地址儲存在 <code>&lt;loc&gt;</code> 標籤內。</li>
+<li>資料以階層式標籤結構組織，這是 XML 的關鍵特徵。</li>
+</ul>
+<p><strong>可能使用的技術/方法：</strong></p>
+<ul>
+<li>XML 網站地圖標準</li>
+<li>網站內容發布系統或 CMS</li>
+<li>從網站資料庫產生的後端資料</li>
+<li>搜尋引擎索引支援</li>
+</ul>
+</section>
+<section id="快速比較" class="level5">
+<h5 class="anchored" data-anchor-id="快速比較">快速比較</h5>
+<ul>
+<li>JSON 較為簡短，適合網頁 API 和應用程式。</li>
+<li>XML 使用標籤和階層結構，適合結構化文件和網站地圖。</li>
+<li>兩種格式都有助於網站以有組織的方式儲存或交換資料。</li>
+</ul>
+</section>
+</section>
+<section id="問題-2-sql-練習" class="level4">
+<h4 class="anchored" data-anchor-id="問題-2-sql-練習">問題 2 — SQL 練習</h4>
+<section id="i.-沒有指導教授的學生左外連接" class="level5">
+<h5 class="anchored" data-anchor-id="i.-沒有指導教授的學生左外連接">i. 沒有指導教授的學生（左外連接）</h5>
+<p><strong>用不包含子查詢和集合操作的 SQL 表達以下查詢。（提示：左外連接）</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="kw">ID</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> student</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">except</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> s_id</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> advisor</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> i_ID <span class="kw">is</span> <span class="kw">not</span> <span class="kw">null</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>思路：</strong> 使用 <code>LEFT OUTER JOIN</code> 保留 <code>student</code> 的所有列。將 <code>student.ID</code> 與 <code>advisor.s_id</code> 匹配。若學生沒有匹配的指導教授列，則 advisor 欄位變為 <code>NULL</code>。因此，<code>where a.s_id is null</code> 回傳沒有指導教授的學生。</p>
+<p><strong>SQL 答案：</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> s.<span class="kw">ID</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> student s</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">left</span> <span class="kw">outer</span> <span class="kw">join</span> advisor a</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">on</span> s.<span class="kw">ID</span> <span class="op">=</span> a.s_id</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> a.s_id <span class="kw">is</span> <span class="kw">null</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q2i — 使用 LEFT OUTER JOIN 找出沒有指導教授的學生</figcaption>
+</figure>
+</div>
+</section>
+<section id="ii.-教授其系所所有課程的教師" class="level5">
+<h5 class="anchored" data-anchor-id="ii.-教授其系所所有課程的教師">ii. 教授其系所所有課程的教師</h5>
+<p><strong>使用大學綱要，撰寫 SQL 查詢以找出那些教授其系所每門課程的教師姓名和 ID（即在 <em>course</em> 關聯中與該教師系所名稱相同的每門課程）。按姓名排序結果。</strong></p>
+<p><strong>思路：</strong> 對每位教師，先限定範圍為同系所的課程。然後檢查是否存在該教師未教授的系所課程。若不存在這樣的課程，則該教師教授了系所中的每門課程。這就是查詢使用 <code>NOT EXISTS</code> 嵌套另一個 <code>NOT EXISTS</code> 的原因。</p>
+<p><strong>SQL 答案：</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> i.name, i.<span class="kw">ID</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> instructor i</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> <span class="kw">not</span> <span class="kw">exists</span> (</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">select</span> <span class="op">*</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">from</span> course c</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> c.dept_name <span class="op">=</span> i.dept_name</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> <span class="kw">exists</span> (</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          <span class="kw">select</span> <span class="op">*</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="kw">from</span> teaches t</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="kw">where</span> t.<span class="kw">ID</span> <span class="op">=</span> i.<span class="kw">ID</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">and</span> t.course_id <span class="op">=</span> c.course_id</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">order</span> <span class="kw">by</span> i.name;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_4.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q2ii — 教授其系所所有課程的教師</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="問題-3-r-與-postgresql" class="level4">
+<h4 class="anchored" data-anchor-id="問題-3-r-與-postgresql">問題 3 — R 與 PostgreSQL</h4>
+<section id="a-匯入完整資料庫" class="level5">
+<h5 class="anchored" data-anchor-id="a-匯入完整資料庫">a) 匯入完整資料庫</h5>
+<p>使用教科書網站提供的 DDL（資料定義語言）綱要和大型關聯插入檔案建立大學資料庫。</p>
+<p><strong>DDL 綱要（<code>DDL.sql</code>）：</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> classroom</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>     room_number    <span class="dt">varchar</span>(<span class="dv">7</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     capacity       <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (building, room_number)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> department</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    (dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>     building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>     budget         <span class="dt">numeric</span>(<span class="dv">12</span>,<span class="dv">2</span>) <span class="kw">check</span> (budget <span class="op">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (dept_name)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> course</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>     title          <span class="dt">varchar</span>(<span class="dv">50</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>     credits        <span class="dt">numeric</span>(<span class="dv">2</span>,<span class="dv">0</span>) <span class="kw">check</span> (credits <span class="op">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> instructor</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>     name           <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>     salary         <span class="dt">numeric</span>(<span class="dv">8</span>,<span class="dv">2</span>) <span class="kw">check</span> (salary <span class="op">&gt;</span> <span class="dv">29000</span>),</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>),</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> section</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="kw">check</span> (semester <span class="kw">in</span> (<span class="st">'Fall'</span>, <span class="st">'Winter'</span>, <span class="st">'Spring'</span>, <span class="st">'Summer'</span>)),</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>) <span class="kw">check</span> (<span class="dt">year</span> <span class="op">&gt;</span> <span class="dv">1701</span> <span class="kw">and</span> <span class="dt">year</span> <span class="op">&lt;</span> <span class="dv">2100</span>),</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>     building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>     room_number    <span class="dt">varchar</span>(<span class="dv">7</span>),</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>     time_slot_id   <span class="dt">varchar</span>(<span class="dv">4</span>),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (building, room_number) <span class="kw">references</span> classroom</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> teaches</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>     course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>),</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>, course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">references</span> section <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (<span class="kw">ID</span>) <span class="kw">references</span> instructor (<span class="kw">ID</span>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> student</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>     name           <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span>,</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>     tot_cred       <span class="dt">numeric</span>(<span class="dv">3</span>,<span class="dv">0</span>) <span class="kw">check</span> (tot_cred <span class="op">&gt;=</span> <span class="dv">0</span>),</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>),</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> takes</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>     course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>),</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>     grade          <span class="dt">varchar</span>(<span class="dv">2</span>),</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>, course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>        <span class="kw">references</span> section <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (<span class="kw">ID</span>) <span class="kw">references</span> student (<span class="kw">ID</span>)</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> advisor</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    (s_ID           <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>     i_ID           <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (s_ID),</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (i_ID) <span class="kw">references</span> instructor (<span class="kw">ID</span>)</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span>,</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (s_ID) <span class="kw">references</span> student (<span class="kw">ID</span>)</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> time_slot</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>    (time_slot_id   <span class="dt">varchar</span>(<span class="dv">4</span>),</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>     <span class="dt">day</span>            <span class="dt">varchar</span>(<span class="dv">1</span>),</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>     start_hr       <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (start_hr <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> start_hr <span class="op">&lt;</span> <span class="dv">24</span>),</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>     start_min      <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (start_min <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> start_min <span class="op">&lt;</span> <span class="dv">60</span>),</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>     end_hr         <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (end_hr <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> end_hr <span class="op">&lt;</span> <span class="dv">24</span>),</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>     end_min        <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (end_min <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> end_min <span class="op">&lt;</span> <span class="dv">60</span>),</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (time_slot_id, <span class="dt">day</span>, start_hr, start_min)</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> prereq</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>     prereq_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id, prereq_id),</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (prereq_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>    );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="b-執行-rpostgres01.r" class="level5">
+<h5 class="anchored" data-anchor-id="b-執行-rpostgres01.r">b) 執行 RPostgres01.R</h5>
+<p>R 腳本使用 <code>RPostgres</code> 和 <code>DBI</code> 連接本機 PostgreSQL 資料庫，執行三個查詢，匯出 CSV，然後中斷連線。</p>
+<p><strong>載入套件並連線：</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_8.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — 載入套件並連接 PostgreSQL</figcaption>
+</figure>
+</div>
+<p><strong>查詢 (a) — 取得所有教師：</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_9.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — SELECT * FROM instructor</figcaption>
+</figure>
+</div>
+<p><strong>查詢 (b) — 薪資 &gt; 60000 的資訊科學系教師：</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_5.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — 薪資 &gt; 60000 的資訊科學系教師</figcaption>
+</figure>
+</div>
+<p><strong>查詢 (c) — 總學分 &gt;= 50 的學生：</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_6.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — 總學分 &gt;= 50 的學生</figcaption>
+</figure>
+</div>
+<p><strong>匯出 CSV 並中斷連線：</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_7.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — 匯出教師資料表為 CSV 並中斷連線</figcaption>
+</figure>
+</div>
+</section>
+<section id="c-結果" class="level5">
+<h5 class="anchored" data-anchor-id="c-結果">c) 結果</h5>
+<p><strong>R 腳本（<code>RPostgres01.R</code>）：</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect PostgreSQL database using R</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages: DBI, odbc, RPostgres</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Documentation:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## DBI: https://dbi.r-dbi.org</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## RPostgres https://github.com/r-dbi/RPostgres</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## R https://solutions.posit.co/connections/db/</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## odbc: https://solutions.posit.co/connections/db/best-practices/drivers/</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"RPostgres"</span>, <span class="st">"DBI"</span>, <span class="st">"odbc"</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Load libraries</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RPostgres)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(odbc)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Connect to PostgreSQL and database</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  RPostgres<span class="sc">::</span><span class="fu">Postgres</span>(),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname   =</span> <span class="st">"university"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">host     =</span> <span class="st">"localhost"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">port     =</span> <span class="dv">5432</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">user     =</span> <span class="st">"postgres"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"123489"</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Perform queries</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co"># (a) Simple query: fetch all rows/columns in 'instructor'</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>instructor_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM instructor"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(instructor_data)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># (b) Fetch instructors in 'Comp. Sci.' department with salary &gt; 60000</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>comp_sci_instructors <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  con,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * FROM instructor</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="st">   WHERE dept_name = 'Comp. Sci.' AND salary &gt; 60000;"</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>comp_sci_instructors</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co"># (c) Query 'student' table: students with tot_cred &gt;= 50</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>student_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM student WHERE tot_cred &gt;= 50"</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student_data)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="do">## Export to CSV</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(instructor_data, <span class="at">file =</span> <span class="st">"instructor_export.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="do">## Clean up</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+</section>
+<section id="期末專案" class="level2">
+<h2 class="anchored" data-anchor-id="期末專案">期末專案</h2>
+<section id="天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統" class="level3">
+<h3 class="anchored" data-anchor-id="天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統">天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統</h3>
+<section id="專案概述" class="level4">
+<h4 class="anchored" data-anchor-id="專案概述">專案概述</h4>
+<p>一個單人使用的衣櫥管理系統。每天早上，系統讀取使用者的行事曆（以判斷場合）和當前天氣，過濾掉不可穿著的衣物（髒的或已封存的），並使用基於色彩理論、布料搭配性和風格一致性的規則式評分引擎對候選穿搭進行排名。輸出為最佳推薦穿搭加上 3-5 個排名替代方案，每個都附有分數和說明。</p>
+<p><strong>核心工作流程：</strong> 起床 → 讀取行事曆（場合）+ 天氣 → 過濾可穿著衣物 → 評分穿搭組合 → 輸出推薦</p>
+<p><strong>三個評分維度：</strong></p>
+<ul>
+<li><strong>色彩</strong> — 60/30/10 色彩理論；每件衣物帶有 <code>主色 / 副色 / 點綴色</code> 的色彩角色</li>
+<li><strong>布料</strong> — 同布料加分、混合布料合理性、相對於天氣的保暖充足度</li>
+<li><strong>風格</strong> — 衣物間風格標籤的一致性，以及風格與場合的適配分數</li>
+</ul>
+</section>
+<section id="資料庫資料表" class="level4">
+<h4 class="anchored" data-anchor-id="資料庫資料表">資料庫資料表</h4>
+<section id="參照資料表" class="level5">
+<h5 class="anchored" data-anchor-id="參照資料表">參照資料表</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>User</code></td>
+<td><code>user_id</code> PK, <code>name</code></td>
+<td>儲存使用者身分</td>
+</tr>
+<tr class="even">
+<td><code>Category</code></td>
+<td><code>category_id</code> PK, <code>name</code></td>
+<td>衣物類別：上衣、下裝、鞋子、外套、配件</td>
+</tr>
+<tr class="odd">
+<td><code>Color</code></td>
+<td><code>color_id</code> PK, <code>name</code></td>
+<td>顏色名稱（黑、白、海軍藍、灰、米色…）</td>
+</tr>
+<tr class="even">
+<td><code>Fabric</code></td>
+<td><code>fabric_id</code> PK, <code>name</code>, <code>warmth_weight</code>, <code>breathability</code></td>
+<td>布料類型，含保暖度 (0-100) 和透氣度 (0-100) 評分</td>
+</tr>
+<tr class="odd">
+<td><code>StyleTag</code></td>
+<td><code>style_id</code> PK, <code>name</code></td>
+<td>風格標籤：街頭風、正式、簡約風、簡單、blokecore…</td>
+</tr>
+<tr class="even">
+<td><code>Occasion</code></td>
+<td><code>occasion_id</code> PK, <code>name</code>, <code>target_formality_min</code>, <code>target_formality_max</code></td>
+<td>場合及其要求的正式度範圍</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="風格與行事曆" class="level5">
+<h5 class="anchored" data-anchor-id="風格與行事曆">風格與行事曆</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>StyleOccasionFit</code></td>
+<td><code>style_id</code> FK, <code>occasion_id</code> FK, <code>fit_score</code></td>
+<td>風格與場合之間的適配分數 (0-100)（PK: style_id + occasion_id）</td>
+</tr>
+<tr class="even">
+<td><code>CalendarEvent</code></td>
+<td><code>event_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>event_date</code>, <code>start_time</code></td>
+<td>對應到場合的行事曆項目；驅動自動場合偵測</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="衣物項目與標籤" class="level5">
+<h5 class="anchored" data-anchor-id="衣物項目與標籤">衣物項目與標籤</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ClothingItem</code></td>
+<td><code>item_id</code> PK, <code>user_id</code> FK, <code>category_id</code> FK, <code>fabric_id</code> FK, <code>formality_score</code>, <code>warmth_score</code>, <code>clean_score</code>, <code>status</code></td>
+<td>主要衣物資料表；僅在 <code>clean_score &gt; 0</code> 且 <code>status = 'active'</code> 時可推薦</td>
+</tr>
+<tr class="even">
+<td><code>ItemStyle</code></td>
+<td><code>item_id</code> FK, <code>style_id</code> FK</td>
+<td>多對多：衣物項目到風格標籤</td>
+</tr>
+<tr class="odd">
+<td><code>ItemColor</code></td>
+<td><code>item_id</code> FK, <code>color_id</code> FK, <code>role</code> (primary/secondary/accent)</td>
+<td>每件衣物的顏色角色分配；每件衣物最多 3 個顏色</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="天氣" class="level5">
+<h5 class="anchored" data-anchor-id="天氣">天氣</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>WeatherSnapshot</code></td>
+<td><code>weather_id</code> PK, <code>location</code>, <code>temp_c</code>, <code>feels_like_c</code>, <code>humidity</code>, <code>wind_speed</code>, <code>precip_mm</code></td>
+<td>即時天氣資料快照</td>
+</tr>
+<tr class="even">
+<td><code>WeatherCondition</code></td>
+<td><code>condition_id</code> PK, <code>name</code>, temp/precip/wind/humidity ranges</td>
+<td>命名的天氣條件（如 cold_rainy、hot_humid），用於規則匹配</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="穿搭" class="level5">
+<h5 class="anchored" data-anchor-id="穿搭">穿搭</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Outfit</code></td>
+<td><code>outfit_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>total_score</code>, <code>explanation</code></td>
+<td>產生的穿搭，含總分和說明</td>
+</tr>
+<tr class="even">
+<td><code>OutfitItem</code></td>
+<td>PK(outfit_id, slot, layer_order), <code>item_id</code> FK</td>
+<td>穿搭細節；支援同一位置的多層穿著</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="評分規則" class="level5">
+<h5 class="anchored" data-anchor-id="評分規則">評分規則</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>OutfitScoringRule</code></td>
+<td><code>score_rule_id</code> PK, <code>rule_type</code>, <code>score_delta</code>, <code>condition_json</code>, <code>valid_from</code>, <code>valid_until</code></td>
+<td>評分規則，含可選的到期日期以支援趨勢性規則</td>
+</tr>
+<tr class="even">
+<td><code>WearDegradeRule</code></td>
+<td><code>degrade_rule_id</code> PK, <code>category_id</code> FK, <code>occasion_id</code> FK (nullable), <code>condition_id</code> FK (nullable), <code>delta_clean_score</code></td>
+<td>清潔度扣分規則；每次穿著事件可疊加多條匹配規則</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="穿著追蹤與洗衣" class="level5">
+<h5 class="anchored" data-anchor-id="穿著追蹤與洗衣">穿著追蹤與洗衣</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 39%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>資料表</th>
+<th>主要欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>WearEvent</code></td>
+<td><code>event_id</code> PK, <code>user_id</code> FK, <code>outfit_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>worn_at</code></td>
+<td>記錄每次穿著穿搭的事件</td>
+</tr>
+<tr class="even">
+<td><code>WearEventItem</code></td>
+<td>PK(event_id, item_id), <code>delta_applied</code>, <code>clean_score_after</code></td>
+<td>每件衣物的扣分細節及穿著後的清潔度分數</td>
+</tr>
+<tr class="odd">
+<td><code>LaundryBatch</code></td>
+<td><code>batch_id</code> PK, <code>user_id</code> FK, <code>laundry_type</code> (dark/light)</td>
+<td>按顏色類型分組的洗衣批次</td>
+</tr>
+<tr class="even">
+<td><code>LaundryBatchItem</code></td>
+<td>PK(batch_id, item_id), <code>reset_to_score</code> = 100</td>
+<td>洗衣後將清潔度分數重設為 100</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

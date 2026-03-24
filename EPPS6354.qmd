@@ -943,6 +943,358 @@ This version controls exactly which attribute is joined on, preventing
 `dept_name` from unintentionally filtering out cross-department teaching
 assignments.
 
+### Assignment 6
+
+#### Question 1 — Websites Using JSON and XML
+
+**Look up websites containing the following data representations: a)
+Using JSON, b) Using XML. Analyze the websites in terms of structure and
+composition. Name the technology/methods use for creating the web
+database.**
+
+##### a) JSON Example — GitHub API User Data
+
+**URL:** `https://api.github.com/users/octocat`
+
+This page shows public GitHub user data in JSON format. The data is
+returned as a JSON object with many key-value pairs such as `login`,
+`id`, `html_url`, `followers`, and `created_at`.
+
+![GitHub API JSON response for user
+octocat](EPPS6354_assignment_6_image_1.png){width="80%"}
+
+**Structure and composition:**
+
+-   The outer structure is a JSON object marked by `{ }`.
+-   Each field is stored as a key-value pair, for example
+    `"login": "octocat"`.
+-   The response contains strings, numbers, URLs, boolean values, and
+    null values.
+-   This format is lightweight and easy for websites and apps to
+    exchange data.
+
+**Possible technologies / methods:**
+
+-   REST API
+-   Backend web service
+-   Database support such as PostgreSQL, MySQL, or NoSQL systems
+-   JSON response for web and application data exchange
+
+##### b) XML Example — Apple Sitemap
+
+**URL:** `https://www.apple.com/sitemap.xml`
+
+This page shows Apple's sitemap in XML format. It lists webpage links so
+that search engines can discover and index the site.
+
+![Apple sitemap in XML format](EPPS6354_assignment_6_image_2.png){width="80%"}
+
+**Structure and composition:**
+
+-   The root element is `<urlset>`.
+-   Each webpage entry is stored inside a repeated `<url>` element.
+-   The actual page address is stored inside the `<loc>` tag.
+-   The data is organized in a hierarchical tag structure, which is a
+    key feature of XML.
+
+**Possible technologies / methods:**
+
+-   XML sitemap standard
+-   Website content publishing system or CMS
+-   Backend-generated data from a site database
+-   Search engine indexing support
+
+##### Quick Comparison
+
+-   JSON is shorter and easier for web APIs and applications.
+-   XML uses tags and hierarchy, so it is useful for structured
+    documents and sitemaps.
+-   Both formats help websites store or exchange data in an organized
+    way.
+
+#### Question 2 — SQL Exercises
+
+##### i. Students Without Advisors (Left Outer Join)
+
+**Express the following query in SQL using no subqueries and no set
+operations. (Hint: left outer join)**
+
+```sql
+select ID
+from student
+except
+select s_id
+from advisor
+where i_ID is not null
+```
+
+**Idea:** Keep all rows from `student` by using `LEFT OUTER JOIN`. Match
+`student.ID` with `advisor.s_id`. If a student has no matching advisor
+row, then advisor columns become `NULL`. Therefore,
+`where a.s_id is null` returns students without advisors.
+
+**SQL answer:**
+
+```sql
+select s.ID
+from student s
+left outer join advisor a
+  on s.ID = a.s_id
+where a.s_id is null;
+```
+
+![Q2i — Students without advisors using LEFT OUTER
+JOIN](EPPS6354_assignment_6_image_3.png){width="80%"}
+
+##### ii. Instructors Who Teach Every Course in Their Department
+
+**Using the university schema, write an SQL query to find the names and
+IDs of those instructors who teach every course taught in his or her
+department (i.e., every course that appears in the *course* relation with
+the instructor's department name). Order result by name.**
+
+**Idea:** For each instructor, first limit the scope to courses in the
+same department. Then check whether there exists any department course
+that the instructor did not teach. If no such course exists, then the
+instructor taught every course in the department. This is why the query
+uses `NOT EXISTS` with another `NOT EXISTS` inside it.
+
+**SQL answer:**
+
+```sql
+select i.name, i.ID
+from instructor i
+where not exists (
+    select *
+    from course c
+    where c.dept_name = i.dept_name
+      and not exists (
+          select *
+          from teaches t
+          where t.ID = i.ID
+            and t.course_id = c.course_id
+      )
+)
+order by i.name;
+```
+
+![Q2ii — Instructors who teach every course in their
+department](EPPS6354_assignment_6_image_4.png){width="80%"}
+
+#### Question 3 — R and PostgreSQL
+
+##### a) Import the Full Database
+
+The university database was created using the DDL (Data Definition
+Language) schema and populated with the large relations insert file from
+the textbook website.
+
+**DDL schema (`DDL.sql`):**
+
+```sql
+create table classroom
+    (building       varchar(15),
+     room_number    varchar(7),
+     capacity       numeric(4,0),
+     primary key (building, room_number)
+    );
+
+create table department
+    (dept_name      varchar(20),
+     building       varchar(15),
+     budget         numeric(12,2) check (budget > 0),
+     primary key (dept_name)
+    );
+
+create table course
+    (course_id      varchar(8),
+     title          varchar(50),
+     dept_name      varchar(20),
+     credits        numeric(2,0) check (credits > 0),
+     primary key (course_id),
+     foreign key (dept_name) references department (dept_name)
+        on delete set null
+    );
+
+create table instructor
+    (ID             varchar(5),
+     name           varchar(20) not null,
+     dept_name      varchar(20),
+     salary         numeric(8,2) check (salary > 29000),
+     primary key (ID),
+     foreign key (dept_name) references department (dept_name)
+        on delete set null
+    );
+
+create table section
+    (course_id      varchar(8),
+     sec_id         varchar(8),
+     semester       varchar(6)
+        check (semester in ('Fall', 'Winter', 'Spring', 'Summer')),
+     year           numeric(4,0) check (year > 1701 and year < 2100),
+     building       varchar(15),
+     room_number    varchar(7),
+     time_slot_id   varchar(4),
+     primary key (course_id, sec_id, semester, year),
+     foreign key (course_id) references course (course_id)
+        on delete cascade,
+     foreign key (building, room_number) references classroom
+        on delete set null
+    );
+
+create table teaches
+    (ID             varchar(5),
+     course_id      varchar(8),
+     sec_id         varchar(8),
+     semester       varchar(6),
+     year           numeric(4,0),
+     primary key (ID, course_id, sec_id, semester, year),
+     foreign key (course_id, sec_id, semester, year)
+        references section on delete cascade,
+     foreign key (ID) references instructor (ID)
+        on delete cascade
+    );
+
+create table student
+    (ID             varchar(5),
+     name           varchar(20) not null,
+     dept_name      varchar(20),
+     tot_cred       numeric(3,0) check (tot_cred >= 0),
+     primary key (ID),
+     foreign key (dept_name) references department (dept_name)
+        on delete set null
+    );
+
+create table takes
+    (ID             varchar(5),
+     course_id      varchar(8),
+     sec_id         varchar(8),
+     semester       varchar(6),
+     year           numeric(4,0),
+     grade          varchar(2),
+     primary key (ID, course_id, sec_id, semester, year),
+     foreign key (course_id, sec_id, semester, year)
+        references section on delete cascade,
+     foreign key (ID) references student (ID)
+        on delete cascade
+    );
+
+create table advisor
+    (s_ID           varchar(5),
+     i_ID           varchar(5),
+     primary key (s_ID),
+     foreign key (i_ID) references instructor (ID)
+        on delete set null,
+     foreign key (s_ID) references student (ID)
+        on delete cascade
+    );
+
+create table time_slot
+    (time_slot_id   varchar(4),
+     day            varchar(1),
+     start_hr       numeric(2) check (start_hr >= 0 and start_hr < 24),
+     start_min      numeric(2) check (start_min >= 0 and start_min < 60),
+     end_hr         numeric(2) check (end_hr >= 0 and end_hr < 24),
+     end_min        numeric(2) check (end_min >= 0 and end_min < 60),
+     primary key (time_slot_id, day, start_hr, start_min)
+    );
+
+create table prereq
+    (course_id      varchar(8),
+     prereq_id      varchar(8),
+     primary key (course_id, prereq_id),
+     foreign key (course_id) references course (course_id)
+        on delete cascade,
+     foreign key (prereq_id) references course (course_id)
+    );
+```
+
+##### b) Run RPostgres01.R
+
+The R script connects to the local PostgreSQL database using
+`RPostgres` and `DBI`, runs three queries, exports a CSV, and
+disconnects.
+
+**Load libraries and connect:**
+
+![R — Load libraries and connect to
+PostgreSQL](EPPS6354_assignment_6_image_8.png){width="80%"}
+
+**Query (a) — Fetch all instructors:**
+
+![R — SELECT * FROM
+instructor](EPPS6354_assignment_6_image_9.png){width="80%"}
+
+**Query (b) — Comp. Sci. instructors with salary > 60000:**
+
+![R — Comp. Sci. instructors with salary >
+60000](EPPS6354_assignment_6_image_5.png){width="80%"}
+
+**Query (c) — Students with tot_cred >= 50:**
+
+![R — Students with tot_cred >=
+50](EPPS6354_assignment_6_image_6.png){width="80%"}
+
+**Export to CSV and disconnect:**
+
+![R — Export instructor table to CSV and
+disconnect](EPPS6354_assignment_6_image_7.png){width="80%"}
+
+##### c) Results
+
+**R script (`RPostgres01.R`):**
+
+```r
+# Connect PostgreSQL database using R
+# Packages: DBI, odbc, RPostgres
+# Documentation:
+## DBI: https://dbi.r-dbi.org
+## RPostgres https://github.com/r-dbi/RPostgres
+## R https://solutions.posit.co/connections/db/
+## odbc: https://solutions.posit.co/connections/db/best-practices/drivers/
+
+install.packages(c("RPostgres", "DBI", "odbc"))
+
+## Load libraries
+library(RPostgres)
+library(DBI)
+library(odbc)
+
+## Connect to PostgreSQL and database
+con <- dbConnect(
+  RPostgres::Postgres(),
+  dbname   = "university",
+  host     = "localhost",
+  port     = 5432,
+  user     = "postgres",
+  password = "123489"
+)
+
+## Perform queries
+
+# (a) Simple query: fetch all rows/columns in 'instructor'
+instructor_data <- dbGetQuery(con, "SELECT * FROM instructor")
+head(instructor_data)
+
+# (b) Fetch instructors in 'Comp. Sci.' department with salary > 60000
+comp_sci_instructors <- dbGetQuery(
+  con,
+  "SELECT * FROM instructor
+   WHERE dept_name = 'Comp. Sci.' AND salary > 60000;"
+)
+comp_sci_instructors
+
+# (c) Query 'student' table: students with tot_cred >= 50
+student_data <- dbGetQuery(con, "SELECT * FROM student WHERE tot_cred >= 50")
+head(student_data)
+
+## Export to CSV
+write.csv(instructor_data, file = "instructor_export.csv", row.names = FALSE)
+
+## Clean up
+dbDisconnect(con)
+```
+
 ## Final Project
 
 ### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation

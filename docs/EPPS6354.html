@@ -284,6 +284,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#b-1" id="toc-b-1" class="nav-link" data-scroll-target="#b-1">4b</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#assignment-6" id="toc-assignment-6" class="nav-link" data-scroll-target="#assignment-6">Assignment 6</a>
+  <ul>
+  <li><a href="#question-1-websites-using-json-and-xml" id="toc-question-1-websites-using-json-and-xml" class="nav-link" data-scroll-target="#question-1-websites-using-json-and-xml">Question 1 — Websites Using JSON and XML</a>
+  <ul>
+  <li><a href="#a-json-example-github-api-user-data" id="toc-a-json-example-github-api-user-data" class="nav-link" data-scroll-target="#a-json-example-github-api-user-data">a) JSON Example — GitHub API User Data</a></li>
+  <li><a href="#b-xml-example-apple-sitemap" id="toc-b-xml-example-apple-sitemap" class="nav-link" data-scroll-target="#b-xml-example-apple-sitemap">b) XML Example — Apple Sitemap</a></li>
+  <li><a href="#quick-comparison" id="toc-quick-comparison" class="nav-link" data-scroll-target="#quick-comparison">Quick Comparison</a></li>
+  </ul></li>
+  <li><a href="#question-2-sql-exercises" id="toc-question-2-sql-exercises" class="nav-link" data-scroll-target="#question-2-sql-exercises">Question 2 — SQL Exercises</a>
+  <ul>
+  <li><a href="#i.-students-without-advisors-left-outer-join" id="toc-i.-students-without-advisors-left-outer-join" class="nav-link" data-scroll-target="#i.-students-without-advisors-left-outer-join">i. Students Without Advisors (Left Outer Join)</a></li>
+  <li><a href="#ii.-instructors-who-teach-every-course-in-their-department" id="toc-ii.-instructors-who-teach-every-course-in-their-department" class="nav-link" data-scroll-target="#ii.-instructors-who-teach-every-course-in-their-department">ii. Instructors Who Teach Every Course in Their Department</a></li>
+  </ul></li>
+  <li><a href="#question-3-r-and-postgresql" id="toc-question-3-r-and-postgresql" class="nav-link" data-scroll-target="#question-3-r-and-postgresql">Question 3 — R and PostgreSQL</a>
+  <ul>
+  <li><a href="#a-import-the-full-database" id="toc-a-import-the-full-database" class="nav-link" data-scroll-target="#a-import-the-full-database">a) Import the Full Database</a></li>
+  <li><a href="#b-run-rpostgres01.r" id="toc-b-run-rpostgres01.r" class="nav-link" data-scroll-target="#b-run-rpostgres01.r">b) Run RPostgres01.R</a></li>
+  <li><a href="#c-results" id="toc-c-results" class="nav-link" data-scroll-target="#c-results">c) Results</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
   <ul>
@@ -848,6 +868,337 @@ manages (ID, manager_id)</code></pre>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">JOIN</span> course <span class="kw">USING</span> (course_id)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> semester <span class="op">=</span> <span class="st">'Spring'</span> <span class="kw">AND</span> <span class="dt">year</span> <span class="op">=</span> <span class="dv">2017</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This version controls exactly which attribute is joined on, preventing <code>dept_name</code> from unintentionally filtering out cross-department teaching assignments.</p>
+</section>
+</section>
+</section>
+<section id="assignment-6" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-6">Assignment 6</h3>
+<section id="question-1-websites-using-json-and-xml" class="level4">
+<h4 class="anchored" data-anchor-id="question-1-websites-using-json-and-xml">Question 1 — Websites Using JSON and XML</h4>
+<p><strong>Look up websites containing the following data representations: a) Using JSON, b) Using XML. Analyze the websites in terms of structure and composition. Name the technology/methods use for creating the web database.</strong></p>
+<section id="a-json-example-github-api-user-data" class="level5">
+<h5 class="anchored" data-anchor-id="a-json-example-github-api-user-data">a) JSON Example — GitHub API User Data</h5>
+<p><strong>URL:</strong> <code>https://api.github.com/users/octocat</code></p>
+<p>This page shows public GitHub user data in JSON format. The data is returned as a JSON object with many key-value pairs such as <code>login</code>, <code>id</code>, <code>html_url</code>, <code>followers</code>, and <code>created_at</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>GitHub API JSON response for user octocat</figcaption>
+</figure>
+</div>
+<p><strong>Structure and composition:</strong></p>
+<ul>
+<li>The outer structure is a JSON object marked by <code>{ }</code>.</li>
+<li>Each field is stored as a key-value pair, for example <code>"login": "octocat"</code>.</li>
+<li>The response contains strings, numbers, URLs, boolean values, and null values.</li>
+<li>This format is lightweight and easy for websites and apps to exchange data.</li>
+</ul>
+<p><strong>Possible technologies / methods:</strong></p>
+<ul>
+<li>REST API</li>
+<li>Backend web service</li>
+<li>Database support such as PostgreSQL, MySQL, or NoSQL systems</li>
+<li>JSON response for web and application data exchange</li>
+</ul>
+</section>
+<section id="b-xml-example-apple-sitemap" class="level5">
+<h5 class="anchored" data-anchor-id="b-xml-example-apple-sitemap">b) XML Example — Apple Sitemap</h5>
+<p><strong>URL:</strong> <code>https://www.apple.com/sitemap.xml</code></p>
+<p>This page shows Apple’s sitemap in XML format. It lists webpage links so that search engines can discover and index the site.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Apple sitemap in XML format</figcaption>
+</figure>
+</div>
+<p><strong>Structure and composition:</strong></p>
+<ul>
+<li>The root element is <code>&lt;urlset&gt;</code>.</li>
+<li>Each webpage entry is stored inside a repeated <code>&lt;url&gt;</code> element.</li>
+<li>The actual page address is stored inside the <code>&lt;loc&gt;</code> tag.</li>
+<li>The data is organized in a hierarchical tag structure, which is a key feature of XML.</li>
+</ul>
+<p><strong>Possible technologies / methods:</strong></p>
+<ul>
+<li>XML sitemap standard</li>
+<li>Website content publishing system or CMS</li>
+<li>Backend-generated data from a site database</li>
+<li>Search engine indexing support</li>
+</ul>
+</section>
+<section id="quick-comparison" class="level5">
+<h5 class="anchored" data-anchor-id="quick-comparison">Quick Comparison</h5>
+<ul>
+<li>JSON is shorter and easier for web APIs and applications.</li>
+<li>XML uses tags and hierarchy, so it is useful for structured documents and sitemaps.</li>
+<li>Both formats help websites store or exchange data in an organized way.</li>
+</ul>
+</section>
+</section>
+<section id="question-2-sql-exercises" class="level4">
+<h4 class="anchored" data-anchor-id="question-2-sql-exercises">Question 2 — SQL Exercises</h4>
+<section id="i.-students-without-advisors-left-outer-join" class="level5">
+<h5 class="anchored" data-anchor-id="i.-students-without-advisors-left-outer-join">i. Students Without Advisors (Left Outer Join)</h5>
+<p><strong>Express the following query in SQL using no subqueries and no set operations. (Hint: left outer join)</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="kw">ID</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> student</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">except</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> s_id</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> advisor</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> i_ID <span class="kw">is</span> <span class="kw">not</span> <span class="kw">null</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Idea:</strong> Keep all rows from <code>student</code> by using <code>LEFT OUTER JOIN</code>. Match <code>student.ID</code> with <code>advisor.s_id</code>. If a student has no matching advisor row, then advisor columns become <code>NULL</code>. Therefore, <code>where a.s_id is null</code> returns students without advisors.</p>
+<p><strong>SQL answer:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> s.<span class="kw">ID</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> student s</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">left</span> <span class="kw">outer</span> <span class="kw">join</span> advisor a</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">on</span> s.<span class="kw">ID</span> <span class="op">=</span> a.s_id</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> a.s_id <span class="kw">is</span> <span class="kw">null</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q2i — Students without advisors using LEFT OUTER JOIN</figcaption>
+</figure>
+</div>
+</section>
+<section id="ii.-instructors-who-teach-every-course-in-their-department" class="level5">
+<h5 class="anchored" data-anchor-id="ii.-instructors-who-teach-every-course-in-their-department">ii. Instructors Who Teach Every Course in Their Department</h5>
+<p><strong>Using the university schema, write an SQL query to find the names and IDs of those instructors who teach every course taught in his or her department (i.e., every course that appears in the <em>course</em> relation with the instructor’s department name). Order result by name.</strong></p>
+<p><strong>Idea:</strong> For each instructor, first limit the scope to courses in the same department. Then check whether there exists any department course that the instructor did not teach. If no such course exists, then the instructor taught every course in the department. This is why the query uses <code>NOT EXISTS</code> with another <code>NOT EXISTS</code> inside it.</p>
+<p><strong>SQL answer:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> i.name, i.<span class="kw">ID</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> instructor i</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> <span class="kw">not</span> <span class="kw">exists</span> (</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">select</span> <span class="op">*</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">from</span> course c</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> c.dept_name <span class="op">=</span> i.dept_name</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">and</span> <span class="kw">not</span> <span class="kw">exists</span> (</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>          <span class="kw">select</span> <span class="op">*</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>          <span class="kw">from</span> teaches t</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>          <span class="kw">where</span> t.<span class="kw">ID</span> <span class="op">=</span> i.<span class="kw">ID</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">and</span> t.course_id <span class="op">=</span> c.course_id</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="kw">order</span> <span class="kw">by</span> i.name;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_4.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Q2ii — Instructors who teach every course in their department</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="question-3-r-and-postgresql" class="level4">
+<h4 class="anchored" data-anchor-id="question-3-r-and-postgresql">Question 3 — R and PostgreSQL</h4>
+<section id="a-import-the-full-database" class="level5">
+<h5 class="anchored" data-anchor-id="a-import-the-full-database">a) Import the Full Database</h5>
+<p>The university database was created using the DDL (Data Definition Language) schema and populated with the large relations insert file from the textbook website.</p>
+<p><strong>DDL schema (<code>DDL.sql</code>):</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> classroom</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    (building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     room_number    <span class="dt">varchar</span>(<span class="dv">7</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>     capacity       <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (building, room_number)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> department</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    (dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>     building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>     budget         <span class="dt">numeric</span>(<span class="dv">12</span>,<span class="dv">2</span>) <span class="kw">check</span> (budget <span class="op">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (dept_name)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> course</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>     title          <span class="dt">varchar</span>(<span class="dv">50</span>),</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>     credits        <span class="dt">numeric</span>(<span class="dv">2</span>,<span class="dv">0</span>) <span class="kw">check</span> (credits <span class="op">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id),</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> instructor</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>     name           <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span>,</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>     salary         <span class="dt">numeric</span>(<span class="dv">8</span>,<span class="dv">2</span>) <span class="kw">check</span> (salary <span class="op">&gt;</span> <span class="dv">29000</span>),</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>),</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> section</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>)</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="kw">check</span> (semester <span class="kw">in</span> (<span class="st">'Fall'</span>, <span class="st">'Winter'</span>, <span class="st">'Spring'</span>, <span class="st">'Summer'</span>)),</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>) <span class="kw">check</span> (<span class="dt">year</span> <span class="op">&gt;</span> <span class="dv">1701</span> <span class="kw">and</span> <span class="dt">year</span> <span class="op">&lt;</span> <span class="dv">2100</span>),</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>     building       <span class="dt">varchar</span>(<span class="dv">15</span>),</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>     room_number    <span class="dt">varchar</span>(<span class="dv">7</span>),</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>     time_slot_id   <span class="dt">varchar</span>(<span class="dv">4</span>),</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (building, room_number) <span class="kw">references</span> classroom</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> teaches</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>     course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>),</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>, course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>)</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>        <span class="kw">references</span> section <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (<span class="kw">ID</span>) <span class="kw">references</span> instructor (<span class="kw">ID</span>)</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> student</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>     name           <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span>,</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>     dept_name      <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>     tot_cred       <span class="dt">numeric</span>(<span class="dv">3</span>,<span class="dv">0</span>) <span class="kw">check</span> (tot_cred <span class="op">&gt;=</span> <span class="dv">0</span>),</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>),</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (dept_name) <span class="kw">references</span> department (dept_name)</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> takes</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">ID</span>             <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>     course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>     sec_id         <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>     semester       <span class="dt">varchar</span>(<span class="dv">6</span>),</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>     <span class="dt">year</span>           <span class="dt">numeric</span>(<span class="dv">4</span>,<span class="dv">0</span>),</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>     grade          <span class="dt">varchar</span>(<span class="dv">2</span>),</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (<span class="kw">ID</span>, course_id, sec_id, semester, <span class="dt">year</span>),</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id, sec_id, semester, <span class="dt">year</span>)</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>        <span class="kw">references</span> section <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (<span class="kw">ID</span>) <span class="kw">references</span> student (<span class="kw">ID</span>)</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> advisor</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>    (s_ID           <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>     i_ID           <span class="dt">varchar</span>(<span class="dv">5</span>),</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (s_ID),</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (i_ID) <span class="kw">references</span> instructor (<span class="kw">ID</span>)</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">set</span> <span class="kw">null</span>,</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (s_ID) <span class="kw">references</span> student (<span class="kw">ID</span>)</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> time_slot</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>    (time_slot_id   <span class="dt">varchar</span>(<span class="dv">4</span>),</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>     <span class="dt">day</span>            <span class="dt">varchar</span>(<span class="dv">1</span>),</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>     start_hr       <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (start_hr <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> start_hr <span class="op">&lt;</span> <span class="dv">24</span>),</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>     start_min      <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (start_min <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> start_min <span class="op">&lt;</span> <span class="dv">60</span>),</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>     end_hr         <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (end_hr <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> end_hr <span class="op">&lt;</span> <span class="dv">24</span>),</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>     end_min        <span class="dt">numeric</span>(<span class="dv">2</span>) <span class="kw">check</span> (end_min <span class="op">&gt;=</span> <span class="dv">0</span> <span class="kw">and</span> end_min <span class="op">&lt;</span> <span class="dv">60</span>),</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (time_slot_id, <span class="dt">day</span>, start_hr, start_min)</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>    );</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="kw">create</span> <span class="kw">table</span> prereq</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>    (course_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>     prereq_id      <span class="dt">varchar</span>(<span class="dv">8</span>),</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>     <span class="kw">primary</span> <span class="kw">key</span> (course_id, prereq_id),</span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (course_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>        <span class="kw">on</span> <span class="kw">delete</span> <span class="kw">cascade</span>,</span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>     <span class="kw">foreign</span> <span class="kw">key</span> (prereq_id) <span class="kw">references</span> course (course_id)</span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>    );</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="b-run-rpostgres01.r" class="level5">
+<h5 class="anchored" data-anchor-id="b-run-rpostgres01.r">b) Run RPostgres01.R</h5>
+<p>The R script connects to the local PostgreSQL database using <code>RPostgres</code> and <code>DBI</code>, runs three queries, exports a CSV, and disconnects.</p>
+<p><strong>Load libraries and connect:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_8.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — Load libraries and connect to PostgreSQL</figcaption>
+</figure>
+</div>
+<p><strong>Query (a) — Fetch all instructors:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_9.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — SELECT * FROM instructor</figcaption>
+</figure>
+</div>
+<p><strong>Query (b) — Comp. Sci. instructors with salary &gt; 60000:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_5.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — Comp. Sci. instructors with salary &gt; 60000</figcaption>
+</figure>
+</div>
+<p><strong>Query (c) — Students with tot_cred &gt;= 50:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_6.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — Students with tot_cred &gt;= 50</figcaption>
+</figure>
+</div>
+<p><strong>Export to CSV and disconnect:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="EPPS6354_assignment_6_image_7.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>R — Export instructor table to CSV and disconnect</figcaption>
+</figure>
+</div>
+</section>
+<section id="c-results" class="level5">
+<h5 class="anchored" data-anchor-id="c-results">c) Results</h5>
+<p><strong>R script (<code>RPostgres01.R</code>):</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect PostgreSQL database using R</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages: DBI, odbc, RPostgres</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Documentation:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## DBI: https://dbi.r-dbi.org</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## RPostgres https://github.com/r-dbi/RPostgres</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="do">## R https://solutions.posit.co/connections/db/</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="do">## odbc: https://solutions.posit.co/connections/db/best-practices/drivers/</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"RPostgres"</span>, <span class="st">"DBI"</span>, <span class="st">"odbc"</span>))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Load libraries</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RPostgres)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(odbc)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Connect to PostgreSQL and database</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  RPostgres<span class="sc">::</span><span class="fu">Postgres</span>(),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname   =</span> <span class="st">"university"</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">host     =</span> <span class="st">"localhost"</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">port     =</span> <span class="dv">5432</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">user     =</span> <span class="st">"postgres"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"123489"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Perform queries</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co"># (a) Simple query: fetch all rows/columns in 'instructor'</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>instructor_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM instructor"</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(instructor_data)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co"># (b) Fetch instructors in 'Comp. Sci.' department with salary &gt; 60000</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>comp_sci_instructors <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  con,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * FROM instructor</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="st">   WHERE dept_name = 'Comp. Sci.' AND salary &gt; 60000;"</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>comp_sci_instructors</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co"># (c) Query 'student' table: students with tot_cred &gt;= 50</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>student_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM student WHERE tot_cred &gt;= 50"</span>)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student_data)</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="do">## Export to CSV</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(instructor_data, <span class="at">file =</span> <span class="st">"instructor_export.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="do">## Clean up</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 </section>
