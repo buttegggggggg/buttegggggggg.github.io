@@ -1318,60 +1318,109 @@ outfit plus 3–5 ranked alternatives, each with a score and explanation.
     to weather
 -   **Style** — style-tag consistency across items, and style–occasion fit scores
 
-#### Database Tables
+#### Database Tables (Simplified — 7 Tables)
 
-##### Reference Tables
+The original design used 21 normalized tables. To reduce complexity while preserving all core
+functionality, the schema was consolidated into 7 tables by: (1) removing the `User` table
+(single-user system), (2) absorbing lookup tables (Category, Color, Fabric, StyleTag) into
+JSON columns on `ClothingItem`, (3) merging detail tables into their parent tables, and
+(4) unifying wear tracking and laundry into a single event log.
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `User` | `user_id` PK, `name` | Stores user identity |
-| `Category` | `category_id` PK, `name` | Clothing categories: top, bottom, shoes, outerwear, accessory |
-| `Color` | `color_id` PK, `name` | Color names (black, white, navy, grey, beige…) |
-| `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | Fabric type with warmth (0–100) and breathability (0–100) ratings |
-| `StyleTag` | `style_id` PK, `name` | Style labels: street, formal, clean fit, simple, blokecore... |
-| `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | Occasion with required formality range |
+##### 1. ClothingItem
 
-##### Style & Calendar
+| Column | Type | Description |
+|--------|------|-------------|
+| `item_id` | INT PK | Unique identifier |
+| `name` | VARCHAR(50) | Item name (e.g. "Navy Oxford Shirt") |
+| `category` | VARCHAR(20) | Category: top, bottom, shoes, outerwear, accessory |
+| `fabric` | VARCHAR(20) | Fabric type (e.g. cotton, denim, linen, polyester) |
+| `warmth_weight` | INT | Warmth rating (0–100) |
+| `breathability` | INT | Breathability rating (0–100) |
+| `colors` | JSON | Color roles: `[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]` |
+| `styles` | JSON | Style tags: `["clean fit","formal"]` |
+| `formality_score` | INT | Formality level (0–100) |
+| `clean_score` | INT | Cleanliness (100 = fresh, 0 = needs wash); item is recommendable only when > 0 |
+| `status` | VARCHAR(10) | `active` or `archived`; only active items enter recommendation |
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `StyleOccasionFit` | `style_id` FK, `occasion_id` FK, `fit_score` | Fit score (0–100) between a style and an occasion (PK: style_id + occasion_id) |
-| `CalendarEvent` | `event_id` PK, `user_id` FK, `occasion_id` FK, `event_date`, `start_time` | Calendar entry mapped to an occasion; drives automatic occasion detection |
+*Absorbs the former: User, Category, Color, Fabric, StyleTag, ItemStyle, ItemColor.*
 
-##### Clothing Item & Tags
+##### 2. Occasion
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `ClothingItem` | `item_id` PK, `user_id` FK, `category_id` FK, `fabric_id` FK, `formality_score`, `warmth_score`, `clean_score`, `status` | Main clothing table; recommendable only if `clean_score > 0` and `status = 'active'` |
-| `ItemStyle` | `item_id` FK, `style_id` FK | Many-to-many: clothing item to style tags |
-| `ItemColor` | `item_id` FK, `color_id` FK, `role` (primary/secondary/accent) | Color role assignment per item; max 3 colors per item |
+| Column | Type | Description |
+|--------|------|-------------|
+| `occasion_id` | INT PK | Unique identifier |
+| `name` | VARCHAR(30) | Occasion name (e.g. "job interview", "casual outing", "gym") |
+| `formality_min` | INT | Minimum acceptable formality (0–100) |
+| `formality_max` | INT | Maximum acceptable formality (0–100) |
+| `style_fit` | JSON | Style-to-fit-score mapping: `{"formal":95,"clean fit":80,"street":20}` |
 
-##### Weather
+*Absorbs the former: Occasion, StyleOccasionFit. The `style_fit` JSON replaces the separate many-to-many table.*
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `WeatherSnapshot` | `weather_id` PK, `location`, `temp_c`, `feels_like_c`, `humidity`, `wind_speed`, `precip_mm` | Real-time weather data snapshot |
-| `WeatherCondition` | `condition_id` PK, `name`, temp/precip/wind/humidity ranges | Named weather condition (e.g. cold_rainy, hot_humid) used for rule matching |
+##### 3. CalendarEvent
 
-##### Outfit
+| Column | Type | Description |
+|--------|------|-------------|
+| `event_id` | INT PK | Unique identifier |
+| `occasion_id` | INT FK → Occasion | Links to the occasion type |
+| `event_date` | DATE | Date of the event |
+| `start_time` | TIME | Start time; used to determine morning vs. evening outfit needs |
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `Outfit` | `outfit_id` PK, `user_id` FK, `occasion_id` FK, `weather_id` FK, `total_score`, `explanation` | Generated outfit with total score and explanation |
-| `OutfitItem` | PK(outfit_id, slot, layer_order), `item_id` FK | Outfit detail; supports multi-layer dressing within the same slot |
+*Drives automatic occasion detection: the system reads today's events to determine the occasion context.*
 
-##### Scoring Rules
+##### 4. Weather
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `OutfitScoringRule` | `score_rule_id` PK, `rule_type`, `score_delta`, `condition_json`, `valid_from`, `valid_until` | Scoring rule with optional expiry date to support trend-based rules |
-| `WearDegradeRule` | `degrade_rule_id` PK, `category_id` FK, `occasion_id` FK (nullable), `condition_id` FK (nullable), `delta_clean_score` | Clean score deduction rule; multiple matching rules are stacked per wear event |
+| Column | Type | Description |
+|--------|------|-------------|
+| `weather_id` | INT PK | Unique identifier |
+| `condition_name` | VARCHAR(20) | Named condition (e.g. "cold_rainy", "hot_humid", "mild_clear") |
+| `temp_c` | DECIMAL(4,1) | Temperature in Celsius |
+| `feels_like_c` | DECIMAL(4,1) | Feels-like temperature |
+| `humidity` | INT | Humidity percentage (0–100) |
+| `wind_speed` | DECIMAL(4,1) | Wind speed in km/h |
+| `precip_mm` | DECIMAL(5,1) | Precipitation in mm |
 
-##### Wear Tracking & Laundry
+*Merges the former: WeatherSnapshot, WeatherCondition. The `condition_name` column replaces the separate condition lookup table.*
 
-| Table | Key Columns | Description |
-|-------|-------------|-------------|
-| `WearEvent` | `event_id` PK, `user_id` FK, `outfit_id` FK, `occasion_id` FK, `weather_id` FK, `worn_at` | Records each time an outfit is worn |
-| `WearEventItem` | PK(event_id, item_id), `delta_applied`, `clean_score_after` | Per-item deduction detail and resulting clean score after wear |
-| `LaundryBatch` | `batch_id` PK, `user_id` FK, `laundry_type` (dark/light) | Laundry batch grouped by color type |
-| `LaundryBatchItem` | PK(batch_id, item_id), `reset_to_score` = 100 | Resets clean score to 100 upon laundering |
+##### 5. Outfit
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `outfit_id` | INT PK | Unique identifier |
+| `occasion_id` | INT FK → Occasion | The occasion this outfit was generated for |
+| `weather_id` | INT FK → Weather | The weather snapshot at generation time |
+| `items` | JSON | Ordered item list: `[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]` |
+| `color_score` | INT | Color harmony sub-score (60/30/10 rule) |
+| `fabric_score` | INT | Fabric compatibility sub-score |
+| `style_score` | INT | Style consistency sub-score |
+| `total_score` | INT | Weighted total of the three sub-scores |
+| `explanation` | TEXT | Human-readable scoring breakdown |
+
+*Merges the former: Outfit, OutfitItem. The `items` JSON replaces the separate detail table, supporting multi-layer dressing via the `layer` field.*
+
+##### 6. ScoringRule
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `rule_id` | INT PK | Unique identifier |
+| `rule_type` | VARCHAR(20) | `outfit_score` (scoring bonus/penalty) or `wear_degrade` (clean score deduction) |
+| `description` | VARCHAR(100) | Human-readable rule description (e.g. "Same-fabric bonus +5") |
+| `condition_json` | JSON | Condition to match: `{"category":"top","occasion":"gym"}` |
+| `score_delta` | INT | Points to add/subtract when condition is met |
+| `valid_from` | DATE | Rule effective start (nullable; supports trend-based rules) |
+| `valid_until` | DATE | Rule expiry date (nullable) |
+
+*Merges the former: OutfitScoringRule, WearDegradeRule. The `rule_type` column distinguishes between outfit scoring rules and wear degradation rules.*
+
+##### 7. WearLog
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `log_id` | INT PK | Unique identifier |
+| `item_id` | INT FK → ClothingItem | The clothing item involved |
+| `outfit_id` | INT FK → Outfit | Associated outfit (nullable; null for laundry events) |
+| `event_type` | VARCHAR(10) | `wear` or `laundry` |
+| `event_date` | TIMESTAMP | When the event occurred |
+| `delta_clean` | INT | Clean score change (negative for wear, positive for laundry reset to 100) |
+| `clean_score_after` | INT | Resulting clean score after this event |
+
+*Merges the former: WearEvent, WearEventItem, LaundryBatch, LaundryBatchItem. Each row records one item's wear or laundry event. Laundry resets `clean_score` to 100.*
