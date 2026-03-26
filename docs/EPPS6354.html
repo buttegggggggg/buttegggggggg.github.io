@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.scss">
@@ -312,6 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
   <li><a href="#database-tables-simplified-7-tables" id="toc-database-tables-simplified-7-tables" class="nav-link" data-scroll-target="#database-tables-simplified-7-tables">Database Tables (Simplified — 7 Tables)</a>
   <ul>
+  <li><a href="#entity-relationship-diagram" id="toc-entity-relationship-diagram" class="nav-link" data-scroll-target="#entity-relationship-diagram">Entity-Relationship Diagram</a></li>
   <li><a href="#clothingitem" id="toc-clothingitem" class="nav-link" data-scroll-target="#clothingitem">1. ClothingItem</a></li>
   <li><a href="#occasion" id="toc-occasion" class="nav-link" data-scroll-target="#occasion">2. Occasion</a></li>
   <li><a href="#calendarevent" id="toc-calendarevent" class="nav-link" data-scroll-target="#calendarevent">3. CalendarEvent</a></li>
@@ -1221,6 +1225,98 @@ manages (ID, manager_id)</code></pre>
 <section id="database-tables-simplified-7-tables" class="level4">
 <h4 class="anchored" data-anchor-id="database-tables-simplified-7-tables">Database Tables (Simplified — 7 Tables)</h4>
 <p>The original design used 21 normalized tables. To reduce complexity while preserving all core functionality, the schema was consolidated into 7 tables by: (1) removing the <code>User</code> table (single-user system), (2) absorbing lookup tables (Category, Color, Fabric, StyleTag) into JSON columns on <code>ClothingItem</code>, (3) merging detail tables into their parent tables, and (4) unifying wear tracking and laundry into a single event log.</p>
+<section id="entity-relationship-diagram" class="level5">
+<h5 class="anchored" data-anchor-id="entity-relationship-diagram">Entity-Relationship Diagram</h5>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+    ClothingItem {
+        INT item_id PK
+        VARCHAR name
+        VARCHAR category
+        VARCHAR fabric
+        INT warmth_weight
+        INT breathability
+        JSON colors
+        JSON styles
+        INT formality_score
+        INT clean_score
+        VARCHAR status
+    }
+
+    Occasion {
+        INT occasion_id PK
+        VARCHAR name
+        INT formality_min
+        INT formality_max
+        JSON style_fit
+    }
+
+    CalendarEvent {
+        INT event_id PK
+        INT occasion_id FK
+        DATE event_date
+        TIME start_time
+    }
+
+    Weather {
+        INT weather_id PK
+        VARCHAR condition_name
+        DECIMAL temp_c
+        DECIMAL feels_like_c
+        INT humidity
+        DECIMAL wind_speed
+        DECIMAL precip_mm
+    }
+
+    Outfit {
+        INT outfit_id PK
+        INT occasion_id FK
+        INT weather_id FK
+        JSON items
+        INT color_score
+        INT fabric_score
+        INT style_score
+        INT total_score
+        TEXT explanation
+    }
+
+    ScoringRule {
+        INT rule_id PK
+        VARCHAR rule_type
+        VARCHAR description
+        JSON condition_json
+        INT score_delta
+        DATE valid_from
+        DATE valid_until
+    }
+
+    WearLog {
+        INT log_id PK
+        INT item_id FK
+        INT outfit_id FK
+        VARCHAR event_type
+        TIMESTAMP event_date
+        INT delta_clean
+        INT clean_score_after
+    }
+
+    Occasion ||--o{ CalendarEvent : "has"
+    Occasion ||--o{ Outfit : "generates"
+    Weather ||--o{ Outfit : "conditions"
+    Outfit ||--o{ WearLog : "records"
+    ClothingItem ||--o{ WearLog : "tracks"
+    ScoringRule }o--o{ Outfit : "evaluates"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
 <section id="clothingitem" class="level5">
 <h5 class="anchored" data-anchor-id="clothingitem">1. ClothingItem</h5>
 <table class="caption-top table">

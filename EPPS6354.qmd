@@ -1326,6 +1326,89 @@ functionality, the schema was consolidated into 7 tables by: (1) removing the `U
 JSON columns on `ClothingItem`, (3) merging detail tables into their parent tables, and
 (4) unifying wear tracking and laundry into a single event log.
 
+##### Entity-Relationship Diagram
+
+```{mermaid}
+erDiagram
+    ClothingItem {
+        INT item_id PK
+        VARCHAR name
+        VARCHAR category
+        VARCHAR fabric
+        INT warmth_weight
+        INT breathability
+        JSON colors
+        JSON styles
+        INT formality_score
+        INT clean_score
+        VARCHAR status
+    }
+
+    Occasion {
+        INT occasion_id PK
+        VARCHAR name
+        INT formality_min
+        INT formality_max
+        JSON style_fit
+    }
+
+    CalendarEvent {
+        INT event_id PK
+        INT occasion_id FK
+        DATE event_date
+        TIME start_time
+    }
+
+    Weather {
+        INT weather_id PK
+        VARCHAR condition_name
+        DECIMAL temp_c
+        DECIMAL feels_like_c
+        INT humidity
+        DECIMAL wind_speed
+        DECIMAL precip_mm
+    }
+
+    Outfit {
+        INT outfit_id PK
+        INT occasion_id FK
+        INT weather_id FK
+        JSON items
+        INT color_score
+        INT fabric_score
+        INT style_score
+        INT total_score
+        TEXT explanation
+    }
+
+    ScoringRule {
+        INT rule_id PK
+        VARCHAR rule_type
+        VARCHAR description
+        JSON condition_json
+        INT score_delta
+        DATE valid_from
+        DATE valid_until
+    }
+
+    WearLog {
+        INT log_id PK
+        INT item_id FK
+        INT outfit_id FK
+        VARCHAR event_type
+        TIMESTAMP event_date
+        INT delta_clean
+        INT clean_score_after
+    }
+
+    Occasion ||--o{ CalendarEvent : "has"
+    Occasion ||--o{ Outfit : "generates"
+    Weather ||--o{ Outfit : "conditions"
+    Outfit ||--o{ WearLog : "records"
+    ClothingItem ||--o{ WearLog : "tracks"
+    ScoringRule }o--o{ Outfit : "evaluates"
+```
+
 ##### 1. ClothingItem
 
 | Column | Type | Description |

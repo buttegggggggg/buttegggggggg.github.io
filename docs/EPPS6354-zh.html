@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.scss">
@@ -286,15 +289,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統" id="toc-天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統" class="nav-link" data-scroll-target="#天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統">天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統</a>
   <ul>
   <li><a href="#專案概述" id="toc-專案概述" class="nav-link" data-scroll-target="#專案概述">專案概述</a></li>
-  <li><a href="#資料庫資料表" id="toc-資料庫資料表" class="nav-link" data-scroll-target="#資料庫資料表">資料庫資料表</a>
+  <li><a href="#資料庫資料表簡化版-7-張表" id="toc-資料庫資料表簡化版-7-張表" class="nav-link" data-scroll-target="#資料庫資料表簡化版-7-張表">資料庫資料表（簡化版 — 7 張表）</a>
   <ul>
-  <li><a href="#參照資料表" id="toc-參照資料表" class="nav-link" data-scroll-target="#參照資料表">參照資料表</a></li>
-  <li><a href="#風格與行事曆" id="toc-風格與行事曆" class="nav-link" data-scroll-target="#風格與行事曆">風格與行事曆</a></li>
-  <li><a href="#衣物項目與標籤" id="toc-衣物項目與標籤" class="nav-link" data-scroll-target="#衣物項目與標籤">衣物項目與標籤</a></li>
-  <li><a href="#天氣" id="toc-天氣" class="nav-link" data-scroll-target="#天氣">天氣</a></li>
-  <li><a href="#穿搭" id="toc-穿搭" class="nav-link" data-scroll-target="#穿搭">穿搭</a></li>
-  <li><a href="#評分規則" id="toc-評分規則" class="nav-link" data-scroll-target="#評分規則">評分規則</a></li>
-  <li><a href="#穿著追蹤與洗衣" id="toc-穿著追蹤與洗衣" class="nav-link" data-scroll-target="#穿著追蹤與洗衣">穿著追蹤與洗衣</a></li>
+  <li><a href="#實體關係圖" id="toc-實體關係圖" class="nav-link" data-scroll-target="#實體關係圖">實體關係圖</a></li>
+  <li><a href="#clothingitem衣物項目" id="toc-clothingitem衣物項目" class="nav-link" data-scroll-target="#clothingitem衣物項目">1. ClothingItem（衣物項目）</a></li>
+  <li><a href="#occasion場合" id="toc-occasion場合" class="nav-link" data-scroll-target="#occasion場合">2. Occasion（場合）</a></li>
+  <li><a href="#calendarevent行事曆事件" id="toc-calendarevent行事曆事件" class="nav-link" data-scroll-target="#calendarevent行事曆事件">3. CalendarEvent（行事曆事件）</a></li>
+  <li><a href="#weather天氣" id="toc-weather天氣" class="nav-link" data-scroll-target="#weather天氣">4. Weather（天氣）</a></li>
+  <li><a href="#outfit穿搭" id="toc-outfit穿搭" class="nav-link" data-scroll-target="#outfit穿搭">5. Outfit（穿搭）</a></li>
+  <li><a href="#scoringrule評分規則" id="toc-scoringrule評分規則" class="nav-link" data-scroll-target="#scoringrule評分規則">6. ScoringRule（評分規則）</a></li>
+  <li><a href="#wearlog穿著日誌" id="toc-wearlog穿著日誌" class="nav-link" data-scroll-target="#wearlog穿著日誌">7. WearLog（穿著日誌）</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
@@ -998,245 +1002,485 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>風格</strong> — 衣物間風格標籤的一致性，以及風格與場合的適配分數</li>
 </ul>
 </section>
-<section id="資料庫資料表" class="level4">
-<h4 class="anchored" data-anchor-id="資料庫資料表">資料庫資料表</h4>
-<section id="參照資料表" class="level5">
-<h5 class="anchored" data-anchor-id="參照資料表">參照資料表</h5>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>User</code></td>
-<td><code>user_id</code> PK, <code>name</code></td>
-<td>儲存使用者身分</td>
-</tr>
-<tr class="even">
-<td><code>Category</code></td>
-<td><code>category_id</code> PK, <code>name</code></td>
-<td>衣物類別：上衣、下裝、鞋子、外套、配件</td>
-</tr>
-<tr class="odd">
-<td><code>Color</code></td>
-<td><code>color_id</code> PK, <code>name</code></td>
-<td>顏色名稱（黑、白、海軍藍、灰、米色…）</td>
-</tr>
-<tr class="even">
-<td><code>Fabric</code></td>
-<td><code>fabric_id</code> PK, <code>name</code>, <code>warmth_weight</code>, <code>breathability</code></td>
-<td>布料類型，含保暖度 (0-100) 和透氣度 (0-100) 評分</td>
-</tr>
-<tr class="odd">
-<td><code>StyleTag</code></td>
-<td><code>style_id</code> PK, <code>name</code></td>
-<td>風格標籤：街頭風、正式、簡約風、簡單、blokecore…</td>
-</tr>
-<tr class="even">
-<td><code>Occasion</code></td>
-<td><code>occasion_id</code> PK, <code>name</code>, <code>target_formality_min</code>, <code>target_formality_max</code></td>
-<td>場合及其要求的正式度範圍</td>
-</tr>
-</tbody>
-</table>
+<section id="資料庫資料表簡化版-7-張表" class="level4">
+<h4 class="anchored" data-anchor-id="資料庫資料表簡化版-7-張表">資料庫資料表（簡化版 — 7 張表）</h4>
+<p>原始設計使用 21 張正規化資料表。為降低複雜度同時保留所有核心功能，綱要被整合為 7 張表，方法為：(1) 移除 <code>User</code> 表（單人系統），(2) 將查找表（Category、Color、Fabric、StyleTag）吸收為 <code>ClothingItem</code> 的 JSON 欄位，(3) 將明細表合併到主表，(4) 將穿著追蹤與洗衣統一為單一事件日誌。</p>
+<section id="實體關係圖" class="level5">
+<h5 class="anchored" data-anchor-id="實體關係圖">實體關係圖</h5>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+    ClothingItem {
+        INT item_id PK
+        VARCHAR name
+        VARCHAR category
+        VARCHAR fabric
+        INT warmth_weight
+        INT breathability
+        JSON colors
+        JSON styles
+        INT formality_score
+        INT clean_score
+        VARCHAR status
+    }
+
+    Occasion {
+        INT occasion_id PK
+        VARCHAR name
+        INT formality_min
+        INT formality_max
+        JSON style_fit
+    }
+
+    CalendarEvent {
+        INT event_id PK
+        INT occasion_id FK
+        DATE event_date
+        TIME start_time
+    }
+
+    Weather {
+        INT weather_id PK
+        VARCHAR condition_name
+        DECIMAL temp_c
+        DECIMAL feels_like_c
+        INT humidity
+        DECIMAL wind_speed
+        DECIMAL precip_mm
+    }
+
+    Outfit {
+        INT outfit_id PK
+        INT occasion_id FK
+        INT weather_id FK
+        JSON items
+        INT color_score
+        INT fabric_score
+        INT style_score
+        INT total_score
+        TEXT explanation
+    }
+
+    ScoringRule {
+        INT rule_id PK
+        VARCHAR rule_type
+        VARCHAR description
+        JSON condition_json
+        INT score_delta
+        DATE valid_from
+        DATE valid_until
+    }
+
+    WearLog {
+        INT log_id PK
+        INT item_id FK
+        INT outfit_id FK
+        VARCHAR event_type
+        TIMESTAMP event_date
+        INT delta_clean
+        INT clean_score_after
+    }
+
+    Occasion ||--o{ CalendarEvent : "擁有"
+    Occasion ||--o{ Outfit : "產生"
+    Weather ||--o{ Outfit : "條件"
+    Outfit ||--o{ WearLog : "記錄"
+    ClothingItem ||--o{ WearLog : "追蹤"
+    ScoringRule }o--o{ Outfit : "評估"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </section>
-<section id="風格與行事曆" class="level5">
-<h5 class="anchored" data-anchor-id="風格與行事曆">風格與行事曆</h5>
+<section id="clothingitem衣物項目" class="level5">
+<h5 class="anchored" data-anchor-id="clothingitem衣物項目">1. ClothingItem（衣物項目）</h5>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>StyleOccasionFit</code></td>
-<td><code>style_id</code> FK, <code>occasion_id</code> FK, <code>fit_score</code></td>
-<td>風格與場合之間的適配分數 (0-100)（PK: style_id + occasion_id）</td>
+<td><code>item_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>CalendarEvent</code></td>
-<td><code>event_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>event_date</code>, <code>start_time</code></td>
-<td>對應到場合的行事曆項目；驅動自動場合偵測</td>
+<td><code>name</code></td>
+<td>VARCHAR(50)</td>
+<td>衣物名稱（如「海軍藍牛津襯衫」）</td>
+</tr>
+<tr class="odd">
+<td><code>category</code></td>
+<td>VARCHAR(20)</td>
+<td>類別：上衣、下裝、鞋子、外套、配件</td>
+</tr>
+<tr class="even">
+<td><code>fabric</code></td>
+<td>VARCHAR(20)</td>
+<td>布料類型（如棉、牛仔、亞麻、聚酯纖維）</td>
+</tr>
+<tr class="odd">
+<td><code>warmth_weight</code></td>
+<td>INT</td>
+<td>保暖度評分 (0–100)</td>
+</tr>
+<tr class="even">
+<td><code>breathability</code></td>
+<td>INT</td>
+<td>透氣度評分 (0–100)</td>
+</tr>
+<tr class="odd">
+<td><code>colors</code></td>
+<td>JSON</td>
+<td>顏色角色：<code>[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]</code></td>
+</tr>
+<tr class="even">
+<td><code>styles</code></td>
+<td>JSON</td>
+<td>風格標籤：<code>["clean fit","formal"]</code></td>
+</tr>
+<tr class="odd">
+<td><code>formality_score</code></td>
+<td>INT</td>
+<td>正式度 (0–100)</td>
+</tr>
+<tr class="even">
+<td><code>clean_score</code></td>
+<td>INT</td>
+<td>清潔度（100 = 剛洗好，0 = 需要洗）；僅在 &gt; 0 時可被推薦</td>
+</tr>
+<tr class="odd">
+<td><code>status</code></td>
+<td>VARCHAR(10)</td>
+<td><code>active</code> 或 <code>archived</code>；僅 active 的衣物進入推薦</td>
 </tr>
 </tbody>
 </table>
+<p><em>吸收了原本的：User、Category、Color、Fabric、StyleTag、ItemStyle、ItemColor。</em></p>
 </section>
-<section id="衣物項目與標籤" class="level5">
-<h5 class="anchored" data-anchor-id="衣物項目與標籤">衣物項目與標籤</h5>
+<section id="occasion場合" class="level5">
+<h5 class="anchored" data-anchor-id="occasion場合">2. Occasion（場合）</h5>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>ClothingItem</code></td>
-<td><code>item_id</code> PK, <code>user_id</code> FK, <code>category_id</code> FK, <code>fabric_id</code> FK, <code>formality_score</code>, <code>warmth_score</code>, <code>clean_score</code>, <code>status</code></td>
-<td>主要衣物資料表；僅在 <code>clean_score &gt; 0</code> 且 <code>status = 'active'</code> 時可推薦</td>
+<td><code>occasion_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>ItemStyle</code></td>
-<td><code>item_id</code> FK, <code>style_id</code> FK</td>
-<td>多對多：衣物項目到風格標籤</td>
+<td><code>name</code></td>
+<td>VARCHAR(30)</td>
+<td>場合名稱（如「面試」、「休閒外出」、「健身房」）</td>
 </tr>
 <tr class="odd">
-<td><code>ItemColor</code></td>
-<td><code>item_id</code> FK, <code>color_id</code> FK, <code>role</code> (primary/secondary/accent)</td>
-<td>每件衣物的顏色角色分配；每件衣物最多 3 個顏色</td>
+<td><code>formality_min</code></td>
+<td>INT</td>
+<td>最低可接受正式度 (0–100)</td>
+</tr>
+<tr class="even">
+<td><code>formality_max</code></td>
+<td>INT</td>
+<td>最高可接受正式度 (0–100)</td>
+</tr>
+<tr class="odd">
+<td><code>style_fit</code></td>
+<td>JSON</td>
+<td>風格對適配分數的映射：<code>{"formal":95,"clean fit":80,"street":20}</code></td>
 </tr>
 </tbody>
 </table>
+<p><em>吸收了原本的：Occasion、StyleOccasionFit。<code>style_fit</code> JSON 取代了原本的多對多表。</em></p>
 </section>
-<section id="天氣" class="level5">
-<h5 class="anchored" data-anchor-id="天氣">天氣</h5>
+<section id="calendarevent行事曆事件" class="level5">
+<h5 class="anchored" data-anchor-id="calendarevent行事曆事件">3. CalendarEvent（行事曆事件）</h5>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>WeatherSnapshot</code></td>
-<td><code>weather_id</code> PK, <code>location</code>, <code>temp_c</code>, <code>feels_like_c</code>, <code>humidity</code>, <code>wind_speed</code>, <code>precip_mm</code></td>
-<td>即時天氣資料快照</td>
+<td><code>event_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>WeatherCondition</code></td>
-<td><code>condition_id</code> PK, <code>name</code>, temp/precip/wind/humidity ranges</td>
-<td>命名的天氣條件（如 cold_rainy、hot_humid），用於規則匹配</td>
+<td><code>occasion_id</code></td>
+<td>INT FK → Occasion</td>
+<td>連結到場合類型</td>
+</tr>
+<tr class="odd">
+<td><code>event_date</code></td>
+<td>DATE</td>
+<td>事件日期</td>
+</tr>
+<tr class="even">
+<td><code>start_time</code></td>
+<td>TIME</td>
+<td>開始時間；用於判斷早上或晚上的穿搭需求</td>
 </tr>
 </tbody>
 </table>
+<p><em>驅動自動場合偵測：系統讀取當日事件以決定場合情境。</em></p>
 </section>
-<section id="穿搭" class="level5">
-<h5 class="anchored" data-anchor-id="穿搭">穿搭</h5>
+<section id="weather天氣" class="level5">
+<h5 class="anchored" data-anchor-id="weather天氣">4. Weather（天氣）</h5>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Outfit</code></td>
-<td><code>outfit_id</code> PK, <code>user_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>total_score</code>, <code>explanation</code></td>
-<td>產生的穿搭，含總分和說明</td>
+<td><code>weather_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>OutfitItem</code></td>
-<td>PK(outfit_id, slot, layer_order), <code>item_id</code> FK</td>
-<td>穿搭細節；支援同一位置的多層穿著</td>
+<td><code>condition_name</code></td>
+<td>VARCHAR(20)</td>
+<td>命名的天氣條件（如「cold_rainy」、「hot_humid」、「mild_clear」）</td>
+</tr>
+<tr class="odd">
+<td><code>temp_c</code></td>
+<td>DECIMAL(4,1)</td>
+<td>攝氏溫度</td>
+</tr>
+<tr class="even">
+<td><code>feels_like_c</code></td>
+<td>DECIMAL(4,1)</td>
+<td>體感溫度</td>
+</tr>
+<tr class="odd">
+<td><code>humidity</code></td>
+<td>INT</td>
+<td>濕度百分比 (0–100)</td>
+</tr>
+<tr class="even">
+<td><code>wind_speed</code></td>
+<td>DECIMAL(4,1)</td>
+<td>風速（公里/小時）</td>
+</tr>
+<tr class="odd">
+<td><code>precip_mm</code></td>
+<td>DECIMAL(5,1)</td>
+<td>降水量（毫米）</td>
 </tr>
 </tbody>
 </table>
+<p><em>合併了原本的：WeatherSnapshot、WeatherCondition。<code>condition_name</code> 欄位取代了原本的獨立查找表。</em></p>
 </section>
-<section id="評分規則" class="level5">
-<h5 class="anchored" data-anchor-id="評分規則">評分規則</h5>
+<section id="outfit穿搭" class="level5">
+<h5 class="anchored" data-anchor-id="outfit穿搭">5. Outfit（穿搭）</h5>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>OutfitScoringRule</code></td>
-<td><code>score_rule_id</code> PK, <code>rule_type</code>, <code>score_delta</code>, <code>condition_json</code>, <code>valid_from</code>, <code>valid_until</code></td>
-<td>評分規則，含可選的到期日期以支援趨勢性規則</td>
+<td><code>outfit_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>WearDegradeRule</code></td>
-<td><code>degrade_rule_id</code> PK, <code>category_id</code> FK, <code>occasion_id</code> FK (nullable), <code>condition_id</code> FK (nullable), <code>delta_clean_score</code></td>
-<td>清潔度扣分規則；每次穿著事件可疊加多條匹配規則</td>
+<td><code>occasion_id</code></td>
+<td>INT FK → Occasion</td>
+<td>此穿搭對應的場合</td>
+</tr>
+<tr class="odd">
+<td><code>weather_id</code></td>
+<td>INT FK → Weather</td>
+<td>產生時的天氣快照</td>
+</tr>
+<tr class="even">
+<td><code>items</code></td>
+<td>JSON</td>
+<td>有序衣物清單：<code>[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]</code></td>
+</tr>
+<tr class="odd">
+<td><code>color_score</code></td>
+<td>INT</td>
+<td>色彩和諧子分數（60/30/10 規則）</td>
+</tr>
+<tr class="even">
+<td><code>fabric_score</code></td>
+<td>INT</td>
+<td>布料搭配子分數</td>
+</tr>
+<tr class="odd">
+<td><code>style_score</code></td>
+<td>INT</td>
+<td>風格一致性子分數</td>
+</tr>
+<tr class="even">
+<td><code>total_score</code></td>
+<td>INT</td>
+<td>三個子分數的加權總分</td>
+</tr>
+<tr class="odd">
+<td><code>explanation</code></td>
+<td>TEXT</td>
+<td>人類可讀的評分說明</td>
 </tr>
 </tbody>
 </table>
+<p><em>合併了原本的：Outfit、OutfitItem。<code>items</code> JSON 取代了原本的明細表，透過 <code>layer</code> 欄位支援多層穿著。</em></p>
 </section>
-<section id="穿著追蹤與洗衣" class="level5">
-<h5 class="anchored" data-anchor-id="穿著追蹤與洗衣">穿著追蹤與洗衣</h5>
+<section id="scoringrule評分規則" class="level5">
+<h5 class="anchored" data-anchor-id="scoringrule評分規則">6. ScoringRule（評分規則）</h5>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 39%">
-<col style="width: 39%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>資料表</th>
-<th>主要欄位</th>
+<th>欄位</th>
+<th>型別</th>
 <th>說明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>WearEvent</code></td>
-<td><code>event_id</code> PK, <code>user_id</code> FK, <code>outfit_id</code> FK, <code>occasion_id</code> FK, <code>weather_id</code> FK, <code>worn_at</code></td>
-<td>記錄每次穿著穿搭的事件</td>
+<td><code>rule_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
 </tr>
 <tr class="even">
-<td><code>WearEventItem</code></td>
-<td>PK(event_id, item_id), <code>delta_applied</code>, <code>clean_score_after</code></td>
-<td>每件衣物的扣分細節及穿著後的清潔度分數</td>
+<td><code>rule_type</code></td>
+<td>VARCHAR(20)</td>
+<td><code>outfit_score</code>（評分加減分）或 <code>wear_degrade</code>（清潔度扣分）</td>
 </tr>
 <tr class="odd">
-<td><code>LaundryBatch</code></td>
-<td><code>batch_id</code> PK, <code>user_id</code> FK, <code>laundry_type</code> (dark/light)</td>
-<td>按顏色類型分組的洗衣批次</td>
+<td><code>description</code></td>
+<td>VARCHAR(100)</td>
+<td>人類可讀的規則描述（如「同布料加分 +5」）</td>
 </tr>
 <tr class="even">
-<td><code>LaundryBatchItem</code></td>
-<td>PK(batch_id, item_id), <code>reset_to_score</code> = 100</td>
-<td>洗衣後將清潔度分數重設為 100</td>
+<td><code>condition_json</code></td>
+<td>JSON</td>
+<td>匹配條件：<code>{"category":"top","occasion":"gym"}</code></td>
+</tr>
+<tr class="odd">
+<td><code>score_delta</code></td>
+<td>INT</td>
+<td>條件符合時的加減分數</td>
+</tr>
+<tr class="even">
+<td><code>valid_from</code></td>
+<td>DATE</td>
+<td>規則生效日期（可為空；支援趨勢性規則）</td>
+</tr>
+<tr class="odd">
+<td><code>valid_until</code></td>
+<td>DATE</td>
+<td>規則到期日期（可為空）</td>
 </tr>
 </tbody>
 </table>
+<p><em>合併了原本的：OutfitScoringRule、WearDegradeRule。<code>rule_type</code> 欄位區分穿搭評分規則與穿著扣分規則。</em></p>
+</section>
+<section id="wearlog穿著日誌" class="level5">
+<h5 class="anchored" data-anchor-id="wearlog穿著日誌">7. WearLog（穿著日誌）</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>欄位</th>
+<th>型別</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log_id</code></td>
+<td>INT PK</td>
+<td>唯一識別碼</td>
+</tr>
+<tr class="even">
+<td><code>item_id</code></td>
+<td>INT FK → ClothingItem</td>
+<td>涉及的衣物項目</td>
+</tr>
+<tr class="odd">
+<td><code>outfit_id</code></td>
+<td>INT FK → Outfit</td>
+<td>關聯的穿搭（可為空；洗衣事件時為空）</td>
+</tr>
+<tr class="even">
+<td><code>event_type</code></td>
+<td>VARCHAR(10)</td>
+<td><code>wear</code> 或 <code>laundry</code></td>
+</tr>
+<tr class="odd">
+<td><code>event_date</code></td>
+<td>TIMESTAMP</td>
+<td>事件發生時間</td>
+</tr>
+<tr class="even">
+<td><code>delta_clean</code></td>
+<td>INT</td>
+<td>清潔度變化（穿著為負值，洗衣重設為 100 時為正值）</td>
+</tr>
+<tr class="odd">
+<td><code>clean_score_after</code></td>
+<td>INT</td>
+<td>此事件後的清潔度分數</td>
+</tr>
+</tbody>
+</table>
+<p><em>合併了原本的：WearEvent、WearEventItem、LaundryBatch、LaundryBatchItem。每列記錄一件衣物的穿著或洗衣事件。洗衣將 <code>clean_score</code> 重設為 100。</em></p>
 
 
 </section>

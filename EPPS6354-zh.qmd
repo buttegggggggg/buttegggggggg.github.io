@@ -703,60 +703,188 @@ dbDisconnect(con)
 -   **布料** — 同布料加分、混合布料合理性、相對於天氣的保暖充足度
 -   **風格** — 衣物間風格標籤的一致性，以及風格與場合的適配分數
 
-#### 資料庫資料表
+#### 資料庫資料表（簡化版 — 7 張表）
 
-##### 參照資料表
+原始設計使用 21 張正規化資料表。為降低複雜度同時保留所有核心功能，綱要被整合為 7 張表，方法為：(1) 移除 `User` 表（單人系統），(2) 將查找表（Category、Color、Fabric、StyleTag）吸收為 `ClothingItem` 的 JSON 欄位，(3) 將明細表合併到主表，(4) 將穿著追蹤與洗衣統一為單一事件日誌。
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `User` | `user_id` PK, `name` | 儲存使用者身分 |
-| `Category` | `category_id` PK, `name` | 衣物類別：上衣、下裝、鞋子、外套、配件 |
-| `Color` | `color_id` PK, `name` | 顏色名稱（黑、白、海軍藍、灰、米色...） |
-| `Fabric` | `fabric_id` PK, `name`, `warmth_weight`, `breathability` | 布料類型，含保暖度 (0-100) 和透氣度 (0-100) 評分 |
-| `StyleTag` | `style_id` PK, `name` | 風格標籤：街頭風、正式、簡約風、簡單、blokecore... |
-| `Occasion` | `occasion_id` PK, `name`, `target_formality_min`, `target_formality_max` | 場合及其要求的正式度範圍 |
+##### 實體關係圖
 
-##### 風格與行事曆
+```{mermaid}
+erDiagram
+    ClothingItem {
+        INT item_id PK
+        VARCHAR name
+        VARCHAR category
+        VARCHAR fabric
+        INT warmth_weight
+        INT breathability
+        JSON colors
+        JSON styles
+        INT formality_score
+        INT clean_score
+        VARCHAR status
+    }
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `StyleOccasionFit` | `style_id` FK, `occasion_id` FK, `fit_score` | 風格與場合之間的適配分數 (0-100)（PK: style_id + occasion_id） |
-| `CalendarEvent` | `event_id` PK, `user_id` FK, `occasion_id` FK, `event_date`, `start_time` | 對應到場合的行事曆項目；驅動自動場合偵測 |
+    Occasion {
+        INT occasion_id PK
+        VARCHAR name
+        INT formality_min
+        INT formality_max
+        JSON style_fit
+    }
 
-##### 衣物項目與標籤
+    CalendarEvent {
+        INT event_id PK
+        INT occasion_id FK
+        DATE event_date
+        TIME start_time
+    }
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `ClothingItem` | `item_id` PK, `user_id` FK, `category_id` FK, `fabric_id` FK, `formality_score`, `warmth_score`, `clean_score`, `status` | 主要衣物資料表；僅在 `clean_score > 0` 且 `status = 'active'` 時可推薦 |
-| `ItemStyle` | `item_id` FK, `style_id` FK | 多對多：衣物項目到風格標籤 |
-| `ItemColor` | `item_id` FK, `color_id` FK, `role` (primary/secondary/accent) | 每件衣物的顏色角色分配；每件衣物最多 3 個顏色 |
+    Weather {
+        INT weather_id PK
+        VARCHAR condition_name
+        DECIMAL temp_c
+        DECIMAL feels_like_c
+        INT humidity
+        DECIMAL wind_speed
+        DECIMAL precip_mm
+    }
 
-##### 天氣
+    Outfit {
+        INT outfit_id PK
+        INT occasion_id FK
+        INT weather_id FK
+        JSON items
+        INT color_score
+        INT fabric_score
+        INT style_score
+        INT total_score
+        TEXT explanation
+    }
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `WeatherSnapshot` | `weather_id` PK, `location`, `temp_c`, `feels_like_c`, `humidity`, `wind_speed`, `precip_mm` | 即時天氣資料快照 |
-| `WeatherCondition` | `condition_id` PK, `name`, temp/precip/wind/humidity ranges | 命名的天氣條件（如 cold_rainy、hot_humid），用於規則匹配 |
+    ScoringRule {
+        INT rule_id PK
+        VARCHAR rule_type
+        VARCHAR description
+        JSON condition_json
+        INT score_delta
+        DATE valid_from
+        DATE valid_until
+    }
 
-##### 穿搭
+    WearLog {
+        INT log_id PK
+        INT item_id FK
+        INT outfit_id FK
+        VARCHAR event_type
+        TIMESTAMP event_date
+        INT delta_clean
+        INT clean_score_after
+    }
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `Outfit` | `outfit_id` PK, `user_id` FK, `occasion_id` FK, `weather_id` FK, `total_score`, `explanation` | 產生的穿搭，含總分和說明 |
-| `OutfitItem` | PK(outfit_id, slot, layer_order), `item_id` FK | 穿搭細節；支援同一位置的多層穿著 |
+    Occasion ||--o{ CalendarEvent : "擁有"
+    Occasion ||--o{ Outfit : "產生"
+    Weather ||--o{ Outfit : "條件"
+    Outfit ||--o{ WearLog : "記錄"
+    ClothingItem ||--o{ WearLog : "追蹤"
+    ScoringRule }o--o{ Outfit : "評估"
+```
 
-##### 評分規則
+##### 1. ClothingItem（衣物項目）
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `OutfitScoringRule` | `score_rule_id` PK, `rule_type`, `score_delta`, `condition_json`, `valid_from`, `valid_until` | 評分規則，含可選的到期日期以支援趨勢性規則 |
-| `WearDegradeRule` | `degrade_rule_id` PK, `category_id` FK, `occasion_id` FK (nullable), `condition_id` FK (nullable), `delta_clean_score` | 清潔度扣分規則；每次穿著事件可疊加多條匹配規則 |
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `item_id` | INT PK | 唯一識別碼 |
+| `name` | VARCHAR(50) | 衣物名稱（如「海軍藍牛津襯衫」） |
+| `category` | VARCHAR(20) | 類別：上衣、下裝、鞋子、外套、配件 |
+| `fabric` | VARCHAR(20) | 布料類型（如棉、牛仔、亞麻、聚酯纖維） |
+| `warmth_weight` | INT | 保暖度評分 (0–100) |
+| `breathability` | INT | 透氣度評分 (0–100) |
+| `colors` | JSON | 顏色角色：`[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]` |
+| `styles` | JSON | 風格標籤：`["clean fit","formal"]` |
+| `formality_score` | INT | 正式度 (0–100) |
+| `clean_score` | INT | 清潔度（100 = 剛洗好，0 = 需要洗）；僅在 > 0 時可被推薦 |
+| `status` | VARCHAR(10) | `active` 或 `archived`；僅 active 的衣物進入推薦 |
 
-##### 穿著追蹤與洗衣
+*吸收了原本的：User、Category、Color、Fabric、StyleTag、ItemStyle、ItemColor。*
 
-| 資料表 | 主要欄位 | 說明 |
-|-------|-------------|-------------|
-| `WearEvent` | `event_id` PK, `user_id` FK, `outfit_id` FK, `occasion_id` FK, `weather_id` FK, `worn_at` | 記錄每次穿著穿搭的事件 |
-| `WearEventItem` | PK(event_id, item_id), `delta_applied`, `clean_score_after` | 每件衣物的扣分細節及穿著後的清潔度分數 |
-| `LaundryBatch` | `batch_id` PK, `user_id` FK, `laundry_type` (dark/light) | 按顏色類型分組的洗衣批次 |
-| `LaundryBatchItem` | PK(batch_id, item_id), `reset_to_score` = 100 | 洗衣後將清潔度分數重設為 100 |
+##### 2. Occasion（場合）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `occasion_id` | INT PK | 唯一識別碼 |
+| `name` | VARCHAR(30) | 場合名稱（如「面試」、「休閒外出」、「健身房」） |
+| `formality_min` | INT | 最低可接受正式度 (0–100) |
+| `formality_max` | INT | 最高可接受正式度 (0–100) |
+| `style_fit` | JSON | 風格對適配分數的映射：`{"formal":95,"clean fit":80,"street":20}` |
+
+*吸收了原本的：Occasion、StyleOccasionFit。`style_fit` JSON 取代了原本的多對多表。*
+
+##### 3. CalendarEvent（行事曆事件）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `event_id` | INT PK | 唯一識別碼 |
+| `occasion_id` | INT FK → Occasion | 連結到場合類型 |
+| `event_date` | DATE | 事件日期 |
+| `start_time` | TIME | 開始時間；用於判斷早上或晚上的穿搭需求 |
+
+*驅動自動場合偵測：系統讀取當日事件以決定場合情境。*
+
+##### 4. Weather（天氣）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `weather_id` | INT PK | 唯一識別碼 |
+| `condition_name` | VARCHAR(20) | 命名的天氣條件（如「cold_rainy」、「hot_humid」、「mild_clear」） |
+| `temp_c` | DECIMAL(4,1) | 攝氏溫度 |
+| `feels_like_c` | DECIMAL(4,1) | 體感溫度 |
+| `humidity` | INT | 濕度百分比 (0–100) |
+| `wind_speed` | DECIMAL(4,1) | 風速（公里/小時） |
+| `precip_mm` | DECIMAL(5,1) | 降水量（毫米） |
+
+*合併了原本的：WeatherSnapshot、WeatherCondition。`condition_name` 欄位取代了原本的獨立查找表。*
+
+##### 5. Outfit（穿搭）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `outfit_id` | INT PK | 唯一識別碼 |
+| `occasion_id` | INT FK → Occasion | 此穿搭對應的場合 |
+| `weather_id` | INT FK → Weather | 產生時的天氣快照 |
+| `items` | JSON | 有序衣物清單：`[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]` |
+| `color_score` | INT | 色彩和諧子分數（60/30/10 規則） |
+| `fabric_score` | INT | 布料搭配子分數 |
+| `style_score` | INT | 風格一致性子分數 |
+| `total_score` | INT | 三個子分數的加權總分 |
+| `explanation` | TEXT | 人類可讀的評分說明 |
+
+*合併了原本的：Outfit、OutfitItem。`items` JSON 取代了原本的明細表，透過 `layer` 欄位支援多層穿著。*
+
+##### 6. ScoringRule（評分規則）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `rule_id` | INT PK | 唯一識別碼 |
+| `rule_type` | VARCHAR(20) | `outfit_score`（評分加減分）或 `wear_degrade`（清潔度扣分） |
+| `description` | VARCHAR(100) | 人類可讀的規則描述（如「同布料加分 +5」） |
+| `condition_json` | JSON | 匹配條件：`{"category":"top","occasion":"gym"}` |
+| `score_delta` | INT | 條件符合時的加減分數 |
+| `valid_from` | DATE | 規則生效日期（可為空；支援趨勢性規則） |
+| `valid_until` | DATE | 規則到期日期（可為空） |
+
+*合併了原本的：OutfitScoringRule、WearDegradeRule。`rule_type` 欄位區分穿搭評分規則與穿著扣分規則。*
+
+##### 7. WearLog（穿著日誌）
+
+| 欄位 | 型別 | 說明 |
+|------|------|------|
+| `log_id` | INT PK | 唯一識別碼 |
+| `item_id` | INT FK → ClothingItem | 涉及的衣物項目 |
+| `outfit_id` | INT FK → Outfit | 關聯的穿搭（可為空；洗衣事件時為空） |
+| `event_type` | VARCHAR(10) | `wear` 或 `laundry` |
+| `event_date` | TIMESTAMP | 事件發生時間 |
+| `delta_clean` | INT | 清潔度變化（穿著為負值，洗衣重設為 100 時為正值） |
+| `clean_score_after` | INT | 此事件後的清潔度分數 |
+
+*合併了原本的：WearEvent、WearEventItem、LaundryBatch、LaundryBatchItem。每列記錄一件衣物的穿著或洗衣事件。洗衣將 `clean_score` 重設為 100。*
