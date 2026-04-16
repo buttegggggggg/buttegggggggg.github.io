@@ -283,6 +283,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#c-結果" id="toc-c-結果" class="nav-link" data-scroll-target="#c-結果">c) 結果</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#作業-7-ai-練習shiny" id="toc-作業-7-ai-練習shiny" class="nav-link" data-scroll-target="#作業-7-ai-練習shiny">作業 7 — AI 練習（Shiny）</a>
+  <ul>
+  <li><a href="#app-1-大學資料庫sqlite-ggplot2" id="toc-app-1-大學資料庫sqlite-ggplot2" class="nav-link" data-scroll-target="#app-1-大學資料庫sqlite-ggplot2">App 1 — 大學資料庫（SQLite + ggplot2）</a></li>
+  <li><a href="#app-2-old-faithful-間歇泉直方圖" id="toc-app-2-old-faithful-間歇泉直方圖" class="nav-link" data-scroll-target="#app-2-old-faithful-間歇泉直方圖">App 2 — Old Faithful 間歇泉直方圖</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#期末專案" id="toc-期末專案" class="nav-link" data-scroll-target="#期末專案">期末專案</a>
   <ul>
@@ -984,6 +989,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="do">## Clean up</span></span>
 <span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+</section>
+</section>
+<section id="作業-7-ai-練習shiny" class="level3">
+<h3 class="anchored" data-anchor-id="作業-7-ai-練習shiny">作業 7 — AI 練習（Shiny）</h3>
+<p>製作並修改兩個 Shiny app，並部署到 <strong>shinyapps.io</strong> 上線執行。 App 1 將原本連接本機 PostgreSQL 的設定改為內嵌 <strong>SQLite</strong> 資料庫，讓 它能完全在雲端運作，不需要老師的電腦架設伺服器。</p>
+<section id="app-1-大學資料庫sqlite-ggplot2" class="level4">
+<h4 class="anchored" data-anchor-id="app-1-大學資料庫sqlite-ggplot2">App 1 — 大學資料庫（SQLite + ggplot2）</h4>
+<p><strong>修改內容：</strong></p>
+<ul>
+<li><strong>(a) 密碼 / 連線。</strong> 原本連到 <code>localhost:5432</code> 的 <code>RPostgres</code> 連線改成檔案式 SQLite： <code>dbConnect(RSQLite::SQLite(), "university.db")</code>。<code>university.db</code> 由教科書的 <code>DDL.sql</code> 與 <code>largeRelationsInsertFile.sql</code> 建立，隨 app 一起打包上傳。</li>
+<li><strong>(b) 薪資排序改由高到低。</strong> 將 <code>reorder(dept_name, y_value)</code> 改為 <code>reorder(dept_name, -y_value)</code>，讓最高的長條排在最左邊。</li>
+<li><strong>(c) 換另一個變數與另一張表。</strong> 加了一個 <code>selectInput</code> 下拉選單，可切換兩個查詢：教師平均薪資（<code>instructor</code> 表）與學生平均總學分（<code>student</code> 表）。</li>
+</ul>
+<p><strong>線上 app：</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-1/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-1/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-1/" width="100%" height="650" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
+</section>
+<section id="app-2-old-faithful-間歇泉直方圖" class="level4">
+<h4 class="anchored" data-anchor-id="app-2-old-faithful-間歇泉直方圖">App 2 — Old Faithful 間歇泉直方圖</h4>
+<p><strong>修改內容：</strong></p>
+<ul>
+<li><strong>(a) 長條圖顏色。</strong> 將 <code>col = "blue"</code> 改為專案的統一配色 — 填色 <code>#18A3A380</code>（青綠，<code>color1</code>）、邊框 <code>#FF4D8DCC</code>（粉紅，<code>color2</code>），與 App 1 保持一致。</li>
+</ul>
+<p><strong>線上 app：</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-2/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
 </section>
 </section>
 </section>

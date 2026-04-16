@@ -307,6 +307,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#c-results" id="toc-c-results" class="nav-link" data-scroll-target="#c-results">c) Results</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#assignment-7-ai-exercise-shiny" id="toc-assignment-7-ai-exercise-shiny" class="nav-link" data-scroll-target="#assignment-7-ai-exercise-shiny">Assignment 7 — AI Exercise (Shiny)</a>
+  <ul>
+  <li><a href="#app-1-university-database-sqlite-ggplot2" id="toc-app-1-university-database-sqlite-ggplot2" class="nav-link" data-scroll-target="#app-1-university-database-sqlite-ggplot2">App 1 — University Database (SQLite + ggplot2)</a></li>
+  <li><a href="#app-2-old-faithful-geyser-histogram" id="toc-app-2-old-faithful-geyser-histogram" class="nav-link" data-scroll-target="#app-2-old-faithful-geyser-histogram">App 2 — Old Faithful Geyser Histogram</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
   <ul>
@@ -1204,6 +1209,32 @@ manages (ID, manager_id)</code></pre>
 <span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="do">## Clean up</span></span>
 <span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+</section>
+</section>
+<section id="assignment-7-ai-exercise-shiny" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-7-ai-exercise-shiny">Assignment 7 — AI Exercise (Shiny)</h3>
+<p>Two Shiny apps were built, modified according to the assignment requirements, and deployed live to <strong>shinyapps.io</strong>. App 1 was re-engineered from a local PostgreSQL connection to a bundled <strong>SQLite</strong> database so that it runs fully in the cloud without requiring the instructor’s machine to host a server.</p>
+<section id="app-1-university-database-sqlite-ggplot2" class="level4">
+<h4 class="anchored" data-anchor-id="app-1-university-database-sqlite-ggplot2">App 1 — University Database (SQLite + ggplot2)</h4>
+<p><strong>Modifications applied:</strong></p>
+<ul>
+<li><strong>(a) Password / connection.</strong> The original <code>RPostgres</code> connection to <code>localhost:5432</code> was replaced with a file-based SQLite connection: <code>dbConnect(RSQLite::SQLite(), "university.db")</code>. The <code>university.db</code> file was built from the textbook’s <code>DDL.sql</code> and <code>largeRelationsInsertFile.sql</code> and bundled with the app.</li>
+<li><strong>(b) Sort salary high → low.</strong> Changed <code>reorder(dept_name,     y_value)</code> to <code>reorder(dept_name, -y_value)</code> so the tallest bar sits on the left.</li>
+<li><strong>(c) Another variable from another table.</strong> Added a <code>selectInput</code> dropdown that switches between two queries: average instructor salary (table <code>instructor</code>) and average student total credits (table <code>student</code>).</li>
+</ul>
+<p><strong>Live app:</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-1/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-1/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-1/" width="100%" height="650" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
+</section>
+<section id="app-2-old-faithful-geyser-histogram" class="level4">
+<h4 class="anchored" data-anchor-id="app-2-old-faithful-geyser-histogram">App 2 — Old Faithful Geyser Histogram</h4>
+<p><strong>Modification applied:</strong></p>
+<ul>
+<li><strong>(a) Barchart color.</strong> Changed <code>col = "blue"</code> to the project’s global palette — fill <code>#18A3A380</code> (teal, <code>color1</code>), border <code>#FF4D8DCC</code> (pink, <code>color2</code>) — for consistency with App 1.</li>
+</ul>
+<p><strong>Live app:</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-2/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
 </section>
 </section>
 </section>

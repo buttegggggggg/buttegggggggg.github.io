@@ -1295,6 +1295,47 @@ write.csv(instructor_data, file = "instructor_export.csv", row.names = FALSE)
 dbDisconnect(con)
 ```
 
+### Assignment 7 — AI Exercise (Shiny)
+
+Two Shiny apps were built, modified according to the assignment
+requirements, and deployed live to **shinyapps.io**. App 1 was
+re-engineered from a local PostgreSQL connection to a bundled
+**SQLite** database so that it runs fully in the cloud without
+requiring the instructor's machine to host a server.
+
+#### App 1 — University Database (SQLite + ggplot2)
+
+**Modifications applied:**
+
+-   **(a) Password / connection.** The original `RPostgres` connection
+    to `localhost:5432` was replaced with a file-based SQLite connection:
+    `dbConnect(RSQLite::SQLite(), "university.db")`. The
+    `university.db` file was built from the textbook's `DDL.sql` and
+    `largeRelationsInsertFile.sql` and bundled with the app.
+-   **(b) Sort salary high → low.** Changed `reorder(dept_name,
+    y_value)` to `reorder(dept_name, -y_value)` so the tallest bar sits
+    on the left.
+-   **(c) Another variable from another table.** Added a `selectInput`
+    dropdown that switches between two queries: average instructor
+    salary (table `instructor`) and average student total credits
+    (table `student`).
+
+**Live app:** <https://chentzuyuan.shinyapps.io/epps6354-hw7-1/>
+
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-1/" width="100%" height="650" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
+
+#### App 2 — Old Faithful Geyser Histogram
+
+**Modification applied:**
+
+-   **(a) Barchart color.** Changed `col = "blue"` to the project's
+    global palette — fill `#18A3A380` (teal, `color1`), border
+    `#FF4D8DCC` (pink, `color2`) — for consistency with App 1.
+
+**Live app:** <https://chentzuyuan.shinyapps.io/epps6354-hw7-2/>
+
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
+
 ## Final Project
 
 ### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation
