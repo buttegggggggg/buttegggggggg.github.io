@@ -288,6 +288,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#app-1-大學資料庫sqlite-ggplot2" id="toc-app-1-大學資料庫sqlite-ggplot2" class="nav-link" data-scroll-target="#app-1-大學資料庫sqlite-ggplot2">App 1 — 大學資料庫（SQLite + ggplot2）</a></li>
   <li><a href="#app-2-old-faithful-間歇泉直方圖" id="toc-app-2-old-faithful-間歇泉直方圖" class="nav-link" data-scroll-target="#app-2-old-faithful-間歇泉直方圖">App 2 — Old Faithful 間歇泉直方圖</a></li>
   </ul></li>
+  <li><a href="#作業-8-nba-資料庫-shiny-app" id="toc-作業-8-nba-資料庫-shiny-app" class="nav-link" data-scroll-target="#作業-8-nba-資料庫-shiny-app">作業 8 — NBA 資料庫 Shiny App</a>
+  <ul>
+  <li><a href="#a-在本機-postgresql-建-nba-database" id="toc-a-在本機-postgresql-建-nba-database" class="nav-link" data-scroll-target="#a-在本機-postgresql-建-nba-database">a) 在本機 PostgreSQL 建 NBA database</a></li>
+  <li><a href="#b-export-成-sqlite" id="toc-b-export-成-sqlite" class="nav-link" data-scroll-target="#b-export-成-sqlite">b) Export 成 SQLite</a></li>
+  <li><a href="#c-嵌入-shiny" id="toc-c-嵌入-shiny" class="nav-link" data-scroll-target="#c-嵌入-shiny">c) 嵌入 Shiny</a></li>
+  <li><a href="#d-部署到-shinyapps.io" id="toc-d-部署到-shinyapps.io" class="nav-link" data-scroll-target="#d-部署到-shinyapps.io">d) 部署到 Shinyapps.io</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#期末專案" id="toc-期末專案" class="nav-link" data-scroll-target="#期末專案">期末專案</a>
   <ul>
@@ -1014,6 +1021,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><strong>線上 app：</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-2/</a></p>
 <iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
+</section>
+</section>
+<section id="作業-8-nba-資料庫-shiny-app" class="level3">
+<h3 class="anchored" data-anchor-id="作業-8-nba-資料庫-shiny-app">作業 8 — NBA 資料庫 Shiny App</h3>
+<p>依照 workshop <a href="https://github.com/datageneration/informationmanagement/tree/master/workshop/Shiny">datageneration/informationmanagement — workshop/Shiny</a> 的流程，從 PostgreSQL 建表 → 轉 SQLite → 寫 Shiny → 部署到 <strong>shinyapps.io</strong>，整條 pipeline 跑完並上線。</p>
+<section id="a-在本機-postgresql-建-nba-database" class="level4">
+<h4 class="anchored" data-anchor-id="a-在本機-postgresql-建-nba-database">a) 在本機 PostgreSQL 建 NBA database</h4>
+<p>把課程提供的 <code>NBAPlayers.sql</code> 載入新建的 PostgreSQL 18 資料庫 <code>NBAplayers</code>：</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">createdb</span> <span class="at">-U</span> postgres NBAplayers</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">psql</span> <span class="at">-U</span> postgres <span class="at">-d</span> NBAplayers <span class="at">-f</span> NBAPlayers.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>成功建立三張表：<code>player</code>（4,501 筆）、<code>player_salary</code>（1,292 筆）、 <code>player_photos</code>（4,593 筆）。</p>
+</section>
+<section id="b-export-成-sqlite" class="level4">
+<h4 class="anchored" data-anchor-id="b-export-成-sqlite">b) Export 成 SQLite</h4>
+<p>由於 SQL 檔的 <code>CREATE TABLE</code> 語法本身就相容 SQLite，可以直接把 同一個檔案匯入 SQLite 資料庫檔 <code>nba.db</code>，不需要做語法轉換：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> nba.db <span class="op">&lt;</span> NBAPlayers.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>nba.db</code> 三張表的筆數與 PostgreSQL 完全一致（4,501 / 1,292 / 4,593），確認 export 乾淨。</p>
+</section>
+<section id="c-嵌入-shiny" class="level4">
+<h4 class="anchored" data-anchor-id="c-嵌入-shiny">c) 嵌入 Shiny</h4>
+<p>App 設計成三個 tab，分別操作不同的表：</p>
+<ul>
+<li><strong>Active Players</strong> — 用 <code>idPlayer</code> 將 <code>player</code> 與 <code>player_photos</code> 做 inner join，過濾 <code>is_active = 1</code>，並從 <code>urlPlayerHeadshot</code> 欄位渲染圓形頭像卡片。slider 控制顯示人數（1–519，現役球員全數）。</li>
+<li><strong>Top Salaries</strong> — 用 <code>MAX(value)</code> 對 <code>player_salary</code> 按 <code>namePlayer</code> 聚合，取出每位球員的最高合約，再降序排列。slider 控制 Top-N（5–30）。</li>
+<li><strong>Active vs Retired</strong> — 統計 <code>player</code> 表的 <code>is_active</code> （現役 519 人 vs 退役 3,982 人），同時顯示長條圖與表格。</li>
+</ul>
+<p>採用與作業 7 相同的配色（<code>#18A3A380</code> 填色、<code>#FF4D8DCC</code> 邊框），與整個網站風格一致。</p>
+</section>
+<section id="d-部署到-shinyapps.io" class="level4">
+<h4 class="anchored" data-anchor-id="d-部署到-shinyapps.io">d) 部署到 Shinyapps.io</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>nba.db</code> 隨 app 一起打包上傳，部署的執行環境完全 self-contained， 不需要連外部資料庫。</p>
+<p><strong>線上 app：</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
 </iframe>
 </section>
 </section>

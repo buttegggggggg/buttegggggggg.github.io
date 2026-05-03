@@ -1336,6 +1336,78 @@ requiring the instructor's machine to host a server.
 
 <iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
 
+### Assignment 8 — NBA Database Shiny App
+
+Following the workshop at
+[datageneration/informationmanagement — workshop/Shiny](https://github.com/datageneration/informationmanagement/tree/master/workshop/Shiny),
+the full pipeline was reproduced end-to-end and deployed live to
+**shinyapps.io**.
+
+#### a) Build the NBA database on local PostgreSQL
+
+The course-provided `NBAPlayers.sql` file was loaded into a fresh
+PostgreSQL 18 database named `NBAplayers`:
+
+```bash
+createdb -U postgres NBAplayers
+psql -U postgres -d NBAplayers -f NBAPlayers.sql
+```
+
+Three tables were populated: `player` (4,501 rows), `player_salary`
+(1,292 rows), and `player_photos` (4,593 rows).
+
+#### b) Export into SQLite
+
+Because the SQL file's `CREATE TABLE` syntax is already SQLite-friendly,
+the same file was loaded directly into a SQLite database file
+`nba.db` — no manual schema translation was needed:
+
+```bash
+sqlite3 nba.db < NBAPlayers.sql
+```
+
+Row counts in `nba.db` exactly match the PostgreSQL build
+(4,501 / 1,292 / 4,593), confirming a clean export.
+
+#### c) Embed in Shiny
+
+The app bundles three tabs that exercise different parts of the
+schema:
+
+-   **Active Players** — inner-joins `player` with `player_photos` on
+    `idPlayer`, filters to `is_active = 1`, and renders circular
+    headshot cards from the `urlPlayerHeadshot` column. A slider
+    controls how many players to display (1–519, the full active
+    roster).
+-   **Top Salaries** — aggregates `player_salary` by `namePlayer` using
+    `MAX(value)` to get each player's highest contract, then ranks
+    descending. A slider controls Top-N (5–30).
+-   **Active vs Retired** — counts `is_active` in the `player` table
+    (519 active vs 3,982 retired) and shows both a bar chart and a
+    table.
+
+The same color palette as Assignment 7 (`#18A3A380` fill,
+`#FF4D8DCC` accent) is reused so the look matches the rest of the
+site.
+
+#### d) Deploy on Shinyapps.io
+
+```r
+rsconnect::deployApp(
+  appDir   = "nba-shiny",
+  appName  = "epps6354-hw8-nba",
+  appFiles = c("app.R", "nba.db")
+)
+```
+
+The `nba.db` SQLite file is bundled with the app, so the deployed
+instance is fully self-contained — no remote database connection
+needed.
+
+**Live app:** <https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/>
+
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
+
 ## Final Project
 
 ### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation

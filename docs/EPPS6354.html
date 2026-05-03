@@ -312,6 +312,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#app-1-university-database-sqlite-ggplot2" id="toc-app-1-university-database-sqlite-ggplot2" class="nav-link" data-scroll-target="#app-1-university-database-sqlite-ggplot2">App 1 — University Database (SQLite + ggplot2)</a></li>
   <li><a href="#app-2-old-faithful-geyser-histogram" id="toc-app-2-old-faithful-geyser-histogram" class="nav-link" data-scroll-target="#app-2-old-faithful-geyser-histogram">App 2 — Old Faithful Geyser Histogram</a></li>
   </ul></li>
+  <li><a href="#assignment-8-nba-database-shiny-app" id="toc-assignment-8-nba-database-shiny-app" class="nav-link" data-scroll-target="#assignment-8-nba-database-shiny-app">Assignment 8 — NBA Database Shiny App</a>
+  <ul>
+  <li><a href="#a-build-the-nba-database-on-local-postgresql" id="toc-a-build-the-nba-database-on-local-postgresql" class="nav-link" data-scroll-target="#a-build-the-nba-database-on-local-postgresql">a) Build the NBA database on local PostgreSQL</a></li>
+  <li><a href="#b-export-into-sqlite" id="toc-b-export-into-sqlite" class="nav-link" data-scroll-target="#b-export-into-sqlite">b) Export into SQLite</a></li>
+  <li><a href="#c-embed-in-shiny" id="toc-c-embed-in-shiny" class="nav-link" data-scroll-target="#c-embed-in-shiny">c) Embed in Shiny</a></li>
+  <li><a href="#d-deploy-on-shinyapps.io" id="toc-d-deploy-on-shinyapps.io" class="nav-link" data-scroll-target="#d-deploy-on-shinyapps.io">d) Deploy on Shinyapps.io</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
   <ul>
@@ -1234,6 +1241,45 @@ manages (ID, manager_id)</code></pre>
 </ul>
 <p><strong>Live app:</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw7-2/</a></p>
 <iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw7-2/" width="100%" height="550" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+</iframe>
+</section>
+</section>
+<section id="assignment-8-nba-database-shiny-app" class="level3">
+<h3 class="anchored" data-anchor-id="assignment-8-nba-database-shiny-app">Assignment 8 — NBA Database Shiny App</h3>
+<p>Following the workshop at <a href="https://github.com/datageneration/informationmanagement/tree/master/workshop/Shiny">datageneration/informationmanagement — workshop/Shiny</a>, the full pipeline was reproduced end-to-end and deployed live to <strong>shinyapps.io</strong>.</p>
+<section id="a-build-the-nba-database-on-local-postgresql" class="level4">
+<h4 class="anchored" data-anchor-id="a-build-the-nba-database-on-local-postgresql">a) Build the NBA database on local PostgreSQL</h4>
+<p>The course-provided <code>NBAPlayers.sql</code> file was loaded into a fresh PostgreSQL 18 database named <code>NBAplayers</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">createdb</span> <span class="at">-U</span> postgres NBAplayers</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">psql</span> <span class="at">-U</span> postgres <span class="at">-d</span> NBAplayers <span class="at">-f</span> NBAPlayers.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Three tables were populated: <code>player</code> (4,501 rows), <code>player_salary</code> (1,292 rows), and <code>player_photos</code> (4,593 rows).</p>
+</section>
+<section id="b-export-into-sqlite" class="level4">
+<h4 class="anchored" data-anchor-id="b-export-into-sqlite">b) Export into SQLite</h4>
+<p>Because the SQL file’s <code>CREATE TABLE</code> syntax is already SQLite-friendly, the same file was loaded directly into a SQLite database file <code>nba.db</code> — no manual schema translation was needed:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> nba.db <span class="op">&lt;</span> NBAPlayers.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Row counts in <code>nba.db</code> exactly match the PostgreSQL build (4,501 / 1,292 / 4,593), confirming a clean export.</p>
+</section>
+<section id="c-embed-in-shiny" class="level4">
+<h4 class="anchored" data-anchor-id="c-embed-in-shiny">c) Embed in Shiny</h4>
+<p>The app bundles three tabs that exercise different parts of the schema:</p>
+<ul>
+<li><strong>Active Players</strong> — inner-joins <code>player</code> with <code>player_photos</code> on <code>idPlayer</code>, filters to <code>is_active = 1</code>, and renders circular headshot cards from the <code>urlPlayerHeadshot</code> column. A slider controls how many players to display (1–519, the full active roster).</li>
+<li><strong>Top Salaries</strong> — aggregates <code>player_salary</code> by <code>namePlayer</code> using <code>MAX(value)</code> to get each player’s highest contract, then ranks descending. A slider controls Top-N (5–30).</li>
+<li><strong>Active vs Retired</strong> — counts <code>is_active</code> in the <code>player</code> table (519 active vs 3,982 retired) and shows both a bar chart and a table.</li>
+</ul>
+<p>The same color palette as Assignment 7 (<code>#18A3A380</code> fill, <code>#FF4D8DCC</code> accent) is reused so the look matches the rest of the site.</p>
+</section>
+<section id="d-deploy-on-shinyapps.io" class="level4">
+<h4 class="anchored" data-anchor-id="d-deploy-on-shinyapps.io">d) Deploy on Shinyapps.io</h4>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>nba.db</code> SQLite file is bundled with the app, so the deployed instance is fully self-contained — no remote database connection needed.</p>
+<p><strong>Live app:</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/</a></p>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
 </iframe>
 </section>
 </section>
