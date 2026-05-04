@@ -1371,24 +1371,34 @@ Row counts in `nba.db` exactly match the PostgreSQL build
 
 #### c) Embed in Shiny
 
-The app bundles three tabs that exercise different parts of the
-schema:
+The app follows the instructor-provided template structure: a single
+slider that controls how many active players to render in a `DT`
+DataTable, with each row's headshot embedded as an `<img>` tag.
 
--   **Active Players** — inner-joins `player` with `player_photos` on
-    `idPlayer`, filters to `is_active = 1`, and renders circular
-    headshot cards from the `urlPlayerHeadshot` column. A slider
-    controls how many players to display (1–519, the full active
-    roster).
--   **Top Salaries** — aggregates `player_salary` by `namePlayer` using
-    `MAX(value)` to get each player's highest contract, then ranks
-    descending. A slider controls Top-N (5–30).
--   **Active vs Retired** — counts `is_active` in the `player` table
-    (519 active vs 3,982 retired) and shows both a bar chart and a
-    table.
+The query inner-joins `Player` with `Player_Photos` on `idPlayer` and
+filters to `is_active = 1`:
 
-The same color palette as Assignment 7 (`#18A3A380` fill,
-`#FF4D8DCC` accent) is reused so the look matches the rest of the
-site.
+```sql
+SELECT p.id, p.first_name, p.last_name, p.full_name,
+       pp.urlPlayerHeadshot
+FROM Player p
+INNER JOIN Player_Photos pp ON pp.idPlayer = p.id
+WHERE p.is_active = 1
+LIMIT <slider_value>;
+```
+
+The headshot column is rendered with `escape = FALSE` so the URLs
+become inline images:
+
+```r
+table_df$headshot <- paste0(
+  '<img src="', table_df$urlPlayerHeadshot, '"></img>'
+)
+```
+
+The same color palette as Assignment 7 (`#18A3A380` header,
+`#FF4D8DCC` border) is applied via custom CSS so the look matches the
+rest of the site.
 
 #### d) Deploy on Shinyapps.io
 
@@ -1406,7 +1416,7 @@ needed.
 
 **Live app:** <https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/>
 
-<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
 
 ## Final Project
 

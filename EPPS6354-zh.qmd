@@ -757,19 +757,32 @@ sqlite3 nba.db < NBAPlayers.sql
 
 #### c) 嵌入 Shiny
 
-App 設計成三個 tab，分別操作不同的表：
+App 採用老師提供的模板結構：一個 slider 控制要顯示幾位現役球員，
+資料以 `DT` DataTable 呈現，每筆紀錄的頭像直接以 `<img>` 標籤嵌在
+表格中。
 
--   **Active Players** — 用 `idPlayer` 將 `player` 與 `player_photos`
-    做 inner join，過濾 `is_active = 1`，並從 `urlPlayerHeadshot`
-    欄位渲染圓形頭像卡片。slider 控制顯示人數（1–519，現役球員全數）。
--   **Top Salaries** — 用 `MAX(value)` 對 `player_salary` 按
-    `namePlayer` 聚合，取出每位球員的最高合約，再降序排列。slider
-    控制 Top-N（5–30）。
--   **Active vs Retired** — 統計 `player` 表的 `is_active`
-    （現役 519 人 vs 退役 3,982 人），同時顯示長條圖與表格。
+Query 用 `idPlayer` 將 `Player` 與 `Player_Photos` 做 inner
+join，並過濾 `is_active = 1`：
 
-採用與作業 7 相同的配色（`#18A3A380` 填色、`#FF4D8DCC`
-邊框），與整個網站風格一致。
+```sql
+SELECT p.id, p.first_name, p.last_name, p.full_name,
+       pp.urlPlayerHeadshot
+FROM Player p
+INNER JOIN Player_Photos pp ON pp.idPlayer = p.id
+WHERE p.is_active = 1
+LIMIT <slider_value>;
+```
+
+頭像欄位以 `escape = FALSE` 渲染，讓 URL 直接變成圖片：
+
+```r
+table_df$headshot <- paste0(
+  '<img src="', table_df$urlPlayerHeadshot, '"></img>'
+)
+```
+
+採用與作業 7 相同的配色（`#18A3A380` 表頭、`#FF4D8DCC`
+邊框），透過自訂 CSS 套用，與整個網站風格一致。
 
 #### d) 部署到 Shinyapps.io
 
@@ -786,7 +799,7 @@ rsconnect::deployApp(
 
 **線上 app：** <https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/>
 
-<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
 
 ## 期末專案
 

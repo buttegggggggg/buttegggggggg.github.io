@@ -1262,24 +1262,30 @@ manages (ID, manager_id)</code></pre>
 </section>
 <section id="c-embed-in-shiny" class="level4">
 <h4 class="anchored" data-anchor-id="c-embed-in-shiny">c) Embed in Shiny</h4>
-<p>The app bundles three tabs that exercise different parts of the schema:</p>
-<ul>
-<li><strong>Active Players</strong> — inner-joins <code>player</code> with <code>player_photos</code> on <code>idPlayer</code>, filters to <code>is_active = 1</code>, and renders circular headshot cards from the <code>urlPlayerHeadshot</code> column. A slider controls how many players to display (1–519, the full active roster).</li>
-<li><strong>Top Salaries</strong> — aggregates <code>player_salary</code> by <code>namePlayer</code> using <code>MAX(value)</code> to get each player’s highest contract, then ranks descending. A slider controls Top-N (5–30).</li>
-<li><strong>Active vs Retired</strong> — counts <code>is_active</code> in the <code>player</code> table (519 active vs 3,982 retired) and shows both a bar chart and a table.</li>
-</ul>
-<p>The same color palette as Assignment 7 (<code>#18A3A380</code> fill, <code>#FF4D8DCC</code> accent) is reused so the look matches the rest of the site.</p>
+<p>The app follows the instructor-provided template structure: a single slider that controls how many active players to render in a <code>DT</code> DataTable, with each row’s headshot embedded as an <code>&lt;img&gt;</code> tag.</p>
+<p>The query inner-joins <code>Player</code> with <code>Player_Photos</code> on <code>idPlayer</code> and filters to <code>is_active = 1</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> p.<span class="kw">id</span>, p.first_name, p.last_name, p.full_name,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       pp.urlPlayerHeadshot</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Player p</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> Player_Photos pp <span class="kw">ON</span> pp.idPlayer <span class="op">=</span> p.<span class="kw">id</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> p.is_active <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="op">&lt;</span>slider_value<span class="op">&gt;</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The headshot column is rendered with <code>escape = FALSE</code> so the URLs become inline images:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table_df<span class="sc">$</span>headshot <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;img src="'</span>, table_df<span class="sc">$</span>urlPlayerHeadshot, <span class="st">'"&gt;&lt;/img&gt;'</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The same color palette as Assignment 7 (<code>#18A3A380</code> header, <code>#FF4D8DCC</code> border) is applied via custom CSS so the look matches the rest of the site.</p>
 </section>
 <section id="d-deploy-on-shinyapps.io" class="level4">
 <h4 class="anchored" data-anchor-id="d-deploy-on-shinyapps.io">d) Deploy on Shinyapps.io</h4>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>nba.db</code> SQLite file is bundled with the app, so the deployed instance is fully self-contained — no remote database connection needed.</p>
 <p><strong>Live app:</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/</a></p>
-<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
 </iframe>
 </section>
 </section>

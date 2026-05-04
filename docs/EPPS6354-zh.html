@@ -1042,24 +1042,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="c-嵌入-shiny" class="level4">
 <h4 class="anchored" data-anchor-id="c-嵌入-shiny">c) 嵌入 Shiny</h4>
-<p>App 設計成三個 tab，分別操作不同的表：</p>
-<ul>
-<li><strong>Active Players</strong> — 用 <code>idPlayer</code> 將 <code>player</code> 與 <code>player_photos</code> 做 inner join，過濾 <code>is_active = 1</code>，並從 <code>urlPlayerHeadshot</code> 欄位渲染圓形頭像卡片。slider 控制顯示人數（1–519，現役球員全數）。</li>
-<li><strong>Top Salaries</strong> — 用 <code>MAX(value)</code> 對 <code>player_salary</code> 按 <code>namePlayer</code> 聚合，取出每位球員的最高合約，再降序排列。slider 控制 Top-N（5–30）。</li>
-<li><strong>Active vs Retired</strong> — 統計 <code>player</code> 表的 <code>is_active</code> （現役 519 人 vs 退役 3,982 人），同時顯示長條圖與表格。</li>
-</ul>
-<p>採用與作業 7 相同的配色（<code>#18A3A380</code> 填色、<code>#FF4D8DCC</code> 邊框），與整個網站風格一致。</p>
+<p>App 採用老師提供的模板結構：一個 slider 控制要顯示幾位現役球員， 資料以 <code>DT</code> DataTable 呈現，每筆紀錄的頭像直接以 <code>&lt;img&gt;</code> 標籤嵌在 表格中。</p>
+<p>Query 用 <code>idPlayer</code> 將 <code>Player</code> 與 <code>Player_Photos</code> 做 inner join，並過濾 <code>is_active = 1</code>：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> p.<span class="kw">id</span>, p.first_name, p.last_name, p.full_name,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       pp.urlPlayerHeadshot</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Player p</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> Player_Photos pp <span class="kw">ON</span> pp.idPlayer <span class="op">=</span> p.<span class="kw">id</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> p.is_active <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="op">&lt;</span>slider_value<span class="op">&gt;</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>頭像欄位以 <code>escape = FALSE</code> 渲染，讓 URL 直接變成圖片：</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table_df<span class="sc">$</span>headshot <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;img src="'</span>, table_df<span class="sc">$</span>urlPlayerHeadshot, <span class="st">'"&gt;&lt;/img&gt;'</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>採用與作業 7 相同的配色（<code>#18A3A380</code> 表頭、<code>#FF4D8DCC</code> 邊框），透過自訂 CSS 套用，與整個網站風格一致。</p>
 </section>
 <section id="d-部署到-shinyapps.io" class="level4">
 <h4 class="anchored" data-anchor-id="d-部署到-shinyapps.io">d) 部署到 Shinyapps.io</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">deployApp</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">appDir   =</span> <span class="st">"nba-shiny"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">appName  =</span> <span class="st">"epps6354-hw8-nba"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">appFiles =</span> <span class="fu">c</span>(<span class="st">"app.R"</span>, <span class="st">"nba.db"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>nba.db</code> 隨 app 一起打包上傳，部署的執行環境完全 self-contained， 不需要連外部資料庫。</p>
 <p><strong>線上 app：</strong> <a href="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" class="uri">https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/</a></p>
-<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="800" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
+<iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy">
 </iframe>
 </section>
 </section>
