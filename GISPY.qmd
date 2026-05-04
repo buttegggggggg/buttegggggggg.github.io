@@ -42,14 +42,13 @@ theme1 <- function() {
 }
 ```
 
-## Assignments / 作業 {#assignments}
+## Assignments {#assignments}
 
-### Lab 2 — Retirement Calculator / 退休基金計算器
+### Lab 2 — Retirement Calculator
 
-**Topic / 主題：** Financial planning with compound interest calculations
-以複利計算為基礎的退休基金規劃工具。
+**Topic:** A financial-planning tool built on compound-interest calculations.
 
-**Key Concepts / 核心概念：** Functions, loops, formatted output, compound interest
+**Key Concepts:** Functions, loops, formatted output, compound interest
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -64,7 +63,7 @@ flowchart LR
 ```
 
 ::: {.chart-note .teal}
-**功能說明：** 三種模式 — (1) 逐年基金預測（月複利），(2) 百萬富翁計算器（多少年達到 $1M），(3) 利率比較表（1-30% 年利率）。例：$500/月、10% 年利率、30 年 → **$1.14M**。
+**Three modes:** (1) Year-by-year fund projection (monthly compounding), (2) Millionaire calculator (years until \$1M), (3) Interest-rate comparison table (1–30% annual). Example: \$500/month at 10% annual return for 30 years → **\$1.14M**.
 :::
 
 ```python
@@ -120,17 +119,16 @@ ggplot(df_ret, aes(x = year, y = balance)) +
 ```
 
 ::: {.chart-note .orange}
-**複利效果：** 前 15 年成長緩慢，後 15 年指數加速。$500/月在 10% 年利率下約 **21 年**達到百萬美元（<span style="color:#E65100;">橘色菱形</span>）。複利是長期投資的核心驅動力。
+**Compound interest effect:** Slow growth in the first 15 years, exponential acceleration in the next 15. \$500/month at 10% annual return reaches \$1M in roughly **21 years** (<span style="color:#E65100;">orange diamond</span>). Compounding is the core driver of long-term investing.
 :::
 
 ---
 
-### Lab 3 — Gradebook Manager / 成績管理系統
+### Lab 3 — Gradebook Manager
 
-**Topic / 主題：** Interactive student grade management with CRUD operations
-互動式學生成績管理系統，支援新增、刪除、修改、查詢。
+**Topic:** Interactive student grade management with full CRUD operations.
 
-**Key Concepts / 核心概念：** Lists, nested data structures, menu-driven programming, input validation
+**Key Concepts:** Lists, nested data structures, menu-driven programming, input validation
 
 ```python
 # Menu-driven gradebook
@@ -147,17 +145,16 @@ def main_menu():
 ```
 
 ::: {.chart-note .grey}
-**設計重點：** 使用巢狀 list 儲存學生資料 `[name, grade]`，搭配 while loop 實現持續互動選單。包含輸入驗證（成績範圍 0-100）與錯誤處理。
+**Design highlights:** Stores student records as a nested list `[name, grade]` and uses a `while` loop to drive a persistent interactive menu. Includes input validation (grades 0–100) and error handling.
 :::
 
 ---
 
-### Lab 4 — Modules, Functions & OOP / 模組化程式設計與 OOP
+### Lab 4 — Modules, Functions & OOP
 
-**Topic / 主題：** Modular programming, reusable modules, and object-oriented design
-模組化程式設計、可重用模組與物件導向設計。
+**Topic:** Modular programming, reusable modules, and object-oriented design.
 
-**Key Concepts / 核心概念：** Module imports, OOP (classes), CSV I/O, distance calculations
+**Key Concepts:** Module imports, OOP (classes), CSV I/O, distance calculations
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -206,19 +203,18 @@ def great_circle(lat1, lon1, lat2, lon2):
 ```
 
 ::: {.chart-note .teal}
-**三個子任務：** (a) 計算 CSV 各欄位空值數量，(b) 以 OOP 建立 Parcel 類別計算不動產稅（SFR 5%、MFR 4%、其他 2%），(c) 以 Haversine 公式計算地球表面兩點距離。
+**Three sub-tasks:** (a) Count empty values per column in a CSV file, (b) Use OOP to build a `Parcel` class that assesses property tax (SFR 5%, MFR 4%, others 2%), (c) Compute the great-circle distance between two points on Earth using the Haversine formula.
 :::
 
 ---
 
-### Lab 5 — Pandas Data Analysis / Pandas 資料分析
+### Lab 5 — Pandas Data Analysis
 
-**Topic / 主題：** DataFrame manipulation, grouping, pivoting, and multi-dataset merging
-Pandas DataFrame 操作、分組、樞紐分析與多資料集合併。
+**Topic:** DataFrame manipulation, grouping, pivoting, and multi-dataset merging.
 
-**Datasets / 資料集：** MovieLens (100K ratings), COVID-19 global time series
+**Datasets:** MovieLens (100K ratings), COVID-19 global time series
 
-**Key Concepts / 核心概念：** pandas Series/DataFrame, boolean indexing, GroupBy, pivot tables, merge/join
+**Key Concepts:** pandas Series/DataFrame, boolean indexing, GroupBy, pivot tables, merge/join
 
 ```python
 # COVID-19 fatality rate analysis
@@ -234,17 +230,16 @@ merged = pd.merge(merged, movies, on='movieId')
 ```
 
 ::: {.chart-note .orange}
-**分析重點：** (1) MovieLens — 找出評分最多的電影、男女評分差異最大的電影，(2) COVID-19 — 確診數前 25 國、各國致死率排名（秘魯 9.17% 最高）、月度增量分析（美國 2021 年 9 月增 +430 萬例）。
+**Analysis highlights:** (1) MovieLens — identifying the most-rated movies and the films with the largest male/female rating gap; (2) COVID-19 — top-25 countries by confirmed cases, fatality-rate ranking (Peru highest at 9.17%), and monthly increment analysis (the US gained +4.3M cases in September 2021).
 :::
 
 ---
 
-### Lab 6 — Data Visualization / 資料視覺化
+### Lab 6 — Data Visualization
 
-**Topic / 主題：** Publication-quality charts with matplotlib and Altair
-使用 matplotlib 與 Altair 製作出版品質的圖表與互動式視覺化。
+**Topic:** Publication-quality charts with matplotlib and interactive plots with Altair.
 
-**Datasets / 資料集：** MovieLens, COVID-19, Seattle weather (Vega)
+**Datasets:** MovieLens, COVID-19, Seattle weather (Vega)
 
 ::: {layout-ncol=2}
 ![Top 10 Most-Reviewed Movies](gis_lab6_barh_top10_movies.png)
@@ -259,17 +254,16 @@ merged = pd.merge(merged, movies, on='movieId')
 :::
 
 ::: {.chart-note .teal}
-**視覺化技巧：** 水平長條圖比較電影評論數量、散點圖呈現男女評分差異、圓餅圖展示天氣類型分布、折線圖追蹤 COVID-19 趨勢。Altair 部分製作了互動式 linked chart（點選國家 → 顯示該國死亡趨勢）。
+**Visualization techniques:** Horizontal bar charts to compare review counts, scatter plots to expose male/female rating differences, pie charts for weather-type distribution, and line charts to track COVID-19 trends. The Altair section also produced an interactive linked chart (click a country → reveal its death-trend curve).
 :::
 
 ---
 
-### Lab 7 — GUI Development with PyQt5 / PyQt5 桌面應用程式
+### Lab 7 — GUI Development with PyQt5
 
-**Topic / 主題：** Desktop application: Number guessing game with graphical interface
-使用 PyQt5 開發數字猜謎遊戲桌面應用程式。
+**Topic:** Building a desktop number-guessing game with a graphical interface.
 
-**Key Concepts / 核心概念：** PyQt5 widgets, event-driven programming, signal/slot, Qt Designer
+**Key Concepts:** PyQt5 widgets, event-driven programming, signal/slot, Qt Designer
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -302,17 +296,16 @@ class GuessGame:
 ```
 
 ::: {.chart-note .grey}
-**GUI 功能：** 隨機數字 (1-100) 猜謎遊戲。包含 (1) 猜測追蹤，(2) 提示系統（消耗 5 次機會，縮小範圍到 ±5），(3) 勝利偵測與重設。使用 Qt Designer 設計介面，`frmGuess.py` 為自動生成的 UI 程式碼。
+**GUI features:** A 1–100 random-number guessing game with (1) guess tracking, (2) a hint system that costs 5 guesses and narrows the target window to ±5, and (3) win detection plus reset. The interface is laid out in Qt Designer; `frmGuess.py` is the auto-generated UI code.
 :::
 
 ---
 
-### Lab 8 — ArcGIS API for Python / ArcGIS Python API
+### Lab 8 — ArcGIS API for Python
 
-**Topic / 主題：** Programmatic map creation and spatial data querying with ArcGIS Online
-使用 ArcGIS API 程式化建立地圖與查詢空間資料。
+**Topic:** Programmatic map creation and spatial-data querying with ArcGIS Online.
 
-**Key Concepts / 核心概念：** ArcGIS authentication, WebMap, FeatureLayer queries, basemap cycling
+**Key Concepts:** ArcGIS authentication, WebMap, FeatureLayer queries, basemap cycling
 
 ```python
 from arcgis.gis import GIS
@@ -331,17 +324,16 @@ fl.properties.fields  # Inspect field schema
 ```
 
 ::: {.chart-note .teal}
-**GIS 操作：** 透過 Python API 連接 ArcGIS Online，以 UTD 校園為中心建立互動式地圖，搜尋並疊加建築物圖層，查詢屬性欄位結構，切換不同底圖樣式。
+**GIS operations:** Connect to ArcGIS Online via the Python API, build an interactive map centered on the UTD campus, search for and overlay building layers, inspect attribute-field schemas, and cycle through different basemap styles.
 :::
 
 ---
 
-### Lab 10 — Web Scraping & APIs / 網頁爬蟲與 API
+### Lab 10 — Web Scraping & APIs
 
-**Topic / 主題：** Data extraction from web sources using APIs and scraping tools
-使用 API 與爬蟲工具從網頁來源擷取資料。
+**Topic:** Extracting data from web sources using APIs and scraping tools.
 
-**Key Concepts / 核心概念：** requests, JSON parsing, BeautifulSoup (HTML), Selenium (dynamic content)
+**Key Concepts:** requests, JSON parsing, BeautifulSoup (HTML), Selenium (dynamic content)
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -374,17 +366,16 @@ elements = soup.find_all("div", class_="target")
 ```
 
 ::: {.chart-note .grey}
-**兩種方法：** (1) RESTful API — 發送 GET/POST 請求，解析 JSON 回應，(2) HTML 爬蟲 — 使用 BeautifulSoup 解析 DOM 結構，Selenium 處理動態載入內容。
+**Two approaches:** (1) RESTful APIs — send GET/POST requests and parse the JSON response, (2) HTML scraping — use BeautifulSoup to walk the DOM and Selenium to handle dynamically loaded content.
 :::
 
 ---
 
-### Lab 11 — Regular Expressions & GeoPandas / 正規表達式與地理空間視覺化
+### Lab 11 — Regular Expressions & GeoPandas
 
-**Topic / 主題：** Parse structured text files with regex, create spatial visualizations with GeoPandas
-使用正規表達式解析結構化文字，搭配 GeoPandas 製作地理空間視覺化。
+**Topic:** Parse structured text files with regular expressions and build spatial visualizations with GeoPandas.
 
-**Dataset / 資料集：** `worldcities.txt` — city coordinates in degrees-minutes format
+**Dataset:** `worldcities.txt` — city coordinates in degrees–minutes format.
 
 ```python
 import re
@@ -405,16 +396,16 @@ for line in open("worldcities.txt"):
 ![World Cities Map — GeoPandas with Natural Earth basemap](gis_lab11_worldcities_map.png){width="80%"}
 
 ::: {.chart-note .teal}
-**處理流程：** Regex 從 `worldcities.txt` 擷取城市名、經緯度（度分格式）與國家 → 轉換 DMS 為十進位度數 → 建立 Shapely Point 幾何 → GeoPandas GeoDataFrame → 疊加 Natural Earth 底圖繪製全球城市分布圖。
+**Pipeline:** Regex extracts city name, lat/lon (in degrees–minutes format), and country from `worldcities.txt` → convert DMS to decimal degrees → build Shapely `Point` geometries → load into a GeoPandas `GeoDataFrame` → overlay on the Natural Earth basemap to plot the global city distribution.
 :::
 
 ---
 
-## Midterm / 期中考 {#midterm}
+## Midterm {#midterm}
 
-### Midterm Project — Data Analysis Suite / 資料分析組合
+### Midterm Project — Data Analysis Suite
 
-三個獨立的 Python 程式，展示檔案操作、資料分析與不動產查詢能力。
+Three independent Python programs that demonstrate file operations, data analysis, and real-estate query capability.
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -436,9 +427,9 @@ flowchart TD
     style D1 fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
 ```
 
-#### 1. Alumni Research / 校友研究
+#### 1. Alumni Research
 
-分析校友收入與學貸：按科系統計平均年齡、性別比例、收入排名、學貸還款計算器（以年收入 5% 為月還款）。
+Analyze alumni income and student debt: average age and gender breakdown by major, income ranking, and a loan-payoff calculator (5% of annual income as the monthly payment).
 
 ```python
 # Loan payoff calculator: 5% annual income as monthly payment
@@ -452,9 +443,9 @@ def loan_payoff(debt, annual_income, interest_rate=0.05):
     return months // 12, months % 12
 ```
 
-#### 2. File Manipulation / 檔案操作
+#### 2. File Manipulation
 
-遞迴走訪目錄，偵測 CSV 檔案並以 tab 分隔格式美化輸出。
+Recursively walk a directory tree, detect CSV files, and pretty-print them in tab-separated format.
 
 ```python
 import os
@@ -468,28 +459,27 @@ def process_directory(path):
                     pretty_print_csv(os.path.join(root, f))
 ```
 
-#### 3. Real Estate Search / 不動產搜尋
+#### 3. Real Estate Search
 
-多條件過濾地產：州別代碼、最小居住面積、市價範圍、指定學區。
+Multi-criteria property filter: state code, minimum living area, market-value range, and target school district.
 
 ::: {.chart-note .orange}
-**期中總結：** 三個程式分別展示 (1) pandas 資料分析與合併（`merge on ID`），(2) `os.walk()` 遞迴檔案處理，(3) 多條件邏輯篩選。涵蓋資料科學、系統操作與實務應用三大面向。
+**Midterm summary:** Three programs that exercise (1) pandas data analysis and joining (`merge on ID`), (2) recursive file processing with `os.walk()`, and (3) multi-criterion logical filtering. Together they cover data science, system operations, and practical applications.
 :::
 
 ---
 
-## Final Project / 期末專案 {#final-project}
+## Final Project {#final-project}
 
-### SVD Image Compression Application / SVD 影像壓縮應用程式
+### SVD Image Compression Application
 
-**Task / 任務：** Build an interactive desktop application for image compression using Singular Value Decomposition (SVD), with real-time preview and quality metrics.
-建立互動式桌面應用程式，使用奇異值分解 (SVD) 進行影像壓縮，具備即時預覽與品質指標。
+**Task:** Build an interactive desktop application for image compression using Singular Value Decomposition (SVD), with real-time preview and quality metrics.
 
-**Method / 方法：** PyQt6 GUI + NumPy SVD + PIL image processing
+**Method:** PyQt6 GUI + NumPy SVD + PIL image processing
 
-**Mathematical Foundation / 數學基礎：** Eckart-Young Theorem — A_k = sum(sigma_i * u_i * v_i^T) for i=1 to k
+**Mathematical Foundation:** Eckart–Young Theorem — A_k = sum(sigma_i · u_i · v_iᵀ) for i = 1 … k
 
-#### Application Architecture / 應用程式架構
+#### Application Architecture
 
 ```{mermaid}
 %%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
@@ -511,10 +501,10 @@ flowchart TD
 ```
 
 ::: {.chart-note .teal}
-**SVD 原理：** 任何矩陣 A 可分解為 A = U Sigma V^T。取前 k 個奇異值重建 A_k，即為最佳 rank-k 近似（Eckart-Young 定理）。k 越小壓縮率越高，但品質越低。
+**SVD foundations:** Any matrix `A` decomposes as `A = U Σ Vᵀ`. Taking the top-`k` singular values to rebuild `A_k` yields the best rank-`k` approximation (Eckart–Young theorem). Smaller `k` means higher compression but lower quality.
 :::
 
-#### Core Algorithm / 核心演算法
+#### Core Algorithm
 
 ```python
 import numpy as np
@@ -543,7 +533,7 @@ def calculate_psnr(original, compressed):
     return 10 * np.log10(255**2 / mse) if mse > 0 else float('inf')
 ```
 
-#### GUI Features / 介面功能
+#### GUI Features
 
 ```python
 # PyQt6 GUI with dual slider control
@@ -558,24 +548,24 @@ class SVDCompressor(QMainWindow):
         pass
 ```
 
-#### Application Demo / 應用程式展示
+#### Application Demo
 
 ![SVD Compression App — PyQt6 Desktop Application](gis_svd_app_screenshot.png){width="80%"}
 
 ::: {.chart-note .orange}
-**App 功能一覽：**
+**App feature highlights:**
 
-- **拖曳上傳** — 將圖片拖移至介面即可載入
-- **雙滑桿連動** — 壓縮比例 ↔ 目標檔案大小（拖動一條另一條自動調整）
-- **智慧建議** — 三種預設模板：社群媒體 (2 MB)、郵件附件 (5 MB)、高品質存檔 (PSNR > 40 dB)
-- **即時預覽** — 左右對比原圖 vs 壓縮後，下方顯示 PSNR / 檔案大小 / 壓縮比
-- **品質警告** — PSNR 低於 40 dB 時自動彈出警告
-- **基於 Eckart-Young 定理** — 理論保證最佳低秩近似
+- **Drag-and-drop upload** — drop an image into the window to load it
+- **Linked dual sliders** — compression ratio ↔ target file size (moving one auto-updates the other)
+- **Smart presets** — three templates: social media (2 MB), email attachment (5 MB), high-quality archive (PSNR > 40 dB)
+- **Live preview** — side-by-side original vs compressed, with PSNR / file size / compression ratio shown below
+- **Quality warnings** — automatic alert when PSNR drops below 40 dB
+- **Eckart–Young guarantee** — theoretically optimal low-rank approximation
 :::
 
-📎 **Download：** [SVD_app.py (原始碼)](SVD_app.py)
+📎 **Download:** [SVD_app.py (source code)](SVD_app.py)
 
-#### SVD Quality Analysis / SVD 品質分析
+#### SVD Quality Analysis
 
 ::: {layout-ncol=2}
 ![RGB Channel Decomposition](gis_svd_rgb_channels.png)
@@ -616,7 +606,7 @@ grid.arrange(p1, p2, ncol = 2,
 ```
 
 ::: {.chart-note .pink}
-**品質分析：** 左圖 — PSNR 隨 k 增加而提升，k=300 時達 **31.88 dB**（超過 30 dB 門檻，<span style="color:#7A7A7A;">灰色虛線</span>），k=700 時接近原圖品質 (44.70 dB)。右圖 — MSE 呈指數下降，k=300 後改善趨緩。**實務結論：** k=200~400 是壓縮率與品質的最佳平衡區間。
+**Quality analysis:** Left — PSNR rises with `k`, reaching **31.88 dB** at `k = 300` (above the 30 dB threshold marked by the <span style="color:#7A7A7A;">grey dashed line</span>) and approaching the original at `k = 700` (44.70 dB). Right — MSE drops exponentially, with diminishing returns past `k = 300`. **Practical takeaway:** `k = 200–400` is the sweet spot between compression and quality.
 :::
 
 | k | PSNR (dB) | MSE | Compression Ratio |
@@ -628,12 +618,12 @@ grid.arrange(p1, p2, ncol = 2,
 | 700 | 44.70 | 2.2 | 32.0% |
 
 ::: {.chart-note .orange}
-**Eckart-Young 定理驗證：** 實驗確認 ||A - A_k||₂ ≈ sigma_{k+1}，即低秩近似的誤差等於第 k+1 個奇異值。這為選擇最佳 k 值提供了理論依據 — 當 sigma_{k+1} 小於品質門檻時即可停止。
+**Eckart–Young verification:** Experiments confirm ‖A − A_k‖₂ ≈ σ_{k+1} — the error of the low-rank approximation equals the (k+1)-th singular value. This gives a principled rule for choosing `k`: stop once σ_{k+1} drops below the desired quality threshold.
 :::
 
 ---
 
-## Course Skills Summary / 課程技能總覽
+## Course Skills Summary
 
 ```{r skills-summary, echo=FALSE, fig.width=8, fig.height=4.5}
 df_skills <- data.frame(
@@ -664,5 +654,5 @@ ggplot(df_skills, aes(x = labs, y = category, fill = category)) +
 ```
 
 ::: {.chart-note .teal}
-**課程總結：** 從基礎 Python（函式、OOP、檔案操作）到資料科學（pandas、視覺化）、GIS 空間分析（ArcGIS、GeoPandas）、GUI 開發（PyQt5/6）、網頁爬蟲（requests、BeautifulSoup），最終以 SVD 影像壓縮專案整合數學理論與軟體工程能力。
+**Course wrap-up:** From core Python (functions, OOP, file I/O), through data science (pandas, visualization), GIS and spatial analysis (ArcGIS, GeoPandas), GUI development (PyQt5/6), and web scraping (requests, BeautifulSoup), to a final SVD image-compression project that fuses mathematical theory with software-engineering practice.
 :::
