@@ -242,36 +242,32 @@ format:
 
 ## Live demo
 
-A Shiny mock of the three core flows &mdash; upload, closet view,
-recommendation &mdash; for visitors who want to try the UI without
-installing the desktop app. The mock uses emoji placeholders for
-clothing photos and a simplified scoring formula; the real desktop
-app uses uploaded images and a full XGBoost three-stage pipeline.
+A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so
+graders can click through every page without installing anything. It is
+loaded with the *Tester* profile (54 clothing items, 17&thinsp;MB of real
+photos) and is a **brain-in-a-vat**: the original frontend HTML / CSS /
+JS runs unmodified, but a `fetch()` interceptor routes every API call
+to pre-baked JSON. Recommendations, weather, geocoding, uploads, and
+ratings are all simulated &mdash; refresh the page to reset state.
 
 ```{=html}
-<!--
-  ⚠️ TODO: After running `rsconnect::deployApp("closetmind_shiny", ...)`,
-  replace the placeholder block below with the iframe. See
-  closetmind_shiny/DEPLOY.md for the full deploy walkthrough.
-
-<iframe src="https://YOUR-USERNAME.shinyapps.io/closetmind-demo/"
-        width="100%" height="800"
-        style="border:1px solid #ccc;border-radius:10px;"
-        loading="lazy">
-</iframe>
--->
-
-<div style="background:#fafaf8;border:1px dashed #ccc;border-radius:10px;
-            padding:32px 18px;text-align:center;color:#888;">
-  <div style="font-size:1.4rem;margin-bottom:6px;">🚧</div>
-  <div style="font-weight:600;color:#444;">Live demo deploying soon</div>
-  <div style="font-size:0.85rem;margin-top:6px;">
-    Source ready in <code>closetmind_shiny/app.R</code>;
-    deploy to shinyapps.io free tier with one R command — see
-    <a href="https://github.com/buttegggggggg/buttegggggggg.github.io/blob/main/closetmind_shiny/DEPLOY.md"
-       style="color:#666;">DEPLOY.md</a>.
-  </div>
+<div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
+  <iframe src="https://biubiubuttegg.shinyapps.io/wardrobe/"
+          width="100%" height="820"
+          style="display:block;border:0;background:#f6f6f4;"
+          loading="lazy"
+          allow="geolocation"
+          title="ClosetMind live demo">
+  </iframe>
 </div>
+
+<p style="font-size:0.85rem;color:#777;margin:-6px 0 18px;">
+  First load may take ~10 seconds while the shinyapps.io free-tier
+  instance wakes up. If the iframe shows a connection error, open
+  <a href="https://biubiubuttegg.shinyapps.io/wardrobe/" target="_blank"
+     style="color:#666;">the demo URL</a> directly.
+</p>
 ```
 
 ## What it does

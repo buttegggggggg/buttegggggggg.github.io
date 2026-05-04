@@ -802,7 +802,7 @@
     "href": "closetmind.html#live-demo",
     "title": "ClosetMind",
     "section": "Live demo",
-    "text": "Live demo\nA Shiny mock of the three core flows — upload, closet view, recommendation — for visitors who want to try the UI without installing the desktop app. The mock uses emoji placeholders for clothing photos and a simplified scoring formula; the real desktop app uses uploaded images and a full XGBoost three-stage pipeline.\n\n\n\n  🚧\n  Live demo deploying soon\n  \n    Source ready in closetmind_shiny/app.R;\n    deploy to shinyapps.io free tier with one R command — see\n    DEPLOY.md."
+    "text": "Live demo\nA pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the Tester profile (54 clothing items, 17 MB of real photos) and is a brain-in-a-vat: the original frontend HTML / CSS / JS runs unmodified, but a fetch() interceptor routes every API call to pre-baked JSON. Recommendations, weather, geocoding, uploads, and ratings are all simulated — refresh the page to reset state.\n\n  \n  \n\n\n\n  First load may take ~10 seconds while the shinyapps.io free-tier\n  instance wakes up. If the iframe shows a connection error, open\n  the demo URL directly."
   },
   {
     "objectID": "GISPY.html#course-skills-summary",
