@@ -802,7 +802,7 @@
     "href": "closetmind.html#live-demo",
     "title": "ClosetMind",
     "section": "Live demo",
-    "text": "Live demo\nA pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the Tester profile (54 clothing items, 17 MB of real photos) and is a brain-in-a-vat: the original frontend HTML / CSS / JS runs unmodified, but a fetch() interceptor routes every API call to pre-baked JSON. Recommendations, weather, geocoding, uploads, and ratings are all simulated — refresh the page to reset state.\n\n  \n  \n\n\n\n  First load may take ~10 seconds while the shinyapps.io free-tier\n  instance wakes up. If the iframe shows a connection error, open\n  the demo URL directly."
+    "text": "Live demo\nA pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the Tester profile (54 clothing items, 17 MB of real photos). The original frontend HTML / CSS / JS runs unmodified, but a fetch() interceptor backs every endpoint with a session-scoped in-browser store that mirrors the 11-table SQLite schema. Marking an item dirty / sending it to laundry actually mutates the closet within the session; recommendations honor Top K, Occasion, and the force-include selector. Refresh the page to reset to the baseline wardrobe.\n\n  \n  \n\n\n\n  First load may take ~10 seconds while the shinyapps.io free-tier\n  instance wakes up. If the iframe shows a connection error, open\n  the demo URL directly."
   },
   {
     "objectID": "GISPY.html#course-skills-summary",

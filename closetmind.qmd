@@ -245,10 +245,13 @@ format:
 A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so
 graders can click through every page without installing anything. It is
 loaded with the *Tester* profile (54 clothing items, 17&thinsp;MB of real
-photos) and is a **brain-in-a-vat**: the original frontend HTML / CSS /
-JS runs unmodified, but a `fetch()` interceptor routes every API call
-to pre-baked JSON. Recommendations, weather, geocoding, uploads, and
-ratings are all simulated &mdash; refresh the page to reset state.
+photos). The original frontend HTML / CSS / JS runs unmodified, but a
+`fetch()` interceptor backs every endpoint with a session-scoped
+in-browser store that mirrors the 11-table SQLite schema. Marking an
+item dirty / sending it to laundry actually mutates the closet within
+the session; recommendations honor `Top K`, `Occasion`, and the
+force-include selector. Refresh the page to reset to the baseline
+wardrobe.
 
 ```{=html}
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;

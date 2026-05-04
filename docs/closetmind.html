@@ -480,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="live-demo" class="level2">
 <h2 class="anchored" data-anchor-id="live-demo">Live demo</h2>
-<p>A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the <em>Tester</em> profile (54 clothing items, 17 MB of real photos) and is a <strong>brain-in-a-vat</strong>: the original frontend HTML / CSS / JS runs unmodified, but a <code>fetch()</code> interceptor routes every API call to pre-baked JSON. Recommendations, weather, geocoding, uploads, and ratings are all simulated — refresh the page to reset state.</p>
+<p>A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the <em>Tester</em> profile (54 clothing items, 17 MB of real photos). The original frontend HTML / CSS / JS runs unmodified, but a <code>fetch()</code> interceptor backs every endpoint with a session-scoped in-browser store that mirrors the 11-table SQLite schema. Marking an item dirty / sending it to laundry actually mutates the closet within the session; recommendations honor <code>Top K</code>, <code>Occasion</code>, and the force-include selector. Refresh the page to reset to the baseline wardrobe.</p>
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
             box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
   <iframe src="https://biubiubuttegg.shinyapps.io/wardrobe/" width="100%" height="820" style="display:block;border:0;background:#f6f6f4;" loading="lazy" allow="geolocation" title="ClosetMind live demo">
