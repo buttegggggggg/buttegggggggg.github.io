@@ -1,0 +1,405 @@
+---
+title: "ClosetMind"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+.cm-hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+.cm-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.5px;
+  color: #111;
+}
+.cm-hero .cm-tag {
+  font-size: 1rem;
+  color: #888;
+  letter-spacing: 0.4px;
+  margin: 0 auto 1.6rem;
+  max-width: 640px;
+  line-height: 1.6;
+}
+.cm-hero .cm-version {
+  display: inline-block;
+  background: #f6f6f4;
+  color: #555;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.cm-download-row {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  margin-top: 1.6rem;
+}
+.cm-dl-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #111;
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.1s, box-shadow 0.15s;
+  min-width: 220px;
+}
+.cm-dl-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+.cm-dl-btn.secondary {
+  background: #fff;
+  color: #111 !important;
+  border: 1px solid #ccc;
+}
+.cm-dl-btn .cm-dl-os {
+  display: block;
+  font-size: 0.7rem;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.cm-dl-btn.secondary .cm-dl-os { color: #999; }
+.cm-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin: 2rem 0 3rem;
+}
+.cm-stat {
+  background: #fafaf8;
+  padding: 18px 14px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+.cm-stat-val {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.1;
+}
+.cm-stat-val small { font-size: 0.65em; color: #888; font-weight: 500; }
+.cm-stat-label {
+  font-size: 0.75rem;
+  color: #777;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.cm-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 1.6rem 0;
+}
+.cm-feature-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.cm-feature-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: #111;
+}
+.cm-feature-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #555;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .cm-feature { grid-template-columns: 1fr; }
+  .cm-hero h1 { font-size: 2.2rem; }
+}
+.cm-install-note {
+  background: #fff7ec;
+  border: 1px solid #f0d590;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+  color: #6b4400;
+}
+.cm-install-note code {
+  background: rgba(0,0,0,0.05);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.cm-pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #fafaf8;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  margin: 1rem 0;
+}
+.cm-pipeline-stage {
+  flex: 1; min-width: 160px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.cm-pipeline-stage .stage-no {
+  font-size: 0.7rem; color: #999; letter-spacing: 0.5px;
+  text-transform: uppercase; font-weight: 600;
+}
+.cm-pipeline-stage .stage-name {
+  font-size: 1rem; font-weight: 700; color: #111; margin: 4px 0;
+}
+.cm-pipeline-stage .stage-desc {
+  font-size: 0.82rem; color: #666; line-height: 1.45;
+}
+.cm-pipeline-mult {
+  align-self: center;
+  font-size: 1.4rem; color: #aaa; font-weight: 700;
+}
+@media (max-width: 700px) {
+  .cm-pipeline-mult { display: none; }
+}
+.cm-stack {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 0.8rem 0 1.4rem;
+}
+.cm-stack span {
+  background: #f6f6f4; color: #444;
+  padding: 5px 11px; border-radius: 5px;
+  font-size: 0.84rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+</style>
+```
+
+```{=html}
+<div class="cm-hero">
+  <h1>ClosetMind <span class="cm-version">v0.1.0</span></h1>
+  <p class="cm-tag">
+    A local-first desktop app that learns what you actually like to wear,
+    by asking pure-axis questions (temperature, aesthetic, occasion) and
+    chaining three XGBoost classifiers at inference time. Your wardrobe
+    data never leaves your machine.
+  </p>
+  <div class="cm-download-row">
+    <a class="cm-dl-btn" href="closetmind/ClosetMind-0.1.0.dmg" download>
+      <span class="cm-dl-os">macOS &middot; 83 MB</span>
+      Download for Mac
+    </a>
+    <a class="cm-dl-btn secondary" href="#windows">
+      <span class="cm-dl-os">Windows</span>
+      Build instructions &rarr;
+    </a>
+  </div>
+</div>
+```
+
+```{=html}
+<div class="cm-quick-stats">
+  <div class="cm-stat">
+    <div class="cm-stat-val">11</div>
+    <div class="cm-stat-label">DB tables</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">3<small>&times;</small></div>
+    <div class="cm-stat-label">Stage chain</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">0.85<small>4</small></div>
+    <div class="cm-stat-label">Aesthetic AUC</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">2.7<small>K</small></div>
+    <div class="cm-stat-label">Ratings logged</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">172<small> MB</small></div>
+    <div class="cm-stat-label">App bundle</div>
+  </div>
+</div>
+```
+
+## What it does
+
+You upload photos of your clothes once. The app learns three independent
+axes of preference from your ratings, then chains them at recommendation
+time so a single hard fail (wrong temperature, wrong occasion) drives the
+score to zero regardless of how aesthetically pleasing the outfit is.
+
+```{=html}
+<div class="cm-pipeline">
+  <div class="cm-pipeline-stage">
+    <div class="stage-no">Stage 1</div>
+    <div class="stage-name">Temperature</div>
+    <div class="stage-desc">Six zones (subzero / cold / cool / mild / warm / hot). Multi-label classifier — one outfit can suit multiple zones.</div>
+  </div>
+  <div class="cm-pipeline-mult">&times;</div>
+  <div class="cm-pipeline-stage">
+    <div class="stage-no">Stage 2</div>
+    <div class="stage-name">Aesthetic</div>
+    <div class="stage-desc">Pure look rating: color, cut, layering. User scores on a four-point scale ignoring temperature and occasion.</div>
+  </div>
+  <div class="cm-pipeline-mult">&times;</div>
+  <div class="cm-pipeline-stage">
+    <div class="stage-no">Stage 3</div>
+    <div class="stage-name">Occasion</div>
+    <div class="stage-desc">Nine event types from gym to formal_event. Multi-label so one outfit can be wearable for multiple events.</div>
+  </div>
+</div>
+```
+
+The recommendation score multiplies all three signals with two soft
+factors (freshness, recovery) so the model both surfaces neglected items
+and respects pure-axis judgments.
+
+## Why local-first
+
+The data the app collects &mdash; what you wear, what you don&rsquo;t,
+what you rated &ldquo;love&rdquo; vs &ldquo;hate&rdquo; &mdash; is
+unusually personal. Hosting that on a shared server creates obligations
+(authentication, encryption at rest, GDPR-style data handling) that
+undermine the user&rsquo;s trust without buying anything they need.
+
+ClosetMind ships as a desktop app. Each user&rsquo;s data lives in their
+own OS-standard application data directory
+(`~/Library/Application Support/ClosetMind/profiles/{name}/` on macOS,
+`%APPDATA%/ClosetMind/profiles/{name}/` on Windows), inside a single
+SQLite file plus an images folder. The app launches uvicorn bound only
+to `127.0.0.1`, opens the system browser, and runs entirely on the
+user&rsquo;s machine. Nothing crosses the network except the optional
+weather and geocoding lookups (both calls go from the user&rsquo;s
+browser directly to the public APIs, never through any server I run).
+
+## Six implementation phases
+
+```{=html}
+<div class="cm-feature">
+  <div class="cm-feature-card">
+    <h3>Phase 1 &mdash; Layer Coverage Model</h3>
+    <p>Thermal coverage formula <code>T_cover = T_BASE &minus; &alpha;&middot;coverage</code> with dual curves (comfort + aesthetic) determines optimal layer count for any temperature. Replaces hand-coded weather rules.</p>
+  </div>
+  <div class="cm-feature-card">
+    <h3>Phase 2 &mdash; XGBoost Preference</h3>
+    <p>Per-user binary classifier on a 100-dimensional feature vector. Cold-start falls back to mean item rating; warm model swaps in once 10+ ratings exist.</p>
+  </div>
+  <div class="cm-feature-card">
+    <h3>Phase 3 &mdash; Local-First Storage</h3>
+    <p>SQLite per-profile schema with idempotent ALTER TABLE migrations. Profile folders survive app updates because they live outside the bundle.</p>
+  </div>
+  <div class="cm-feature-card">
+    <h3>Phase 4 &mdash; Multi-Stage Training</h3>
+    <p>Pure-axis labeling: three independent classifiers trained on disjoint rating tables. Inference multiplies the three probabilities so one bad axis kills the score.</p>
+  </div>
+  <div class="cm-feature-card">
+    <h3>Phase 5 &mdash; Discovery Polish</h3>
+    <p>Fabric-blend composition (40/60 cotton/linen as weighted multi-hot), four-state lifecycle (clean / worn / in_laundry / unavailable), new-item priority training, force-anyway override for unusual outfits.</p>
+  </div>
+  <div class="cm-feature-card">
+    <h3>Phase 6 &mdash; Desktop Packaging</h3>
+    <p>PyInstaller .spec handles the FastAPI-stack frozen-mode gotchas (Jinja2 paths, PIL plugins, xgboost native lib). Auto-update via cached public manifest. macOS DMG with drag-to-Applications layout.</p>
+  </div>
+</div>
+```
+
+## Tech stack
+
+```{=html}
+<div class="cm-stack">
+  <span>FastAPI</span>
+  <span>SQLAlchemy 2.x</span>
+  <span>SQLite</span>
+  <span>XGBoost</span>
+  <span>NumPy</span>
+  <span>Pillow</span>
+  <span>Pydantic v2</span>
+  <span>Jinja2</span>
+  <span>vanilla JS</span>
+  <span>Service Worker</span>
+  <span>PyInstaller</span>
+</div>
+```
+
+## Install &amp; first run (macOS)
+
+1.  Click **Download for Mac** above. You&rsquo;ll get
+    `ClosetMind-0.1.0.dmg`.
+2.  Double-click the DMG. A window opens showing **ClosetMind.app** next
+    to an **Applications** folder shortcut.
+3.  Drag **ClosetMind.app** onto **Applications**. Installed.
+4.  Launch via Spotlight (`&#8984; Space` &rarr; type "ClosetMind"),
+    Launchpad, or Finder &rarr; Applications.
+
+```{=html}
+<div class="cm-install-note">
+<b>First launch only:</b> macOS Gatekeeper blocks unsigned apps with
+&ldquo;developer cannot be verified.&rdquo; <b>Right-click the app
+&rarr; Open &rarr; confirm.</b> Subsequent launches work normally.
+This will go away once the app is code-signed (planned for v0.2).
+</div>
+```
+
+On first launch the app shows a setup screen asking for a profile name.
+Pick anything (it&rsquo;s a folder name on your disk &mdash; e.g.,
+&ldquo;Me&rdquo;) and click **Create and enter**. The app then loads in
+your browser at `http://127.0.0.1:18888` and you can start uploading
+clothes.
+
+## Windows {#windows}
+
+Windows binary not yet built (no Windows machine in the build pipeline
+yet). To build it yourself:
+
+```bash
+# On a Windows machine with Python 3.12 installed:
+git clone https://github.com/buttegg/closetmind.git
+cd closetmind
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python -m tools.build_app
+# Output: dist\ClosetMind\ClosetMind.exe
+```
+
+A GitHub Actions workflow that builds Windows binaries automatically on
+each tag push is planned for the next release.
+
+## Database design
+
+The full entity-relationship model, schema rationale, and migration
+strategy are documented in the
+[**EPPS&nbsp;6354 Information Management course page &rarr;**](EPPS6354.html#final-project).
+That page is the formal academic deliverable; this page is the
+end-user-facing landing page for the application itself.
+
+## Source &amp; documentation
+
+The complete technical writeup (six phases, schema, ML pipeline,
+verification, packaging) lives in the project&rsquo;s 80-page reference
+document. Source is available on request.
+
+```{=html}
+<div style="margin: 2.5rem 0 3rem; text-align: center;">
+  <a href="index.html" style="color: #888; text-decoration: none; font-size: 0.92rem;">&larr; Back to home</a>
+</div>
+```

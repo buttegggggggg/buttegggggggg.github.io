@@ -1418,215 +1418,473 @@ needed.
 
 <iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
 
-## Final Project
+## Final Project {#final-project}
 
-### Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation
+### ClosetMind &mdash; Wardrobe Recommendation System
+
+::: {.callout-tip}
+**Live demo:** [Try the desktop app &rarr;](closetmind.html)
+&middot; [Download macOS DMG](closetmind/ClosetMind-0.1.0.dmg)
+:::
 
 #### Project Overview
 
-A single-user wardrobe management system. Each morning, the system reads the user's
-calendar (to determine the occasion) and the current weather, filters out unwearable items
-(dirty or archived), and ranks candidate outfits using a rule-based scoring engine built on
-color theory, fabric compatibility, and style coherence. The output is the best recommended
-outfit plus 3–5 ranked alternatives, each with a score and explanation.
+ClosetMind is a single-user, local-first wardrobe management system delivered
+as a downloadable macOS / Windows desktop application. The user uploads photos
+of their clothes once, then trains the system through three independent rating
+flows. At recommendation time the system multiplies three learned probabilities
+&mdash; temperature appropriateness, aesthetic preference, occasion fit &mdash;
+so a single hard fail (wrong weather, wrong setting) drives the total score
+to zero regardless of how good the outfit looks. All data stays on the
+user&rsquo;s machine; nothing crosses the network except optional weather and
+geocoding lookups initiated by the browser directly.
 
-**Core workflow:** Wake up → Read calendar (occasion) + weather → Filter wearable items
-→ Score outfit combinations → Output recommendation
+This page documents the database schema and the rationale behind it. The
+end-user-facing landing page lives at [`closetmind.html`](closetmind.html);
+the full implementation writeup is in the project&rsquo;s technical reference
+document.
 
-**Three scoring dimensions:**
+**System architecture:**
 
--   **Color** — 60/30/10 color theory; each item carries a `primary / secondary / accent`
-    color role
--   **Fabric** — same-fabric bonus, mixed-fabric reasonableness, warmth adequacy relative
-    to weather
--   **Style** — style-tag consistency across items, and style–occasion fit scores
+-   **Backend:** FastAPI + SQLAlchemy 2.x, single SQLite file per profile.
+-   **ML:** XGBoost binary classifiers, three of them, chained at inference.
+-   **Storage:** Local-first &mdash; data lives in OS-standard application data
+    directories (`~/Library/Application Support/ClosetMind/profiles/{name}/`
+    on macOS), never on a server.
+-   **Distribution:** PyInstaller-frozen `.app` bundle with launcher that
+    starts uvicorn on a free port and opens the user&rsquo;s default browser.
 
-#### Database Tables (Simplified — 7 Tables)
+#### Database Schema (11 Tables)
 
-The original design used 21 normalized tables. To reduce complexity while preserving all core
-functionality, the schema was consolidated into 7 tables by: (1) removing the `User` table
-(single-user system), (2) absorbing lookup tables (Category, Color, Fabric, StyleTag) into
-JSON columns on `ClothingItem`, (3) merging detail tables into their parent tables, and
-(4) unifying wear tracking and laundry into a single event log.
+The schema is normalized into 11 tables: 5 core entities (`users`, `items`,
+`outfits`, `daily_contexts`, `ratings`), 2 detail tables capturing many-to-many
+or per-item attributes (`outfit_items`, `item_tags`), 2 lifecycle tables for
+high-write per-item state separated from the read-heavy `items` table
+(`item_state`, `item_stats`), 2 dedicated rating tables for the multi-stage
+training architecture (`temperature_ratings`, `occasion_ratings`), plus an
+`outfit_logs` table for actual wear history, an `item_actions` audit table,
+and a `model_runs` table tracking trained model versions. Some columns use
+JSON arrays (`items.colors`, `items.style_tags`, `items.composition`) where
+the alternative would be a many-to-many table that the application never
+actually queries from the small side. The design rationale and the
+denormalization decisions are discussed in detail below.
 
 ##### Entity-Relationship Diagram
 
 ```{mermaid}
 erDiagram
-    ClothingItem {
-        INT item_id PK
+    User {
+        INT id PK
+        VARCHAR username
+        VARCHAR email
+        FLOAT lat
+        FLOAT lon
+        VARCHAR city
+        VARCHAR temp_unit
+        BOOLEAN training_complete
+        BOOLEAN v2_temp_done
+        BOOLEAN v2_aesthetic_done
+        BOOLEAN v2_occasion_done
+    }
+
+    Item {
+        INT id PK
+        INT user_id FK
         VARCHAR name
-        VARCHAR category
-        VARCHAR fabric
-        INT warmth_weight
-        INT breathability
+        ENUM category
+        ENUM layer_role
         JSON colors
-        JSON styles
-        INT formality_score
-        INT clean_score
-        VARCHAR status
+        VARCHAR pattern
+        VARCHAR material
+        JSON composition
+        ENUM thickness
+        JSON style_tags
+        BOOLEAN can_wear_alone
+        VARCHAR shoulder_fit
+        VARCHAR collar
+        VARCHAR sleeve
+        VARCHAR pants_fit
+        INT wears_per_wash
     }
 
-    Occasion {
-        INT occasion_id PK
-        VARCHAR name
-        INT formality_min
-        INT formality_max
-        JSON style_fit
+    ItemState {
+        INT item_id PK_FK
+        ENUM state
+        INT wear_count_since_wash
+        INT worn_count
+        DATETIME last_worn
     }
 
-    CalendarEvent {
-        INT event_id PK
-        INT occasion_id FK
-        DATE event_date
-        TIME start_time
+    ItemStats {
+        INT item_id PK_FK
+        FLOAT average_rating
+        INT total_ratings
+        INT coverage_count
+        DATETIME last_worn_date
     }
 
-    Weather {
-        INT weather_id PK
-        VARCHAR condition_name
-        DECIMAL temp_c
-        DECIMAL feels_like_c
-        INT humidity
-        DECIMAL wind_speed
-        DECIMAL precip_mm
+    DailyContext {
+        INT id PK
+        INT user_id FK
+        DATETIME date
+        FLOAT temperature
+        FLOAT temperature_high
+        FLOAT temperature_low
+        ENUM weather
+        ENUM occasion
     }
 
     Outfit {
-        INT outfit_id PK
-        INT occasion_id FK
-        INT weather_id FK
-        JSON items
-        INT color_score
-        INT fabric_score
-        INT style_score
-        INT total_score
-        TEXT explanation
+        INT id PK
+        INT user_id FK
+        INT context_id FK
+        FLOAT warmth_score
+        INT inner_count
+        INT mid_count
+        INT outer_count
+        BOOLEAN is_generated
+        BOOLEAN underfit_flag
+        INT overkill_layers
     }
 
-    ScoringRule {
-        INT rule_id PK
-        VARCHAR rule_type
-        VARCHAR description
-        JSON condition_json
-        INT score_delta
-        DATE valid_from
-        DATE valid_until
+    OutfitItem {
+        INT outfit_id PK_FK
+        INT item_id PK_FK
+        INT position
     }
 
-    WearLog {
-        INT log_id PK
-        INT item_id FK
+    Rating {
+        INT id PK
+        INT user_id FK
         INT outfit_id FK
-        VARCHAR event_type
-        TIMESTAMP event_date
-        INT delta_clean
-        INT clean_score_after
+        INT rating
+        ENUM rating_source
+        VARCHAR ideal_temp_zone
+        DATETIME rated_at
     }
 
-    Occasion ||--o{ CalendarEvent : "has"
-    Occasion ||--o{ Outfit : "generates"
-    Weather ||--o{ Outfit : "conditions"
-    Outfit ||--o{ WearLog : "records"
-    ClothingItem ||--o{ WearLog : "tracks"
-    ScoringRule }o--o{ Outfit : "evaluates"
+    TemperatureRating {
+        INT id PK
+        INT user_id FK
+        INT outfit_id FK
+        JSON zones_ok
+        VARCHAR target_zone
+        DATETIME rated_at
+    }
+
+    OccasionRating {
+        INT id PK
+        INT user_id FK
+        INT outfit_id FK
+        JSON events_ok
+        DATETIME rated_at
+    }
+
+    OutfitLog {
+        INT id PK
+        INT user_id FK
+        INT context_id FK
+        INT recommended_outfit_id FK
+        INT final_worn_outfit_id FK
+        DATETIME logged_at
+    }
+
+    ModelRun {
+        INT id PK
+        INT user_id FK
+        VARCHAR model_path
+        INT training_samples
+        VARCHAR feature_version
+        FLOAT val_auc
+        BOOLEAN is_active
+    }
+
+    User ||--o{ Item : "owns"
+    User ||--o{ DailyContext : "has"
+    User ||--o{ Rating : "submits"
+    User ||--o{ ModelRun : "trains"
+    Item ||--|| ItemState : "current state"
+    Item ||--|| ItemStats : "aggregated"
+    Item }o--o{ Outfit : "via OutfitItem"
+    DailyContext ||--o{ Outfit : "context for"
+    Outfit ||--o{ Rating : "is rated"
+    Outfit ||--o{ TemperatureRating : "stage 1"
+    Outfit ||--o{ OccasionRating : "stage 3"
+    DailyContext ||--o{ OutfitLog : "logs wear"
 ```
 
-##### 1. ClothingItem
+##### 1. User
+
+Holds account-level state: location coordinates for client-side weather
+fetching, temperature unit preference (Celsius or Fahrenheit, display only),
+calibration progress, and per-stage training completion flags for Phase 4&rsquo;s
+three independent training tracks.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `item_id` | INT PK | Unique identifier |
-| `name` | VARCHAR(50) | Item name (e.g. "Navy Oxford Shirt") |
-| `category` | VARCHAR(20) | Category: top, bottom, shoes, outerwear, accessory |
-| `fabric` | VARCHAR(20) | Fabric type (e.g. cotton, denim, linen, polyester) |
-| `warmth_weight` | INT | Warmth rating (0–100) |
-| `breathability` | INT | Breathability rating (0–100) |
-| `colors` | JSON | Color roles: `[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]` |
-| `styles` | JSON | Style tags: `["clean fit","formal"]` |
-| `formality_score` | INT | Formality level (0–100) |
-| `clean_score` | INT | Cleanliness (100 = fresh, 0 = needs wash); item is recommendable only when > 0 |
-| `status` | VARCHAR(10) | `active` or `archived`; only active items enter recommendation |
+| `id` | INT PK | Unique identifier |
+| `username` | VARCHAR(64) UNIQUE | Profile name |
+| `email` | VARCHAR(128) UNIQUE | Email (optional) |
+| `created_at` | DATETIME | Account creation timestamp |
+| `lat`, `lon` | FLOAT | Location for client-side weather lookup (Open-Meteo) |
+| `city`, `timezone` | VARCHAR | Display label and timezone |
+| `temp_unit` | VARCHAR(1) | `'C'` or `'F'` (display preference; storage is always Celsius) |
+| `training_complete` | BOOLEAN | Phase 1 calibration finished |
+| `temp_offset` | FLOAT | Cold-sensitivity bias (legacy single-stage calibration) |
+| `v2_temp_done`, `v2_aesthetic_done`, `v2_occasion_done` | BOOLEAN | Phase 4 stage flags |
+| `zone_warmth_prefs` | TEXT | JSON dict capturing per-zone warmth preferences from Stage&nbsp;1 adaptive sampling |
 
-*Absorbs the former: User, Category, Color, Fabric, StyleTag, ItemStyle, ItemColor.*
+##### 2. Item
 
-##### 2. Occasion
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `occasion_id` | INT PK | Unique identifier |
-| `name` | VARCHAR(30) | Occasion name (e.g. "job interview", "casual outing", "gym") |
-| `formality_min` | INT | Minimum acceptable formality (0–100) |
-| `formality_max` | INT | Maximum acceptable formality (0–100) |
-| `style_fit` | JSON | Style-to-fit-score mapping: `{"formal":95,"clean fit":80,"street":20}` |
-
-*Absorbs the former: Occasion, StyleOccasionFit. The `style_fit` JSON replaces the separate many-to-many table.*
-
-##### 3. CalendarEvent
+The core wardrobe table. Every clothing piece carries the dimensions used by
+the recommender: visual (colors, pattern, pattern_complexity), material
+(material as the primary fiber, plus an optional composition JSON for
+fabric blends), fit (shoulder_fit, waist_fit, pants_fit, sleeve, top_length,
+pants_length), warmth (thickness on a four-level enum), and style
+(style_tags JSON, can_wear_alone). Two columns are JSON arrays where a
+strictly-normalized design would have used a many-to-many child table:
+`colors` (typically 1&ndash;3 colors per item) and `style_tags`
+(typically 1&ndash;4 tags). The denormalization is justified in
+&sect;&nbsp;&ldquo;Denormalization Decisions.&rdquo;
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `event_id` | INT PK | Unique identifier |
-| `occasion_id` | INT FK → Occasion | Links to the occasion type |
-| `event_date` | DATE | Date of the event |
-| `start_time` | TIME | Start time; used to determine morning vs. evening outfit needs |
+| `id` | INT PK | Unique identifier |
+| `user_id` | INT FK | Owner |
+| `name` | VARCHAR(128) | Free-text name (auto-generated from attributes, user-editable) |
+| `category` | ENUM | `top` / `bottom` / `shoes` / `accessory` / `fullbody` |
+| `layer_role` | ENUM | `inner` / `mid` / `outer` / `none`; drives the layer-coverage model |
+| `colors` | JSON | List of color names: `["white", "navy"]` |
+| `is_multicolor` | BOOLEAN | Convenience flag derived from `len(colors) > 1` |
+| `pattern` | VARCHAR(32) | `solid` / `striped` / `plaid` / `floral` / `graphic` / `checked` / `dotted` / `other` |
+| `pattern_complexity` | INT | 0 (solid) to 3 (busy graphic) |
+| `material` | VARCHAR(32) | Primary fiber: `cotton` / `wool` / `linen` / `polyester` / `denim` / etc. |
+| `composition` | JSON NULLABLE | Optional fabric blend: `[{"material":"cotton","pct":40},{"material":"linen","pct":60}]`, must sum to 100 |
+| `thickness` | ENUM | `very_thin` / `thin` / `thick` / `very_thick` |
+| `style_tags` | JSON | List of style descriptors: `["casual", "minimal"]` |
+| `can_wear_alone` | BOOLEAN | Whether an outer-role item is OK over bare skin (peacoat = false, kimono = true) |
+| `shoulder_fit`, `waist_fit`, `pants_fit` | VARCHAR | `slim` / `regular` / `loose` |
+| `collar` | VARCHAR | `crew` / `v` / `polo` / `turtleneck` / `hooded` / `button_down` / `shirt` / `spread` |
+| `top_length` | VARCHAR | `cropped` / `short` / `regular` / `long` |
+| `sleeve` | VARCHAR | `sleeveless` / `short` / `long` |
+| `pants_length` | VARCHAR | `short` / `regular` / `long` / `full` |
+| `image_path` | VARCHAR(256) | URL path to the photo on disk |
+| `is_active` | BOOLEAN | Soft-delete flag |
+| `wears_per_wash` | INT | Per-item laundry threshold |
 
-*Drives automatic occasion detection: the system reads today's events to determine the occasion context.*
+##### 3. ItemState (1:1 with Item)
 
-##### 4. Weather
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `weather_id` | INT PK | Unique identifier |
-| `condition_name` | VARCHAR(20) | Named condition (e.g. "cold_rainy", "hot_humid", "mild_clear") |
-| `temp_c` | DECIMAL(4,1) | Temperature in Celsius |
-| `feels_like_c` | DECIMAL(4,1) | Feels-like temperature |
-| `humidity` | INT | Humidity percentage (0–100) |
-| `wind_speed` | DECIMAL(4,1) | Wind speed in km/h |
-| `precip_mm` | DECIMAL(5,1) | Precipitation in mm |
-
-*Merges the former: WeatherSnapshot, WeatherCondition. The `condition_name` column replaces the separate condition lookup table.*
-
-##### 5. Outfit
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `outfit_id` | INT PK | Unique identifier |
-| `occasion_id` | INT FK → Occasion | The occasion this outfit was generated for |
-| `weather_id` | INT FK → Weather | The weather snapshot at generation time |
-| `items` | JSON | Ordered item list: `[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]` |
-| `color_score` | INT | Color harmony sub-score (60/30/10 rule) |
-| `fabric_score` | INT | Fabric compatibility sub-score |
-| `style_score` | INT | Style consistency sub-score |
-| `total_score` | INT | Weighted total of the three sub-scores |
-| `explanation` | TEXT | Human-readable scoring breakdown |
-
-*Merges the former: Outfit, OutfitItem. The `items` JSON replaces the separate detail table, supporting multi-layer dressing via the `layer` field.*
-
-##### 6. ScoringRule
+Hot-path mutable state separated from the read-heavy `items` table. The
+state machine has four values: `clean` (never worn since last wash), `worn`
+(used but below `wears_per_wash`, still wearable), `in_laundry` (dirty,
+blocked from recommendations), and `unavailable` (manually held out for
+non-dirt reasons such as repair or seasonal storage).
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `rule_id` | INT PK | Unique identifier |
-| `rule_type` | VARCHAR(20) | `outfit_score` (scoring bonus/penalty) or `wear_degrade` (clean score deduction) |
-| `description` | VARCHAR(100) | Human-readable rule description (e.g. "Same-fabric bonus +5") |
-| `condition_json` | JSON | Condition to match: `{"category":"top","occasion":"gym"}` |
-| `score_delta` | INT | Points to add/subtract when condition is met |
-| `valid_from` | DATE | Rule effective start (nullable; supports trend-based rules) |
-| `valid_until` | DATE | Rule expiry date (nullable) |
+| `item_id` | INT PK FK | One-to-one with Item |
+| `state` | ENUM | `clean` / `worn` / `in_laundry` / `unavailable` |
+| `wear_count_since_wash` | INT | Count since last laundry reset |
+| `worn_count` | INT | Lifetime wears (incremented when user logs an outfit as worn) |
+| `last_worn` | DATETIME | Most recent wear timestamp |
 
-*Merges the former: OutfitScoringRule, WearDegradeRule. The `rule_type` column distinguishes between outfit scoring rules and wear degradation rules.*
+##### 4. ItemStats (1:1 with Item)
 
-##### 7. WearLog
+Read-heavy aggregates used by scoring and feature engineering. Separated from
+ItemState because update frequency, write paths, and consistency requirements
+are different (state changes per wear; stats are recomputed in batch).
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `log_id` | INT PK | Unique identifier |
-| `item_id` | INT FK → ClothingItem | The clothing item involved |
-| `outfit_id` | INT FK → Outfit | Associated outfit (nullable; null for laundry events) |
-| `event_type` | VARCHAR(10) | `wear` or `laundry` |
-| `event_date` | TIMESTAMP | When the event occurred |
-| `delta_clean` | INT | Clean score change (negative for wear, positive for laundry reset to 100) |
-| `clean_score_after` | INT | Resulting clean score after this event |
+| `item_id` | INT PK FK | One-to-one with Item |
+| `average_rating` | FLOAT | Mean rating across all `Rating` rows referencing this item&rsquo;s outfits |
+| `total_ratings` | INT | Count of contributing ratings |
+| `coverage_count` | INT | Times this item appeared in a top-K recommendation or training batch |
+| `last_worn_date` | DATETIME | Last actual wear timestamp |
 
-*Merges the former: WearEvent, WearEventItem, LaundryBatch, LaundryBatchItem. Each row records one item's wear or laundry event. Laundry resets `clean_score` to 100.*
+##### 5. DailyContext
+
+The environmental and intent state of a recommendation session: weather and
+occasion. One row per (user, day). Created when the user opens the recommend
+page or starts a training batch.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id` | INT FK | Owner |
+| `date` | DATETIME | Day in user&rsquo;s local time |
+| `temperature` | FLOAT | Current temperature (&deg;C) |
+| `temperature_high`, `temperature_low` | FLOAT | Day high / low (&deg;C) |
+| `weather` | ENUM | `sunny` / `cloudy` / `rainy` / `snowy` / `windy` |
+| `occasion` | ENUM | `casual` / `work` / `formal` / `sport` / `home` |
+| `notes` | VARCHAR(256) | Free-text notes |
+
+##### 6. Outfit
+
+A specific candidate combination of items, generated from a context. Carries
+the layer-coverage model&rsquo;s outputs (`warmth_score`, `optimal_layer_count`,
+`underfit_flag`, `overkill_layers`, `inner_count` / `mid_count` / `outer_count`)
+so the recommender doesn&rsquo;t have to recompute them on every score query.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id` | INT FK | Owner |
+| `context_id` | INT FK NULLABLE | Context this outfit was generated for |
+| `is_generated` | BOOLEAN | True if produced by the candidate generator, false if user-curated |
+| `warmth_score` | FLOAT | Computed from layer thicknesses |
+| `coverage_curve`, `aesthetic_curve` | JSON | Stored layer-coverage model output |
+| `optimal_layer_count` | INT | Comfort-required layer count |
+| `final_k` | INT | Aesthetic-resolved layer count |
+| `overkill_layers` | INT | Layers beyond optimal (penalty term) |
+| `underfit_flag` | BOOLEAN | True if no layer count satisfies the comfort target |
+| `inner_count`, `mid_count`, `outer_count`, `total_items` | INT | Layer counts for fast filtering |
+
+##### 7. OutfitItem (M:N junction)
+
+Links Outfit to Item with the position used to reconstruct layering order at
+display time.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `outfit_id` | INT PK FK | The outfit |
+| `item_id` | INT PK FK | One of the items |
+| `position` | INT | Display order |
+
+##### 8. Rating (Phase 1 / Stage 2 aesthetic)
+
+Captures the user&rsquo;s overall judgment of an outfit. Used by the original
+single-stage XGBoost preference model and reused by Phase 4&rsquo;s Stage 2
+(aesthetic-only) training.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id` | INT FK | Rater |
+| `outfit_id` | INT FK | Rated outfit |
+| `rating` | INT | -1 (dislike) / 0 (meh) / 1 (like) / 2 (love) |
+| `rating_source` | ENUM | `user_rated` (explicit click) / `user_modified` (implicit positive from accept-and-modify) |
+| `ideal_temp_zone` | VARCHAR(8) | Cold/cool/mild/warm/hot &mdash; feeds `temp_offset` calibration |
+| `rated_at`, `updated_at` | DATETIME | Timestamps |
+
+##### 9. TemperatureRating (Phase 4 Stage 1)
+
+Multi-label: which temperature zones each outfit suits. Empty list means &ldquo;not
+appropriate for any zone.&rdquo; Drives the Stage 1 binary classifier.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id`, `outfit_id` | INT FK | Owner and target |
+| `zones_ok` | JSON | List of zone keys: `["mild","warm"]` |
+| `target_zone` | VARCHAR(8) | The zone the candidate generator was sampling for, kept for analytics |
+| `rated_at` | DATETIME | Timestamp |
+
+##### 10. OccasionRating (Phase 4 Stage 3)
+
+Multi-label: which occasion events each outfit suits. Drives the Stage 3
+binary classifier.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id`, `outfit_id` | INT FK | Owner and target |
+| `events_ok` | JSON | List of event keys: `["office","date_night"]` |
+| `rated_at` | DATETIME | Timestamp |
+
+##### 11. OutfitLog
+
+Records actual wear: when the user told the system &ldquo;I wore this outfit
+today.&rdquo; Distinguished from ratings (which capture preference) by the
+fact that wearing creates side effects (increment `worn_count`, advance
+`wear_count_since_wash`, possibly flip state to `in_laundry`).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id`, `context_id` | INT FK | Day and user |
+| `recommended_outfit_id` | INT FK | What the system suggested |
+| `final_worn_outfit_id` | INT FK | What the user actually wore (may differ if user modified) |
+| `logged_at` | DATETIME | Timestamp |
+
+##### 12. ModelRun
+
+Tracks each trained model checkpoint with its validation metrics and feature
+schema version. The `is_active` flag distinguishes the currently-served model
+from archived past runs.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | INT PK | Unique identifier |
+| `user_id` | INT FK | Owner of the trained model |
+| `model_path` | VARCHAR | Path to the serialized XGBoost model on disk |
+| `training_samples` | INT | Sample count at training time |
+| `feature_version` | VARCHAR | `"v1"` / `"v2"` etc. (bumps when feature engineering changes) |
+| `val_auc`, `val_logloss` | FLOAT | Validation metrics |
+| `is_active` | BOOLEAN | True for the currently-serving model |
+
+#### Denormalization Decisions
+
+Three columns deliberately depart from third normal form. Each was a
+considered tradeoff, not an oversight.
+
+**JSON arrays for `items.colors` and `items.style_tags`.** The strictly-normalized
+alternative would be `item_colors` and `item_style_tags` many-to-many tables.
+The application never queries from the small side (&ldquo;give me all items
+with color X&rdquo;) directly; the only access pattern is reading the full
+list of colors / tags for a given item, which JSON serves in one fetch
+without a join. The cardinality is small (1&ndash;3 colors, 1&ndash;4 tags
+typically) so the JSON column never approaches a size where indexing inside
+the JSON would matter. SQLite&rsquo;s JSON1 extension provides query
+operators if a future feature ever needs them.
+
+**JSON for `items.composition`.** Fabric blends like 40% cotton / 60% linen
+were originally going to be a `material_composition` table with `(item_id,
+material, pct)` rows. The application&rsquo;s only read pattern is &ldquo;get
+the full blend for this item to compute its weighted-multi-hot feature
+vector,&rdquo; which a single JSON column serves directly. Validation that
+percentages sum to 100 happens in the Pydantic schema layer, where it
+correctly fails the request before any DB write rather than at a
+database-level CHECK constraint.
+
+**Splitting `ItemState` and `ItemStats` from `Item`.** This is a 1:1 split
+that violates normalization heuristics (since each row exists in exactly one
+parent), but the access patterns are very different: `ItemState` is written
+on every wear and read on every recommendation candidate (high contention,
+small payload); `ItemStats` is written in batch after rating cycles and read
+on closet display (low contention, larger payload). Splitting them keeps
+write locks on hot paths from blocking reads on cold paths, and lets the
+hot table fit more rows per page in SQLite&rsquo;s internal cache.
+
+#### Migration Strategy
+
+The schema evolves through additive ALTER TABLE statements applied at
+application startup, idempotent across runs. `app/database.py` defines lists
+of `(column_name, DDL)` tuples per table; `_alter_add_columns` queries
+`PRAGMA table_info(table)`, computes the diff against the desired set, and
+issues `ALTER TABLE ADD COLUMN` for any missing columns. This lets old
+profiles upgrade smoothly when the user installs a newer app version: their
+existing `wardrobe.db` keeps all data, and only the new columns are added.
+
+Across the project&rsquo;s six implementation phases the schema gained:
+
+-   Phase 3: `users.lat`, `users.lon`, `users.city`, `users.timezone` for
+    client-side weather fetching.
+-   Phase 4: `users.v2_temp_done`, `users.v2_aesthetic_done`,
+    `users.v2_occasion_done`, `users.zone_warmth_prefs`; new tables
+    `temperature_ratings` and `occasion_ratings`.
+-   Phase 5: `items.composition` (fabric blends); `users.temp_unit`
+    (display unit); `items.wears_per_wash` (already added in earlier
+    laundry work but reaffirmed).
+-   Phase 6: no schema changes; pure packaging work.
+
+No columns have been dropped. `items.calendar_event` remains as a nullable
+String even though the Phase 5 calendar removal stopped writing to it,
+because dropping a column from SQLite requires a full table rebuild and
+the storage cost of a nullable unused column is zero.
+
+#### Try the system
+
+The full implementation runs as a downloadable desktop app. See
+[**ClosetMind &rarr;**](closetmind.html) for the macOS DMG download
+and Windows build instructions.

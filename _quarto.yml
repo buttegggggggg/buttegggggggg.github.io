@@ -14,6 +14,7 @@ project:
   - Tzu-Yuan’s Data Guide Checklist.pdf
   - Tzu-Yuan,Chen_review.pdf
   - SVD_app.py
+  - closetmind/ClosetMind-0.1.0.dmg
 
 website:
   title: "Tzu-Yuan"
@@ -51,6 +52,8 @@ website:
             href: EPPS6356.qmd#assignments
           - text: Information Management
             href: EPPS6354.qmd
+          - text: "ClosetMind (final project)"
+            href: closetmind.qmd
       - text: CV
         href: CV.qmd
 

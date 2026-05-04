@@ -199,6 +199,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./EPPS6354.html">
  <span class="dropdown-text">Information Management</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./closetmind.html">
+ <span class="dropdown-text">ClosetMind (final project)</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -322,20 +326,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
   <ul>
-  <li><a href="#weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" id="toc-weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" class="nav-link" data-scroll-target="#weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation">Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation</a>
+  <li><a href="#closetmind-wardrobe-recommendation-system" id="toc-closetmind-wardrobe-recommendation-system" class="nav-link" data-scroll-target="#closetmind-wardrobe-recommendation-system">ClosetMind — Wardrobe Recommendation System</a>
   <ul>
   <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
-  <li><a href="#database-tables-simplified-7-tables" id="toc-database-tables-simplified-7-tables" class="nav-link" data-scroll-target="#database-tables-simplified-7-tables">Database Tables (Simplified — 7 Tables)</a>
+  <li><a href="#database-schema-11-tables" id="toc-database-schema-11-tables" class="nav-link" data-scroll-target="#database-schema-11-tables">Database Schema (11 Tables)</a>
   <ul>
   <li><a href="#entity-relationship-diagram" id="toc-entity-relationship-diagram" class="nav-link" data-scroll-target="#entity-relationship-diagram">Entity-Relationship Diagram</a></li>
-  <li><a href="#clothingitem" id="toc-clothingitem" class="nav-link" data-scroll-target="#clothingitem">1. ClothingItem</a></li>
-  <li><a href="#occasion" id="toc-occasion" class="nav-link" data-scroll-target="#occasion">2. Occasion</a></li>
-  <li><a href="#calendarevent" id="toc-calendarevent" class="nav-link" data-scroll-target="#calendarevent">3. CalendarEvent</a></li>
-  <li><a href="#weather" id="toc-weather" class="nav-link" data-scroll-target="#weather">4. Weather</a></li>
-  <li><a href="#outfit" id="toc-outfit" class="nav-link" data-scroll-target="#outfit">5. Outfit</a></li>
-  <li><a href="#scoringrule" id="toc-scoringrule" class="nav-link" data-scroll-target="#scoringrule">6. ScoringRule</a></li>
-  <li><a href="#wearlog" id="toc-wearlog" class="nav-link" data-scroll-target="#wearlog">7. WearLog</a></li>
+  <li><a href="#user" id="toc-user" class="nav-link" data-scroll-target="#user">1. User</a></li>
+  <li><a href="#item" id="toc-item" class="nav-link" data-scroll-target="#item">2. Item</a></li>
+  <li><a href="#itemstate-11-with-item" id="toc-itemstate-11-with-item" class="nav-link" data-scroll-target="#itemstate-11-with-item">3. ItemState (1:1 with Item)</a></li>
+  <li><a href="#itemstats-11-with-item" id="toc-itemstats-11-with-item" class="nav-link" data-scroll-target="#itemstats-11-with-item">4. ItemStats (1:1 with Item)</a></li>
+  <li><a href="#dailycontext" id="toc-dailycontext" class="nav-link" data-scroll-target="#dailycontext">5. DailyContext</a></li>
+  <li><a href="#outfit" id="toc-outfit" class="nav-link" data-scroll-target="#outfit">6. Outfit</a></li>
+  <li><a href="#outfititem-mn-junction" id="toc-outfititem-mn-junction" class="nav-link" data-scroll-target="#outfititem-mn-junction">7. OutfitItem (M:N junction)</a></li>
+  <li><a href="#rating-phase-1-stage-2-aesthetic" id="toc-rating-phase-1-stage-2-aesthetic" class="nav-link" data-scroll-target="#rating-phase-1-stage-2-aesthetic">8. Rating (Phase 1 / Stage 2 aesthetic)</a></li>
+  <li><a href="#temperaturerating-phase-4-stage-1" id="toc-temperaturerating-phase-4-stage-1" class="nav-link" data-scroll-target="#temperaturerating-phase-4-stage-1">9. TemperatureRating (Phase 4 Stage 1)</a></li>
+  <li><a href="#occasionrating-phase-4-stage-3" id="toc-occasionrating-phase-4-stage-3" class="nav-link" data-scroll-target="#occasionrating-phase-4-stage-3">10. OccasionRating (Phase 4 Stage 3)</a></li>
+  <li><a href="#outfitlog" id="toc-outfitlog" class="nav-link" data-scroll-target="#outfitlog">11. OutfitLog</a></li>
+  <li><a href="#modelrun" id="toc-modelrun" class="nav-link" data-scroll-target="#modelrun">12. ModelRun</a></li>
   </ul></li>
+  <li><a href="#denormalization-decisions" id="toc-denormalization-decisions" class="nav-link" data-scroll-target="#denormalization-decisions">Denormalization Decisions</a></li>
+  <li><a href="#migration-strategy" id="toc-migration-strategy" class="nav-link" data-scroll-target="#migration-strategy">Migration Strategy</a></li>
+  <li><a href="#try-the-system" id="toc-try-the-system" class="nav-link" data-scroll-target="#try-the-system">Try the system</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -1292,22 +1304,36 @@ manages (ID, manager_id)</code></pre>
 </section>
 <section id="final-project" class="level2">
 <h2 class="anchored" data-anchor-id="final-project">Final Project</h2>
-<section id="weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation" class="level3">
-<h3 class="anchored" data-anchor-id="weather--and-occasion-aware-wardrobe-database-with-rule-based-outfit-recommendation">Weather- and Occasion-Aware Wardrobe Database with Rule-Based Outfit Recommendation</h3>
+<section id="closetmind-wardrobe-recommendation-system" class="level3">
+<h3 class="anchored" data-anchor-id="closetmind-wardrobe-recommendation-system">ClosetMind — Wardrobe Recommendation System</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Live demo:</strong> <a href="closetmind.html">Try the desktop app →</a> · <a href="closetmind/ClosetMind-0.1.0.dmg">Download macOS DMG</a></p>
+</div>
+</div>
 <section id="project-overview" class="level4">
 <h4 class="anchored" data-anchor-id="project-overview">Project Overview</h4>
-<p>A single-user wardrobe management system. Each morning, the system reads the user’s calendar (to determine the occasion) and the current weather, filters out unwearable items (dirty or archived), and ranks candidate outfits using a rule-based scoring engine built on color theory, fabric compatibility, and style coherence. The output is the best recommended outfit plus 3–5 ranked alternatives, each with a score and explanation.</p>
-<p><strong>Core workflow:</strong> Wake up → Read calendar (occasion) + weather → Filter wearable items → Score outfit combinations → Output recommendation</p>
-<p><strong>Three scoring dimensions:</strong></p>
+<p>ClosetMind is a single-user, local-first wardrobe management system delivered as a downloadable macOS / Windows desktop application. The user uploads photos of their clothes once, then trains the system through three independent rating flows. At recommendation time the system multiplies three learned probabilities — temperature appropriateness, aesthetic preference, occasion fit — so a single hard fail (wrong weather, wrong setting) drives the total score to zero regardless of how good the outfit looks. All data stays on the user’s machine; nothing crosses the network except optional weather and geocoding lookups initiated by the browser directly.</p>
+<p>This page documents the database schema and the rationale behind it. The end-user-facing landing page lives at <a href="closetmind.html"><code>closetmind.html</code></a>; the full implementation writeup is in the project’s technical reference document.</p>
+<p><strong>System architecture:</strong></p>
 <ul>
-<li><strong>Color</strong> — 60/30/10 color theory; each item carries a <code>primary / secondary / accent</code> color role</li>
-<li><strong>Fabric</strong> — same-fabric bonus, mixed-fabric reasonableness, warmth adequacy relative to weather</li>
-<li><strong>Style</strong> — style-tag consistency across items, and style–occasion fit scores</li>
+<li><strong>Backend:</strong> FastAPI + SQLAlchemy 2.x, single SQLite file per profile.</li>
+<li><strong>ML:</strong> XGBoost binary classifiers, three of them, chained at inference.</li>
+<li><strong>Storage:</strong> Local-first — data lives in OS-standard application data directories (<code>~/Library/Application Support/ClosetMind/profiles/{name}/</code> on macOS), never on a server.</li>
+<li><strong>Distribution:</strong> PyInstaller-frozen <code>.app</code> bundle with launcher that starts uvicorn on a free port and opens the user’s default browser.</li>
 </ul>
 </section>
-<section id="database-tables-simplified-7-tables" class="level4">
-<h4 class="anchored" data-anchor-id="database-tables-simplified-7-tables">Database Tables (Simplified — 7 Tables)</h4>
-<p>The original design used 21 normalized tables. To reduce complexity while preserving all core functionality, the schema was consolidated into 7 tables by: (1) removing the <code>User</code> table (single-user system), (2) absorbing lookup tables (Category, Color, Fabric, StyleTag) into JSON columns on <code>ClothingItem</code>, (3) merging detail tables into their parent tables, and (4) unifying wear tracking and laundry into a single event log.</p>
+<section id="database-schema-11-tables" class="level4">
+<h4 class="anchored" data-anchor-id="database-schema-11-tables">Database Schema (11 Tables)</h4>
+<p>The schema is normalized into 11 tables: 5 core entities (<code>users</code>, <code>items</code>, <code>outfits</code>, <code>daily_contexts</code>, <code>ratings</code>), 2 detail tables capturing many-to-many or per-item attributes (<code>outfit_items</code>, <code>item_tags</code>), 2 lifecycle tables for high-write per-item state separated from the read-heavy <code>items</code> table (<code>item_state</code>, <code>item_stats</code>), 2 dedicated rating tables for the multi-stage training architecture (<code>temperature_ratings</code>, <code>occasion_ratings</code>), plus an <code>outfit_logs</code> table for actual wear history, an <code>item_actions</code> audit table, and a <code>model_runs</code> table tracking trained model versions. Some columns use JSON arrays (<code>items.colors</code>, <code>items.style_tags</code>, <code>items.composition</code>) where the alternative would be a many-to-many table that the application never actually queries from the small side. The design rationale and the denormalization decisions are discussed in detail below.</p>
 <section id="entity-relationship-diagram" class="level5">
 <h5 class="anchored" data-anchor-id="entity-relationship-diagram">Entity-Relationship Diagram</h5>
 <div class="cell" data-layout-align="default">
@@ -1316,83 +1342,144 @@ manages (ID, manager_id)</code></pre>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">erDiagram
-    ClothingItem {
-        INT item_id PK
+    User {
+        INT id PK
+        VARCHAR username
+        VARCHAR email
+        FLOAT lat
+        FLOAT lon
+        VARCHAR city
+        VARCHAR temp_unit
+        BOOLEAN training_complete
+        BOOLEAN v2_temp_done
+        BOOLEAN v2_aesthetic_done
+        BOOLEAN v2_occasion_done
+    }
+
+    Item {
+        INT id PK
+        INT user_id FK
         VARCHAR name
-        VARCHAR category
-        VARCHAR fabric
-        INT warmth_weight
-        INT breathability
+        ENUM category
+        ENUM layer_role
         JSON colors
-        JSON styles
-        INT formality_score
-        INT clean_score
-        VARCHAR status
+        VARCHAR pattern
+        VARCHAR material
+        JSON composition
+        ENUM thickness
+        JSON style_tags
+        BOOLEAN can_wear_alone
+        VARCHAR shoulder_fit
+        VARCHAR collar
+        VARCHAR sleeve
+        VARCHAR pants_fit
+        INT wears_per_wash
     }
 
-    Occasion {
-        INT occasion_id PK
-        VARCHAR name
-        INT formality_min
-        INT formality_max
-        JSON style_fit
+    ItemState {
+        INT item_id PK_FK
+        ENUM state
+        INT wear_count_since_wash
+        INT worn_count
+        DATETIME last_worn
     }
 
-    CalendarEvent {
-        INT event_id PK
-        INT occasion_id FK
-        DATE event_date
-        TIME start_time
+    ItemStats {
+        INT item_id PK_FK
+        FLOAT average_rating
+        INT total_ratings
+        INT coverage_count
+        DATETIME last_worn_date
     }
 
-    Weather {
-        INT weather_id PK
-        VARCHAR condition_name
-        DECIMAL temp_c
-        DECIMAL feels_like_c
-        INT humidity
-        DECIMAL wind_speed
-        DECIMAL precip_mm
+    DailyContext {
+        INT id PK
+        INT user_id FK
+        DATETIME date
+        FLOAT temperature
+        FLOAT temperature_high
+        FLOAT temperature_low
+        ENUM weather
+        ENUM occasion
     }
 
     Outfit {
-        INT outfit_id PK
-        INT occasion_id FK
-        INT weather_id FK
-        JSON items
-        INT color_score
-        INT fabric_score
-        INT style_score
-        INT total_score
-        TEXT explanation
+        INT id PK
+        INT user_id FK
+        INT context_id FK
+        FLOAT warmth_score
+        INT inner_count
+        INT mid_count
+        INT outer_count
+        BOOLEAN is_generated
+        BOOLEAN underfit_flag
+        INT overkill_layers
     }
 
-    ScoringRule {
-        INT rule_id PK
-        VARCHAR rule_type
-        VARCHAR description
-        JSON condition_json
-        INT score_delta
-        DATE valid_from
-        DATE valid_until
+    OutfitItem {
+        INT outfit_id PK_FK
+        INT item_id PK_FK
+        INT position
     }
 
-    WearLog {
-        INT log_id PK
-        INT item_id FK
+    Rating {
+        INT id PK
+        INT user_id FK
         INT outfit_id FK
-        VARCHAR event_type
-        TIMESTAMP event_date
-        INT delta_clean
-        INT clean_score_after
+        INT rating
+        ENUM rating_source
+        VARCHAR ideal_temp_zone
+        DATETIME rated_at
     }
 
-    Occasion ||--o{ CalendarEvent : "has"
-    Occasion ||--o{ Outfit : "generates"
-    Weather ||--o{ Outfit : "conditions"
-    Outfit ||--o{ WearLog : "records"
-    ClothingItem ||--o{ WearLog : "tracks"
-    ScoringRule }o--o{ Outfit : "evaluates"
+    TemperatureRating {
+        INT id PK
+        INT user_id FK
+        INT outfit_id FK
+        JSON zones_ok
+        VARCHAR target_zone
+        DATETIME rated_at
+    }
+
+    OccasionRating {
+        INT id PK
+        INT user_id FK
+        INT outfit_id FK
+        JSON events_ok
+        DATETIME rated_at
+    }
+
+    OutfitLog {
+        INT id PK
+        INT user_id FK
+        INT context_id FK
+        INT recommended_outfit_id FK
+        INT final_worn_outfit_id FK
+        DATETIME logged_at
+    }
+
+    ModelRun {
+        INT id PK
+        INT user_id FK
+        VARCHAR model_path
+        INT training_samples
+        VARCHAR feature_version
+        FLOAT val_auc
+        BOOLEAN is_active
+    }
+
+    User ||--o{ Item : "owns"
+    User ||--o{ DailyContext : "has"
+    User ||--o{ Rating : "submits"
+    User ||--o{ ModelRun : "trains"
+    Item ||--|| ItemState : "current state"
+    Item ||--|| ItemStats : "aggregated"
+    Item }o--o{ Outfit : "via OutfitItem"
+    DailyContext ||--o{ Outfit : "context for"
+    Outfit ||--o{ Rating : "is rated"
+    Outfit ||--o{ TemperatureRating : "stage 1"
+    Outfit ||--o{ OccasionRating : "stage 3"
+    DailyContext ||--o{ OutfitLog : "logs wear"
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -1400,8 +1487,9 @@ manages (ID, manager_id)</code></pre>
 </div>
 </div>
 </section>
-<section id="clothingitem" class="level5">
-<h5 class="anchored" data-anchor-id="clothingitem">1. ClothingItem</h5>
+<section id="user" class="level5">
+<h5 class="anchored" data-anchor-id="user">1. User</h5>
+<p>Holds account-level state: location coordinates for client-side weather fetching, temperature unit preference (Celsius or Fahrenheit, display only), calibration progress, and per-stage training completion flags for Phase 4’s three independent training tracks.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
@@ -1417,66 +1505,196 @@ manages (ID, manager_id)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>item_id</code></td>
+<td><code>id</code></td>
 <td>INT PK</td>
 <td>Unique identifier</td>
 </tr>
 <tr class="even">
+<td><code>username</code></td>
+<td>VARCHAR(64) UNIQUE</td>
+<td>Profile name</td>
+</tr>
+<tr class="odd">
+<td><code>email</code></td>
+<td>VARCHAR(128) UNIQUE</td>
+<td>Email (optional)</td>
+</tr>
+<tr class="even">
+<td><code>created_at</code></td>
+<td>DATETIME</td>
+<td>Account creation timestamp</td>
+</tr>
+<tr class="odd">
+<td><code>lat</code>, <code>lon</code></td>
+<td>FLOAT</td>
+<td>Location for client-side weather lookup (Open-Meteo)</td>
+</tr>
+<tr class="even">
+<td><code>city</code>, <code>timezone</code></td>
+<td>VARCHAR</td>
+<td>Display label and timezone</td>
+</tr>
+<tr class="odd">
+<td><code>temp_unit</code></td>
+<td>VARCHAR(1)</td>
+<td><code>'C'</code> or <code>'F'</code> (display preference; storage is always Celsius)</td>
+</tr>
+<tr class="even">
+<td><code>training_complete</code></td>
+<td>BOOLEAN</td>
+<td>Phase 1 calibration finished</td>
+</tr>
+<tr class="odd">
+<td><code>temp_offset</code></td>
+<td>FLOAT</td>
+<td>Cold-sensitivity bias (legacy single-stage calibration)</td>
+</tr>
+<tr class="even">
+<td><code>v2_temp_done</code>, <code>v2_aesthetic_done</code>, <code>v2_occasion_done</code></td>
+<td>BOOLEAN</td>
+<td>Phase 4 stage flags</td>
+</tr>
+<tr class="odd">
+<td><code>zone_warmth_prefs</code></td>
+<td>TEXT</td>
+<td>JSON dict capturing per-zone warmth preferences from Stage&nbsp;1 adaptive sampling</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="item" class="level5">
+<h5 class="anchored" data-anchor-id="item">2. Item</h5>
+<p>The core wardrobe table. Every clothing piece carries the dimensions used by the recommender: visual (colors, pattern, pattern_complexity), material (material as the primary fiber, plus an optional composition JSON for fabric blends), fit (shoulder_fit, waist_fit, pants_fit, sleeve, top_length, pants_length), warmth (thickness on a four-level enum), and style (style_tags JSON, can_wear_alone). Two columns are JSON arrays where a strictly-normalized design would have used a many-to-many child table: <code>colors</code> (typically 1–3 colors per item) and <code>style_tags</code> (typically 1–4 tags). The denormalization is justified in §&nbsp;“Denormalization Decisions.”</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 22%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code></td>
+<td>INT FK</td>
+<td>Owner</td>
+</tr>
+<tr class="odd">
 <td><code>name</code></td>
-<td>VARCHAR(50)</td>
-<td>Item name (e.g.&nbsp;“Navy Oxford Shirt”)</td>
+<td>VARCHAR(128)</td>
+<td>Free-text name (auto-generated from attributes, user-editable)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>category</code></td>
-<td>VARCHAR(20)</td>
-<td>Category: top, bottom, shoes, outerwear, accessory</td>
-</tr>
-<tr class="even">
-<td><code>fabric</code></td>
-<td>VARCHAR(20)</td>
-<td>Fabric type (e.g.&nbsp;cotton, denim, linen, polyester)</td>
+<td>ENUM</td>
+<td><code>top</code> / <code>bottom</code> / <code>shoes</code> / <code>accessory</code> / <code>fullbody</code></td>
 </tr>
 <tr class="odd">
-<td><code>warmth_weight</code></td>
-<td>INT</td>
-<td>Warmth rating (0–100)</td>
+<td><code>layer_role</code></td>
+<td>ENUM</td>
+<td><code>inner</code> / <code>mid</code> / <code>outer</code> / <code>none</code>; drives the layer-coverage model</td>
 </tr>
 <tr class="even">
-<td><code>breathability</code></td>
-<td>INT</td>
-<td>Breathability rating (0–100)</td>
-</tr>
-<tr class="odd">
 <td><code>colors</code></td>
 <td>JSON</td>
-<td>Color roles: <code>[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]</code></td>
+<td>List of color names: <code>["white", "navy"]</code></td>
+</tr>
+<tr class="odd">
+<td><code>is_multicolor</code></td>
+<td>BOOLEAN</td>
+<td>Convenience flag derived from <code>len(colors) &gt; 1</code></td>
 </tr>
 <tr class="even">
-<td><code>styles</code></td>
+<td><code>pattern</code></td>
+<td>VARCHAR(32)</td>
+<td><code>solid</code> / <code>striped</code> / <code>plaid</code> / <code>floral</code> / <code>graphic</code> / <code>checked</code> / <code>dotted</code> / <code>other</code></td>
+</tr>
+<tr class="odd">
+<td><code>pattern_complexity</code></td>
+<td>INT</td>
+<td>0 (solid) to 3 (busy graphic)</td>
+</tr>
+<tr class="even">
+<td><code>material</code></td>
+<td>VARCHAR(32)</td>
+<td>Primary fiber: <code>cotton</code> / <code>wool</code> / <code>linen</code> / <code>polyester</code> / <code>denim</code> / etc.</td>
+</tr>
+<tr class="odd">
+<td><code>composition</code></td>
+<td>JSON NULLABLE</td>
+<td>Optional fabric blend: <code>[{"material":"cotton","pct":40},{"material":"linen","pct":60}]</code>, must sum to 100</td>
+</tr>
+<tr class="even">
+<td><code>thickness</code></td>
+<td>ENUM</td>
+<td><code>very_thin</code> / <code>thin</code> / <code>thick</code> / <code>very_thick</code></td>
+</tr>
+<tr class="odd">
+<td><code>style_tags</code></td>
 <td>JSON</td>
-<td>Style tags: <code>["clean fit","formal"]</code></td>
-</tr>
-<tr class="odd">
-<td><code>formality_score</code></td>
-<td>INT</td>
-<td>Formality level (0–100)</td>
+<td>List of style descriptors: <code>["casual", "minimal"]</code></td>
 </tr>
 <tr class="even">
-<td><code>clean_score</code></td>
-<td>INT</td>
-<td>Cleanliness (100 = fresh, 0 = needs wash); item is recommendable only when &gt; 0</td>
+<td><code>can_wear_alone</code></td>
+<td>BOOLEAN</td>
+<td>Whether an outer-role item is OK over bare skin (peacoat = false, kimono = true)</td>
 </tr>
 <tr class="odd">
-<td><code>status</code></td>
-<td>VARCHAR(10)</td>
-<td><code>active</code> or <code>archived</code>; only active items enter recommendation</td>
+<td><code>shoulder_fit</code>, <code>waist_fit</code>, <code>pants_fit</code></td>
+<td>VARCHAR</td>
+<td><code>slim</code> / <code>regular</code> / <code>loose</code></td>
+</tr>
+<tr class="even">
+<td><code>collar</code></td>
+<td>VARCHAR</td>
+<td><code>crew</code> / <code>v</code> / <code>polo</code> / <code>turtleneck</code> / <code>hooded</code> / <code>button_down</code> / <code>shirt</code> / <code>spread</code></td>
+</tr>
+<tr class="odd">
+<td><code>top_length</code></td>
+<td>VARCHAR</td>
+<td><code>cropped</code> / <code>short</code> / <code>regular</code> / <code>long</code></td>
+</tr>
+<tr class="even">
+<td><code>sleeve</code></td>
+<td>VARCHAR</td>
+<td><code>sleeveless</code> / <code>short</code> / <code>long</code></td>
+</tr>
+<tr class="odd">
+<td><code>pants_length</code></td>
+<td>VARCHAR</td>
+<td><code>short</code> / <code>regular</code> / <code>long</code> / <code>full</code></td>
+</tr>
+<tr class="even">
+<td><code>image_path</code></td>
+<td>VARCHAR(256)</td>
+<td>URL path to the photo on disk</td>
+</tr>
+<tr class="odd">
+<td><code>is_active</code></td>
+<td>BOOLEAN</td>
+<td>Soft-delete flag</td>
+</tr>
+<tr class="even">
+<td><code>wears_per_wash</code></td>
+<td>INT</td>
+<td>Per-item laundry threshold</td>
 </tr>
 </tbody>
 </table>
-<p><em>Absorbs the former: User, Category, Color, Fabric, StyleTag, ItemStyle, ItemColor.</em></p>
 </section>
-<section id="occasion" class="level5">
-<h5 class="anchored" data-anchor-id="occasion">2. Occasion</h5>
+<section id="itemstate-11-with-item" class="level5">
+<h5 class="anchored" data-anchor-id="itemstate-11-with-item">3. ItemState (1:1 with Item)</h5>
+<p>Hot-path mutable state separated from the read-heavy <code>items</code> table. The state machine has four values: <code>clean</code> (never worn since last wash), <code>worn</code> (used but below <code>wears_per_wash</code>, still wearable), <code>in_laundry</code> (dirty, blocked from recommendations), and <code>unavailable</code> (manually held out for non-dirt reasons such as repair or seasonal storage).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
@@ -1492,36 +1710,36 @@ manages (ID, manager_id)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>occasion_id</code></td>
-<td>INT PK</td>
-<td>Unique identifier</td>
+<td><code>item_id</code></td>
+<td>INT PK FK</td>
+<td>One-to-one with Item</td>
 </tr>
 <tr class="even">
-<td><code>name</code></td>
-<td>VARCHAR(30)</td>
-<td>Occasion name (e.g.&nbsp;“job interview”, “casual outing”, “gym”)</td>
+<td><code>state</code></td>
+<td>ENUM</td>
+<td><code>clean</code> / <code>worn</code> / <code>in_laundry</code> / <code>unavailable</code></td>
 </tr>
 <tr class="odd">
-<td><code>formality_min</code></td>
+<td><code>wear_count_since_wash</code></td>
 <td>INT</td>
-<td>Minimum acceptable formality (0–100)</td>
+<td>Count since last laundry reset</td>
 </tr>
 <tr class="even">
-<td><code>formality_max</code></td>
+<td><code>worn_count</code></td>
 <td>INT</td>
-<td>Maximum acceptable formality (0–100)</td>
+<td>Lifetime wears (incremented when user logs an outfit as worn)</td>
 </tr>
 <tr class="odd">
-<td><code>style_fit</code></td>
-<td>JSON</td>
-<td>Style-to-fit-score mapping: <code>{"formal":95,"clean fit":80,"street":20}</code></td>
+<td><code>last_worn</code></td>
+<td>DATETIME</td>
+<td>Most recent wear timestamp</td>
 </tr>
 </tbody>
 </table>
-<p><em>Absorbs the former: Occasion, StyleOccasionFit. The <code>style_fit</code> JSON replaces the separate many-to-many table.</em></p>
 </section>
-<section id="calendarevent" class="level5">
-<h5 class="anchored" data-anchor-id="calendarevent">3. CalendarEvent</h5>
+<section id="itemstats-11-with-item" class="level5">
+<h5 class="anchored" data-anchor-id="itemstats-11-with-item">4. ItemStats (1:1 with Item)</h5>
+<p>Read-heavy aggregates used by scoring and feature engineering. Separated from ItemState because update frequency, write paths, and consistency requirements are different (state changes per wear; stats are recomputed in batch).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
@@ -1537,31 +1755,36 @@ manages (ID, manager_id)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>event_id</code></td>
-<td>INT PK</td>
-<td>Unique identifier</td>
+<td><code>item_id</code></td>
+<td>INT PK FK</td>
+<td>One-to-one with Item</td>
 </tr>
 <tr class="even">
-<td><code>occasion_id</code></td>
-<td>INT FK → Occasion</td>
-<td>Links to the occasion type</td>
+<td><code>average_rating</code></td>
+<td>FLOAT</td>
+<td>Mean rating across all <code>Rating</code> rows referencing this item’s outfits</td>
 </tr>
 <tr class="odd">
-<td><code>event_date</code></td>
-<td>DATE</td>
-<td>Date of the event</td>
+<td><code>total_ratings</code></td>
+<td>INT</td>
+<td>Count of contributing ratings</td>
 </tr>
 <tr class="even">
-<td><code>start_time</code></td>
-<td>TIME</td>
-<td>Start time; used to determine morning vs.&nbsp;evening outfit needs</td>
+<td><code>coverage_count</code></td>
+<td>INT</td>
+<td>Times this item appeared in a top-K recommendation or training batch</td>
+</tr>
+<tr class="odd">
+<td><code>last_worn_date</code></td>
+<td>DATETIME</td>
+<td>Last actual wear timestamp</td>
 </tr>
 </tbody>
 </table>
-<p><em>Drives automatic occasion detection: the system reads today’s events to determine the occasion context.</em></p>
 </section>
-<section id="weather" class="level5">
-<h5 class="anchored" data-anchor-id="weather">4. Weather</h5>
+<section id="dailycontext" class="level5">
+<h5 class="anchored" data-anchor-id="dailycontext">5. DailyContext</h5>
+<p>The environmental and intent state of a recommendation session: weather and occasion. One row per (user, day). Created when the user opens the recommend page or starts a training batch.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
@@ -1577,52 +1800,127 @@ manages (ID, manager_id)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>weather_id</code></td>
+<td><code>id</code></td>
 <td>INT PK</td>
 <td>Unique identifier</td>
 </tr>
 <tr class="even">
-<td><code>condition_name</code></td>
-<td>VARCHAR(20)</td>
-<td>Named condition (e.g.&nbsp;“cold_rainy”, “hot_humid”, “mild_clear”)</td>
+<td><code>user_id</code></td>
+<td>INT FK</td>
+<td>Owner</td>
 </tr>
 <tr class="odd">
-<td><code>temp_c</code></td>
-<td>DECIMAL(4,1)</td>
-<td>Temperature in Celsius</td>
+<td><code>date</code></td>
+<td>DATETIME</td>
+<td>Day in user’s local time</td>
 </tr>
 <tr class="even">
-<td><code>feels_like_c</code></td>
-<td>DECIMAL(4,1)</td>
-<td>Feels-like temperature</td>
+<td><code>temperature</code></td>
+<td>FLOAT</td>
+<td>Current temperature (°C)</td>
 </tr>
 <tr class="odd">
-<td><code>humidity</code></td>
-<td>INT</td>
-<td>Humidity percentage (0–100)</td>
+<td><code>temperature_high</code>, <code>temperature_low</code></td>
+<td>FLOAT</td>
+<td>Day high / low (°C)</td>
 </tr>
 <tr class="even">
-<td><code>wind_speed</code></td>
-<td>DECIMAL(4,1)</td>
-<td>Wind speed in km/h</td>
+<td><code>weather</code></td>
+<td>ENUM</td>
+<td><code>sunny</code> / <code>cloudy</code> / <code>rainy</code> / <code>snowy</code> / <code>windy</code></td>
 </tr>
 <tr class="odd">
-<td><code>precip_mm</code></td>
-<td>DECIMAL(5,1)</td>
-<td>Precipitation in mm</td>
+<td><code>occasion</code></td>
+<td>ENUM</td>
+<td><code>casual</code> / <code>work</code> / <code>formal</code> / <code>sport</code> / <code>home</code></td>
+</tr>
+<tr class="even">
+<td><code>notes</code></td>
+<td>VARCHAR(256)</td>
+<td>Free-text notes</td>
 </tr>
 </tbody>
 </table>
-<p><em>Merges the former: WeatherSnapshot, WeatherCondition. The <code>condition_name</code> column replaces the separate condition lookup table.</em></p>
 </section>
 <section id="outfit" class="level5">
-<h5 class="anchored" data-anchor-id="outfit">5. Outfit</h5>
+<h5 class="anchored" data-anchor-id="outfit">6. Outfit</h5>
+<p>A specific candidate combination of items, generated from a context. Carries the layer-coverage model’s outputs (<code>warmth_score</code>, <code>optimal_layer_count</code>, <code>underfit_flag</code>, <code>overkill_layers</code>, <code>inner_count</code> / <code>mid_count</code> / <code>outer_count</code>) so the recommender doesn’t have to recompute them on every score query.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 29%">
 <col style="width: 22%">
 <col style="width: 48%">
 </colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code></td>
+<td>INT FK</td>
+<td>Owner</td>
+</tr>
+<tr class="odd">
+<td><code>context_id</code></td>
+<td>INT FK NULLABLE</td>
+<td>Context this outfit was generated for</td>
+</tr>
+<tr class="even">
+<td><code>is_generated</code></td>
+<td>BOOLEAN</td>
+<td>True if produced by the candidate generator, false if user-curated</td>
+</tr>
+<tr class="odd">
+<td><code>warmth_score</code></td>
+<td>FLOAT</td>
+<td>Computed from layer thicknesses</td>
+</tr>
+<tr class="even">
+<td><code>coverage_curve</code>, <code>aesthetic_curve</code></td>
+<td>JSON</td>
+<td>Stored layer-coverage model output</td>
+</tr>
+<tr class="odd">
+<td><code>optimal_layer_count</code></td>
+<td>INT</td>
+<td>Comfort-required layer count</td>
+</tr>
+<tr class="even">
+<td><code>final_k</code></td>
+<td>INT</td>
+<td>Aesthetic-resolved layer count</td>
+</tr>
+<tr class="odd">
+<td><code>overkill_layers</code></td>
+<td>INT</td>
+<td>Layers beyond optimal (penalty term)</td>
+</tr>
+<tr class="even">
+<td><code>underfit_flag</code></td>
+<td>BOOLEAN</td>
+<td>True if no layer count satisfies the comfort target</td>
+</tr>
+<tr class="odd">
+<td><code>inner_count</code>, <code>mid_count</code>, <code>outer_count</code>, <code>total_items</code></td>
+<td>INT</td>
+<td>Layer counts for fast filtering</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="outfititem-mn-junction" class="level5">
+<h5 class="anchored" data-anchor-id="outfititem-mn-junction">7. OutfitItem (M:N junction)</h5>
+<p>Links Outfit to Item with the position used to reconstruct layering order at display time.</p>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Column</th>
@@ -1633,165 +1931,282 @@ manages (ID, manager_id)</code></pre>
 <tbody>
 <tr class="odd">
 <td><code>outfit_id</code></td>
-<td>INT PK</td>
-<td>Unique identifier</td>
-</tr>
-<tr class="even">
-<td><code>occasion_id</code></td>
-<td>INT FK → Occasion</td>
-<td>The occasion this outfit was generated for</td>
-</tr>
-<tr class="odd">
-<td><code>weather_id</code></td>
-<td>INT FK → Weather</td>
-<td>The weather snapshot at generation time</td>
-</tr>
-<tr class="even">
-<td><code>items</code></td>
-<td>JSON</td>
-<td>Ordered item list: <code>[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]</code></td>
-</tr>
-<tr class="odd">
-<td><code>color_score</code></td>
-<td>INT</td>
-<td>Color harmony sub-score (60/30/10 rule)</td>
-</tr>
-<tr class="even">
-<td><code>fabric_score</code></td>
-<td>INT</td>
-<td>Fabric compatibility sub-score</td>
-</tr>
-<tr class="odd">
-<td><code>style_score</code></td>
-<td>INT</td>
-<td>Style consistency sub-score</td>
-</tr>
-<tr class="even">
-<td><code>total_score</code></td>
-<td>INT</td>
-<td>Weighted total of the three sub-scores</td>
-</tr>
-<tr class="odd">
-<td><code>explanation</code></td>
-<td>TEXT</td>
-<td>Human-readable scoring breakdown</td>
-</tr>
-</tbody>
-</table>
-<p><em>Merges the former: Outfit, OutfitItem. The <code>items</code> JSON replaces the separate detail table, supporting multi-layer dressing via the <code>layer</code> field.</em></p>
-</section>
-<section id="scoringrule" class="level5">
-<h5 class="anchored" data-anchor-id="scoringrule">6. ScoringRule</h5>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 22%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>rule_id</code></td>
-<td>INT PK</td>
-<td>Unique identifier</td>
-</tr>
-<tr class="even">
-<td><code>rule_type</code></td>
-<td>VARCHAR(20)</td>
-<td><code>outfit_score</code> (scoring bonus/penalty) or <code>wear_degrade</code> (clean score deduction)</td>
-</tr>
-<tr class="odd">
-<td><code>description</code></td>
-<td>VARCHAR(100)</td>
-<td>Human-readable rule description (e.g.&nbsp;“Same-fabric bonus +5”)</td>
-</tr>
-<tr class="even">
-<td><code>condition_json</code></td>
-<td>JSON</td>
-<td>Condition to match: <code>{"category":"top","occasion":"gym"}</code></td>
-</tr>
-<tr class="odd">
-<td><code>score_delta</code></td>
-<td>INT</td>
-<td>Points to add/subtract when condition is met</td>
-</tr>
-<tr class="even">
-<td><code>valid_from</code></td>
-<td>DATE</td>
-<td>Rule effective start (nullable; supports trend-based rules)</td>
-</tr>
-<tr class="odd">
-<td><code>valid_until</code></td>
-<td>DATE</td>
-<td>Rule expiry date (nullable)</td>
-</tr>
-</tbody>
-</table>
-<p><em>Merges the former: OutfitScoringRule, WearDegradeRule. The <code>rule_type</code> column distinguishes between outfit scoring rules and wear degradation rules.</em></p>
-</section>
-<section id="wearlog" class="level5">
-<h5 class="anchored" data-anchor-id="wearlog">7. WearLog</h5>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 22%">
-<col style="width: 48%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Column</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>log_id</code></td>
-<td>INT PK</td>
-<td>Unique identifier</td>
+<td>INT PK FK</td>
+<td>The outfit</td>
 </tr>
 <tr class="even">
 <td><code>item_id</code></td>
-<td>INT FK → ClothingItem</td>
-<td>The clothing item involved</td>
+<td>INT PK FK</td>
+<td>One of the items</td>
 </tr>
 <tr class="odd">
-<td><code>outfit_id</code></td>
-<td>INT FK → Outfit</td>
-<td>Associated outfit (nullable; null for laundry events)</td>
-</tr>
-<tr class="even">
-<td><code>event_type</code></td>
-<td>VARCHAR(10)</td>
-<td><code>wear</code> or <code>laundry</code></td>
-</tr>
-<tr class="odd">
-<td><code>event_date</code></td>
-<td>TIMESTAMP</td>
-<td>When the event occurred</td>
-</tr>
-<tr class="even">
-<td><code>delta_clean</code></td>
+<td><code>position</code></td>
 <td>INT</td>
-<td>Clean score change (negative for wear, positive for laundry reset to 100)</td>
-</tr>
-<tr class="odd">
-<td><code>clean_score_after</code></td>
-<td>INT</td>
-<td>Resulting clean score after this event</td>
+<td>Display order</td>
 </tr>
 </tbody>
 </table>
-<p><em>Merges the former: WearEvent, WearEventItem, LaundryBatch, LaundryBatchItem. Each row records one item’s wear or laundry event. Laundry resets <code>clean_score</code> to 100.</em></p>
-
-
 </section>
+<section id="rating-phase-1-stage-2-aesthetic" class="level5">
+<h5 class="anchored" data-anchor-id="rating-phase-1-stage-2-aesthetic">8. Rating (Phase 1 / Stage 2 aesthetic)</h5>
+<p>Captures the user’s overall judgment of an outfit. Used by the original single-stage XGBoost preference model and reused by Phase 4’s Stage 2 (aesthetic-only) training.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 22%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code></td>
+<td>INT FK</td>
+<td>Rater</td>
+</tr>
+<tr class="odd">
+<td><code>outfit_id</code></td>
+<td>INT FK</td>
+<td>Rated outfit</td>
+</tr>
+<tr class="even">
+<td><code>rating</code></td>
+<td>INT</td>
+<td>-1 (dislike) / 0 (meh) / 1 (like) / 2 (love)</td>
+</tr>
+<tr class="odd">
+<td><code>rating_source</code></td>
+<td>ENUM</td>
+<td><code>user_rated</code> (explicit click) / <code>user_modified</code> (implicit positive from accept-and-modify)</td>
+</tr>
+<tr class="even">
+<td><code>ideal_temp_zone</code></td>
+<td>VARCHAR(8)</td>
+<td>Cold/cool/mild/warm/hot — feeds <code>temp_offset</code> calibration</td>
+</tr>
+<tr class="odd">
+<td><code>rated_at</code>, <code>updated_at</code></td>
+<td>DATETIME</td>
+<td>Timestamps</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="temperaturerating-phase-4-stage-1" class="level5">
+<h5 class="anchored" data-anchor-id="temperaturerating-phase-4-stage-1">9. TemperatureRating (Phase 4 Stage 1)</h5>
+<p>Multi-label: which temperature zones each outfit suits. Empty list means “not appropriate for any zone.” Drives the Stage 1 binary classifier.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 22%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code>, <code>outfit_id</code></td>
+<td>INT FK</td>
+<td>Owner and target</td>
+</tr>
+<tr class="odd">
+<td><code>zones_ok</code></td>
+<td>JSON</td>
+<td>List of zone keys: <code>["mild","warm"]</code></td>
+</tr>
+<tr class="even">
+<td><code>target_zone</code></td>
+<td>VARCHAR(8)</td>
+<td>The zone the candidate generator was sampling for, kept for analytics</td>
+</tr>
+<tr class="odd">
+<td><code>rated_at</code></td>
+<td>DATETIME</td>
+<td>Timestamp</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="occasionrating-phase-4-stage-3" class="level5">
+<h5 class="anchored" data-anchor-id="occasionrating-phase-4-stage-3">10. OccasionRating (Phase 4 Stage 3)</h5>
+<p>Multi-label: which occasion events each outfit suits. Drives the Stage 3 binary classifier.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code>, <code>outfit_id</code></td>
+<td>INT FK</td>
+<td>Owner and target</td>
+</tr>
+<tr class="odd">
+<td><code>events_ok</code></td>
+<td>JSON</td>
+<td>List of event keys: <code>["office","date_night"]</code></td>
+</tr>
+<tr class="even">
+<td><code>rated_at</code></td>
+<td>DATETIME</td>
+<td>Timestamp</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="outfitlog" class="level5">
+<h5 class="anchored" data-anchor-id="outfitlog">11. OutfitLog</h5>
+<p>Records actual wear: when the user told the system “I wore this outfit today.” Distinguished from ratings (which capture preference) by the fact that wearing creates side effects (increment <code>worn_count</code>, advance <code>wear_count_since_wash</code>, possibly flip state to <code>in_laundry</code>).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 22%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code>, <code>context_id</code></td>
+<td>INT FK</td>
+<td>Day and user</td>
+</tr>
+<tr class="odd">
+<td><code>recommended_outfit_id</code></td>
+<td>INT FK</td>
+<td>What the system suggested</td>
+</tr>
+<tr class="even">
+<td><code>final_worn_outfit_id</code></td>
+<td>INT FK</td>
+<td>What the user actually wore (may differ if user modified)</td>
+</tr>
+<tr class="odd">
+<td><code>logged_at</code></td>
+<td>DATETIME</td>
+<td>Timestamp</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modelrun" class="level5">
+<h5 class="anchored" data-anchor-id="modelrun">12. ModelRun</h5>
+<p>Tracks each trained model checkpoint with its validation metrics and feature schema version. The <code>is_active</code> flag distinguishes the currently-served model from archived past runs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 22%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>INT PK</td>
+<td>Unique identifier</td>
+</tr>
+<tr class="even">
+<td><code>user_id</code></td>
+<td>INT FK</td>
+<td>Owner of the trained model</td>
+</tr>
+<tr class="odd">
+<td><code>model_path</code></td>
+<td>VARCHAR</td>
+<td>Path to the serialized XGBoost model on disk</td>
+</tr>
+<tr class="even">
+<td><code>training_samples</code></td>
+<td>INT</td>
+<td>Sample count at training time</td>
+</tr>
+<tr class="odd">
+<td><code>feature_version</code></td>
+<td>VARCHAR</td>
+<td><code>"v1"</code> / <code>"v2"</code> etc. (bumps when feature engineering changes)</td>
+</tr>
+<tr class="even">
+<td><code>val_auc</code>, <code>val_logloss</code></td>
+<td>FLOAT</td>
+<td>Validation metrics</td>
+</tr>
+<tr class="odd">
+<td><code>is_active</code></td>
+<td>BOOLEAN</td>
+<td>True for the currently-serving model</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="denormalization-decisions" class="level4">
+<h4 class="anchored" data-anchor-id="denormalization-decisions">Denormalization Decisions</h4>
+<p>Three columns deliberately depart from third normal form. Each was a considered tradeoff, not an oversight.</p>
+<p><strong>JSON arrays for <code>items.colors</code> and <code>items.style_tags</code>.</strong> The strictly-normalized alternative would be <code>item_colors</code> and <code>item_style_tags</code> many-to-many tables. The application never queries from the small side (“give me all items with color X”) directly; the only access pattern is reading the full list of colors / tags for a given item, which JSON serves in one fetch without a join. The cardinality is small (1–3 colors, 1–4 tags typically) so the JSON column never approaches a size where indexing inside the JSON would matter. SQLite’s JSON1 extension provides query operators if a future feature ever needs them.</p>
+<p><strong>JSON for <code>items.composition</code>.</strong> Fabric blends like 40% cotton / 60% linen were originally going to be a <code>material_composition</code> table with <code>(item_id, material, pct)</code> rows. The application’s only read pattern is “get the full blend for this item to compute its weighted-multi-hot feature vector,” which a single JSON column serves directly. Validation that percentages sum to 100 happens in the Pydantic schema layer, where it correctly fails the request before any DB write rather than at a database-level CHECK constraint.</p>
+<p><strong>Splitting <code>ItemState</code> and <code>ItemStats</code> from <code>Item</code>.</strong> This is a 1:1 split that violates normalization heuristics (since each row exists in exactly one parent), but the access patterns are very different: <code>ItemState</code> is written on every wear and read on every recommendation candidate (high contention, small payload); <code>ItemStats</code> is written in batch after rating cycles and read on closet display (low contention, larger payload). Splitting them keeps write locks on hot paths from blocking reads on cold paths, and lets the hot table fit more rows per page in SQLite’s internal cache.</p>
+</section>
+<section id="migration-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="migration-strategy">Migration Strategy</h4>
+<p>The schema evolves through additive ALTER TABLE statements applied at application startup, idempotent across runs. <code>app/database.py</code> defines lists of <code>(column_name, DDL)</code> tuples per table; <code>_alter_add_columns</code> queries <code>PRAGMA table_info(table)</code>, computes the diff against the desired set, and issues <code>ALTER TABLE ADD COLUMN</code> for any missing columns. This lets old profiles upgrade smoothly when the user installs a newer app version: their existing <code>wardrobe.db</code> keeps all data, and only the new columns are added.</p>
+<p>Across the project’s six implementation phases the schema gained:</p>
+<ul>
+<li>Phase 3: <code>users.lat</code>, <code>users.lon</code>, <code>users.city</code>, <code>users.timezone</code> for client-side weather fetching.</li>
+<li>Phase 4: <code>users.v2_temp_done</code>, <code>users.v2_aesthetic_done</code>, <code>users.v2_occasion_done</code>, <code>users.zone_warmth_prefs</code>; new tables <code>temperature_ratings</code> and <code>occasion_ratings</code>.</li>
+<li>Phase 5: <code>items.composition</code> (fabric blends); <code>users.temp_unit</code> (display unit); <code>items.wears_per_wash</code> (already added in earlier laundry work but reaffirmed).</li>
+<li>Phase 6: no schema changes; pure packaging work.</li>
+</ul>
+<p>No columns have been dropped. <code>items.calendar_event</code> remains as a nullable String even though the Phase 5 calendar removal stopped writing to it, because dropping a column from SQLite requires a full table rebuild and the storage cost of a nullable unused column is zero.</p>
+</section>
+<section id="try-the-system" class="level4">
+<h4 class="anchored" data-anchor-id="try-the-system">Try the system</h4>
+<p>The full implementation runs as a downloadable desktop app. See <a href="closetmind.html"><strong>ClosetMind →</strong></a> for the macOS DMG download and Windows build instructions.</p>
+
+
 </section>
 </section>
 </section>
