@@ -243,15 +243,25 @@ format:
 ## Live demo
 
 A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so
-graders can click through every page without installing anything. It is
-loaded with the *Tester* profile (54 clothing items, 17&thinsp;MB of real
-photos). The original frontend HTML / CSS / JS runs unmodified, but a
-`fetch()` interceptor backs every endpoint with a session-scoped
-in-browser store that mirrors the 11-table SQLite schema. Marking an
-item dirty / sending it to laundry actually mutates the closet within
-the session; recommendations honor `Top K`, `Occasion`, and the
-force-include selector. Refresh the page to reset to the baseline
-wardrobe.
+graders can click through every page without installing anything. The
+demo runs the original ClosetMind HTML / CSS / JS unchanged; a tiny
+`fetch()` interceptor reroutes every API call into a real **in-browser
+SQLite database** (sql.js, WebAssembly) seeded with the *Tester*
+wardrobe (54 clothing items, 17&thinsp;MB of photos). The 13-table
+schema is the same one the FastAPI backend uses, so each click runs
+genuine **DDL + DML**:
+
+- `Mark dirty` &rarr; `UPDATE item_states SET state='dirty' WHERE item_id IN (...)`
+- `Send to laundry` &rarr; `UPDATE item_states SET state='clean', wear_count_since_wash=0 ...`
+- `Build context` &rarr; `INSERT INTO daily_contexts (...) VALUES (...)`
+- `Pick / Dislike` &rarr; `INSERT INTO outfit_logs (user_action, ...)`
+
+A live SQL log in the bottom-right of the iframe shows each statement
+as it executes &mdash; verifies that the demo is doing real database
+work, not faking responses. Anything that genuinely needs the desktop
+runtime (photo upload, CSV import, model retraining) raises a yellow
+"demo only &mdash; download the desktop app" toast instead. Refresh to
+reset back to the baseline Tester wardrobe.
 
 ```{=html}
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
@@ -392,11 +402,13 @@ This will go away once the app is code-signed (planned for v0.2).
 </div>
 ```
 
-On first launch the app shows a setup screen asking for a profile name.
-Pick anything (it&rsquo;s a folder name on your disk &mdash; e.g.,
-&ldquo;Me&rdquo;) and click **Create and enter**. The app then loads in
-your browser at `http://127.0.0.1:18888` and you can start uploading
-clothes.
+On first launch the app **automatically seeds a `Tester` profile** with
+54 sample items (the same wardrobe used in the live demo above) so you
+can immediately click around the recommendation flow without having to
+upload your own clothes first. Add your own profile any time via the
+top-right user switcher; deleting `Tester` won&rsquo;t bring it back on
+next launch (the seed only runs when the profile folder is empty). The
+app loads in your default browser at `http://127.0.0.1:18888`.
 
 ## Windows {#windows}
 

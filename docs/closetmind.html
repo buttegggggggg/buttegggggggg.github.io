@@ -480,7 +480,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="live-demo" class="level2">
 <h2 class="anchored" data-anchor-id="live-demo">Live demo</h2>
-<p>A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. It is loaded with the <em>Tester</em> profile (54 clothing items, 17 MB of real photos). The original frontend HTML / CSS / JS runs unmodified, but a <code>fetch()</code> interceptor backs every endpoint with a session-scoped in-browser store that mirrors the 11-table SQLite schema. Marking an item dirty / sending it to laundry actually mutates the closet within the session; recommendations honor <code>Top K</code>, <code>Occasion</code>, and the force-include selector. Refresh the page to reset to the baseline wardrobe.</p>
+<p>A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so graders can click through every page without installing anything. The demo runs the original ClosetMind HTML / CSS / JS unchanged; a tiny <code>fetch()</code> interceptor reroutes every API call into a real <strong>in-browser SQLite database</strong> (sql.js, WebAssembly) seeded with the <em>Tester</em> wardrobe (54 clothing items, 17 MB of photos). The 13-table schema is the same one the FastAPI backend uses, so each click runs genuine <strong>DDL + DML</strong>:</p>
+<ul>
+<li><code>Mark dirty</code> → <code>UPDATE item_states SET state='dirty' WHERE item_id IN (...)</code></li>
+<li><code>Send to laundry</code> → <code>UPDATE item_states SET state='clean', wear_count_since_wash=0 ...</code></li>
+<li><code>Build context</code> → <code>INSERT INTO daily_contexts (...) VALUES (...)</code></li>
+<li><code>Pick / Dislike</code> → <code>INSERT INTO outfit_logs (user_action, ...)</code></li>
+</ul>
+<p>A live SQL log in the bottom-right of the iframe shows each statement as it executes — verifies that the demo is doing real database work, not faking responses. Anything that genuinely needs the desktop runtime (photo upload, CSV import, model retraining) raises a yellow “demo only — download the desktop app” toast instead. Refresh to reset back to the baseline Tester wardrobe.</p>
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
             box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
   <iframe src="https://biubiubuttegg.shinyapps.io/wardrobe/" width="100%" height="820" style="display:block;border:0;background:#f6f6f4;" loading="lazy" allow="geolocation" title="ClosetMind live demo">
@@ -581,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 → Open → confirm.</b> Subsequent launches work normally.
 This will go away once the app is code-signed (planned for v0.2).
 </div>
-<p>On first launch the app shows a setup screen asking for a profile name. Pick anything (it’s a folder name on your disk — e.g., “Me”) and click <strong>Create and enter</strong>. The app then loads in your browser at <code>http://127.0.0.1:18888</code> and you can start uploading clothes.</p>
+<p>On first launch the app <strong>automatically seeds a <code>Tester</code> profile</strong> with 54 sample items (the same wardrobe used in the live demo above) so you can immediately click around the recommendation flow without having to upload your own clothes first. Add your own profile any time via the top-right user switcher; deleting <code>Tester</code> won’t bring it back on next launch (the seed only runs when the profile folder is empty). The app loads in your default browser at <code>http://127.0.0.1:18888</code>.</p>
 </section>
 <section id="windows" class="level2">
 <h2 class="anchored" data-anchor-id="windows">Windows</h2>
