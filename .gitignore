@@ -7,3 +7,12 @@ docs/*.nb.html
 
 /.quarto/
 _site/
+
+# Binary release artifacts — distribute via GitHub Releases instead
+*.dmg
+*.exe
+*.msi
+docs/closetmind/*.dmg
+docs/closetmind/*.exe
+closetmind/*.dmg
+closetmind/*.exe
