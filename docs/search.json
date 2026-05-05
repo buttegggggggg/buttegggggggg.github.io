@@ -739,7 +739,7 @@
     "href": "closetmind.html",
     "title": "ClosetMind",
     "section": "",
-    "text": "A local-first desktop app that learns what you actually like to wear,\n    by asking pure-axis questions (temperature, aesthetic, occasion) and\n    chaining three XGBoost classifiers at inference time. Your wardrobe\n    data never leaves your machine.\n  \n  \n    \n      macOS · 95 MB\n      Download for Mac\n    \n    \n      Windows\n      Build instructions →"
+    "text": "ClosetMind shows how anyone can build a personal database and train\n    their own ML model for everyday problems that don’t have a\n    tidy mathematical answer. Three short rating flows teach it your\n    sense of temperature, your aesthetic, and your sense of occasion\n    — and the recommendations even surface combinations from your\n    own closet you’d never have thought of yourself. Local-first:\n    your data never leaves your machine.\n  \n  \n    \n      macOS · 95 MB\n      Download for Mac\n    \n    \n      Windows\n      Build instructions →"
   },
   {
     "objectID": "closetmind.html#what-it-does",

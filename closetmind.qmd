@@ -197,10 +197,13 @@ format:
 <div class="cm-hero">
   <h1>ClosetMind <span class="cm-version">v0.1.0</span></h1>
   <p class="cm-tag">
-    A local-first desktop app that learns what you actually like to wear,
-    by asking pure-axis questions (temperature, aesthetic, occasion) and
-    chaining three XGBoost classifiers at inference time. Your wardrobe
-    data never leaves your machine.
+    ClosetMind shows how anyone can build a personal database and train
+    their own ML model for everyday problems that don&rsquo;t have a
+    tidy mathematical answer. Three short rating flows teach it your
+    sense of temperature, your aesthetic, and your sense of occasion
+    &mdash; and the recommendations even surface combinations from your
+    own closet you&rsquo;d never have thought of yourself. Local-first:
+    your data never leaves your machine.
   </p>
   <div class="cm-download-row">
     <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind_App/releases/download/v0.1.0/ClosetMind-0.1.0.dmg">
@@ -219,19 +222,19 @@ format:
 <div class="cm-quick-stats">
   <div class="cm-stat">
     <div class="cm-stat-val">11</div>
-    <div class="cm-stat-label">DB tables</div>
+    <div class="cm-stat-label">SQLite tables</div>
   </div>
   <div class="cm-stat">
     <div class="cm-stat-val">3<small>&times;</small></div>
-    <div class="cm-stat-label">Stage chain</div>
+    <div class="cm-stat-label">Personal model stages</div>
   </div>
   <div class="cm-stat">
-    <div class="cm-stat-val">0.854</div>
-    <div class="cm-stat-label">Aesthetic AUC</div>
+    <div class="cm-stat-val">1<small>-of-</small>1</div>
+    <div class="cm-stat-label">Trained on your taste alone</div>
   </div>
   <div class="cm-stat">
     <div class="cm-stat-val">2.7<small>K</small></div>
-    <div class="cm-stat-label">Ratings logged</div>
+    <div class="cm-stat-label">Ratings to learn from</div>
   </div>
   <div class="cm-stat">
     <div class="cm-stat-val">172<small> MB</small></div>
