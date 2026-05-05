@@ -398,7 +398,7 @@ browser directly to the public APIs, never through any server I run).
 <b>First launch only:</b> macOS Gatekeeper blocks unsigned apps with
 &ldquo;developer cannot be verified.&rdquo; <b>Right-click the app
 &rarr; Open &rarr; confirm.</b> Subsequent launches work normally.
-This will go away once the app is code-signed (planned for v0.2).
+This will go away once the app is code-signed in the future.
 </div>
 ```
 
