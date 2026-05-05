@@ -221,24 +221,24 @@ format:
 ```{=html}
 <div class="cm-quick-stats">
   <div class="cm-stat">
-    <div class="cm-stat-val">11</div>
-    <div class="cm-stat-label">SQLite tables</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">3<small>&times;</small></div>
-    <div class="cm-stat-label">Personal model stages</div>
-  </div>
-  <div class="cm-stat">
     <div class="cm-stat-val">1<small>-of-</small>1</div>
-    <div class="cm-stat-label">Trained on your taste alone</div>
+    <div class="cm-stat-label">Built for one. You.</div>
   </div>
   <div class="cm-stat">
-    <div class="cm-stat-val">2.7<small>K</small></div>
-    <div class="cm-stat-label">Ratings to learn from</div>
+    <div class="cm-stat-val">11</div>
+    <div class="cm-stat-label">Tables in your own database</div>
   </div>
   <div class="cm-stat">
-    <div class="cm-stat-val">172<small> MB</small></div>
-    <div class="cm-stat-label">App bundle</div>
+    <div class="cm-stat-val">Live</div>
+    <div class="cm-stat-label">Wardrobe state in real time</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">Tailor-made</div>
+    <div class="cm-stat-label">Designed around your real life</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">0<small> cloud</small></div>
+    <div class="cm-stat-label">Nothing leaves your machine</div>
   </div>
 </div>
 ```
