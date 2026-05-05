@@ -795,7 +795,7 @@
     "href": "closetmind.html#source-documentation",
     "title": "ClosetMind",
     "section": "Source & documentation",
-    "text": "Source & documentation\nThe complete technical writeup (six phases, schema, ML pipeline, verification, packaging) lives in the project’s 80-page reference document. Source is available on request.\n\n  ← Back to home"
+    "text": "Source & documentation\nSource is on GitHub at chentzuyuan/ClosetMind. A longer technical writeup is in progress — this section will be filled in once it’s ready.\n\n  ← Back to home"
   },
   {
     "objectID": "closetmind.html#live-demo",
@@ -810,5 +810,12 @@
     "title": "GIS & Python Programming",
     "section": "Course Skills Summary",
     "text": "Course Skills Summary\n\n\n\n\n\n\n\n\n\n\nCourse wrap-up: From core Python (functions, OOP, file I/O), through data science (pandas, visualization), GIS and spatial analysis (ArcGIS, GeoPandas), GUI development (PyQt5/6), and web scraping (requests, BeautifulSoup), to a final SVD image-compression project that fuses mathematical theory with software-engineering practice."
+  },
+  {
+    "objectID": "closetmind.html#macos",
+    "href": "closetmind.html#macos",
+    "title": "ClosetMind",
+    "section": "macOS",
+    "text": "macOS\n\nClick Download for Mac above. You’ll get ClosetMind-0.1.0.dmg.\nDouble-click the DMG. A window opens showing ClosetMind.app next to an Applications folder shortcut.\nDrag ClosetMind.app onto Applications. Installed.\nLaunch via Spotlight (&#8984; Space → type “ClosetMind”), Launchpad, or Finder → Applications.\n\n\nFirst launch only: macOS Gatekeeper blocks unsigned apps with\n“developer cannot be verified.” Right-click the app\n→ Open → confirm. Subsequent launches work normally.\nThis will go away once the app is code-signed in the future.\n\nOn first launch the app automatically seeds a Tester profile with 54 sample items (the same wardrobe used in the live demo above) so you can immediately click around the recommendation flow without having to upload your own clothes first. Add your own profile any time via the top-right user switcher; deleting Tester won’t bring it back on next launch (the seed only runs when the profile folder is empty). The app loads in your default browser at http://127.0.0.1:18888."
   }
 ]
