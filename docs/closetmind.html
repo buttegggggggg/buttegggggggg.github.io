@@ -325,9 +325,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 .cm-dl-btn.secondary .cm-dl-os { color: #999; }
 .cm-quick-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
+  /* 4-up desktop · 2-up mobile so 8 cards always tile cleanly into
+     2 rows × 4 cols (or 4 rows × 2 cols), no awkward 5+3 wraps */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
   margin: 2rem 0 3rem;
+}
+@media (max-width: 700px) {
+  .cm-quick-stats { grid-template-columns: repeat(2, 1fr); }
 }
 .cm-stat {
   background: #fafaf8;
@@ -460,21 +465,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </div>
 <div class="cm-quick-stats">
+  <!-- Row 1: emotional / benefit hook -->
   <div class="cm-stat">
     <div class="cm-stat-val">1<small>-of-</small>1</div>
     <div class="cm-stat-label">Built for one. You.</div>
   </div>
   <div class="cm-stat">
+    <div class="cm-stat-val">Tailored</div>
+    <div class="cm-stat-label">Designed around your real life</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">Discovery</div>
+    <div class="cm-stat-label">Combos from your own closet you’d never try</div>
+  </div>
+  <div class="cm-stat">
+    <div class="cm-stat-val">30<small> sec</small></div>
+    <div class="cm-stat-label">From “nothing to wear” to ranked outfits</div>
+  </div>
+  <!-- Row 2: technical credibility / privacy -->
+  <div class="cm-stat">
     <div class="cm-stat-val">11</div>
     <div class="cm-stat-label">Tables in your own database</div>
   </div>
   <div class="cm-stat">
-    <div class="cm-stat-val">Live</div>
-    <div class="cm-stat-label">Wardrobe state in real time</div>
+    <div class="cm-stat-val">3<small> axes</small></div>
+    <div class="cm-stat-label">Train weather, taste, occasion separately</div>
   </div>
   <div class="cm-stat">
-    <div class="cm-stat-val">Tailor-made</div>
-    <div class="cm-stat-label">Designed around your real life</div>
+    <div class="cm-stat-val">Live</div>
+    <div class="cm-stat-label">Wardrobe state in real time</div>
   </div>
   <div class="cm-stat">
     <div class="cm-stat-val">0<small> cloud</small></div>
