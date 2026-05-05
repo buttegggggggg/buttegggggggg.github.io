@@ -242,32 +242,23 @@ format:
 
 ## Live demo
 
-A pixel-for-pixel copy of the desktop app, served as a Shiny iframe so
-graders can click through every page without installing anything. The
-demo runs the original ClosetMind HTML / CSS / JS unchanged; a tiny
-`fetch()` interceptor reroutes every API call into a real **in-browser
-SQLite database** (sql.js, WebAssembly) seeded with the *Tester*
-wardrobe (54 clothing items, 17&thinsp;MB of photos). The 13-table
-schema is the same one the FastAPI backend uses, so each click runs
-genuine **DDL + DML**:
-
-- `Mark dirty` &rarr; `UPDATE item_states SET state='dirty' WHERE item_id IN (...)`
-- `Send to laundry` &rarr; `UPDATE item_states SET state='clean', wear_count_since_wash=0 ...`
-- `Build context` &rarr; `INSERT INTO daily_contexts (...) VALUES (...)`
-- `Pick / Dislike` &rarr; `INSERT INTO outfit_logs (user_action, ...)`
-
-A live SQL log in the bottom-right of the iframe shows each statement
-as it executes &mdash; verifies that the demo is doing real database
-work, not faking responses. Anything that genuinely needs the desktop
-runtime (photo upload, CSV import, model retraining) raises a yellow
-"demo only &mdash; download the desktop app" toast instead. Refresh to
-reset back to the baseline Tester wardrobe.
+The full FastAPI backend, deployed to a Render free instance and pre-
+seeded with the *Tester* wardrobe (54 items, 17&thinsp;MB of photos).
+Every interaction hits the real Python service: SQLAlchemy talks to
+SQLite, XGBoost ranks outfits, Jinja renders templates, the lifespan
+hook copies the bundled seed into `/tmp` on each cold boot. The
+recommendation flow, profile switcher, training pages, calendar,
+context builder, and laundry/dirty/wear state machine all run end-to-
+end &mdash; this isn&rsquo;t a static mock anymore.
 
 ```{=html}
+<link rel="preconnect" href="https://closetmind.onrender.com">
+<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
             box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
-  <iframe src="https://biubiubuttegg.shinyapps.io/wardrobe/"
-          width="100%" height="820"
+  <iframe src="https://closetmind.onrender.com/"
+          width="100%" height="860"
           style="display:block;border:0;background:#f6f6f4;"
           loading="lazy"
           allow="geolocation"
@@ -276,10 +267,15 @@ reset back to the baseline Tester wardrobe.
 </div>
 
 <p style="font-size:0.85rem;color:#777;margin:-6px 0 18px;">
-  First load may take ~10 seconds while the shinyapps.io free-tier
-  instance wakes up. If the iframe shows a connection error, open
-  <a href="https://biubiubuttegg.shinyapps.io/wardrobe/" target="_blank"
-     style="color:#666;">the demo URL</a> directly.
+  Render&rsquo;s free tier sleeps the instance after 15 minutes of
+  inactivity, so the very first visit can take ~50 seconds while the
+  container wakes up. Subsequent loads are instant. If the iframe
+  doesn&rsquo;t respond, open
+  <a href="https://closetmind.onrender.com/" target="_blank"
+     style="color:#666;">the demo URL</a> directly &mdash; the wake-up
+  takes the same time either way.
+  Each cold boot wipes <code>/tmp</code> and re-seeds Tester from the
+  bundled snapshot, so the demo always returns to a clean state.
 </p>
 ```
 

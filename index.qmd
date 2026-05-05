@@ -410,6 +410,18 @@ header#title-block-header { display: none !important; }
   <p class="research-note">Data under NDA &mdash; results only, no raw data disclosed.</p>
 </div>
 
+<!-- Render free tier sleeps after 15 min idle. Pre-warm the demo
+     container as soon as a visitor lands on the homepage so by the
+     time they click through to closetmind.html the iframe is already
+     responsive. -->
+<link rel="preconnect" href="https://closetmind.onrender.com">
+<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+<script>
+  if (typeof fetch === "function") {
+    try { fetch("https://closetmind.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+  }
+</script>
+
 <div class="home-research">
   <div class="research-header">
     <div class="research-title"><a href="closetmind.html" style="color:inherit;text-decoration:none;">ClosetMind &mdash; Wardrobe Recommendation System</a></div>

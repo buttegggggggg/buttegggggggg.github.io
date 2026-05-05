@@ -1420,6 +1420,22 @@ needed.
 
 ## Final Project {#final-project}
 
+```{=html}
+<!-- Wake the Render demo as soon as the user lands on this anchor.
+     Render's free tier sleeps after 15 min idle and takes ~50 s to
+     spin up; firing /healthz now means the container is usually ready
+     by the time the visitor clicks through to closetmind.html. -->
+<link rel="preconnect" href="https://closetmind.onrender.com">
+<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+<script>
+  // No-cors fetch is enough to trigger Render's wake-up signal; we
+  // don't need the response body. Fire-and-forget.
+  if (typeof fetch === "function") {
+    try { fetch("https://closetmind.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+  }
+</script>
+```
+
 ### ClosetMind &mdash; Wardrobe Recommendation System
 
 ::: {.callout-tip}
