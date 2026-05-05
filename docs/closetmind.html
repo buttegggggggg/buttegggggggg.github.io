@@ -453,9 +453,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <span class="cm-dl-os">macOS · 95 MB</span>
       Download for Mac
     </a>
-    <a class="cm-dl-btn secondary" href="#windows">
-      <span class="cm-dl-os">Windows</span>
-      Build instructions →
+    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind_App/releases/download/v0.1.0/ClosetMind-windows-x64.zip">
+      <span class="cm-dl-os">Windows · 200 MB</span>
+      Download for Windows
     </a>
   </div>
 </div>
@@ -596,16 +596,25 @@ This will go away once the app is code-signed in the future.
 </section>
 <section id="windows" class="level2">
 <h2 class="anchored" data-anchor-id="windows">Windows</h2>
-<p>Windows binary not yet built (no Windows machine in the build pipeline yet). To build it yourself:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On a Windows machine with Python 3.12 installed:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/buttegg/closetmind.git</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> closetmind</span>
+<p>Grab the <strong><code>ClosetMind-windows-x64.zip</code></strong> asset from the <a href="https://github.com/chentzuyuan/ClosetMind_App/releases/tag/v0.1.0"><strong>v0.1.0 release</strong></a> (or use the <strong>Download for Windows</strong> button at the top of this page). Unzip anywhere — e.g., <code>C:\Users\&lt;you&gt;\Apps\ClosetMind\</code> — and double-click <strong><code>ClosetMind.exe</code></strong>. The app starts a local web server on <code>http://127.0.0.1:18888</code> and opens it in your default browser.</p>
+<div class="cm-install-note">
+<b>First launch only:</b> Windows SmartScreen blocks unsigned apps with
+“Microsoft Defender SmartScreen prevented an unrecognized app
+from starting.” Click <b>More info → Run anyway.</b>
+Subsequent launches work normally. This will go away once the binary
+is code-signed in the future.
+</div>
+<p>The Windows build is produced by a GitHub Actions workflow (<a href="https://github.com/chentzuyuan/ClosetMind/blob/main/.github/workflows/build-windows.yml">build-windows.yml</a>) that runs <code>pyinstaller closetmind.spec</code> on a <code>windows-latest</code> runner every time a <code>v*</code> tag is pushed to the source repo. Same wardrobe seeding flow as macOS — first launch auto-creates the bundled <em>Tester</em> profile.</p>
+<p>If you’d rather build from source:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows + Python 3.11 / 3.12</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/chentzuyuan/ClosetMind.git</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ClosetMind</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv\Scripts\activate</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tools.build_app</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dist\ClosetMind\ClosetMind.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A GitHub Actions workflow that builds Windows binaries automatically on each tag push is planned for the next release.</p>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pyinstaller</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pyinstaller</span> closetmind.spec <span class="at">--noconfirm</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dist\ClosetMind\ClosetMind.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="database-design" class="level2">
 <h2 class="anchored" data-anchor-id="database-design">Database design</h2>

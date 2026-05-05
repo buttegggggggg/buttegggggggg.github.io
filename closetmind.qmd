@@ -210,9 +210,9 @@ format:
       <span class="cm-dl-os">macOS &middot; 95 MB</span>
       Download for Mac
     </a>
-    <a class="cm-dl-btn secondary" href="#windows">
-      <span class="cm-dl-os">Windows</span>
-      Build instructions &rarr;
+    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind_App/releases/download/v0.1.0/ClosetMind-windows-x64.zip">
+      <span class="cm-dl-os">Windows &middot; 200 MB</span>
+      Download for Windows
     </a>
   </div>
 </div>
@@ -411,22 +411,44 @@ app loads in your default browser at `http://127.0.0.1:18888`.
 
 ## Windows {#windows}
 
-Windows binary not yet built (no Windows machine in the build pipeline
-yet). To build it yourself:
+Grab the **`ClosetMind-windows-x64.zip`** asset from the
+[**v0.1.0 release**](https://github.com/chentzuyuan/ClosetMind_App/releases/tag/v0.1.0)
+(or use the **Download for Windows** button at the top of this page).
+Unzip anywhere &mdash; e.g., `C:\Users\<you>\Apps\ClosetMind\` &mdash;
+and double-click **`ClosetMind.exe`**. The app starts a local web
+server on `http://127.0.0.1:18888` and opens it in your default
+browser.
+
+```{=html}
+<div class="cm-install-note">
+<b>First launch only:</b> Windows SmartScreen blocks unsigned apps with
+&ldquo;Microsoft Defender SmartScreen prevented an unrecognized app
+from starting.&rdquo; Click <b>More info &rarr; Run anyway.</b>
+Subsequent launches work normally. This will go away once the binary
+is code-signed in the future.
+</div>
+```
+
+The Windows build is produced by a GitHub Actions workflow
+([build-windows.yml](https://github.com/chentzuyuan/ClosetMind/blob/main/.github/workflows/build-windows.yml))
+that runs `pyinstaller closetmind.spec` on a `windows-latest` runner
+every time a `v*` tag is pushed to the source repo. Same wardrobe
+seeding flow as macOS &mdash; first launch auto-creates the bundled
+*Tester* profile.
+
+If you&rsquo;d rather build from source:
 
 ```bash
-# On a Windows machine with Python 3.12 installed:
-git clone https://github.com/buttegg/closetmind.git
-cd closetmind
+# Windows + Python 3.11 / 3.12
+git clone https://github.com/chentzuyuan/ClosetMind.git
+cd ClosetMind
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
-python -m tools.build_app
+pip install pyinstaller
+pyinstaller closetmind.spec --noconfirm
 # Output: dist\ClosetMind\ClosetMind.exe
 ```
-
-A GitHub Actions workflow that builds Windows binaries automatically on
-each tag push is planned for the next release.
 
 ## Database design
 
