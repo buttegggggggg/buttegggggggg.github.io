@@ -1901,6 +1901,39 @@ the storage cost of a nullable unused column is zero.
 
 #### Try the system
 
-The full implementation runs as a downloadable desktop app. See
-[**ClosetMind &rarr;**](closetmind.html) for the macOS DMG download
-and Windows build instructions.
+```{=html}
+<style>
+.cm-try-row {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin: 14px 0 6px;
+}
+.cm-try-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 1 1 220px; min-height: 56px;
+  padding: 14px 22px; border-radius: 10px;
+  font-weight: 600; font-size: 1rem; line-height: 1.2;
+  text-decoration: none !important;
+  transition: transform 0.1s, box-shadow 0.15s;
+}
+.cm-try-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.cm-try-btn.primary   { background: #22c55e; color: #fff !important; }
+.cm-try-btn.secondary { background: #111;    color: #fff !important; }
+.cm-try-note {
+  font-size: 0.85rem; color: #888; margin: 8px 0 0;
+}
+</style>
+
+<div class="cm-try-row">
+  <a class="cm-try-btn primary" href="https://closetmind.onrender.com/" target="_blank" rel="noopener">
+    Try live demo &rarr;
+  </a>
+  <a class="cm-try-btn secondary" href="closetmind.html">
+    Download for macOS / Windows &rarr;
+  </a>
+</div>
+
+<p class="cm-try-note">
+  The live demo runs on Render's free tier — first visit may take ~50 s
+  while the container wakes up.
+</p>
+```
