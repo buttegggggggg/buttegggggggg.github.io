@@ -210,7 +210,7 @@ format:
       <span class="cm-dl-os">macOS &middot; 95 MB</span>
       Download for Mac
     </a>
-    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind_App/releases/download/v0.1.0/ClosetMind-windows-x64.zip">
+    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind_App/releases/download/v0.1.0/ClosetMind-0.1.0-windows.zip">
       <span class="cm-dl-os">Windows &middot; 200 MB</span>
       Download for Windows
     </a>
@@ -411,7 +411,7 @@ app loads in your default browser at `http://127.0.0.1:18888`.
 
 ## Windows {#windows}
 
-Grab the **`ClosetMind-windows-x64.zip`** asset from the
+Grab the **`ClosetMind-0.1.0-windows.zip`** asset from the
 [**v0.1.0 release**](https://github.com/chentzuyuan/ClosetMind_App/releases/tag/v0.1.0)
 (or use the **Download for Windows** button at the top of this page).
 Unzip anywhere &mdash; e.g., `C:\Users\<you>\Apps\ClosetMind\` &mdash;
