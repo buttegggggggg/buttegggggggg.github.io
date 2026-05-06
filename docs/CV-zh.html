@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ClosetMind – Tzu-Yuan</title>
+<title>陳子源 – Tzu-Yuan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -108,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.scss">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -197,8 +162,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Information Management</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./closetmind.html">
- <span class="dropdown-text">ClosetMind (final project)</span></a>
+    <a class="dropdown-item" href="./outfitdb.html">
+ <span class="dropdown-text">OutfitDB (final project)</span></a>
   </li>  
     </ul>
   </li>
@@ -217,29 +182,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul class="collapse">
-  <li><a href="#live-demo" id="toc-live-demo" class="nav-link active" data-scroll-target="#live-demo">Live demo</a></li>
-  <li><a href="#what-it-does" id="toc-what-it-does" class="nav-link" data-scroll-target="#what-it-does">What it does</a></li>
-  <li><a href="#why-local-first" id="toc-why-local-first" class="nav-link" data-scroll-target="#why-local-first">Why local-first</a></li>
-  <li><a href="#six-implementation-phases" id="toc-six-implementation-phases" class="nav-link" data-scroll-target="#six-implementation-phases">Six implementation phases</a></li>
-  <li><a href="#tech-stack" id="toc-tech-stack" class="nav-link" data-scroll-target="#tech-stack">Tech stack</a></li>
-  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos">macOS</a></li>
-  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
-  <li><a href="#database-design" id="toc-database-design" class="nav-link" data-scroll-target="#database-design">Database design</a></li>
-  <li><a href="#source-documentation" id="toc-source-documentation" class="nav-link" data-scroll-target="#source-documentation">Source &amp; documentation</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ClosetMind</h1>
+<h1 class="title">陳子源</h1>
+<p class="subtitle lead">碩士生 · 尋求資料科學 / 機器學習實習機會</p>
 </div>
 
 
@@ -257,397 +207,374 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <style>
-.cm-hero {
-  text-align: center;
-  padding: 3rem 1rem 2rem;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 2.5rem;
-}
-.cm-hero h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 0 0 0.4rem;
-  letter-spacing: -0.5px;
-  color: #111;
-}
-.cm-hero .cm-tag {
-  font-size: 1rem;
-  color: #888;
-  letter-spacing: 0.4px;
-  margin: 0 auto 1.6rem;
-  max-width: 640px;
-  line-height: 1.6;
-}
-.cm-hero .cm-version {
-  display: inline-block;
-  background: #f6f6f4;
+/* ── CV Contact Bar ── */
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.4rem;
+  margin: -0.5rem 0 2rem 0;
+  font-size: 0.9rem;
   color: #555;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.78rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  margin-left: 6px;
-  vertical-align: middle;
 }
-.cm-download-row {
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-  margin-top: 1.6rem;
-}
-.cm-dl-btn {
-  display: inline-block;
-  padding: 14px 28px;
-  background: #111;
-  color: #fff !important;
-  text-decoration: none;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: transform 0.1s, box-shadow 0.15s;
-  min-width: 220px;
-}
-.cm-dl-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-}
-.cm-dl-btn.secondary {
-  background: #fff;
-  color: #111 !important;
-  border: 1px solid #ccc;
-}
-.cm-dl-btn .cm-dl-os {
-  display: block;
-  font-size: 0.7rem;
-  color: #aaa;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.cm-dl-btn.secondary .cm-dl-os { color: #999; }
-.cm-quick-stats {
-  display: grid;
-  /* 4-up desktop · 2-up mobile so 8 cards always tile cleanly into
-     2 rows × 4 cols (or 4 rows × 2 cols), no awkward 5+3 wraps */
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin: 2rem 0 3rem;
-}
-@media (max-width: 700px) {
-  .cm-quick-stats { grid-template-columns: repeat(2, 1fr); }
-}
-.cm-stat {
-  background: #fafaf8;
-  padding: 18px 14px;
-  border-radius: 10px;
-  text-align: center;
-  border: 1px solid #eee;
-}
-.cm-stat-val {
-  font-size: 1.7rem;
+.cv-contact a { color: #18A3A3; text-decoration: none; }
+.cv-contact a:hover { color: #E65100; text-decoration: underline; }
+.cv-contact i { margin-right: 0.25rem; color: #18A3A3; }
+
+/* ── CV Section Headers ── */
+.cv-section-title {
+  font-size: 1.3rem;
   font-weight: 700;
   color: #111;
-  line-height: 1.1;
+  border-bottom: 2px solid #18A3A3;
+  border-left: none !important;
+  padding-bottom: 0.4rem;
+  padding-left: 0 !important;
+  margin: 2.5rem 0 1.2rem 0;
 }
-.cm-stat-val small { font-size: 0.65em; color: #888; font-weight: 500; }
-.cm-stat-label {
-  font-size: 0.75rem;
-  color: #777;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  margin-top: 6px;
+.cv-section-title i { color: #18A3A3; margin-right: 0.4rem; }
+
+/* ── CV Timeline (Education) ── */
+.cv-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+  border-left: 2px solid #18A3A3;
 }
-.cm-feature {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin: 1.6rem 0;
+.cv-timeline-item {
+  position: relative;
+  margin-bottom: 1.4rem;
+  padding-left: 0.5rem;
 }
-.cm-feature-card {
-  background: #fff;
-  border: 1px solid #ececec;
-  border-radius: 10px;
-  padding: 18px 20px;
+.cv-timeline-item:last-child { margin-bottom: 0; }
+.cv-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -2.05rem;
+  top: 0.35rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #18A3A3;
+  border: 2px solid #fff;
 }
-.cm-feature-card h3 {
-  margin: 0 0 0.4rem;
-  font-size: 1.05rem;
+.cv-degree { font-weight: 700; font-size: 1.02rem; color: #111; }
+.cv-school { color: #555; font-size: 0.93rem; }
+.cv-date { color: #18A3A3; font-weight: 600; font-size: 0.86rem; }
+
+/* ── CV Skill Pills ── */
+.cv-skills-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
   color: #111;
+  margin: 1rem 0 0.4rem 0;
+  border: none !important;
+  padding: 0 !important;
 }
-.cm-feature-card p {
+.cv-pill {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  margin: 0.12rem 0.15rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+.cv-pill.teal   { background: #E0F2F1; color: #00695C; border-color: #80CBC4; }
+.cv-pill.orange { background: #FFF3E0; color: #E65100; border-color: #FFCC80; }
+.cv-pill.green  { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+.cv-pill.purple { background: #F3E5F5; color: #6A1B9A; border-color: #CE93D8; }
+.cv-pill.pink   { background: #FCE4EC; color: #C62828; border-color: #F48FB1; }
+.cv-pill.grey   { background: #F5F5F5; color: #424242; border-color: #BDBDBD; }
+
+/* ── CV Project Items ── */
+.cv-project-group-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1.4rem 0 0.5rem 0;
+}
+.cv-project-item {
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.4rem;
+  border-left: 3px solid #18A3A3;
+  border-radius: 0 4px 4px 0;
+  background: #fafafa;
   font-size: 0.92rem;
   line-height: 1.55;
-  color: #555;
-  margin: 0;
 }
-@media (max-width: 700px) {
-  .cm-feature { grid-template-columns: 1fr; }
-  .cm-hero h1 { font-size: 2.2rem; }
-}
-.cm-install-note {
-  background: #fff7ec;
-  border: 1px solid #f0d590;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin: 1rem 0;
-  font-size: 0.92rem;
-  color: #6b4400;
-}
-.cm-install-note code {
-  background: rgba(0,0,0,0.05);
-  padding: 1px 5px;
-  border-radius: 3px;
-}
-.cm-pipeline {
-  display: flex;
-  align-items: stretch;
-  gap: 8px;
-  flex-wrap: wrap;
-  background: #fafaf8;
-  padding: 18px;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  margin: 1rem 0;
-}
-.cm-pipeline-stage {
-  flex: 1; min-width: 160px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px 14px;
-}
-.cm-pipeline-stage .stage-no {
-  font-size: 0.7rem; color: #999; letter-spacing: 0.5px;
-  text-transform: uppercase; font-weight: 600;
-}
-.cm-pipeline-stage .stage-name {
-  font-size: 1rem; font-weight: 700; color: #111; margin: 4px 0;
-}
-.cm-pipeline-stage .stage-desc {
-  font-size: 0.82rem; color: #666; line-height: 1.45;
-}
-.cm-pipeline-mult {
-  align-self: center;
-  font-size: 1.4rem; color: #aaa; font-weight: 700;
-}
-@media (max-width: 700px) {
-  .cm-pipeline-mult { display: none; }
-}
-.cm-stack {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin: 0.8rem 0 1.4rem;
-}
-.cm-stack span {
-  background: #f6f6f4; color: #444;
-  padding: 5px 11px; border-radius: 5px;
-  font-size: 0.84rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+.cv-project-item.vision  { border-left-color: #2E7D32; }
+.cv-project-item.medical { border-left-color: #E65100; }
+.cv-project-item.bigdata { border-left-color: #1565C0; }
+.cv-project-item.dataeng { border-left-color: #6A1B9A; }
+.cv-project-item strong { color: #111; }
+.cv-metric { font-weight: 700; color: #E65100; }
+.cv-project-item a { font-size: 0.82rem; color: #18A3A3; }
+
+/* ── CV Work Experience ── */
+.cv-work-item { margin-bottom: 1.2rem; }
+.cv-role { font-weight: 700; font-size: 0.98rem; color: #111; }
+.cv-org { color: #555; font-size: 0.9rem; }
+.cv-work-date { color: #18A3A3; font-weight: 600; font-size: 0.84rem; float: right; }
+.cv-work-item ul { margin-top: 0.3rem; padding-left: 1.2rem; }
+.cv-work-item li { font-size: 0.9rem; color: #444; margin-bottom: 0.12rem; }
+
+/* ── Print Styles ── */
+@media print {
+  body { background: #fff; font-size: 10.5pt; }
+  main.content { max-width: 100%; box-shadow: none; padding: 0; margin: 0; border-radius: 0; }
+  .cv-contact { font-size: 8.5pt; }
+  .cv-section-title { font-size: 12pt; margin-top: 0.8rem; }
+  .cv-pill { font-size: 7.5pt; padding: 0.08rem 0.35rem; }
+  .cv-project-item { break-inside: avoid; }
+  .cv-timeline-item { break-inside: avoid; }
+  .cv-work-item { break-inside: avoid; }
+  nav, .sidebar, footer, .quarto-title-banner, .navbar { display: none !important; }
+  a[href]::after { content: none !important; }
 }
 </style>
-<div class="cm-hero">
-  <h1>ClosetMind <span class="cm-version">v0.1.3</span></h1>
-  <p class="cm-tag">
-    ClosetMind shows how anyone can build a personal database and train
-    their own ML model for everyday problems that don’t have a
-    tidy mathematical answer. Three short rating flows teach it your
-    sense of temperature, your aesthetic, and your sense of occasion
-    — and the recommendations even surface combinations from your
-    own closet you’d never have thought of yourself. Local-first:
-    your data never leaves your machine.
-  </p>
-  <div class="cm-download-row">
-    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3.dmg">
-      <span class="cm-dl-os">macOS · 95 MB</span>
-      Download for Mac
-    </a>
-    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3-windows.zip">
-      <span class="cm-dl-os">Windows · 200 MB</span>
-      Download for Windows
-    </a>
-  </div>
+<div class="cv-contact">
+  <span><i class="bi bi-envelope-fill"></i> <a href="mailto:chen.tzuyuan666@gmail.com">chen.tzuyuan666@gmail.com</a></span>
+  <span><i class="bi bi-telephone-fill"></i> (+1) 945-371-1551 / (+886) 963-672-946</span>
+  <span><i class="bi bi-globe2"></i> <a href="https://chentzuyuan.github.io" target="_blank">chentzuyuan.github.io</a></span>
+  <span><i class="bi bi-geo-alt-fill"></i> 美國德州達拉斯 / 台灣台中</span>
 </div>
-<div class="cm-quick-stats">
-  <!-- Row 1: emotional / benefit hook -->
-  <div class="cm-stat">
-    <div class="cm-stat-val">1<small>-of-</small>1</div>
-    <div class="cm-stat-label">Built for one. You.</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Tailored</div>
-    <div class="cm-stat-label">Designed around your real life</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Discovery</div>
-    <div class="cm-stat-label">Combos from your own closet you’d never try</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">30<small> sec</small></div>
-    <div class="cm-stat-label">From “nothing to wear” to ranked outfits</div>
-  </div>
-  <!-- Row 2: technical credibility / privacy -->
-  <div class="cm-stat">
-    <div class="cm-stat-val">11</div>
-    <div class="cm-stat-label">Tables in your own database</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">3<small> axes</small></div>
-    <div class="cm-stat-label">Train weather, taste, occasion separately</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Live</div>
-    <div class="cm-stat-label">Wardrobe state in real time</div>
-  </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">0<small> cloud</small></div>
-    <div class="cm-stat-label">Nothing leaves your machine</div>
-  </div>
+<div class="chart-note teal">
+<p>國立中興大學（NCHU）資料科學碩士生及德州大學達拉斯分校（UTD）社會數據分析碩士生，具應用數學學士學位。尋求<strong>資料科學 / 機器學習實習機會</strong>，擁有橫跨 <strong>37 個專案</strong>的實作經驗——包含影像分類（準確率 <strong>96.44%</strong>）、分散式學習（<strong>150 倍加速</strong>），以及進行中的航班延誤預測碩士論文（<strong>AUC 0.93</strong>）。在數值分析、深度學習、選擇性預測及端對端機器學習流程方面具備扎實基礎。</p>
 </div>
-<section id="live-demo" class="level2">
-<h2 class="anchored" data-anchor-id="live-demo">Live demo</h2>
-<p>The full FastAPI backend, deployed to a Render free instance and pre- seeded with the <em>Tester</em> wardrobe (54 items, 17 MB of photos). Every interaction hits the real Python service: SQLAlchemy talks to SQLite, XGBoost ranks outfits, Jinja renders templates, the lifespan hook copies the bundled seed into <code>/tmp</code> on each cold boot. The recommendation flow, profile switcher, training pages, calendar, context builder, and laundry/dirty/wear state machine all run end-to- end — this isn’t a static mock anymore.</p>
-<link rel="preconnect" href="https://closetmind.onrender.com">
-<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+<h2 class="cv-section-title anchored"><i class="bi bi-code-slash"></i> 技術能力</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cv-skills-group">
+<h3 class="anchored">程式語言</h3>
+<span class="cv-pill teal">Python</span>
+<span class="cv-pill teal">R</span>
+<span class="cv-pill teal">SQL</span>
+<span class="cv-pill teal">Qiskit</span>
+<span class="cv-pill teal">Git</span>
+<span class="cv-pill teal">LaTeX</span>
 
-<div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
-            box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
-  <iframe src="https://closetmind.onrender.com/" width="100%" height="860" style="display:block;border:0;background:#f6f6f4;" loading="lazy" allow="geolocation" title="ClosetMind live demo">
-  </iframe>
+<h3 class="anchored">Python 生態系</h3>
+<span class="cv-pill">pandas</span>
+<span class="cv-pill">NumPy</span>
+<span class="cv-pill">scikit-learn</span>
+<span class="cv-pill">PyTorch</span>
+<span class="cv-pill">Keras / TensorFlow</span>
+<span class="cv-pill">statsmodels</span>
+<span class="cv-pill">GeoPandas</span>
+<span class="cv-pill">Selenium</span>
+<span class="cv-pill">BeautifulSoup</span>
+<span class="cv-pill">PyQt6</span>
+
+<h3 class="anchored">機器學習 / 深度學習</h3>
+<span class="cv-pill orange">ResNet</span>
+<span class="cv-pill orange">EfficientNet</span>
+<span class="cv-pill orange">U-Net</span>
+<span class="cv-pill orange">Conditional GAN</span>
+<span class="cv-pill orange">Autoencoder</span>
+<span class="cv-pill orange">SVM</span>
+<span class="cv-pill orange">KNN</span>
+<span class="cv-pill orange">Random Forest</span>
+<span class="cv-pill orange">MLP / DNN</span>
+<span class="cv-pill orange">Kernel Ridge</span>
+<span class="cv-pill orange">XGBoost</span>
+<span class="cv-pill orange">Transfer Learning</span>
+<span class="cv-pill orange">Focal Loss</span>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cv-skills-group">
+<h3 class="anchored">數學與理論</h3>
+<span class="cv-pill purple">Linear Algebra / SVD</span>
+<span class="cv-pill purple">HOSVD / Tucker</span>
+<span class="cv-pill purple">Nyström Approximation</span>
+<span class="cv-pill purple">Probability &amp; Bayes</span>
+<span class="cv-pill purple">Optimization</span>
+<span class="cv-pill purple">Numerical Methods</span>
+
+<h3 class="anchored">大數據與分散式運算</h3>
+<span class="cv-pill green">Distributed SVM</span>
+<span class="cv-pill green">Communication-efficient SGD</span>
+<span class="cv-pill green">Kernel Approximation</span>
+<span class="cv-pill green">Selective Prediction</span>
+<span class="cv-pill green">Probability Calibration</span>
+
+<h3 class="anchored">大型語言模型與人工智慧</h3>
+<span class="cv-pill teal">AI Agent Workflows</span>
+<span class="cv-pill teal">Prompt Engineering</span>
+<span class="cv-pill teal">RAG</span>
+<span class="cv-pill teal">LLM API Integration</span>
+
+<h3 class="anchored">地理資訊系統與空間分析</h3>
+<span class="cv-pill pink">ArcGIS Python API</span>
+<span class="cv-pill pink">GeoPandas</span>
+<span class="cv-pill pink">Shapely</span>
+
+<h3 class="anchored">視覺化與工具</h3>
+<span class="cv-pill grey">ggplot2</span>
+<span class="cv-pill grey">Shiny</span>
+<span class="cv-pill grey">Altair</span>
+<span class="cv-pill grey">Matplotlib</span>
+<span class="cv-pill grey">Qt Designer</span>
+<span class="cv-pill grey">Quarto</span>
+
+<h3 class="anchored">硬體與平台</h3>
+<span class="cv-pill pink">IBM Quantum (IBMQ)</span>
+<span class="cv-pill pink">Snowflake</span>
+<span class="cv-pill pink">3D 列印 (FDM)</span>
+
+<h3 class="anchored">語言能力</h3>
+<span class="cv-pill teal">中文（母語）</span>
+<span class="cv-pill">英文（專業工作能力）</span>
+</div>
+</div>
+</div>
+<h2 class="cv-section-title anchored"><i class="bi bi-mortarboard-fill"></i> 學歷</h2>
+
+<div class="cv-timeline">
+  <div class="cv-timeline-item">
+    <div class="cv-degree">社會數據分析與研究碩士（SDAR）</div>
+    <div class="cv-school">德州大學達拉斯分校（The University of Texas at Dallas） — UTD-NCHU 雙聯學位</div>
+    <div class="cv-date">2025 – 迄今</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">資料科學與資訊計算碩士</div>
+    <div class="cv-school">國立中興大學（National Chung Hsing University, NCHU），台灣</div>
+    <div class="cv-date">2024 – 迄今</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">應用數學學士</div>
+    <div class="cv-school">國立中興大學（National Chung Hsing University, NCHU），台灣</div>
+    <div class="cv-date">2020 – 2024</div>
+  </div>
+</div>
+<h2 class="cv-section-title anchored"><i class="bi bi-rocket-takeoff-fill"></i> 專案</h2>
+
+<div class="cv-project-group-title">電腦視覺與影像分類</div>
+
+<div class="cv-project-item vision">
+  <strong>AOI 瑕疵分類</strong> — 以 ResNet-18 遷移學習對工業檢測影像進行六類分類。<span class="cv-metric">準確率 96.44%</span>
+  <br><a href="DL-zh.html">查看詳情 →</a>
 </div>
 
-<p style="font-size:0.85rem;color:#777;margin:-6px 0 18px;">
-  Render’s free tier sleeps the instance after 15 minutes of
-  inactivity, so the very first visit can take ~50 seconds while the
-  container wakes up. Subsequent loads are instant. If the iframe
-  doesn’t respond, open
-  <a href="https://closetmind.onrender.com/" target="_blank" style="color:#666;">the demo URL</a> directly — the wake-up
-  takes the same time either way.
-  Each cold boot wipes <code>/tmp</code> and re-seeds Tester from the
-  bundled snapshot, so the demo always returns to a clean state.
+<div class="cv-project-item vision">
+  <strong>子宮頸癌篩檢</strong> — 使用 EfficientNet-B7 + Focal Loss 對醫學影像進行三類分類。<span class="cv-metric">平均準確率 86.1%</span>
+  <br><a href="ML-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item vision">
+  <strong>手寫數字辨識</strong> — 在 USPS 資料集上比較 8 種模型（Mean / SVD / HOSVD / SVM / KNN / RF / CNN）。<span class="cv-metric">CNN 95.76%</span>
+  <br><a href="DataAnalysis-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-group-title">醫學影像分析與生成</div>
+
+<div class="cv-project-item medical">
+  <strong>視網膜血管分割</strong> — 以 U-Net（五層編碼器-解碼器）+ Focal Tversky Loss 在 DRIVE 資料集上進行分割。<span class="cv-metric">mIoU 0.351</span>
+  <br><a href="DL-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>視網膜影像重建</strong> — 使用卷積自編碼器進行視網膜眼底影像重建。<span class="cv-metric">PSNR 30.84 dB</span>
+  <br><a href="DL-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>Western Blot 影像合成</strong> — 使用 Conditional GAN（生成器 + PatchGAN 判別器）進行生物醫學影像生成。
+  <br><a href="DL-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-group-title">可擴展機器學習與大數據</div>
+
+<div class="cv-project-item bigdata">
+  <strong>Nyström 核嶺迴歸</strong> — 在 USPS 數字資料集上進行 Gram 矩陣近似（m=128）。<span class="cv-metric">20× 加速</span>，維持 99.50% 準確率
+  <br><a href="BigData-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>分散式 SVM</strong> — 以 5 個 Worker 平行化搭配 Smoothed Hinge Loss 在 a9a 資料集上訓練。<span class="cv-metric">150× 加速</span>
+  <br><a href="BigData-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>美國野火趨勢分析</strong> — 以 Poisson 迴歸 + MLP 分類器分析 188 萬筆紀錄（1992–2015）。
+  <br><a href="ML-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-group-title">資料工程與應用</div>
+
+<div class="cv-project-item dataeng">
+  <strong>SVD 影像壓縮應用程式</strong> — 以 PyQt6 開發具即時預覽功能的 GUI 應用程式，並驗證 Eckart-Young 定理。<span class="cv-metric">PSNR 44.7 dB</span>
+  <br><a href="DataAnalysis-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>衣櫥推薦資料庫</strong> — 15 張表的關聯式資料庫架構，搭配依天氣/場合的規則式推薦引擎。
+  <br><a href="EPPS6354-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>GIS 網頁地圖與空間分析</strong> — 使用 GeoPandas、Shapely、ArcGIS Python API 進行全球城市空間分析。
+  <br><a href="GISPY-zh.html">查看詳情 →</a>
+</div>
+
+<div class="cv-project-group-title">進行中的研究</div>
+
+<div class="cv-project-item bigdata">
+  <strong>航班延誤預測 — 碩士論文</strong> — 以 XGBoost 對美國航空 110 萬筆以上航班資料（Snowflake）建立選擇性預測框架。<span class="cv-metric">AUC 0.6863</span>（無 ETD）/ <span class="cv-metric">0.9280</span>（+ ETD）；AURC 0.2908。研究棄權策略以限制風險。
+  <br><em style="font-size:0.82rem; color:#999;">資料受保密協議約束 — 僅呈現結果</em>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>適性學習平台分析 — 台中市教育局</strong> — 評估適性學習平台對國小五年級數學之成效（127 個班級、2,414 筆紀錄）。Spearman ρ = 0.096（使用率與成效）；校內調整後 ρ = −0.132。
+  <br><em style="font-size:0.82rem; color:#999;">資料受保密協議約束 — 僅呈現結果</em>
+</div>
+<h2 class="cv-section-title anchored"><i class="bi bi-briefcase-fill"></i> 經歷</h2>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2022 – 2024</span>
+  <div class="cv-role">雙語教學助理</div>
+  <div class="cv-org">國立中興大學（National Chung Hsing University）</div>
+  <ul>
+    <li><strong>微積分</strong> — 為國際學生提供一對一輔導；主持討論課，將微積分理論連結至數值演算法</li>
+    <li><strong>資料庫系統設計</strong> — 協助 SQL 作業；介紹 Power Query；提供講義的雙語翻譯</li>
+    <li><strong>量子計算</strong> — 指導學生完成 Python 及 Qiskit 作業；講解機率推理與模擬任務</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2023 – 2024</span>
+  <div class="cv-role">學士論文：量子貝氏推論</div>
+  <div class="cv-org">國立中興大學（NCHU）應用數學系</div>
+  <ul>
+    <li>使用 Qiskit 在 IBMQ 硬體上研究量子電腦輸出是否符合貝氏機率定律</li>
+    <li>應用貝氏更新分析量子位元量測結果；揭示實際量子運算與模擬器預測之間的差異</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2020 – 2024</span>
+  <div class="cv-role">兼職工作</div>
+  <div class="cv-org">台灣各地</div>
+  <ul>
+    <li><strong>雙語會議工作人員</strong>（中興大學） — 陪同來訪學者、協調行程安排、提供即時雙語協助</li>
+    <li><strong>補習班講師與家教</strong> — 數學、物理、化學、生物、國文及英文</li>
+    <li><strong>3D 列印工作室</strong> — FDM 印表機操作、切片與列印流程管理</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <div class="cv-role">國際志工</div>
+  <ul>
+    <li>於偏鄉小學教授英文與美術；參與沙漠地區植樹造林專案</li>
+  </ul>
+</div>
+<p style="text-align:center; color:#999; font-size:0.82rem; margin-top:3rem; padding-bottom:1rem;">
+  最後更新：2025 年 2 月 &nbsp;·&nbsp; <a href="javascript:window.print()" style="color:#18A3A3;">儲存為 PDF</a>
 </p>
-</section>
-<section id="what-it-does" class="level2">
-<h2 class="anchored" data-anchor-id="what-it-does">What it does</h2>
-<p>You upload photos of your clothes once. The app learns three independent axes of preference from your ratings, then chains them at recommendation time so a single hard fail (wrong temperature, wrong occasion) drives the score to zero regardless of how aesthetically pleasing the outfit is.</p>
-<div class="cm-pipeline">
-  <div class="cm-pipeline-stage">
-    <div class="stage-no">Stage 1</div>
-    <div class="stage-name">Temperature</div>
-    <div class="stage-desc">Six zones (subzero / cold / cool / mild / warm / hot). Multi-label classifier — one outfit can suit multiple zones.</div>
-  </div>
-  <div class="cm-pipeline-mult">×</div>
-  <div class="cm-pipeline-stage">
-    <div class="stage-no">Stage 2</div>
-    <div class="stage-name">Aesthetic</div>
-    <div class="stage-desc">Pure look rating: color, cut, layering. User scores on a four-point scale ignoring temperature and occasion.</div>
-  </div>
-  <div class="cm-pipeline-mult">×</div>
-  <div class="cm-pipeline-stage">
-    <div class="stage-no">Stage 3</div>
-    <div class="stage-name">Occasion</div>
-    <div class="stage-desc">Nine event types from gym to formal_event. Multi-label so one outfit can be wearable for multiple events.</div>
-  </div>
-</div>
-<p>The recommendation score multiplies all three signals with two soft factors (freshness, recovery) so the model both surfaces neglected items and respects pure-axis judgments.</p>
-</section>
-<section id="why-local-first" class="level2">
-<h2 class="anchored" data-anchor-id="why-local-first">Why local-first</h2>
-<p>The data the app collects — what you wear, what you don’t, what you rated “love” vs “hate” — is unusually personal. Hosting that on a shared server creates obligations (authentication, encryption at rest, GDPR-style data handling) that undermine the user’s trust without buying anything they need.</p>
-<p>ClosetMind ships as a desktop app. Each user’s data lives in their own OS-standard application data directory (<code>~/Library/Application Support/ClosetMind/profiles/{name}/</code> on macOS, <code>%APPDATA%/ClosetMind/profiles/{name}/</code> on Windows), inside a single SQLite file plus an images folder. The app launches uvicorn bound only to <code>127.0.0.1</code>, opens the system browser, and runs entirely on the user’s machine. Nothing crosses the network except the optional weather and geocoding lookups (both calls go from the user’s browser directly to the public APIs, never through any server I run).</p>
-</section>
-<section id="six-implementation-phases" class="level2">
-<h2 class="anchored" data-anchor-id="six-implementation-phases">Six implementation phases</h2>
-<div class="cm-feature">
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 1 — Layer Coverage Model</h3>
-    <p>Thermal coverage formula <code>T_cover = T_BASE − α·coverage</code> with dual curves (comfort + aesthetic) determines optimal layer count for any temperature. Replaces hand-coded weather rules.</p>
-  </div>
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 2 — XGBoost Preference</h3>
-    <p>Per-user binary classifier on a 100-dimensional feature vector. Cold-start falls back to mean item rating; warm model swaps in once 10+ ratings exist.</p>
-  </div>
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 3 — Local-First Storage</h3>
-    <p>SQLite per-profile schema with idempotent ALTER TABLE migrations. Profile folders survive app updates because they live outside the bundle.</p>
-  </div>
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 4 — Multi-Stage Training</h3>
-    <p>Pure-axis labeling: three independent classifiers trained on disjoint rating tables. Inference multiplies the three probabilities so one bad axis kills the score.</p>
-  </div>
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 5 — Discovery Polish</h3>
-    <p>Fabric-blend composition (40/60 cotton/linen as weighted multi-hot), four-state lifecycle (clean / worn / in_laundry / unavailable), new-item priority training, force-anyway override for unusual outfits.</p>
-  </div>
-  <div class="cm-feature-card">
-    <h3 class="anchored">Phase 6 — Desktop Packaging</h3>
-    <p>PyInstaller .spec handles the FastAPI-stack frozen-mode gotchas (Jinja2 paths, PIL plugins, xgboost native lib). Auto-update via cached public manifest. macOS DMG with drag-to-Applications layout.</p>
-  </div>
-</div>
-</section>
-<section id="tech-stack" class="level2">
-<h2 class="anchored" data-anchor-id="tech-stack">Tech stack</h2>
-<div class="cm-stack">
-  <span>FastAPI</span>
-  <span>SQLAlchemy 2.x</span>
-  <span>SQLite</span>
-  <span>XGBoost</span>
-  <span>NumPy</span>
-  <span>Pillow</span>
-  <span>Pydantic v2</span>
-  <span>Jinja2</span>
-  <span>vanilla JS</span>
-  <span>Service Worker</span>
-  <span>PyInstaller</span>
-</div>
-</section>
-<section id="macos" class="level2">
-<h2 class="anchored" data-anchor-id="macos">macOS</h2>
-<ol type="1">
-<li>Click <strong>Download for Mac</strong> above. You’ll get <code>ClosetMind-0.1.3.dmg</code>.</li>
-<li>Double-click the DMG. A window opens showing <strong>ClosetMind.app</strong> next to an <strong>Applications</strong> folder shortcut.</li>
-<li>Drag <strong>ClosetMind.app</strong> onto <strong>Applications</strong>. Installed.</li>
-<li>Launch via Spotlight (<code>&amp;#8984; Space</code> → type “ClosetMind”), Launchpad, or Finder → Applications.</li>
-</ol>
-<div class="cm-install-note">
-<b>First launch only:</b> macOS Gatekeeper blocks unsigned apps with
-“developer cannot be verified.” <b>Right-click the app
-→ Open → confirm.</b> Subsequent launches work normally.
-This will go away once the app is code-signed in the future.
-</div>
-<p>On first launch the app <strong>automatically seeds a <code>Tester</code> profile</strong> with 54 sample items (the same wardrobe used in the live demo above) so you can immediately click around the recommendation flow without having to upload your own clothes first. Add your own profile any time via the top-right user switcher; deleting <code>Tester</code> won’t bring it back on next launch (the seed only runs when the profile folder is empty). The app loads in your default browser at <code>http://127.0.0.1:18888</code>.</p>
-</section>
-<section id="windows" class="level2">
-<h2 class="anchored" data-anchor-id="windows">Windows</h2>
-<p>Grab the <strong><code>ClosetMind-0.1.3-windows.zip</code></strong> asset from the <a href="https://github.com/chentzuyuan/ClosetMind/releases/tag/v0.1.3"><strong>v0.1.3 release</strong></a> (or use the <strong>Download for Windows</strong> button at the top of this page). Unzip anywhere — e.g., <code>C:\Users\&lt;you&gt;\Apps\ClosetMind\</code> — and double-click <strong><code>ClosetMind.exe</code></strong>. The app starts a local web server on <code>http://127.0.0.1:18888</code> and opens it in your default browser.</p>
-<div class="cm-install-note">
-<b>First launch only:</b> Windows SmartScreen blocks unsigned apps with
-“Microsoft Defender SmartScreen prevented an unrecognized app
-from starting.” Click <b>More info → Run anyway.</b>
-Subsequent launches work normally. This will go away once the binary
-is code-signed in the future.
-</div>
-<p>The Windows build is produced by a GitHub Actions workflow (<a href="https://github.com/chentzuyuan/ClosetMind/blob/main/.github/workflows/build-windows.yml">build-windows.yml</a>) that runs <code>pyinstaller closetmind.spec</code> on a <code>windows-latest</code> runner every time a <code>v*</code> tag is pushed to the source repo. Same wardrobe seeding flow as macOS — first launch auto-creates the bundled <em>Tester</em> profile.</p>
-<p>If you’d rather build from source:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows + Python 3.11 / 3.12</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/chentzuyuan/ClosetMind.git</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ClosetMind</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv\Scripts\activate</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pyinstaller</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pyinstaller</span> closetmind.spec <span class="at">--noconfirm</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dist\ClosetMind\ClosetMind.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="database-design" class="level2">
-<h2 class="anchored" data-anchor-id="database-design">Database design</h2>
-<p>The full entity-relationship model, schema rationale, and migration strategy are documented in the <a href="EPPS6354.html#final-project"><strong>EPPS&nbsp;6354 Information Management course page →</strong></a>. That page is the formal academic deliverable; this page is the end-user-facing landing page for the application itself.</p>
-</section>
-<section id="source-documentation" class="level2">
-<h2 class="anchored" data-anchor-id="source-documentation">Source &amp; documentation</h2>
-<p>Source is on GitHub at <a href="https://github.com/chentzuyuan/ClosetMind"><strong>chentzuyuan/ClosetMind</strong></a>. A longer technical writeup is in progress — this section will be filled in once it’s ready.</p>
-<div style="margin: 2.5rem 0 3rem; text-align: center;">
-  <a href="index.html" style="color: #888; text-decoration: none; font-size: 0.92rem;">← Back to home</a>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

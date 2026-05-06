@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>數據分析數學 – Tzu-Yuan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Tzu-Yuan</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bs-of-am" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">BS of AM</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-bs-of-am">    
+        <li>
+    <a class="dropdown-item" href="./AM.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./AM_thesis.html">
+ <span class="dropdown-text">Quantum Bayesian Inference</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of DSIC</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-dsic">    
+        <li>
+    <a class="dropdown-item" href="./DSIC.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./ML.html#assignments">
+ <span class="dropdown-text">ML &amp; Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DL.html#assignments">
+ <span class="dropdown-text">Deep Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./BigData.html#assignments">
+ <span class="dropdown-text">Big Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DataAnalysis.html#assignments">
+ <span class="dropdown-text">Data Analysis Math</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-sdar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of SDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-sdar">    
+        <li>
+    <a class="dropdown-item" href="./SDAR.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GISPY.html#assignments">
+ <span class="dropdown-text">GIS &amp; Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6356.html#assignments">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6354.html">
+ <span class="dropdown-text">Information Management</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outfitdb.html">
+ <span class="dropdown-text">OutfitDB (final project)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">作業</a></li>
+  <li><a href="#作業一-svd-影像壓縮" id="toc-作業一-svd-影像壓縮" class="nav-link" data-scroll-target="#作業一-svd-影像壓縮">作業一 — SVD 影像壓縮</a>
+  <ul>
+  <li><a href="#流程概覽" id="toc-流程概覽" class="nav-link" data-scroll-target="#流程概覽">流程概覽</a></li>
+  <li><a href="#關鍵公式" id="toc-關鍵公式" class="nav-link" data-scroll-target="#關鍵公式">關鍵公式</a></li>
+  <li><a href="#結果" id="toc-結果" class="nav-link" data-scroll-target="#結果">結果</a></li>
+  <li><a href="#重建品質" id="toc-重建品質" class="nav-link" data-scroll-target="#重建品質">重建品質</a></li>
+  <li><a href="#mse-psnr-2-norm-分析" id="toc-mse-psnr-2-norm-分析" class="nav-link" data-scroll-target="#mse-psnr-2-norm-分析">MSE / PSNR / 2-norm 分析</a></li>
+  </ul></li>
+  <li><a href="#作業二-手寫數字辨識" id="toc-作業二-手寫數字辨識" class="nav-link" data-scroll-target="#作業二-手寫數字辨識">作業二 — 手寫數字辨識</a>
+  <ul>
+  <li><a href="#資料集樣本" id="toc-資料集樣本" class="nav-link" data-scroll-target="#資料集樣本">資料集樣本</a></li>
+  <li><a href="#方法總覽" id="toc-方法總覽" class="nav-link" data-scroll-target="#方法總覽">方法總覽</a></li>
+  <li><a href="#準確率比較" id="toc-準確率比較" class="nav-link" data-scroll-target="#準確率比較">準確率比較</a></li>
+  <li><a href="#訓練時間比較" id="toc-訓練時間比較" class="nav-link" data-scroll-target="#訓練時間比較">訓練時間比較</a></li>
+  <li><a href="#svd-混淆矩陣" id="toc-svd-混淆矩陣" class="nav-link" data-scroll-target="#svd-混淆矩陣">SVD 混淆矩陣</a></li>
+  <li><a href="#錯誤分類樣本" id="toc-錯誤分類樣本" class="nav-link" data-scroll-target="#錯誤分類樣本">錯誤分類樣本</a></li>
+  <li><a href="#實際手寫測試" id="toc-實際手寫測試" class="nav-link" data-scroll-target="#實際手寫測試">實際手寫測試</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">數據分析數學</h1>
+<p class="subtitle lead">數據分析數學 · 國立中興大學資料科學與資訊計算研究所</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="assignments" class="level2">
+<h2 class="anchored" data-anchor-id="assignments">作業</h2>
+<hr>
+</section>
+<section id="作業一-svd-影像壓縮" class="level2">
+<h2 class="anchored" data-anchor-id="作業一-svd-影像壓縮">作業一 — SVD 影像壓縮</h2>
+<p><strong>主題:</strong> 使用 SVD 分解驗證 Eckart-Young 定理：<span class="math inline">\(\|A - A_k\|_2 = \sigma_{k+1}\)</span></p>
+<p><strong>資料集:</strong> 彩色照片 1546×1029 像素（RGB 三通道）</p>
+<section id="流程概覽" class="level3">
+<h3 class="anchored" data-anchor-id="流程概覽">流程概覽</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"fontSize": "18px"}, "flowchart": {"padding": 35}}}%%
+flowchart TD
+    A["Load Image 1546×1029×3     "] --&gt; B["Split R, G, B     "]
+    B --&gt; C["np.linalg.svd per channel     "]
+    C --&gt; D["Reconstruct A_k for k = 1..1029     "]
+    D --&gt; E["Compute MSE, PSNR, 2-norm     "]
+    E --&gt; F["Compare 2-norm vs σ_k+1     "]
+
+    style A fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style B fill:#F5F5F5,color:#424242,stroke:#BDBDBD,stroke-width:2px
+    style C fill:#FFF3E0,color:#E65100,stroke:#FFCC80,stroke-width:2px
+    style D fill:#F3E5F5,color:#6A1B9A,stroke:#CE93D8,stroke-width:2px
+    style E fill:#E3F2FD,color:#1565C0,stroke:#90CAF9,stroke-width:2px
+    style F fill:#E8F5E9,color:#2E7D32,stroke:#A5D6A7,stroke-width:2px
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>方法說明:</strong> 將照片視為矩陣 A，分別對 RGB 三個通道進行 SVD 分解。我們刻意避免使用 <code>np.linalg.norm(ord=2)</code>（因為其內部實作依賴 SVD，會產生循環論證），而是使用<strong>蒙地卡羅隨機向量法</strong>來近似算子 2-norm，再比較其趨勢與 σ_{k+1} 的關係。</p>
+</div>
+</section>
+<section id="關鍵公式" class="level3">
+<h3 class="anchored" data-anchor-id="關鍵公式">關鍵公式</h3>
+<p><strong>SVD 分解：</strong></p>
+<p><span class="math display">\[A = U \Sigma V^T, \quad A_k = \sum_{i=1}^{k} \sigma_i u_i v_i^T\]</span></p>
+<p><strong>Eckart-Young 定理：</strong></p>
+<p><span class="math display">\[\|A - A_k\|_2 = \sigma_{k+1}\]</span></p>
+</section>
+<section id="結果" class="level3">
+<h3 class="anchored" data-anchor-id="結果">結果</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">k</th>
+<th style="text-align: center;">2-norm（近似）</th>
+<th style="text-align: center;">σ_{k+1}</th>
+<th style="text-align: center;">MSE</th>
+<th style="text-align: center;">PSNR (dB)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">3,310</td>
+<td style="text-align: center;">34,072</td>
+<td style="text-align: center;">3,363</td>
+<td style="text-align: center;">12.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">1,556</td>
+<td style="text-align: center;">10,116</td>
+<td style="text-align: center;">1,403</td>
+<td style="text-align: center;">16.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">50</td>
+<td style="text-align: center;">837</td>
+<td style="text-align: center;">3,645</td>
+<td style="text-align: center;">487</td>
+<td style="text-align: center;">21.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: center;">577</td>
+<td style="text-align: center;">2,108</td>
+<td style="text-align: center;">241</td>
+<td style="text-align: center;">24.37</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">300</td>
+<td style="text-align: center;">234</td>
+<td style="text-align: center;">699</td>
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">31.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">500</td>
+<td style="text-align: center;">116</td>
+<td style="text-align: center;">340</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">38.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">700</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">172</td>
+<td style="text-align: center;">2.2</td>
+<td style="text-align: center;">44.70</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="重建品質" class="level3">
+<h3 class="anchored" data-anchor-id="重建品質">重建品質</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_svd_3.png" class="img-fluid figure-img"></p>
+<figcaption>SVD 影像重建 — 不同 k 值的壓縮結果</figcaption>
+</figure>
+</div>
+<div class="chart-note grey">
+<p><strong>視覺化展示:</strong> 在 k=1 時，原始影像幾乎無法辨識；在 k=50 時，主要輪廓開始可辨別；k=300 以上時，結果已非常接近原圖。在 k=507（右下角）時，PSNR 達到 38 dB，與原圖的差異人眼幾乎無法察覺。</p>
+</div>
+</section>
+<section id="mse-psnr-2-norm-分析" class="level3">
+<h3 class="anchored" data-anchor-id="mse-psnr-2-norm-分析">MSE / PSNR / 2-norm 分析</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_svd_2.png" class="img-fluid figure-img"></p>
+<figcaption>隨 k 變化的 MSE、PSNR、2-norm 與 σ_{k+1}</figcaption>
+</figure>
+</div>
+<div class="chart-note orange">
+<p><strong>結論:</strong> 隨著 k 增加，MSE 下降而 PSNR 上升，2-norm 與 σ_{k+1} 呈現相同的下降趨勢，間接驗證了 Eckart-Young 定理。蒙地卡羅方法因隨機抽樣而低估了真實的 2-norm，但整體趨勢保持一致。</p>
+</div>
+<hr>
+</section>
+</section>
+<section id="作業二-手寫數字辨識" class="level2">
+<h2 class="anchored" data-anchor-id="作業二-手寫數字辨識">作業二 — 手寫數字辨識</h2>
+<p><strong>主題:</strong> 在 USPS 手寫數字資料集上比較 8 種分類方法</p>
+<p><strong>資料集:</strong> USPS 手寫數字（16×16 灰階，0-9 共 10 個類別）</p>
+<section id="資料集樣本" class="level3">
+<h3 class="anchored" data-anchor-id="資料集樣本">資料集樣本</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_digit_1.png" class="img-fluid figure-img"></p>
+<figcaption>USPS 訓練集樣本 — 16×16 灰階手寫數字</figcaption>
+</figure>
+</div>
+<div class="chart-note grey">
+<p><strong>資料特性:</strong> 每張影像僅 16×16 = 256 個像素，解析度極低但仍保留了數字的基本結構。這使得矩陣分解方法（SVD / HOSVD）能有效擷取低維特徵。</p>
+</div>
+</section>
+<section id="方法總覽" class="level3">
+<h3 class="anchored" data-anchor-id="方法總覽">方法總覽</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 25%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>類別</th>
+<th>方法</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>基線</strong></td>
+<td>均值法</td>
+<td>計算每個類別的平均影像，以歐氏距離進行分類</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>增強均值法</td>
+<td>考慮類別間混淆模式的迭代改進</td>
+</tr>
+<tr class="odd">
+<td><strong>矩陣分解</strong></td>
+<td>SVD (k=20)</td>
+<td>為每個類別建立 SVD 基底，以投影殘差進行分類</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>HOSVD</td>
+<td>Tucker 分解 (tensorly)，秩 (10,10,20)</td>
+</tr>
+<tr class="odd">
+<td><strong>傳統機器學習</strong></td>
+<td>SVM</td>
+<td>sklearn SVC</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>KNN</td>
+<td>sklearn KNeighborsClassifier</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Random Forest</td>
+<td>sklearn RandomForestClassifier</td>
+</tr>
+<tr class="even">
+<td><strong>深度學習</strong></td>
+<td>CNN (PyTorch)</td>
+<td>Conv2D → MaxPool → Dense, 50 epochs</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="準確率比較" class="level3">
+<h3 class="anchored" data-anchor-id="準確率比較">準確率比較</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DataAnalysis-zh_files/figure-html/hw2-accuracy-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note teal">
+<p><strong>結果分析:</strong> 均值法作為基線僅達到 81.42%。SVD (k=20) 躍升至 94.12%，證明低秩近似能有效擷取數字結構。傳統機器學習（SVM 達 94.92%）與 SVD 系列表現相近。<strong>CNN 以 95.76% 勝出</strong>，但其訓練時間為 98 秒，遠高於 KNN 的 0.45 秒。</p>
+</div>
+</section>
+<section id="訓練時間比較" class="level3">
+<h3 class="anchored" data-anchor-id="訓練時間比較">訓練時間比較</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DataAnalysis-zh_files/figure-html/hw2-time-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="chart-note orange">
+<p><strong>速度與準確率:</strong> KNN 僅需 0.45 秒即達到 94.47%，是<strong>最具成本效益</strong>的模型。CNN 準確率最高 (95.76%) 但需要 98 秒。HOSVD (Tucker 分解) 準確率與 SVD 相近但慢了 30 倍。</p>
+</div>
+</section>
+<section id="svd-混淆矩陣" class="level3">
+<h3 class="anchored" data-anchor-id="svd-混淆矩陣">SVD 混淆矩陣</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_digit_14.png" class="img-fluid figure-img"></p>
+<figcaption>SVD (k=20) 混淆矩陣 — USPS 手寫數字分類</figcaption>
+</figure>
+</div>
+<div class="chart-note grey">
+<p><strong>混淆矩陣分析:</strong> SVD 方法在數字 0 和 1 上表現最佳（分別正確 353/264 個），而數字 3 和 7 的混淆較高（13 個數字 3 被誤判為 5）。整體 94.12% 的準確率對於免訓練的矩陣分解方法而言相當優異。</p>
+</div>
+</section>
+<section id="錯誤分類樣本" class="level3">
+<h3 class="anchored" data-anchor-id="錯誤分類樣本">錯誤分類樣本</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_digit_4.png" class="img-fluid figure-img"></p>
+<figcaption>均值法錯誤分類範例 — 真實標籤 vs 預測標籤</figcaption>
+</figure>
+</div>
+<div class="chart-note orange">
+<p><strong>錯誤分類分析:</strong> 這些樣本即便人眼也難以辨識。例如，真實標籤 6 被預測為 2（相似的曲線筆畫），真實標籤 3 被預測為 8（形狀相似）。在 16×16 的低解析度下，某些數字之間的結構差異極為微小。</p>
+</div>
+</section>
+<section id="實際手寫測試" class="level3">
+<h3 class="anchored" data-anchor-id="實際手寫測試">實際手寫測試</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_digit_34.png" class="img-fluid figure-img"></p>
+<figcaption>外部手寫數字照片樣本</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../da_digit_35.png" class="img-fluid figure-img"></p>
+<figcaption>8 個模型在外部手寫照片上的準確率</figcaption>
+</figure>
+</div>
+<div class="chart-note pink">
+<p><strong>外部驗證:</strong> 所有模型均使用手機拍攝的手寫數字照片進行測試。<strong>CNN 達到 100%</strong> 完美辨識，Random Forest 95%，而增強均值法僅 56%。這證實了深度學習對於現實世界手寫變化具有最強的泛化能力。</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

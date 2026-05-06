@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>量子貝氏推論 – Tzu-Yuan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.scss">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Tzu-Yuan</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bs-of-am" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">BS of AM</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-bs-of-am">    
+        <li>
+    <a class="dropdown-item" href="./AM.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./AM_thesis.html">
+ <span class="dropdown-text">Quantum Bayesian Inference</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-dsic" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of DSIC</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-dsic">    
+        <li>
+    <a class="dropdown-item" href="./DSIC.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./ML.html#assignments">
+ <span class="dropdown-text">ML &amp; Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DL.html#assignments">
+ <span class="dropdown-text">Deep Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./BigData.html#assignments">
+ <span class="dropdown-text">Big Data Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./DataAnalysis.html#assignments">
+ <span class="dropdown-text">Data Analysis Math</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ms-of-sdar" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">MS of SDAR</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ms-of-sdar">    
+        <li>
+    <a class="dropdown-item" href="./SDAR.html">
+ <span class="dropdown-text">Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GISPY.html#assignments">
+ <span class="dropdown-text">GIS &amp; Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6356.html#assignments">
+ <span class="dropdown-text">Data Visualization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./EPPS6354.html">
+ <span class="dropdown-text">Information Management</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./outfitdb.html">
+ <span class="dropdown-text">OutfitDB (final project)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./CV.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#概述" id="toc-概述" class="nav-link active" data-scroll-target="#概述">概述</a></li>
+  <li><a href="#研究方法" id="toc-研究方法" class="nav-link" data-scroll-target="#研究方法">研究方法</a></li>
+  <li><a href="#第一階段大數法則驗證" id="toc-第一階段大數法則驗證" class="nav-link" data-scroll-target="#第一階段大數法則驗證">第一階段：大數法則驗證</a>
+  <ul>
+  <li><a href="#模擬器結果" id="toc-模擬器結果" class="nav-link" data-scroll-target="#模擬器結果">模擬器結果</a></li>
+  <li><a href="#真實量子電腦結果" id="toc-真實量子電腦結果" class="nav-link" data-scroll-target="#真實量子電腦結果">真實量子電腦結果</a></li>
+  <li><a href="#近距離比較1000-次測量" id="toc-近距離比較1000-次測量" class="nav-link" data-scroll-target="#近距離比較1000-次測量">近距離比較（1,000 次測量）</a></li>
+  </ul></li>
+  <li><a href="#第二階段量子輸出的貝氏推論" id="toc-第二階段量子輸出的貝氏推論" class="nav-link" data-scroll-target="#第二階段量子輸出的貝氏推論">第二階段：量子輸出的貝氏推論</a>
+  <ul>
+  <li><a href="#貝氏收斂" id="toc-貝氏收斂" class="nav-link" data-scroll-target="#貝氏收斂">貝氏收斂</a></li>
+  </ul></li>
+  <li><a href="#結論" id="toc-結論" class="nav-link" data-scroll-target="#結論">結論</a></li>
+  <li><a href="#原始碼" id="toc-原始碼" class="nav-link" data-scroll-target="#原始碼">原始碼</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">量子貝氏推論</h1>
+<p class="subtitle lead">量子貝氏推論：實驗驗證與延伸 · 國立中興大學 應用數學系</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chart-note orange">
+<p><strong>科技部大專生研究計畫</strong> 計畫編號 112-2813-C-005-038-E · 指導教授：戴淯琮 教授 · 執行期間：2023/07 – 2024/02</p>
+</div>
+<section id="概述" class="level2">
+<h2 class="anchored" data-anchor-id="概述">概述</h2>
+<p>本論文研究量子電腦的輸出是否符合<strong>貝氏機率定律</strong>。使用 IBM 的 Qiskit 框架，在真實 IBMQ 硬體與模擬器上測試量子位元測量的<strong>大數法則</strong>，並運用<strong>貝氏更新</strong>分析量子位元測量結果。</p>
+<p>關鍵發現：<strong>真實量子電腦與模擬器的行為截然不同</strong>——量子電腦的累積機率呈現出系統性偏離理論值 0.5 的趨勢，對量子態的客觀隨機性提出了根本性的疑問。</p>
+</section>
+<section id="研究方法" class="level2">
+<h2 class="anchored" data-anchor-id="研究方法">研究方法</h2>
+<div class="cell" data-fig-width="100%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#E3F2FD", "primaryTextColor": "#111", "primaryBorderColor": "#90CAF9", "lineColor": "#18A3A3", "secondaryColor": "#FFF3E0", "tertiaryColor": "#F3E5F5"}, "flowchart": {"curve": "basis", "padding": 35}, "fontSize": "18px"}}%%
+flowchart TD
+    A["第一階段：大數法則驗證     "] --&gt; B["建構 H 閘量子電路     "]
+    B --&gt; C["在模擬器上執行（20,000 次）     "]
+    B --&gt; D["在 IBMQ 硬體上執行（20,000 次）     "]
+    C --&gt; E["累積 P(0) 視覺化     "]
+    D --&gt; E
+    E --&gt; F["比較收斂行為     "]
+    F --&gt; G["第二階段：貝氏推論     "]
+    G --&gt; H["將測量結果匯出為 CSV     "]
+    H --&gt; I["從前 50 筆觀測值計算先驗分佈     "]
+    I --&gt; J["迭代貝氏更新（20,000 輪）     "]
+    J --&gt; K["求取 P(0) 的 MAP 估計值     "]
+
+    style A fill:#E3F2FD,stroke:#90CAF9
+    style B fill:#E3F2FD,stroke:#90CAF9
+    style C fill:#E8F5E9,stroke:#A5D6A7
+    style D fill:#FFF3E0,stroke:#FFCC80
+    style E fill:#F3E5F5,stroke:#CE93D8
+    style F fill:#F3E5F5,stroke:#CE93D8
+    style G fill:#FFF3E0,stroke:#FFCC80
+    style H fill:#FFF3E0,stroke:#FFCC80
+    style I fill:#FFF3E0,stroke:#FFCC80
+    style J fill:#FFF3E0,stroke:#FFCC80
+    style K fill:#FCE4EC,stroke:#F48FB1
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="第一階段大數法則驗證" class="level2">
+<h2 class="anchored" data-anchor-id="第一階段大數法則驗證">第一階段：大數法則驗證</h2>
+<p>我們對單一量子位元施加 <strong>Hadamard 閘（H 閘）</strong>，使其進入疊加態 <span class="math inline">\(|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\)</span>，然後測量 20,000 次。若量子測量遵循古典機率，累積 <span class="math inline">\(P(|0\rangle)\)</span> 應收斂至 <strong>0.5</strong>。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">設置</th>
+<th style="text-align: left;">後端</th>
+<th style="text-align: right;">測量次數</th>
+<th style="text-align: left;">預期 <span class="math inline">\(P(0)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 測量</td>
+<td style="text-align: left;"><code>ibmq_qasm_simulator</code></td>
+<td style="text-align: right;">20,000</td>
+<td style="text-align: left;">0.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 測量</td>
+<td style="text-align: left;"><code>ibm_osaka</code>（真實硬體）</td>
+<td style="text-align: right;">20,000</td>
+<td style="text-align: left;">0.5</td>
+</tr>
+</tbody>
+</table>
+<section id="模擬器結果" class="level3">
+<h3 class="anchored" data-anchor-id="模擬器結果">模擬器結果</h3>
+<p>模擬器的累積機率<strong>平滑地</strong>收斂至 0.5，完美遵循大數法則：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../am_qc_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>模擬器：20,000 次測量的累積 P(0)——收斂至 0.5</figcaption>
+</figure>
+</div>
+</section>
+<section id="真實量子電腦結果" class="level3">
+<h3 class="anchored" data-anchor-id="真實量子電腦結果">真實量子電腦結果</h3>
+<p>真實量子電腦（IBM Osaka）呈現<strong>系統性的向下偏移</strong>——累積機率未收斂至 0.5：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../am_sim_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>IBM Osaka：20,000 次測量的累積 P(0)——偏離至 0.5 以下</figcaption>
+</figure>
+</div>
+<div class="chart-note orange">
+<p><strong>關鍵發現：</strong> 模擬器完美遵循大數法則，但真實量子電腦表現出持續的偏差。此差異暗示：(1) 硬體雜訊引入了系統性誤差；(2) 樣本數量不足；或 (3) 量子疊加態可能無法產生真正的客觀隨機性。</p>
+</div>
+</section>
+<section id="近距離比較1000-次測量" class="level3">
+<h3 class="anchored" data-anchor-id="近距離比較1000-次測量">近距離比較（1,000 次測量）</h3>
+<p>以每次 1,000 次測量進行更細緻的觀察：</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../am_simulator.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>模擬器：1,000 次測量——緊密收斂至 0.5</figcaption>
+</figure>
+</div>
+<div class="chart-note teal">
+<p><strong>模擬器：</strong> 快速且乾淨地收斂至理論值 0.5。</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../am_quantum.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>量子電腦：1,000 次測量——在 0.5 附近較大幅度振盪</figcaption>
+</figure>
+</div>
+<div class="chart-note orange">
+<p><strong>IBMQ：</strong> 明顯較大的變異數與較慢的收斂速度，伴隨持續的振盪。</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="第二階段量子輸出的貝氏推論" class="level2">
+<h2 class="anchored" data-anchor-id="第二階段量子輸出的貝氏推論">第二階段：量子輸出的貝氏推論</h2>
+<p>在第二階段中，我們將量子測量結果視為觀測資料，並運用<strong>貝氏更新</strong>推論最可能的機率參數 <span class="math inline">\(\theta = P(|0\rangle)\)</span>。</p>
+<p><strong>步驟：</strong></p>
+<ol type="1">
+<li>從 IBMQ 收集 20,000 筆測量結果，作為二元序列（0/1）</li>
+<li>使用前 50 筆觀測值建構 <span class="math inline">\(\theta\)</span> 的<strong>先驗分佈</strong></li>
+<li>迭代應用貝氏定理，進行 19,950 輪更新</li>
+<li>求取 <span class="math inline">\(\theta\)</span> 的 <strong>MAP（最大後驗機率）</strong> 估計值</li>
+</ol>
+<section id="貝氏收斂" class="level3">
+<h3 class="anchored" data-anchor-id="貝氏收斂">貝氏收斂</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../am_bayes_convergence.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>貝氏更新：累積機率（藍色）與貝氏後驗眾數（紅色）——兩者皆收斂，但後驗 MAP 偏向約 0.483 而非 0.5</figcaption>
+</figure>
+</div>
+<div class="chart-note teal">
+<p><strong>貝氏推論結果：</strong> 在先驗密度 <span class="math inline">\(n = 50\)</span> 下，MAP 估計值收斂至 <span class="math inline">\(\theta \approx 0.483\)</span>，後驗機率為 0.955。這證實了量子硬體的系統性偏差——貝氏推論正確地辨識出真實硬體上的 <span class="math inline">\(P(|0\rangle)\)</span> 並非恰好等於 0.5。</p>
+</div>
+</section>
+</section>
+<section id="結論" class="level2">
+<h2 class="anchored" data-anchor-id="結論">結論</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">面向</th>
+<th style="text-align: left;">模擬器</th>
+<th style="text-align: left;">真實量子電腦</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">大數法則</td>
+<td style="text-align: left;">完美符合</td>
+<td style="text-align: left;">違反（系統性偏移）</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">收斂至 0.5</td>
+<td style="text-align: left;">是（平滑）</td>
+<td style="text-align: left;">否（偏向約 0.49）</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">貝氏 MAP 估計值</td>
+<td style="text-align: left;"><span class="math inline">\(\theta \approx 0.500\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\theta \approx 0.483\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">變異數</td>
+<td style="text-align: left;">低</td>
+<td style="text-align: left;">高（含雜訊）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>差異的三種可能解釋：</strong></p>
+<ol type="1">
+<li><strong>樣本數量不足</strong>——受限於 IBMQ 佇列限制，20,000 次測量對量子硬體而言可能不夠</li>
+<li><strong>硬體雜訊與誤差</strong>——現行 IBMQ 裝置存在閘極誤差、退相干及讀取誤差，導致系統性偏差</li>
+<li><strong>量子隨機性不同於古典隨機性</strong>——疊加態可能遵循測量理論的機率模型（如 Gleason 定理），未必完全符合 Kolmogorov 公理</li>
+</ol>
+<div class="chart-note grey">
+<p><strong>技術工具：</strong> Python, Qiskit, IBMQ (ibm_osaka), matplotlib, csv · <strong>計畫補助：</strong> NSTC 112-2813-C-005-038-E</p>
+</div>
+</section>
+<section id="原始碼" class="level2">
+<h2 class="anchored" data-anchor-id="原始碼">原始碼</h2>
+<p>本研究開發的 Qiskit 程式已發布於 GitHub：</p>
+<ul>
+<li><a href="https://github.com/buttegggggggg/i_use_quantum_do_something_cool">i_use_quantum_do_something_cool</a> —— 量子電路程式碼、模擬器/硬體比較、貝氏分析筆記本</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -200,8 +200,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Information Management</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./closetmind.html">
- <span class="dropdown-text">ClosetMind (final project)</span></a>
+    <a class="dropdown-item" href="./outfitdb.html">
+ <span class="dropdown-text">OutfitDB (final project)</span></a>
   </li>  
     </ul>
   </li>
@@ -326,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#final-project" id="toc-final-project" class="nav-link" data-scroll-target="#final-project">Final Project</a>
   <ul>
-  <li><a href="#closetmind-wardrobe-recommendation-system" id="toc-closetmind-wardrobe-recommendation-system" class="nav-link" data-scroll-target="#closetmind-wardrobe-recommendation-system">ClosetMind — Wardrobe Recommendation System</a>
+  <li><a href="#outfitdb-wardrobe-recommendation-system" id="toc-outfitdb-wardrobe-recommendation-system" class="nav-link" data-scroll-target="#outfitdb-wardrobe-recommendation-system">OutfitDB — Wardrobe Recommendation System</a>
   <ul>
   <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
   <li><a href="#database-schema-11-tables" id="toc-database-schema-11-tables" class="nav-link" data-scroll-target="#database-schema-11-tables">Database Schema (11 Tables)</a>
@@ -1307,18 +1307,18 @@ manages (ID, manager_id)</code></pre>
 <!-- Wake the Render demo as soon as the user lands on this anchor.
      Render's free tier sleeps after 15 min idle and takes ~50 s to
      spin up; firing /healthz now means the container is usually ready
-     by the time the visitor clicks through to closetmind.html. -->
-<link rel="preconnect" href="https://closetmind.onrender.com">
-<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+     by the time the visitor clicks through to outfitdb.html. -->
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
 <script>
   // No-cors fetch is enough to trigger Render's wake-up signal; we
   // don't need the response body. Fire-and-forget.
   if (typeof fetch === "function") {
-    try { fetch("https://closetmind.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+    try { fetch("https://outfitdb.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
   }
 </script>
-<section id="closetmind-wardrobe-recommendation-system" class="level3">
-<h3 class="anchored" data-anchor-id="closetmind-wardrobe-recommendation-system">ClosetMind — Wardrobe Recommendation System</h3>
+<section id="outfitdb-wardrobe-recommendation-system" class="level3">
+<h3 class="anchored" data-anchor-id="outfitdb-wardrobe-recommendation-system">OutfitDB — Wardrobe Recommendation System</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1329,18 +1329,18 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Live demo:</strong> <a href="closetmind.html">Try the desktop app →</a> · <a href="https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3.dmg">Download macOS DMG</a></p>
+<p><strong>Live demo:</strong> <a href="outfitdb.html">Try the desktop app →</a> · <a href="https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0.dmg">Download macOS DMG</a></p>
 </div>
 </div>
 <section id="project-overview" class="level4">
 <h4 class="anchored" data-anchor-id="project-overview">Project Overview</h4>
-<p>ClosetMind is a single-user, local-first wardrobe management system delivered as a downloadable macOS / Windows desktop application. The user uploads photos of their clothes once, then trains the system through three independent rating flows. At recommendation time the system multiplies three learned probabilities — temperature appropriateness, aesthetic preference, occasion fit — so a single hard fail (wrong weather, wrong setting) drives the total score to zero regardless of how good the outfit looks. All data stays on the user’s machine; nothing crosses the network except optional weather and geocoding lookups initiated by the browser directly.</p>
-<p>This page documents the database schema and the rationale behind it. The end-user-facing landing page lives at <a href="closetmind.html"><code>closetmind.html</code></a>; the full implementation writeup is in the project’s technical reference document.</p>
+<p>OutfitDB is a single-user, local-first wardrobe management system delivered as a downloadable macOS / Windows desktop application. The user uploads photos of their clothes once, then trains the system through three independent rating flows. At recommendation time the system multiplies three learned probabilities — temperature appropriateness, aesthetic preference, occasion fit — so a single hard fail (wrong weather, wrong setting) drives the total score to zero regardless of how good the outfit looks. All data stays on the user’s machine; nothing crosses the network except optional weather and geocoding lookups initiated by the browser directly.</p>
+<p>This page documents the database schema and the rationale behind it. The end-user-facing landing page lives at <a href="outfitdb.html"><code>outfitdb.html</code></a>; the full implementation writeup is in the project’s technical reference document.</p>
 <p><strong>System architecture:</strong></p>
 <ul>
 <li><strong>Backend:</strong> FastAPI + SQLAlchemy 2.x, single SQLite file per profile.</li>
 <li><strong>ML:</strong> XGBoost binary classifiers, three of them, chained at inference.</li>
-<li><strong>Storage:</strong> Local-first — data lives in OS-standard application data directories (<code>~/Library/Application Support/ClosetMind/profiles/{name}/</code> on macOS), never on a server.</li>
+<li><strong>Storage:</strong> Local-first — data lives in OS-standard application data directories (<code>~/Library/Application Support/OutfitDB/profiles/{name}/</code> on macOS), never on a server.</li>
 <li><strong>Distribution:</strong> PyInstaller-frozen <code>.app</code> bundle with launcher that starts uvicorn on a free port and opens the user’s default browser.</li>
 </ul>
 </section>
@@ -2218,11 +2218,11 @@ Tip
 <section id="try-the-system" class="level4">
 <h4 class="anchored" data-anchor-id="try-the-system">Try the system</h4>
 <style>
-.cm-try-row {
+.od-try-row {
   display: flex; flex-wrap: wrap; gap: 12px;
   margin: 14px 0 6px;
 }
-.cm-try-btn {
+.od-try-btn {
   display: inline-flex; align-items: center; justify-content: center;
   flex: 1 1 220px; min-height: 56px;
   padding: 14px 22px; border-radius: 10px;
@@ -2230,24 +2230,24 @@ Tip
   text-decoration: none !important;
   transition: transform 0.1s, box-shadow 0.15s;
 }
-.cm-try-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
-.cm-try-btn.primary   { background: #22c55e; color: #fff !important; }
-.cm-try-btn.secondary { background: #111;    color: #fff !important; }
-.cm-try-note {
+.od-try-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.od-try-btn.primary   { background: #22c55e; color: #fff !important; }
+.od-try-btn.secondary { background: #111;    color: #fff !important; }
+.od-try-note {
   font-size: 0.85rem; color: #888; margin: 8px 0 0;
 }
 </style>
 
-<div class="cm-try-row">
-  <a class="cm-try-btn primary" href="https://closetmind.onrender.com/" target="_blank" rel="noopener">
+<div class="od-try-row">
+  <a class="od-try-btn primary" href="https://outfitdb.onrender.com/" target="_blank" rel="noopener">
     Try live demo →
   </a>
-  <a class="cm-try-btn secondary" href="closetmind.html">
+  <a class="od-try-btn secondary" href="outfitdb.html">
     Download for macOS / Windows →
   </a>
 </div>
 
-<p class="cm-try-note">
+<p class="od-try-note">
   The live demo runs on Render's free tier — first visit may take ~50 s
   while the container wakes up.
 </p>

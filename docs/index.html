@@ -162,8 +162,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Information Management</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./closetmind.html">
- <span class="dropdown-text">ClosetMind (final project)</span></a>
+    <a class="dropdown-item" href="./outfitdb.html">
+ <span class="dropdown-text">OutfitDB (final project)</span></a>
   </li>  
     </ul>
   </li>
@@ -580,20 +580,20 @@ header#title-block-header { display: none !important; }
 
 <!-- Render free tier sleeps after 15 min idle. Pre-warm the demo
      container as soon as a visitor lands on the homepage so by the
-     time they click through to closetmind.html the iframe is already
+     time they click through to outfitdb.html the iframe is already
      responsive. -->
-<link rel="preconnect" href="https://closetmind.onrender.com">
-<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
 <script>
   if (typeof fetch === "function") {
-    try { fetch("https://closetmind.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+    try { fetch("https://outfitdb.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
   }
 </script>
 
 <div class="home-research">
   <div class="research-header">
-    <div class="research-title"><a href="closetmind.html" style="color:inherit;text-decoration:none;">ClosetMind — Wardrobe Recommendation System</a></div>
-    <span class="research-badge">v0.1.0</span>
+    <div class="research-title"><a href="outfitdb.html" style="color:inherit;text-decoration:none;">OutfitDB — Wardrobe Recommendation System</a></div>
+    <span class="research-badge">v0.2.0</span>
   </div>
   <p class="research-desc">
     Local-first desktop app that learns each user’s clothing preferences. Three-stage XGBoost pipeline (temperature × aesthetic × occasion) chained at inference time. Layer-coverage thermal model handles real cold-weather layering; auto-update notification ships from a public release feed. Final project for EPPS&nbsp;6354 (Information Management).
@@ -617,7 +617,7 @@ header#title-block-header { display: none !important; }
     </div>
   </div>
   <p class="research-note">
-    <a href="closetmind.html">Try the app →</a>
+    <a href="outfitdb.html">Try the app →</a>
     ·
     <a href="EPPS6354.html#final-project">Database design →</a>
   </p>
