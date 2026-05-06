@@ -1424,28 +1424,28 @@ needed.
 <!-- Wake the Render demo as soon as the user lands on this anchor.
      Render's free tier sleeps after 15 min idle and takes ~50 s to
      spin up; firing /healthz now means the container is usually ready
-     by the time the visitor clicks through to closetmind.html. -->
-<link rel="preconnect" href="https://closetmind.onrender.com">
-<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+     by the time the visitor clicks through to outfitdb.html. -->
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
 <script>
   // No-cors fetch is enough to trigger Render's wake-up signal; we
   // don't need the response body. Fire-and-forget.
   if (typeof fetch === "function") {
-    try { fetch("https://closetmind.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+    try { fetch("https://outfitdb.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
   }
 </script>
 ```
 
-### ClosetMind &mdash; Wardrobe Recommendation System
+### OutfitDB &mdash; Wardrobe Recommendation System
 
 ::: {.callout-tip}
-**Live demo:** [Try the desktop app &rarr;](closetmind.html)
-&middot; [Download macOS DMG](https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3.dmg)
+**Live demo:** [Try the desktop app &rarr;](outfitdb.html)
+&middot; [Download macOS DMG](https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0.dmg)
 :::
 
 #### Project Overview
 
-ClosetMind is a single-user, local-first wardrobe management system delivered
+OutfitDB is a single-user, local-first wardrobe management system delivered
 as a downloadable macOS / Windows desktop application. The user uploads photos
 of their clothes once, then trains the system through three independent rating
 flows. At recommendation time the system multiplies three learned probabilities
@@ -1456,7 +1456,7 @@ user&rsquo;s machine; nothing crosses the network except optional weather and
 geocoding lookups initiated by the browser directly.
 
 This page documents the database schema and the rationale behind it. The
-end-user-facing landing page lives at [`closetmind.html`](closetmind.html);
+end-user-facing landing page lives at [`outfitdb.html`](outfitdb.html);
 the full implementation writeup is in the project&rsquo;s technical reference
 document.
 
@@ -1465,7 +1465,7 @@ document.
 -   **Backend:** FastAPI + SQLAlchemy 2.x, single SQLite file per profile.
 -   **ML:** XGBoost binary classifiers, three of them, chained at inference.
 -   **Storage:** Local-first &mdash; data lives in OS-standard application data
-    directories (`~/Library/Application Support/ClosetMind/profiles/{name}/`
+    directories (`~/Library/Application Support/OutfitDB/profiles/{name}/`
     on macOS), never on a server.
 -   **Distribution:** PyInstaller-frozen `.app` bundle with launcher that
     starts uvicorn on a free port and opens the user&rsquo;s default browser.
@@ -1903,11 +1903,11 @@ the storage cost of a nullable unused column is zero.
 
 ```{=html}
 <style>
-.cm-try-row {
+.od-try-row {
   display: flex; flex-wrap: wrap; gap: 12px;
   margin: 14px 0 6px;
 }
-.cm-try-btn {
+.od-try-btn {
   display: inline-flex; align-items: center; justify-content: center;
   flex: 1 1 220px; min-height: 56px;
   padding: 14px 22px; border-radius: 10px;
@@ -1915,24 +1915,24 @@ the storage cost of a nullable unused column is zero.
   text-decoration: none !important;
   transition: transform 0.1s, box-shadow 0.15s;
 }
-.cm-try-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
-.cm-try-btn.primary   { background: #22c55e; color: #fff !important; }
-.cm-try-btn.secondary { background: #111;    color: #fff !important; }
-.cm-try-note {
+.od-try-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.od-try-btn.primary   { background: #22c55e; color: #fff !important; }
+.od-try-btn.secondary { background: #111;    color: #fff !important; }
+.od-try-note {
   font-size: 0.85rem; color: #888; margin: 8px 0 0;
 }
 </style>
 
-<div class="cm-try-row">
-  <a class="cm-try-btn primary" href="https://closetmind.onrender.com/" target="_blank" rel="noopener">
+<div class="od-try-row">
+  <a class="od-try-btn primary" href="https://outfitdb.onrender.com/" target="_blank" rel="noopener">
     Try live demo &rarr;
   </a>
-  <a class="cm-try-btn secondary" href="closetmind.html">
+  <a class="od-try-btn secondary" href="outfitdb.html">
     Download for macOS / Windows &rarr;
   </a>
 </div>
 
-<p class="cm-try-note">
+<p class="od-try-note">
   The live demo runs on Render's free tier — first visit may take ~50 s
   while the container wakes up.
 </p>

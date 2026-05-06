@@ -1,5 +1,5 @@
 ---
-title: "ClosetMind"
+title: "OutfitDB"
 format:
   html:
     toc: true
@@ -11,20 +11,20 @@ format:
 
 ```{=html}
 <style>
-.cm-hero {
+.od-hero {
   text-align: center;
   padding: 3rem 1rem 2rem;
   border-bottom: 1px solid #eee;
   margin-bottom: 2.5rem;
 }
-.cm-hero h1 {
+.od-hero h1 {
   font-size: 3rem;
   font-weight: 800;
   margin: 0 0 0.4rem;
   letter-spacing: -0.5px;
   color: #111;
 }
-.cm-hero .cm-tag {
+.od-hero .od-tag {
   font-size: 1rem;
   color: #888;
   letter-spacing: 0.4px;
@@ -32,7 +32,7 @@ format:
   max-width: 640px;
   line-height: 1.6;
 }
-.cm-hero .cm-version {
+.od-hero .od-version {
   display: inline-block;
   background: #f6f6f4;
   color: #555;
@@ -43,11 +43,11 @@ format:
   margin-left: 6px;
   vertical-align: middle;
 }
-.cm-download-row {
+.od-download-row {
   display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
   margin-top: 1.6rem;
 }
-.cm-dl-btn {
+.od-dl-btn {
   display: inline-block;
   padding: 14px 28px;
   background: #111;
@@ -59,16 +59,16 @@ format:
   transition: transform 0.1s, box-shadow 0.15s;
   min-width: 220px;
 }
-.cm-dl-btn:hover {
+.od-dl-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
-.cm-dl-btn.secondary {
+.od-dl-btn.secondary {
   background: #fff;
   color: #111 !important;
   border: 1px solid #ccc;
 }
-.cm-dl-btn .cm-dl-os {
+.od-dl-btn .od-dl-os {
   display: block;
   font-size: 0.7rem;
   color: #aaa;
@@ -76,8 +76,8 @@ format:
   text-transform: uppercase;
   margin-bottom: 4px;
 }
-.cm-dl-btn.secondary .cm-dl-os { color: #999; }
-.cm-quick-stats {
+.od-dl-btn.secondary .od-dl-os { color: #999; }
+.od-quick-stats {
   display: grid;
   /* 4-up desktop · 2-up mobile so 8 cards always tile cleanly into
      2 rows × 4 cols (or 4 rows × 2 cols), no awkward 5+3 wraps */
@@ -86,57 +86,57 @@ format:
   margin: 2rem 0 3rem;
 }
 @media (max-width: 700px) {
-  .cm-quick-stats { grid-template-columns: repeat(2, 1fr); }
+  .od-quick-stats { grid-template-columns: repeat(2, 1fr); }
 }
-.cm-stat {
+.od-stat {
   background: #fafaf8;
   padding: 18px 14px;
   border-radius: 10px;
   text-align: center;
   border: 1px solid #eee;
 }
-.cm-stat-val {
+.od-stat-val {
   font-size: 1.7rem;
   font-weight: 700;
   color: #111;
   line-height: 1.1;
 }
-.cm-stat-val small { font-size: 0.65em; color: #888; font-weight: 500; }
-.cm-stat-label {
+.od-stat-val small { font-size: 0.65em; color: #888; font-weight: 500; }
+.od-stat-label {
   font-size: 0.75rem;
   color: #777;
   letter-spacing: 0.4px;
   text-transform: uppercase;
   margin-top: 6px;
 }
-.cm-feature {
+.od-feature {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
   margin: 1.6rem 0;
 }
-.cm-feature-card {
+.od-feature-card {
   background: #fff;
   border: 1px solid #ececec;
   border-radius: 10px;
   padding: 18px 20px;
 }
-.cm-feature-card h3 {
+.od-feature-card h3 {
   margin: 0 0 0.4rem;
   font-size: 1.05rem;
   color: #111;
 }
-.cm-feature-card p {
+.od-feature-card p {
   font-size: 0.92rem;
   line-height: 1.55;
   color: #555;
   margin: 0;
 }
 @media (max-width: 700px) {
-  .cm-feature { grid-template-columns: 1fr; }
-  .cm-hero h1 { font-size: 2.2rem; }
+  .od-feature { grid-template-columns: 1fr; }
+  .od-hero h1 { font-size: 2.2rem; }
 }
-.cm-install-note {
+.od-install-note {
   background: #fff7ec;
   border: 1px solid #f0d590;
   border-radius: 8px;
@@ -145,12 +145,12 @@ format:
   font-size: 0.92rem;
   color: #6b4400;
 }
-.cm-install-note code {
+.od-install-note code {
   background: rgba(0,0,0,0.05);
   padding: 1px 5px;
   border-radius: 3px;
 }
-.cm-pipeline {
+.od-pipeline {
   display: flex;
   align-items: stretch;
   gap: 8px;
@@ -161,35 +161,35 @@ format:
   border: 1px solid #eee;
   margin: 1rem 0;
 }
-.cm-pipeline-stage {
+.od-pipeline-stage {
   flex: 1; min-width: 160px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 12px 14px;
 }
-.cm-pipeline-stage .stage-no {
+.od-pipeline-stage .stage-no {
   font-size: 0.7rem; color: #999; letter-spacing: 0.5px;
   text-transform: uppercase; font-weight: 600;
 }
-.cm-pipeline-stage .stage-name {
+.od-pipeline-stage .stage-name {
   font-size: 1rem; font-weight: 700; color: #111; margin: 4px 0;
 }
-.cm-pipeline-stage .stage-desc {
+.od-pipeline-stage .stage-desc {
   font-size: 0.82rem; color: #666; line-height: 1.45;
 }
-.cm-pipeline-mult {
+.od-pipeline-mult {
   align-self: center;
   font-size: 1.4rem; color: #aaa; font-weight: 700;
 }
 @media (max-width: 700px) {
-  .cm-pipeline-mult { display: none; }
+  .od-pipeline-mult { display: none; }
 }
-.cm-stack {
+.od-stack {
   display: flex; flex-wrap: wrap; gap: 8px;
   margin: 0.8rem 0 1.4rem;
 }
-.cm-stack span {
+.od-stack span {
   background: #f6f6f4; color: #444;
   padding: 5px 11px; border-radius: 5px;
   font-size: 0.84rem;
@@ -199,10 +199,10 @@ format:
 ```
 
 ```{=html}
-<div class="cm-hero">
-  <h1>ClosetMind <span class="cm-version">v0.1.3</span></h1>
-  <p class="cm-tag">
-    ClosetMind shows how anyone can build a personal database and train
+<div class="od-hero">
+  <h1>OutfitDB <span class="od-version">v0.2.0</span></h1>
+  <p class="od-tag">
+    OutfitDB shows how anyone can build a personal database and train
     their own ML model for everyday problems that don&rsquo;t have a
     tidy mathematical answer. Three short rating flows teach it your
     sense of temperature, your aesthetic, and your sense of occasion
@@ -210,13 +210,13 @@ format:
     own closet you&rsquo;d never have thought of yourself. Local-first:
     your data never leaves your machine.
   </p>
-  <div class="cm-download-row">
-    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3.dmg">
-      <span class="cm-dl-os">macOS &middot; 95 MB</span>
+  <div class="od-download-row">
+    <a class="od-dl-btn" href="https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0.dmg">
+      <span class="od-dl-os">macOS &middot; 95 MB</span>
       Download for Mac
     </a>
-    <a class="cm-dl-btn" href="https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.3/ClosetMind-0.1.3-windows.zip">
-      <span class="cm-dl-os">Windows &middot; 200 MB</span>
+    <a class="od-dl-btn" href="https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0-windows.zip">
+      <span class="od-dl-os">Windows &middot; 200 MB</span>
       Download for Windows
     </a>
   </div>
@@ -224,40 +224,40 @@ format:
 ```
 
 ```{=html}
-<div class="cm-quick-stats">
+<div class="od-quick-stats">
   <!-- Row 1: emotional / benefit hook -->
-  <div class="cm-stat">
-    <div class="cm-stat-val">1<small>-of-</small>1</div>
-    <div class="cm-stat-label">Built for one. You.</div>
+  <div class="od-stat">
+    <div class="od-stat-val">1<small>-of-</small>1</div>
+    <div class="od-stat-label">Built for one. You.</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Tailored</div>
-    <div class="cm-stat-label">Designed around your real life</div>
+  <div class="od-stat">
+    <div class="od-stat-val">Tailored</div>
+    <div class="od-stat-label">Designed around your real life</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Discovery</div>
-    <div class="cm-stat-label">Combos from your own closet you&rsquo;d never try</div>
+  <div class="od-stat">
+    <div class="od-stat-val">Discovery</div>
+    <div class="od-stat-label">Combos from your own closet you&rsquo;d never try</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">30<small> sec</small></div>
-    <div class="cm-stat-label">From &ldquo;nothing to wear&rdquo; to ranked outfits</div>
+  <div class="od-stat">
+    <div class="od-stat-val">30<small> sec</small></div>
+    <div class="od-stat-label">From &ldquo;nothing to wear&rdquo; to ranked outfits</div>
   </div>
   <!-- Row 2: technical credibility / privacy -->
-  <div class="cm-stat">
-    <div class="cm-stat-val">11</div>
-    <div class="cm-stat-label">Tables in your own database</div>
+  <div class="od-stat">
+    <div class="od-stat-val">11</div>
+    <div class="od-stat-label">Tables in your own database</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">3<small> axes</small></div>
-    <div class="cm-stat-label">Train weather, taste, occasion separately</div>
+  <div class="od-stat">
+    <div class="od-stat-val">3<small> axes</small></div>
+    <div class="od-stat-label">Train weather, taste, occasion separately</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">Live</div>
-    <div class="cm-stat-label">Wardrobe state in real time</div>
+  <div class="od-stat">
+    <div class="od-stat-val">Live</div>
+    <div class="od-stat-label">Wardrobe state in real time</div>
   </div>
-  <div class="cm-stat">
-    <div class="cm-stat-val">0<small> cloud</small></div>
-    <div class="cm-stat-label">Nothing leaves your machine</div>
+  <div class="od-stat">
+    <div class="od-stat-val">0<small> cloud</small></div>
+    <div class="od-stat-label">Nothing leaves your machine</div>
   </div>
 </div>
 ```
@@ -274,17 +274,17 @@ context builder, and laundry/dirty/wear state machine all run end-to-
 end &mdash; this isn&rsquo;t a static mock anymore.
 
 ```{=html}
-<link rel="preconnect" href="https://closetmind.onrender.com">
-<link rel="dns-prefetch" href="https://closetmind.onrender.com">
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
 
 <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
             box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
-  <iframe src="https://closetmind.onrender.com/"
+  <iframe src="https://outfitdb.onrender.com/"
           width="100%" height="860"
           style="display:block;border:0;background:#f6f6f4;"
           loading="lazy"
           allow="geolocation"
-          title="ClosetMind live demo">
+          title="OutfitDB live demo">
   </iframe>
 </div>
 
@@ -293,7 +293,7 @@ end &mdash; this isn&rsquo;t a static mock anymore.
   inactivity, so the very first visit can take ~50 seconds while the
   container wakes up. Subsequent loads are instant. If the iframe
   doesn&rsquo;t respond, open
-  <a href="https://closetmind.onrender.com/" target="_blank"
+  <a href="https://outfitdb.onrender.com/" target="_blank"
      style="color:#666;">the demo URL</a> directly &mdash; the wake-up
   takes the same time either way.
   Each cold boot wipes <code>/tmp</code> and re-seeds Tester from the
@@ -309,20 +309,20 @@ time so a single hard fail (wrong temperature, wrong occasion) drives the
 score to zero regardless of how aesthetically pleasing the outfit is.
 
 ```{=html}
-<div class="cm-pipeline">
-  <div class="cm-pipeline-stage">
+<div class="od-pipeline">
+  <div class="od-pipeline-stage">
     <div class="stage-no">Stage 1</div>
     <div class="stage-name">Temperature</div>
     <div class="stage-desc">Six zones (subzero / cold / cool / mild / warm / hot). Multi-label classifier — one outfit can suit multiple zones.</div>
   </div>
-  <div class="cm-pipeline-mult">&times;</div>
-  <div class="cm-pipeline-stage">
+  <div class="od-pipeline-mult">&times;</div>
+  <div class="od-pipeline-stage">
     <div class="stage-no">Stage 2</div>
     <div class="stage-name">Aesthetic</div>
     <div class="stage-desc">Pure look rating: color, cut, layering. User scores on a four-point scale ignoring temperature and occasion.</div>
   </div>
-  <div class="cm-pipeline-mult">&times;</div>
-  <div class="cm-pipeline-stage">
+  <div class="od-pipeline-mult">&times;</div>
+  <div class="od-pipeline-stage">
     <div class="stage-no">Stage 3</div>
     <div class="stage-name">Occasion</div>
     <div class="stage-desc">Nine event types from gym to formal_event. Multi-label so one outfit can be wearable for multiple events.</div>
@@ -342,10 +342,10 @@ unusually personal. Hosting that on a shared server creates obligations
 (authentication, encryption at rest, GDPR-style data handling) that
 undermine the user&rsquo;s trust without buying anything they need.
 
-ClosetMind ships as a desktop app. Each user&rsquo;s data lives in their
+OutfitDB ships as a desktop app. Each user&rsquo;s data lives in their
 own OS-standard application data directory
-(`~/Library/Application Support/ClosetMind/profiles/{name}/` on macOS,
-`%APPDATA%/ClosetMind/profiles/{name}/` on Windows), inside a single
+(`~/Library/Application Support/OutfitDB/profiles/{name}/` on macOS,
+`%APPDATA%/OutfitDB/profiles/{name}/` on Windows), inside a single
 SQLite file plus an images folder. The app launches uvicorn bound only
 to `127.0.0.1`, opens the system browser, and runs entirely on the
 user&rsquo;s machine. Nothing crosses the network except the optional
@@ -355,28 +355,28 @@ browser directly to the public APIs, never through any server I run).
 ## Six implementation phases
 
 ```{=html}
-<div class="cm-feature">
-  <div class="cm-feature-card">
+<div class="od-feature">
+  <div class="od-feature-card">
     <h3>Phase 1 &mdash; Layer Coverage Model</h3>
     <p>Thermal coverage formula <code>T_cover = T_BASE &minus; &alpha;&middot;coverage</code> with dual curves (comfort + aesthetic) determines optimal layer count for any temperature. Replaces hand-coded weather rules.</p>
   </div>
-  <div class="cm-feature-card">
+  <div class="od-feature-card">
     <h3>Phase 2 &mdash; XGBoost Preference</h3>
     <p>Per-user binary classifier on a 100-dimensional feature vector. Cold-start falls back to mean item rating; warm model swaps in once 10+ ratings exist.</p>
   </div>
-  <div class="cm-feature-card">
+  <div class="od-feature-card">
     <h3>Phase 3 &mdash; Local-First Storage</h3>
     <p>SQLite per-profile schema with idempotent ALTER TABLE migrations. Profile folders survive app updates because they live outside the bundle.</p>
   </div>
-  <div class="cm-feature-card">
+  <div class="od-feature-card">
     <h3>Phase 4 &mdash; Multi-Stage Training</h3>
     <p>Pure-axis labeling: three independent classifiers trained on disjoint rating tables. Inference multiplies the three probabilities so one bad axis kills the score.</p>
   </div>
-  <div class="cm-feature-card">
+  <div class="od-feature-card">
     <h3>Phase 5 &mdash; Discovery Polish</h3>
     <p>Fabric-blend composition (40/60 cotton/linen as weighted multi-hot), four-state lifecycle (clean / worn / in_laundry / unavailable), new-item priority training, force-anyway override for unusual outfits.</p>
   </div>
-  <div class="cm-feature-card">
+  <div class="od-feature-card">
     <h3>Phase 6 &mdash; Desktop Packaging</h3>
     <p>PyInstaller .spec handles the FastAPI-stack frozen-mode gotchas (Jinja2 paths, PIL plugins, xgboost native lib). Auto-update via cached public manifest. macOS DMG with drag-to-Applications layout.</p>
   </div>
@@ -386,7 +386,7 @@ browser directly to the public APIs, never through any server I run).
 ## Tech stack
 
 ```{=html}
-<div class="cm-stack">
+<div class="od-stack">
   <span>FastAPI</span>
   <span>SQLAlchemy 2.x</span>
   <span>SQLite</span>
@@ -404,15 +404,15 @@ browser directly to the public APIs, never through any server I run).
 ## macOS
 
 1.  Click **Download for Mac** above. You&rsquo;ll get
-    `ClosetMind-0.1.3.dmg`.
-2.  Double-click the DMG. A window opens showing **ClosetMind.app** next
+    `OutfitDB-0.2.0.dmg`.
+2.  Double-click the DMG. A window opens showing **OutfitDB.app** next
     to an **Applications** folder shortcut.
-3.  Drag **ClosetMind.app** onto **Applications**. Installed.
-4.  Launch via Spotlight (`&#8984; Space` &rarr; type "ClosetMind"),
+3.  Drag **OutfitDB.app** onto **Applications**. Installed.
+4.  Launch via Spotlight (`&#8984; Space` &rarr; type "OutfitDB"),
     Launchpad, or Finder &rarr; Applications.
 
 ```{=html}
-<div class="cm-install-note">
+<div class="od-install-note">
 <b>First launch only:</b> macOS Gatekeeper blocks unsigned apps with
 &ldquo;developer cannot be verified.&rdquo; <b>Right-click the app
 &rarr; Open &rarr; confirm.</b> Subsequent launches work normally.
@@ -430,16 +430,16 @@ app loads in your default browser at `http://127.0.0.1:18888`.
 
 ## Windows {#windows}
 
-Grab the **`ClosetMind-0.1.3-windows.zip`** asset from the
-[**v0.1.3 release**](https://github.com/chentzuyuan/ClosetMind/releases/tag/v0.1.3)
+Grab the **`OutfitDB-0.2.0-windows.zip`** asset from the
+[**v0.2.0 release**](https://github.com/chentzuyuan/OutfitDB/releases/tag/v0.2.0)
 (or use the **Download for Windows** button at the top of this page).
-Unzip anywhere &mdash; e.g., `C:\Users\<you>\Apps\ClosetMind\` &mdash;
-and double-click **`ClosetMind.exe`**. The app starts a local web
+Unzip anywhere &mdash; e.g., `C:\Users\<you>\Apps\OutfitDB\` &mdash;
+and double-click **`OutfitDB.exe`**. The app starts a local web
 server on `http://127.0.0.1:18888` and opens it in your default
 browser.
 
 ```{=html}
-<div class="cm-install-note">
+<div class="od-install-note">
 <b>First launch only:</b> Windows SmartScreen blocks unsigned apps with
 &ldquo;Microsoft Defender SmartScreen prevented an unrecognized app
 from starting.&rdquo; Click <b>More info &rarr; Run anyway.</b>
@@ -449,8 +449,8 @@ is code-signed in the future.
 ```
 
 The Windows build is produced by a GitHub Actions workflow
-([build-windows.yml](https://github.com/chentzuyuan/ClosetMind/blob/main/.github/workflows/build-windows.yml))
-that runs `pyinstaller closetmind.spec` on a `windows-latest` runner
+([build-windows.yml](https://github.com/chentzuyuan/OutfitDB/blob/main/.github/workflows/build-windows.yml))
+that runs `pyinstaller outfitdb.spec` on a `windows-latest` runner
 every time a `v*` tag is pushed to the source repo. Same wardrobe
 seeding flow as macOS &mdash; first launch auto-creates the bundled
 *Tester* profile.
@@ -459,14 +459,14 @@ If you&rsquo;d rather build from source:
 
 ```bash
 # Windows + Python 3.11 / 3.12
-git clone https://github.com/chentzuyuan/ClosetMind.git
-cd ClosetMind
+git clone https://github.com/chentzuyuan/OutfitDB.git
+cd OutfitDB
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 pip install pyinstaller
-pyinstaller closetmind.spec --noconfirm
-# Output: dist\ClosetMind\ClosetMind.exe
+pyinstaller outfitdb.spec --noconfirm
+# Output: dist\OutfitDB\OutfitDB.exe
 ```
 
 ## Database design
@@ -480,7 +480,7 @@ end-user-facing landing page for the application itself.
 ## Source &amp; documentation
 
 Source is on GitHub at
-[**chentzuyuan/ClosetMind**](https://github.com/chentzuyuan/ClosetMind).
+[**chentzuyuan/OutfitDB**](https://github.com/chentzuyuan/OutfitDB).
 A longer technical writeup is in progress &mdash; this section will be
 filled in once it&rsquo;s ready.
 

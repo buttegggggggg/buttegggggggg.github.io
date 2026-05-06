@@ -14,7 +14,7 @@ project:
   - Tzu-Yuan’s Data Guide Checklist.pdf
   - Tzu-Yuan,Chen_review.pdf
   - SVD_app.py
-  - closetmind/ClosetMind-0.1.0.dmg
+  - closetmind/ClosetMind-0.1.0.dmg  # legacy resource (kept for v0.1.0 fallback link)
 
 website:
   title: "Tzu-Yuan"
@@ -52,8 +52,8 @@ website:
             href: EPPS6356.qmd#assignments
           - text: Information Management
             href: EPPS6354.qmd
-          - text: "ClosetMind (final project)"
-            href: closetmind.qmd
+          - text: "OutfitDB (final project)"
+            href: outfitdb.qmd
       - text: CV
         href: CV.qmd
 
