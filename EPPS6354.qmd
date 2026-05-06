@@ -1440,7 +1440,7 @@ needed.
 
 ::: {.callout-tip}
 **Live demo:** [Try the desktop app &rarr;](closetmind.html)
-&middot; [Download macOS DMG](https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.1/ClosetMind-0.1.1.dmg)
+&middot; [Download macOS DMG](https://github.com/chentzuyuan/ClosetMind/releases/download/v0.1.2/ClosetMind-0.1.2.dmg)
 :::
 
 #### Project Overview
