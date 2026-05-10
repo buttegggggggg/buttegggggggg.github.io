@@ -1937,3 +1937,402 @@ the storage cost of a nullable unused column is zero.
   while the container wakes up.
 </p>
 ```
+
+## Final Report
+
+```{=html}
+<style>
+.fr-dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
+.fr-dl-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 1 1 240px; min-height: 56px;
+  padding: 14px 22px; border-radius: 10px;
+  font-weight: 600; font-size: 1rem; line-height: 1.2;
+  text-decoration: none !important;
+  transition: transform 0.1s, box-shadow 0.15s;
+}
+.fr-dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.fr-dl-btn.primary   { background: #111;    color: #fff !important; }
+.fr-dl-btn.secondary { background: #f6f6f4; color: #111 !important; border: 1px solid #ddd; }
+.fr-fig { margin: 18px 0 24px; text-align: center; }
+.fr-fig img { max-width: 100%; height: auto; border-radius: 6px; }
+.fr-fig-cap { font-size: 0.85rem; color: #888; margin-top: 6px; }
+</style>
+
+<div class="fr-dl-row">
+  <a class="fr-dl-btn primary" href="chen_finalreport.pdf" target="_blank" rel="noopener">
+    Download PDF (Times New Roman 12pt, US Letter, 1″ margins) &rarr;
+  </a>
+  <a class="fr-dl-btn secondary" href="https://outfitdb.onrender.com/" target="_blank" rel="noopener">
+    Live demo &rarr;
+  </a>
+</div>
+```
+
+### 1. Project Overview
+
+OutfitDB is a personalized outfit recommendation system. It stores the user's
+wardrobe data, actual wear logs, and preference ratings on three independent
+axes (temperature, aesthetic, occasion) in a 13-table relational database.
+Three XGBoost classifiers are trained on top of this database, and their
+outputs are combined multiplicatively to produce daily Top-K outfit
+recommendations.
+
+Unlike typical fashion apps that rely on dress-code templates or fixed style
+rules, OutfitDB's recommendations evolve with the user's ratings and wear
+feedback — the system does not tell the user what looks good, but learns what
+the user thinks looks good.
+
+The product ships in two forms: a desktop application packaged with
+PyInstaller for macOS / Windows (the primary product), and a public web trial
+hosted on Render. Each user corresponds to an independent SQLite file under
+the local-first design — data never leaves the user's machine.
+
+Current release: **v0.3.1** (May 2026). Architecture: 13 tables, 3 XGBoost
+classifiers, four-stage multiplicative scoring. Scale: ~2,000 lines of Python
+on the backend; ~3,000 lines of vanilla JS / HTML / CSS on the frontend.
+
+### 2. Technology Stack
+
+| Layer         | Technology                       | Purpose                                      |
+|---------------|----------------------------------|----------------------------------------------|
+| Backend       | FastAPI (Python 3.12)            | HTTP routing, async support, Pydantic        |
+| ORM           | SQLAlchemy 2.x                   | Object-relational mapping                    |
+| Database      | SQLite                           | Embedded relational DB; one file per user    |
+| Frontend      | Vanilla HTML / CSS / JS          | No build step (no React)                     |
+| Charts        | Chart.js 4.4 (CDN)               | Stats dashboard + per-item modal             |
+| ML            | XGBoost                          | Three independent gradient-boosted classifiers|
+| Migrations    | create_all + idempotent ALTER    | No Alembic                                   |
+| Hosting (web) | Render.com                       | uvicorn + persistent disk for SQLite         |
+| Packaging     | PyInstaller                      | Cross-platform .dmg / .exe                   |
+| Style sharing | .odstyle JSON                    | Trained model exported as a portable file    |
+
+The stack was not planned in full upfront; it took shape through iterative
+adjustment.
+
+#### 2.1 Backend: Shiny → FastAPI
+
+The first deployment used R Shiny — the original public URL is preserved at
+[the original Shiny version](https://biubiubuttegg.shinyapps.io/wardrobe/)
+(named *ClosetMind* at that stage; kept to illustrate the prototype phase, in
+which several functions could not run reliably on Shiny).
+
+Three concrete pain points emerged in production:
+
+- File upload was awkward — the lifecycle of multi-photo validation,
+  resizing, on-disk storage, and linking to a DB row falls outside Shiny's
+  design space.
+- Cross-page state management was difficult — Shiny's reactive model is not
+  well suited to a multi-page workflow such as upload → tag → wear → train →
+  recommend.
+- ML inference blocked the R session — XGBoost calls would tie up R workers.
+
+The backend was rewritten in FastAPI + uvicorn and deployed on Render.
+
+#### 2.2 Database: PostgreSQL → SQLite
+
+The first version of the database was built on PostgreSQL. The schema was
+designed against my personal wardrobe; additional clothing items were later
+added manually to broaden the demo dataset, and some clothing photographs
+were generated with DALL-E because the photographic environment was
+constrained.
+
+During deployment, PostgreSQL's requirement for a separate DB server
+conflicted with the local-first product positioning. The data was therefore
+exported from PostgreSQL and migrated to SQLite, with each user mapped to an
+independent file.
+
+#### 2.3 ML: XGBoost (chosen from the outset)
+
+Training data is small tabular data (typically fewer than 5,000 ratings per
+user). Gradient boosting outperforms neural networks at this scale
+(Grinsztajn et al., NeurIPS 2022). Inference latency is low and the model is
+interpretable (feature importance, SHAP).
+
+#### 2.4 Frontend: HTML/CSS → Vanilla JS
+
+The frontend was initially written in HTML and CSS only. As the feature set
+grew (dynamic lists, real-time updates, AJAX with the backend, recommendation
+interactivity), pure HTML and CSS were no longer sufficient. After research,
+vanilla JavaScript was added rather than React — the application is small
+(5–10 pages), build-step complexity (Vite / webpack / npm dependencies) is
+avoided, initial load is faster, and the learning curve is gentler.
+
+### 3. Overall Architecture
+
+OutfitDB's data flow consists of three writers feeding a central database,
+three classifiers reading from the database, and one recommendation engine.
+
+```{=html}
+<div class="fr-fig">
+  <img src="img_architecture.png" alt="OutfitDB architecture" />
+</div>
+```
+
+**Three writers**
+
+- *Upload* — one-time wardrobe registration (uploading clothing photos and
+  attributes).
+- *Daily activity* — continuous writes (rating, marking worn, marking
+  washed).
+- *Weather + Location* — real-time fetch, not persisted to the DB; fed
+  directly into the recommendation engine.
+
+**Three training pipelines**
+
+Training data read from the database feeds three classifiers respectively —
+Stage 1 temperature, Stage 2 aesthetic, Stage 3 occasion.
+
+### 4. Database Schema (13 tables, 5 clusters)
+
+The schema is designed in 3NF, with deliberate denormalizations only at three
+documented locations (see §5).
+
+#### 4.1 Cluster A — Wardrobe Identity (3 tables)
+
+Static identity data describing what the user owns.
+
+- **`users`** — one SQLite file ↔ one user, but `user_id` is retained as a
+  forward-looking field for future N:M style sharing.
+  Key fields: `id, display_name, lat, lon, temp_offset, training_complete,
+  has_thermal_insoles, created_at`.
+- **`items`** — one row per clothing item, ~30 fields grouped by
+  identification, structure, visual, material, category-specific, and
+  operations. Soft delete via `is_active`.
+- **`item_tags`** — open key-value metadata for attributes not anticipated
+  upfront (e.g., brand, purchase_date). `UniqueConstraint(item_id, key,
+  value)` prevents duplicates.
+
+#### 4.2 Cluster B — Lifecycle Partitioning (2 tables)
+
+Embodies the principle of partitioning by access frequency (see §5.1). The
+fields of a single clothing item are split into two 1:1-related smaller
+tables based on write frequency.
+
+- **`item_states`** — hot-write region; every wear / wash event triggers an
+  UPDATE. Fields: `state, worn_count, wear_count_since_wash, last_worn`.
+- **`item_stats`** — aggregate cache region; recomputed lazily after rating
+  events. Fields: `coverage_count, total_ratings, average_rating,
+  last_worn_date, days_since_worn`.
+
+#### 4.3 Cluster C — Outfits & Contexts (3 tables)
+
+- **`outfits`** — one outfit, composed of multiple items. Fields:
+  `warmth_score, coverage_curve, aesthetic_curve, optimal_layer_count,
+  overkill_layers, aesthetic_stop_layers, underfit_flag`.
+- **`outfit_items`** — M2M junction (outfit ↔ item).
+- **`daily_contexts`** — daily wearing context, kept as a separate table to
+  avoid the transitive dependency outfit → context → date → weather. Fields:
+  `date, temperature, weather, humidity, wind, occasion, calendar_event`.
+
+#### 4.4 Cluster D — Three Preference Axes (3 tables)
+
+Each ML classifier has its own dedicated rating table (see §5.2).
+
+- **`ratings`** — Stage 2 aesthetic ratings, integer values −1 / 0 / 1 / 2.
+  `UniqueConstraint(user_id, outfit_id)` plus an extra `ideal_temp_zone`.
+- **`temperature_ratings`** — Stage 1, JSON list of zones the outfit suits.
+- **`occasion_ratings`** — Stage 3, JSON list of events the outfit suits.
+
+#### 4.5 Cluster E — History & ML Provenance (2 tables)
+
+- **`outfit_logs`** — actual wear vs. system recommendation. Fields:
+  `recommended_outfit_id, final_worn_outfit_id, user_action (accepted /
+  modified / rejected / skipped), scheduled_for, is_scheduled, logged_at`.
+  This table is the source of OutfitDB's learning capability.
+- **`model_runs`** — audit trail of every model training run. The
+  `feature_version` field gates `.odstyle` import compatibility.
+
+### 5. Three Key Design Decisions
+
+#### 5.1 Decision 1 — Hot/Cold Vertical Partitioning
+
+**Problem.** Putting every item field into a single table means every wear
+event rewrites the full ~1 KB row to disk, including columns such as `colors`
+and `composition` that did not change in 95% of cases.
+
+**Solution.** Vertical partitioning — `items` (cold, edited monthly) /
+`item_states` (hot, edited daily) / `item_stats` (cache). Normalization
+addresses logical dependencies; partitioning addresses physical access — they
+operate at different layers of the design.
+
+#### 5.2 Decision 2 — One Rating Table per Classifier
+
+**Problem.** A polymorphic super-table over different signal shapes (int vs.
+JSON list) introduces large numbers of NULL columns and forces every ML
+SELECT to filter on `rating_kind`.
+
+**Solution.** Three concrete tables, one per classifier — clean type
+contracts, no NULL pollution, kind-free SELECTs. Polymorphism inside one
+table is debt; concrete tables are easier to reason about.
+
+#### 5.3 Decision 3 — Two Deliberate Denormalizations
+
+The schema contains two intentional denormalizations, both motivated by
+performance:
+
+- **Mirror the JSON.** `items.composition` is a JSON list (blend ratios);
+  `items.material` separately stores the highest-percentage fabric as an
+  indexed VARCHAR. The mirror is set automatically from `composition` on
+  insert and cannot drift.
+- **Cache the join.** `item_stats.average_rating` and `coverage_count` could
+  in principle be computed by joining `ratings × outfit_items`; that join
+  would run on every page load and degrade badly. Caching shifts the cost to
+  write time via lazy updates on rating events.
+
+The rest of the schema is BCNF-compliant.
+
+### 6. ML Pipeline
+
+Three independent XGBoost classifiers, integrated via multiplicative scoring,
+continuously refined by a feedback loop that learns the user's personal
+style.
+
+| Stage | Name                  | Input features                       | Training source        |
+|-------|-----------------------|--------------------------------------|------------------------|
+| 1     | Temperature classifier| Item features + current temp zone    | `temperature_ratings`  |
+| 2     | Aesthetic classifier  | Item features + outfit structure     | `ratings`              |
+| 3     | Occasion classifier   | Item features + current occasion     | `occasion_ratings`     |
+
+#### Multiplicative scoring
+
+```
+total = ctx_fit × stage1_pass × stage3_pass × aesthetic_blend
+```
+
+Multiplication (rather than addition) enforces that every dimension passes —
+if any single classifier is uncertain, the total score is pulled down. An
+outfit that is "aesthetically great but freezing" cannot survive this rule.
+
+#### Feedback loop — the model tracks personal style
+
+```{=html}
+<div class="fr-fig">
+  <img src="img_feedback_loop.png" alt="Feedback loop" style="max-width: 480px;" />
+</div>
+```
+
+The `outfit_logs` table is the heart of this loop: it captures not only what
+the system recommended, but also what the user actually chose or rejected. As
+usage accumulates, the model gradually internalizes the user's personal sense
+of style — under the same casual rock dress code, two different users will
+receive different outfits because each model has learned each individual's
+preferences.
+
+This is the central distinction between OutfitDB and a static dress-code
+template: the system does not tell the user what looks good — it learns what
+the user thinks looks good.
+
+### 7. User Interface
+
+- **[Closet page](https://outfitdb.onrender.com/closet)** — grid view with
+  category / color / material / state filters and six sort modes. Clicking
+  any item card opens a stats modal: 4 KPI tiles, wear timeline (13-week
+  line chart), top-5 co-occurring items, and composition donut.
+- **[Stats dashboard](https://outfitdb.onrender.com/stats)** — wardrobe-wide
+  KPI tiles and six charts: items by category (doughnut), top 10 colors /
+  materials (horizontal bar), aesthetic rating distribution, and most-worn
+  / most-recommended top 10 (vertical bar). Page-level `.odstyle` export
+  button.
+- **Training UIs** — three dedicated pages for the three ML axes:
+  [`/training/temperature`](https://outfitdb.onrender.com/training/temperature),
+  [`/training/aesthetic`](https://outfitdb.onrender.com/training/aesthetic),
+  [`/training/occasion`](https://outfitdb.onrender.com/training/occasion).
+  Each axis must accumulate ≥6 batches of ratings before recommendations
+  unlock.
+- **[Recommendation page](https://outfitdb.onrender.com/recommend)** — Top-K
+  outfits with six per-card scores. Bold three (Aesthetic, Weather,
+  Occasion) are the multiplicative ML axes; light gray three (Warmth,
+  Freshness, Variety) are soft signals. Four sort modes are offered;
+  sorting is client-side without re-querying the server.
+- **[Settings](https://outfitdb.onrender.com/settings)** — personal
+  preferences, imported `.odstyle` packs, and a manual *Check for updates*
+  button (no automatic polling).
+- **Internationalization (i18n)** — bilingual UI via `data-i18n`
+  attributes; the language toggle in the top-right corner switches between
+  Chinese and English instantly without a page reload.
+
+### 8. Deployment Architecture
+
+#### 8.1 Web demo (Render)
+
+- Platform: Render.com. Persistence via Render disk volume; SQLite files
+  persist across deployments.
+- Cold start ~50 s on the free tier.
+- CI/CD: `git push origin main` → Render auto-deploy.
+- Public URL: <https://outfitdb.onrender.com>.
+
+#### 8.2 Desktop bundle (PyInstaller)
+
+- Targets: macOS `.dmg` / Windows `.exe`.
+- Contents: full Python runtime + uvicorn + all dependencies (single
+  executable).
+- Data location: `~/Library/Application Support/OutfitDB/profiles/<name>/`
+  on macOS.
+- Update check: manual — the *Check for updates* button on the Settings
+  page fetches `latest.json` from a public GitHub raw URL.
+
+#### 8.3 Update manifest format
+
+```json
+{
+  "version":    "0.3.2",
+  "url":        "https://github.com/.../OutfitDB-0.3.2.dmg",
+  "update_url": "https://.../OutfitDB-0.3.2-update.zip",
+  "full_url":   "https://.../OutfitDB-0.3.2-full.dmg",
+  "notes":      "Adds X / fixes Y"
+}
+```
+
+`update_url` (incremental update) and `full_url` (full installer) are both
+optional; `url` is a fallback for backwards compatibility.
+
+### 9. Future Roadmap
+
+#### 9.1 Schema cleanup (paying down technical debt)
+
+- **JSON arrays → M2M tables.** `items.colors` and `items.style_tags` are
+  currently JSON lists (violating 1NF); now that `FEATURE_VERSION = 1` is
+  locked, they can be refactored back into proper junction tables.
+- **Remove `last_worn` duplication.** Keep `item_states.last_worn` as the
+  source of truth; compute `item_stats.last_worn_date` and
+  `days_since_worn` at read time via Python `@property`.
+- **Remove `composition` / `material` dual-write.** Refactor `material`
+  into a `@property` derived from `composition`, eliminating drift risk.
+- **Items table inheritance.** Trigger refactoring when categories exceed
+  ten (`items_base + items_top + items_bottom + ...`).
+
+#### 9.2 Completing style sharing
+
+The `.odstyle` export and import APIs already exist; the UI layer is
+incomplete — import UI, multi-model switching, visual indication of imported
+models, and an end-to-end demo scenario where two users exchange style packs
+and produce recommendations for one another.
+
+The narrative value: a dress code becomes a shareable trained model. A party
+host trains a personal *casual rock* model, exports it, and sends it to all
+guests, who each end up wearing different clothes (drawn from their own
+wardrobes) but converge to the host's defined style.
+
+#### 9.3 Long-term — public style gallery
+
+Extend `.odstyle` sharing into a public platform: users publish their own
+`.odstyle` files; others browse, preview, and try someone else's model on
+their own wardrobe. OutfitDB does not sell clothes; it makes aesthetic taste
+the unit of exchange — measurable, portable, shareable.
+
+### 10. AI Disclosure
+
+AI assistance was used during the development of OutfitDB (Claude /
+Anthropic):
+
+- **Code** — authored by the author with Claude Code as a pair programmer.
+- **Documentation, slides, and this report** — drafted with Claude's
+  assistance; all schema design decisions, ML architecture choices, and
+  final content were made by the author.
+
+**Translation note.** The English version of the final paper was translated
+from the original Chinese manuscript using AI assistance (Claude /
+Anthropic), and was subsequently reviewed and revised by the author. Any
+translation errors that remain are the author's responsibility.
+

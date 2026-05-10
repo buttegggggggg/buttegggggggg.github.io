@@ -15,6 +15,9 @@ project:
   - Tzu-Yuan,Chen_review.pdf
   - SVD_app.py
   - closetmind/ClosetMind-0.1.0.dmg  # legacy resource (kept for v0.1.0 fallback link)
+  - chen_finalreport.pdf             # EPPS 6354 final report (PDF)
+  - img_architecture.png             # final report figure
+  - img_feedback_loop.png            # final report figure
 
 website:
   title: "Tzu-Yuan"
