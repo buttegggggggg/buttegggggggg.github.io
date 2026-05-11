@@ -1961,7 +1961,7 @@ the storage cost of a nullable unused column is zero.
 
 <div class="fr-dl-row">
   <a class="fr-dl-btn primary" href="chen_finalreport.pdf" target="_blank" rel="noopener">
-    Download PDF (Times New Roman 12pt, US Letter, 1″ margins) &rarr;
+    Download PDF &rarr;
   </a>
   <a class="fr-dl-btn secondary" href="https://outfitdb.onrender.com/" target="_blank" rel="noopener">
     Live demo &rarr;
