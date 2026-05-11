@@ -473,16 +473,36 @@ pyinstaller outfitdb.spec --noconfirm
 
 The full entity-relationship model, schema rationale, and migration
 strategy are documented in the
-[**EPPS&nbsp;6354 Information Management course page &rarr;**](EPPS6354.html#final-project).
-That page is the formal academic deliverable; this page is the
-end-user-facing landing page for the application itself.
+[**EPPS&nbsp;6354 Information Management Final Report &rarr;**](EPPS6354.html#final-report).
+That page is the formal academic deliverable for the course; this page
+is the end-user-facing landing page for the application itself.
 
 ## Source &amp; documentation
 
 Source is on GitHub at
 [**chentzuyuan/OutfitDB**](https://github.com/chentzuyuan/OutfitDB).
-A longer technical writeup is in progress &mdash; this section will be
-filled in once it&rsquo;s ready.
+A formal technical writeup of the system &mdash; schema, three key design
+decisions, ML pipeline, and deployment &mdash; is available as a PDF and
+as a web section:
+
+```{=html}
+<div style="margin: 14px 0 6px; display: flex; flex-wrap: wrap; gap: 12px;">
+  <a href="chen_finalreport.pdf" target="_blank" rel="noopener"
+     style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #111; color: #fff !important;
+            font-weight: 600; text-decoration: none !important;">
+    Final Report PDF &rarr;
+  </a>
+  <a href="EPPS6354.html#final-report"
+     style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #f6f6f4; color: #111 !important;
+            border: 1px solid #ddd; font-weight: 600; text-decoration: none !important;">
+    Web version &rarr;
+  </a>
+</div>
+```
 
 ```{=html}
 <div style="margin: 2.5rem 0 3rem; text-align: center;">

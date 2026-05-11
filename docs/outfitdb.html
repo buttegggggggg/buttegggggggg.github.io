@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -67,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -625,7 +626,7 @@ is code-signed in the future.
 </div>
 <p>The Windows build is produced by a GitHub Actions workflow (<a href="https://github.com/chentzuyuan/OutfitDB/blob/main/.github/workflows/build-windows.yml">build-windows.yml</a>) that runs <code>pyinstaller outfitdb.spec</code> on a <code>windows-latest</code> runner every time a <code>v*</code> tag is pushed to the source repo. Same wardrobe seeding flow as macOS — first launch auto-creates the bundled <em>Tester</em> profile.</p>
 <p>If you’d rather build from source:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows + Python 3.11 / 3.12</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows + Python 3.11 / 3.12</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/chentzuyuan/OutfitDB.git</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> OutfitDB</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv</span>
@@ -633,15 +634,29 @@ is code-signed in the future.
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pyinstaller</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pyinstaller</span> outfitdb.spec <span class="at">--noconfirm</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dist\OutfitDB\OutfitDB.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dist\OutfitDB\OutfitDB.exe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="database-design" class="level2">
 <h2 class="anchored" data-anchor-id="database-design">Database design</h2>
-<p>The full entity-relationship model, schema rationale, and migration strategy are documented in the <a href="EPPS6354.html#final-project"><strong>EPPS&nbsp;6354 Information Management course page →</strong></a>. That page is the formal academic deliverable; this page is the end-user-facing landing page for the application itself.</p>
+<p>The full entity-relationship model, schema rationale, and migration strategy are documented in the <a href="EPPS6354.html#final-report"><strong>EPPS&nbsp;6354 Information Management Final Report →</strong></a>. That page is the formal academic deliverable for the course; this page is the end-user-facing landing page for the application itself.</p>
 </section>
 <section id="source-documentation" class="level2">
 <h2 class="anchored" data-anchor-id="source-documentation">Source &amp; documentation</h2>
-<p>Source is on GitHub at <a href="https://github.com/chentzuyuan/OutfitDB"><strong>chentzuyuan/OutfitDB</strong></a>. A longer technical writeup is in progress — this section will be filled in once it’s ready.</p>
+<p>Source is on GitHub at <a href="https://github.com/chentzuyuan/OutfitDB"><strong>chentzuyuan/OutfitDB</strong></a>. A formal technical writeup of the system — schema, three key design decisions, ML pipeline, and deployment — is available as a PDF and as a web section:</p>
+<div style="margin: 14px 0 6px; display: flex; flex-wrap: wrap; gap: 12px;">
+  <a href="chen_finalreport.pdf" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #111; color: #fff !important;
+            font-weight: 600; text-decoration: none !important;">
+    Final Report PDF →
+  </a>
+  <a href="EPPS6354.html#final-report" style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #f6f6f4; color: #111 !important;
+            border: 1px solid #ddd; font-weight: 600; text-decoration: none !important;">
+    Web version →
+  </a>
+</div>
 <div style="margin: 2.5rem 0 3rem; text-align: center;">
   <a href="index.html" style="color: #888; text-decoration: none; font-size: 0.92rem;">← Back to home</a>
 </div>
@@ -701,13 +716,14 @@ is code-signed in the future.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
