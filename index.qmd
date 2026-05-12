@@ -451,7 +451,7 @@ header#title-block-header { display: none !important; }
   <p class="research-note">
     <a href="outfitdb.html">Try the app &rarr;</a>
     &middot;
-    <a href="EPPS6354.html#final-project">Database design &rarr;</a>
+    <a href="EPPS6354.html#final-report">Final Report &rarr;</a>
   </p>
 </div>
 ```
