@@ -1,4 +1,5 @@
 ---
+lang: zh-TW
 project:
   output-dir: docs
 title: "資訊管理"
@@ -369,6 +370,238 @@ editor:
 **找出從未在其教授的任何課程中給過 A 等成績的教師（含姓名和 ID）。（從未教過課程的教師自然滿足此條件。）**
 
 ![Q4 — 從未給過 A 等成績的教師](../EPPS6354_assignment_3_screenshot_8.png){width="80%"}
+
+### 作業 4
+
+#### 問題 1
+
+**解釋弱實體集（weak entity set）與強實體集（strong entity set）的差異，並以第 6 章以外的例子說明。**（參考 Ch. 6, 6.5.3）
+
+**強實體集**是擁有自己的主鍵、可以獨立存在的實體集。例如以 `order_id` 為主鍵的 `Order` 實體，不需依賴其他實體就能唯一識別每筆訂單。
+
+**弱實體集**是本身沒有足夠的屬性可構成主鍵的實體集。它必須依賴一個相關的強實體集（稱為**識別實體集**）來完成識別。弱實體集使用**鑑別子（discriminator）**（也稱為部分鍵），與識別實體的主鍵組合後，才能唯一識別弱實體集中的每個實體。
+
+**範例：訂單與訂單明細**
+
+以電子商務系統為例：
+
+-   `Order` 是**強實體集**，主鍵為 `order_id`。
+-   `Order_Item` 是**弱實體集**，鑑別子為 `item_number`。
+
+`Order_Item` 無法僅靠 `item_number` 唯一識別，因為不知道屬於哪張訂單的「第 3 項」沒有意義。完整的識別需要：`order_id`（來自識別實體 `Order`）+ `item_number`（鑑別子）。
+
+`Order` 與 `Order_Item` 之間的關係是**識別關係**，意即 `Order_Item` 的存在完全取決於其所屬的 `Order` 是否存在。
+
+**E-R 圖表示法：**
+
+-   弱實體集：以**雙框矩形**表示
+-   鑑別子：以**虛線底線**標示
+-   識別關係：以**雙框菱形**表示
+-   弱實體到識別關係的連線使用**雙線**（全參與），因為每個弱實體都必須對應一個識別實體
+
+#### 問題 2
+
+**設計一張 E-R 圖，用來追蹤你最喜愛的運動隊伍的得分統計。** 需儲存進行過的比賽、每場比賽的比分、每場比賽的球員，以及每位球員在各場比賽的個人得分統計。彙總統計應建模為衍生屬性，並說明其計算方式。
+
+**a) 單一隊伍的 E-R 圖（利物浦足球俱樂部）**
+
+此圖包含兩個實體：`match` 與 `player`，以多對多關係 `played` 連接。關係屬性 `points_scored`、`minutes_played` 與 `starter_flag` 記錄每位球員在各場比賽的個人統計。`player` 的衍生屬性包含 `total_points()` 與 `avg_points_per_match()`。
+
+![圖 2a — 喜愛隊伍統計的 E-R 圖（利物浦足球俱樂部）](EPPS6354_assignment_4_2a.png){width="80%"}
+
+**衍生屬性定義：**
+
+-   `total_points()` = 所有比賽的 points_scored 總和
+-   `avg_points_per_match()` = total_points / matches_played
+
+**b) 擴展至聯盟所有隊伍**
+
+新增 `team` 實體，屬性包含 `team_id`、`team_name`、`city` 與衍生屬性 `win_count()`。兩個新關係 `home_team` 與 `away_team` 將 `team` 連接至 `match`。`belongs_to` 關係將 `player` 連接至 `team`（N:1）。`match` 實體新增 `home_team_score`、`away_team_score` 與衍生屬性 `winner()`。
+
+![圖 2b — 運動聯盟（所有隊伍）的 E-R 圖](EPPS6354_assignment_4_2b.png){width="80%"}
+
+**新增的衍生屬性定義：**
+
+-   `win_count()` = 該隊伍獲勝的比賽場數
+-   `winner()` = 得分較高的隊伍
+
+#### 問題 3
+
+##### 3a
+
+**考慮以下查詢：**
+
+```sql
+select course_id, semester, year, sec_id, avg (tot_cred)
+from takes natural join student
+where year = 2017
+group by course_id, semester, year, sec_id
+having count (ID) >= 2;
+```
+
+**i. 解釋為什麼在 `from` 子句中加入 `natural join section` 不會改變結果。**
+
+`takes` 關聯已包含屬性 `(course_id, sec_id, semester, year)`，這些屬性合起來正是 `section` 關聯的主鍵。由於 `takes` 對 `section` 有外鍵限制，`takes` 中的每個 tuple 都保證在 `section` 中有對應的 tuple。
+
+因此，在 `from` 子句加入 `natural join section` 是一個**無損失的 join**：
+
+-   **不會增加任何列**，因為 `takes` 的每個 tuple 最多只對應 `section` 的一個 tuple（join 的欄位是 `section` 的主鍵）。
+-   **不會移除任何列**，因為 `takes` 的每個 tuple 在 `section` 中都有對應的 tuple（外鍵限制）。
+
+額外 join 的唯一效果是把 `section` 的其他屬性（如 `building`、`room_number`、`time_slot_id`）附加到每個 tuple 上。但這些屬性沒有出現在 `select`、`where`、`group by` 或 `having` 子句中，因此對查詢結果沒有影響，輸出完全相同。
+
+**ii. 使用線上 SQL 直譯器測試結果。**
+
+不加 `natural join section`：
+
+![Q3a — 未加 natural join section 的原始查詢](EPPS6354_assignment_4_3a_without_section.png){width="80%"}
+
+加上 `natural join section`：
+
+![Q3a — 加上 natural join section 的查詢](EPPS6354_assignment_4_3a_with_section.png){width="80%"}
+
+兩個查詢回傳完全相同的結果（CS-101、CS-190、CS-347），證實加入 `natural join section` 不會改變輸出。
+
+##### 3b
+
+**使用大學資料庫綱要撰寫 SQL 查詢，找出從未在大學修過任何課程的學生 ID。不可使用子查詢與集合運算（使用 outer join）。**（參考 Ch. 4, 4.1.3）
+
+```sql
+select s.ID
+from student s
+left outer join takes t on s.ID = t.ID
+where t.ID is null;
+```
+
+`left outer join` 會保留 `student` 關聯中的每個 tuple。對於在 `takes` 中沒有對應紀錄的學生（即從未修過任何課程），`takes` 的所有屬性都會填入 `null`。`where t.ID is null` 條件將結果篩選為只包含 `ID` 在 `takes` 中沒有對應的學生，也就是從未修課的學生。
+
+此做法利用 outer join 的特性避免了子查詢與集合運算：被保留（左）側沒有配對到的列，會在非保留（右）側產生 `null` 值，再以 `is null` 檢測即可。
+
+![Q3b — 從未修過課的學生](EPPS6354_assignment_4_3b.png){width="80%"}
+
+### 作業 5
+
+#### 問題 1
+
+**E-R 圖可視為一張圖（graph）。以下情況對企業綱要的結構而言各代表什麼意義？**
+
+##### a) 圖不連通
+
+在圖論中，不連通的圖表示圖至少有兩個連通分量——也就是存在某些節點之間沒有任何路徑。在企業 E-R 綱要的脈絡下，這表示圖中至少有兩組**彼此完全獨立**的實體集與關係集，它們之間沒有任何關係、外鍵參照或共同屬性。實務上，這意味著綱要建模了兩個以上完全分離、互不往來的業務領域。
+
+##### b) 圖有迴圈
+
+在圖論中，迴圈表示圖中存在兩個節點之間有兩條以上完全不同的路徑。在企業 E-R 綱要的脈絡下，這表示**有多條關係路徑連接同一組實體集**。
+
+然而，迴圈不一定代表冗餘。迴圈中的每條路徑可能承載語意上獨立的資訊——例如一條路徑記錄 x 維度的關係屬性，另一條記錄 y 維度的，兩者無法互相推導。迴圈是否真的代表冗餘，完全取決於該領域的語意限制：只有當某個關係的資訊可以完全由迴圈中的其他路徑推導出來時，它才是真正的冗餘。因此，迴圈代表綱要中存在需要仔細分析的複雜相依關係，但不自動等於冗餘。
+
+#### 問題 3
+
+**我們可以透過加入適當的屬性，把任何弱實體集轉換為強實體集。那麼為什麼還需要弱實體集？**
+
+雖然技術上可以透過加入唯一識別屬性（例如代理鍵）把任何弱實體集轉換為強實體集，弱實體集仍然有用且更受偏好，原因如下：
+
+1.  **語意清晰與建模忠實度。** 弱實體集反映真實世界中確實存在的相依關係。例如，建築物內的房間只有相對於它所屬的建築物才有意義。若指定一個全域唯一的 `room_id` 將它轉為強實體集，技術上可行，但會掩蓋這種固有的相依性，使綱要更難理解。
+
+2.  **避免無意義的代理鍵。** 為沒有獨立身分的實體——例如訂單內的訂單明細，或醫院內某位病患的紀錄——建立唯一鍵，等於強行引入沒有現實意義的人工鍵。這只會增加複雜度，而不會提升資料模型的品質。
+
+3.  **強制參照完整性與存在相依性。** 弱實體集讓存在相依性在綱要中變得明確。因為弱實體集只有在其識別（擁有者）實體存在時才能存在，這個限制被內建於模型中。若擁有者實體被刪除，其相依的弱實體自動視為無效。這在概念層次強制了資料完整性，而帶有外鍵限制的強實體集無法如此清楚地傳達這一點。
+
+4.  **減少冗餘。** 若弱實體的自然識別碼只在其擁有者的範圍內唯一（例如課程內的班次編號），使用複合識別碼（擁有者鍵 + 鑑別子）比引入全新的全域鍵更精簡、更有意義，也避免不必要地重複擁有者的鍵資訊。
+
+總結來說，弱實體集提升了 E-R 模型的表達力與清晰度。它讓設計者能準確表示那些存在與身分本質上繫於另一個實體的實體，使綱要更容易理解、維護與推理。
+
+#### 問題 4
+
+##### 4a
+
+**考慮以下員工資料庫：**
+
+```
+employee (ID, person_name, street, city)
+works (ID, company_name, salary)
+company (company_name, city)
+manages (ID, manager_id)
+```
+
+**其中主鍵以底線標示。請為下列每個查詢寫出 SQL 運算式。**
+
+**i. 找出居住城市與其任職公司所在城市相同的每位員工的 ID 與姓名。**
+
+```sql
+SELECT e.ID, e.person_name
+FROM employee AS e, works AS w, company AS c
+WHERE e.ID = w.ID
+  AND w.company_name = c.company_name
+  AND e.city = c.city;
+```
+
+此查詢先將 `employee` 與 `works` join 以連結每位員工與其公司，再與 `company` join 取得公司所在城市。`WHERE` 子句接著篩選出居住城市與雇主所在城市相同的員工。
+
+**ii. 找出與其主管住在同一城市、同一條街的每位員工的 ID 與姓名。**
+
+```sql
+SELECT e.ID, e.person_name
+FROM employee AS e, manages AS m, employee AS mgr
+WHERE e.ID = m.ID
+  AND m.manager_id = mgr.ID
+  AND e.city = mgr.city
+  AND e.street = mgr.street;
+```
+
+此查詢使用 `manages` 資料表找出每位員工的主管，再將 `employee` join 兩次——一次代表員工（別名 `e`），一次代表主管（別名 `mgr`）。`WHERE` 子句要求員工與其主管的城市與街道都相同。
+
+**iii. 找出薪資高於其公司所有員工平均薪資的每位員工的 ID 與姓名。**
+
+```sql
+SELECT e.ID, e.person_name
+FROM employee AS e, works AS w
+WHERE e.ID = w.ID
+  AND w.salary > (
+    SELECT AVG(w2.salary)
+    FROM works AS w2
+    WHERE w2.company_name = w.company_name
+  );
+```
+
+此查詢使用相關子查詢，為每位員工計算其公司所有員工的平均薪資。外層查詢接著篩選出薪資高於該公司平均的員工。相關性透過 `w2.company_name = w.company_name` 建立。
+
+##### 4b
+
+**考慮以下 SQL 查詢，其目的是列出 2017 年春季開設的所有課程名稱及其授課教師姓名。**
+
+```sql
+SELECT name, title
+FROM instructor NATURAL JOIN teaches
+     NATURAL JOIN section NATURAL JOIN course
+WHERE semester = 'Spring' AND year = 2017
+```
+
+**這個查詢有什麼問題？**
+
+問題出在 `NATURAL JOIN` 的運作方式：它會對所有在被 join 的關聯之間同名的欄位進行 join。在標準的大學綱要中，各關聯的屬性如下：
+
+-   `instructor`(`ID`, `name`, `dept_name`, `salary`)
+-   `teaches`(`ID`, `course_id`, `sec_id`, `semester`, `year`)
+-   `section`(`course_id`, `sec_id`, `semester`, `year`, `building`,
+    `room_number`, `time_slot_id`)
+-   `course`(`course_id`, `title`, `dept_name`, `credits`)
+
+查詢執行 `instructor NATURAL JOIN teaches` 時，正確地以 `ID` 進行 join。接著與 `section` join 時，正確地以 `course_id`、`sec_id`、`semester`、`year` 進行 join。然而，最後與 `course` join 時，目前的結果（來自 `instructor`）與 `course` 都含有 `dept_name` 屬性。`NATURAL JOIN` 因此額外強制了 `instructor.dept_name = course.dept_name` 的條件，錯誤地把結果限制在教師所屬系所與課程開課系所相同的情況。
+
+這是錯誤的，因為教師可以——而且經常——教授其他系所開設的課程。這些跨系授課的情況會被錯誤地排除在查詢結果之外。
+
+修正方法是只把最後的 `NATURAL JOIN course` 改為明確的 `JOIN course USING (course_id)`。這確保與 `course` 的 join 只以 `course_id` 進行，避免 `dept_name` 被悄悄納入 join 條件：
+
+```sql
+SELECT name, title
+FROM instructor NATURAL JOIN teaches
+     NATURAL JOIN section
+     JOIN course USING (course_id)
+WHERE semester = 'Spring' AND year = 2017;
+```
+
+這個版本精確地控制了 join 的屬性，避免 `dept_name` 意外地把跨系授課的情況過濾掉。
 
 ### 作業 6
 
@@ -801,204 +1034,275 @@ rsconnect::deployApp(
 
 <iframe src="https://chentzuyuan.shinyapps.io/epps6354-hw8-nba/" width="100%" height="700" style="border:1px solid #ccc; border-radius:8px;" loading="lazy"></iframe>
 
-## 期末專案
+## 期末報告
 
-### 天氣與場合感知的衣櫥資料庫及規則式穿搭推薦系統
+```{=html}
+<!-- Wake the Render demo as soon as the user lands on this anchor.
+     Render's free tier sleeps after 15 min idle and takes ~50 s to
+     spin up; firing /healthz now means the container is usually ready
+     by the time the visitor clicks the Live demo button. -->
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
+<script>
+  if (typeof fetch === "function") {
+    try { fetch("https://outfitdb.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+  }
+</script>
+<style>
+.fr-dl-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
+.fr-dl-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: 1 1 240px; min-height: 56px;
+  padding: 14px 22px; border-radius: 10px;
+  font-weight: 600; font-size: 1rem; line-height: 1.2;
+  text-decoration: none !important;
+  transition: transform 0.1s, box-shadow 0.15s;
+}
+.fr-dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.fr-dl-btn.primary   { background: #111;    color: #fff !important; }
+.fr-dl-btn.secondary { background: #f6f6f4; color: #111 !important; border: 1px solid #ddd; }
+.fr-fig { margin: 18px 0 24px; text-align: center; }
+.fr-fig img { max-width: 100%; height: auto; border-radius: 6px; }
+.fr-fig-cap { font-size: 0.85rem; color: #888; margin-top: 6px; }
+</style>
 
-#### 專案概述
-
-一個單人使用的衣櫥管理系統。每天早上，系統讀取使用者的行事曆（以判斷場合）和當前天氣，過濾掉不可穿著的衣物（髒的或已封存的），並使用基於色彩理論、布料搭配性和風格一致性的規則式評分引擎對候選穿搭進行排名。輸出為最佳推薦穿搭加上 3-5 個排名替代方案，每個都附有分數和說明。
-
-**核心工作流程：** 起床 → 讀取行事曆（場合）+ 天氣 → 過濾可穿著衣物 → 評分穿搭組合 → 輸出推薦
-
-**三個評分維度：**
-
--   **色彩** — 60/30/10 色彩理論；每件衣物帶有 `主色 / 副色 / 點綴色` 的色彩角色
--   **布料** — 同布料加分、混合布料合理性、相對於天氣的保暖充足度
--   **風格** — 衣物間風格標籤的一致性，以及風格與場合的適配分數
-
-#### 資料庫資料表（簡化版 — 7 張表）
-
-原始設計使用 21 張正規化資料表。為降低複雜度同時保留所有核心功能，綱要被整合為 7 張表，方法為：(1) 移除 `User` 表（單人系統），(2) 將查找表（Category、Color、Fabric、StyleTag）吸收為 `ClothingItem` 的 JSON 欄位，(3) 將明細表合併到主表，(4) 將穿著追蹤與洗衣統一為單一事件日誌。
-
-##### 實體關係圖
-
-```{mermaid}
-erDiagram
-    ClothingItem {
-        INT item_id PK
-        VARCHAR name
-        VARCHAR category
-        VARCHAR fabric
-        INT warmth_weight
-        INT breathability
-        JSON colors
-        JSON styles
-        INT formality_score
-        INT clean_score
-        VARCHAR status
-    }
-
-    Occasion {
-        INT occasion_id PK
-        VARCHAR name
-        INT formality_min
-        INT formality_max
-        JSON style_fit
-    }
-
-    CalendarEvent {
-        INT event_id PK
-        INT occasion_id FK
-        DATE event_date
-        TIME start_time
-    }
-
-    Weather {
-        INT weather_id PK
-        VARCHAR condition_name
-        DECIMAL temp_c
-        DECIMAL feels_like_c
-        INT humidity
-        DECIMAL wind_speed
-        DECIMAL precip_mm
-    }
-
-    Outfit {
-        INT outfit_id PK
-        INT occasion_id FK
-        INT weather_id FK
-        JSON items
-        INT color_score
-        INT fabric_score
-        INT style_score
-        INT total_score
-        TEXT explanation
-    }
-
-    ScoringRule {
-        INT rule_id PK
-        VARCHAR rule_type
-        VARCHAR description
-        JSON condition_json
-        INT score_delta
-        DATE valid_from
-        DATE valid_until
-    }
-
-    WearLog {
-        INT log_id PK
-        INT item_id FK
-        INT outfit_id FK
-        VARCHAR event_type
-        TIMESTAMP event_date
-        INT delta_clean
-        INT clean_score_after
-    }
-
-    Occasion ||--o{ CalendarEvent : "擁有"
-    Occasion ||--o{ Outfit : "產生"
-    Weather ||--o{ Outfit : "條件"
-    Outfit ||--o{ WearLog : "記錄"
-    ClothingItem ||--o{ WearLog : "追蹤"
-    ScoringRule }o--o{ Outfit : "評估"
+<div class="fr-dl-row">
+  <a class="fr-dl-btn primary" href="chen_finalreport.pdf" target="_blank" rel="noopener">
+    期末報告論文（PDF）&rarr;
+  </a>
+  <a class="fr-dl-btn secondary" href="https://outfitdb.onrender.com/" target="_blank" rel="noopener">
+    線上展示 &rarr;
+  </a>
+</div>
 ```
 
-##### 1. ClothingItem（衣物項目）
+### 1. 專案概述
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `item_id` | INT PK | 唯一識別碼 |
-| `name` | VARCHAR(50) | 衣物名稱（如「海軍藍牛津襯衫」） |
-| `category` | VARCHAR(20) | 類別：上衣、下裝、鞋子、外套、配件 |
-| `fabric` | VARCHAR(20) | 布料類型（如棉、牛仔、亞麻、聚酯纖維） |
-| `warmth_weight` | INT | 保暖度評分 (0–100) |
-| `breathability` | INT | 透氣度評分 (0–100) |
-| `colors` | JSON | 顏色角色：`[{"name":"navy","role":"primary"},{"name":"white","role":"accent"}]` |
-| `styles` | JSON | 風格標籤：`["clean fit","formal"]` |
-| `formality_score` | INT | 正式度 (0–100) |
-| `clean_score` | INT | 清潔度（100 = 剛洗好，0 = 需要洗）；僅在 > 0 時可被推薦 |
-| `status` | VARCHAR(10) | `active` 或 `archived`；僅 active 的衣物進入推薦 |
+OutfitDB 是一個個人化的穿搭推薦系統。它將使用者的衣櫥資料、實際穿著紀錄，以及三個獨立軸向（溫度、美感、場合）的偏好評分，儲存在一個 13 張資料表的關聯式資料庫中。在這個資料庫之上訓練三個 XGBoost 分類器，並將其輸出相乘，產生每日的 Top-K 穿搭推薦。
 
-*吸收了原本的：User、Category、Color、Fabric、StyleTag、ItemStyle、ItemColor。*
+與依賴 dress code 範本或固定風格規則的一般穿搭 app 不同，OutfitDB 的推薦會隨使用者的評分與穿著回饋演進——系統不是告訴使用者什麼好看，而是學習使用者認為什麼好看。
 
-##### 2. Occasion（場合）
+產品以兩種形式發佈：以 PyInstaller 打包的 macOS / Windows 桌面應用程式（主要產品），以及架設在 Render 上的公開網頁試用版。在本機優先的設計下，每位使用者對應一個獨立的 SQLite 檔案——資料永遠不會離開使用者的電腦。
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `occasion_id` | INT PK | 唯一識別碼 |
-| `name` | VARCHAR(30) | 場合名稱（如「面試」、「休閒外出」、「健身房」） |
-| `formality_min` | INT | 最低可接受正式度 (0–100) |
-| `formality_max` | INT | 最高可接受正式度 (0–100) |
-| `style_fit` | JSON | 風格對適配分數的映射：`{"formal":95,"clean fit":80,"street":20}` |
+目前版本：**v0.3.1**（2026 年 5 月）。架構：13 張資料表、3 個 XGBoost 分類器、四階段乘法評分。規模：後端約 2,000 行 Python；前端約 3,000 行 vanilla JS / HTML / CSS。
 
-*吸收了原本的：Occasion、StyleOccasionFit。`style_fit` JSON 取代了原本的多對多表。*
+### 2. 技術堆疊
 
-##### 3. CalendarEvent（行事曆事件）
+| 層級         | 技術                       | 用途                                      |
+|---------------|----------------------------------|----------------------------------------------|
+| 後端       | FastAPI（Python 3.12）            | HTTP 路由、非同步支援、Pydantic        |
+| ORM           | SQLAlchemy 2.x                   | 物件關聯對應                    |
+| 資料庫      | SQLite                           | 嵌入式關聯式資料庫；每位使用者一個檔案    |
+| 前端      | Vanilla HTML / CSS / JS          | 無建置步驟（不用 React）                     |
+| 圖表        | Chart.js 4.4（CDN）               | 統計儀表板 + 單品 modal             |
+| ML            | XGBoost                          | 三個獨立的梯度提升分類器|
+| 遷移    | create_all + 冪等 ALTER    | 不用 Alembic                                   |
+| 網頁託管 | Render.com                       | uvicorn + 供 SQLite 使用的持久磁碟         |
+| 打包     | PyInstaller                      | 跨平台 .dmg / .exe                   |
+| 風格分享 | .odstyle JSON                    | 將訓練好的模型匯出為可攜式檔案    |
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `event_id` | INT PK | 唯一識別碼 |
-| `occasion_id` | INT FK → Occasion | 連結到場合類型 |
-| `event_date` | DATE | 事件日期 |
-| `start_time` | TIME | 開始時間；用於判斷早上或晚上的穿搭需求 |
+技術堆疊並非一開始就完整規劃，而是透過反覆調整逐步成形。
 
-*驅動自動場合偵測：系統讀取當日事件以決定場合情境。*
+#### 2.1 後端：Shiny → FastAPI
 
-##### 4. Weather（天氣）
+第一次部署使用 R Shiny——原始的公開網址仍保留於[原始 Shiny 版本](https://biubiubuttegg.shinyapps.io/wardrobe/)（當時名為 *ClosetMind*；保留下來以說明原型階段，當時有數個功能無法在 Shiny 上穩定運作）。
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `weather_id` | INT PK | 唯一識別碼 |
-| `condition_name` | VARCHAR(20) | 命名的天氣條件（如「cold_rainy」、「hot_humid」、「mild_clear」） |
-| `temp_c` | DECIMAL(4,1) | 攝氏溫度 |
-| `feels_like_c` | DECIMAL(4,1) | 體感溫度 |
-| `humidity` | INT | 濕度百分比 (0–100) |
-| `wind_speed` | DECIMAL(4,1) | 風速（公里/小時） |
-| `precip_mm` | DECIMAL(5,1) | 降水量（毫米） |
+正式運作時出現三個具體的痛點：
 
-*合併了原本的：WeatherSnapshot、WeatherCondition。`condition_name` 欄位取代了原本的獨立查找表。*
+- 檔案上傳很彆扭——多張照片的驗證、縮放、寫入磁碟、連結到資料庫列，這整個生命週期超出 Shiny 的設計範疇。
+- 跨頁狀態管理困難——Shiny 的反應式模型不適合「上傳 → 標記 → 穿著 → 訓練 → 推薦」這類多頁工作流程。
+- ML 推論會阻塞 R session——XGBoost 呼叫會占住 R worker。
 
-##### 5. Outfit（穿搭）
+後端因此以 FastAPI + uvicorn 重寫，並部署到 Render。
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `outfit_id` | INT PK | 唯一識別碼 |
-| `occasion_id` | INT FK → Occasion | 此穿搭對應的場合 |
-| `weather_id` | INT FK → Weather | 產生時的天氣快照 |
-| `items` | JSON | 有序衣物清單：`[{"item_id":3,"slot":"top","layer":1},{"item_id":7,"slot":"bottom","layer":1}]` |
-| `color_score` | INT | 色彩和諧子分數（60/30/10 規則） |
-| `fabric_score` | INT | 布料搭配子分數 |
-| `style_score` | INT | 風格一致性子分數 |
-| `total_score` | INT | 三個子分數的加權總分 |
-| `explanation` | TEXT | 人類可讀的評分說明 |
+#### 2.2 資料庫：PostgreSQL → SQLite
 
-*合併了原本的：Outfit、OutfitItem。`items` JSON 取代了原本的明細表，透過 `layer` 欄位支援多層穿著。*
+資料庫的第一個版本建立在 PostgreSQL 上。綱要是針對我個人的衣櫥設計；後來手動加入更多衣物以擴充展示資料集，部分衣物照片因拍攝條件受限而以 DALL-E 生成。
 
-##### 6. ScoringRule（評分規則）
+部署時，PostgreSQL 需要獨立資料庫伺服器的要求與本機優先的產品定位相衝突。因此將資料從 PostgreSQL 匯出並遷移至 SQLite，每位使用者對應一個獨立檔案。
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `rule_id` | INT PK | 唯一識別碼 |
-| `rule_type` | VARCHAR(20) | `outfit_score`（評分加減分）或 `wear_degrade`（清潔度扣分） |
-| `description` | VARCHAR(100) | 人類可讀的規則描述（如「同布料加分 +5」） |
-| `condition_json` | JSON | 匹配條件：`{"category":"top","occasion":"gym"}` |
-| `score_delta` | INT | 條件符合時的加減分數 |
-| `valid_from` | DATE | 規則生效日期（可為空；支援趨勢性規則） |
-| `valid_until` | DATE | 規則到期日期（可為空） |
+#### 2.3 ML：XGBoost（一開始就選定）
 
-*合併了原本的：OutfitScoringRule、WearDegradeRule。`rule_type` 欄位區分穿搭評分規則與穿著扣分規則。*
+訓練資料是小型表格資料（每位使用者通常少於 5,000 筆評分）。在這個規模下梯度提升優於神經網路（Grinsztajn et al., NeurIPS 2022）。推論延遲低，且模型可解釋（特徵重要性、SHAP）。
 
-##### 7. WearLog（穿著日誌）
+#### 2.4 前端：HTML/CSS → Vanilla JS
 
-| 欄位 | 型別 | 說明 |
-|------|------|------|
-| `log_id` | INT PK | 唯一識別碼 |
-| `item_id` | INT FK → ClothingItem | 涉及的衣物項目 |
-| `outfit_id` | INT FK → Outfit | 關聯的穿搭（可為空；洗衣事件時為空） |
-| `event_type` | VARCHAR(10) | `wear` 或 `laundry` |
-| `event_date` | TIMESTAMP | 事件發生時間 |
-| `delta_clean` | INT | 清潔度變化（穿著為負值，洗衣重設為 100 時為正值） |
-| `clean_score_after` | INT | 此事件後的清潔度分數 |
+前端最初只以 HTML 與 CSS 撰寫。隨著功能增加（動態清單、即時更新、與後端的 AJAX、推薦互動），純 HTML 與 CSS 已不敷使用。經研究後選擇加入 vanilla JavaScript 而非 React——應用程式規模小（5–10 頁）、避免建置步驟的複雜度（Vite / webpack / npm 相依）、初始載入更快、學習曲線也較平緩。
 
-*合併了原本的：WearEvent、WearEventItem、LaundryBatch、LaundryBatchItem。每列記錄一件衣物的穿著或洗衣事件。洗衣將 `clean_score` 重設為 100。*
+### 3. 整體架構
+
+OutfitDB 的資料流由三個寫入來源餵入中央資料庫、三個分類器從資料庫讀取，以及一個推薦引擎組成。
+
+```{=html}
+<div class="fr-fig">
+  <img src="img_architecture.png" alt="OutfitDB architecture" />
+</div>
+```
+
+**三個寫入來源**
+
+- *上傳*——一次性的衣櫥登錄（上傳衣物照片與屬性）。
+- *日常活動*——持續的寫入（評分、標記已穿、標記已洗）。
+- *天氣 + 位置*——即時擷取，不寫入資料庫；直接餵給推薦引擎。
+
+**三條訓練流程**
+
+從資料庫讀取的訓練資料分別餵給三個分類器——第一階段溫度、第二階段美感、第三階段場合。
+
+### 4. 資料庫綱要（13 張資料表、5 個群組）
+
+綱要正規化至 BCNF，只在兩處有記錄的位置刻意反正規化（見 §5）。
+
+#### 4.1 群組 A — 衣櫥身分（3 張表）
+
+描述使用者擁有什麼的靜態身分資料。
+
+- **`users`**——一個 SQLite 檔案 ↔ 一位使用者，但保留 `user_id` 作為未來 N:M 風格分享的前瞻欄位。主要欄位：`id, display_name, lat, lon, temp_offset, training_complete, has_thermal_insoles, created_at`。
+- **`items`**——每件衣物一列，約 30 個欄位，分為識別、結構、視覺、材質、類別專屬與營運等群組。以 `is_active` 軟刪除。
+- **`item_tags`**——開放式鍵值中繼資料，用於事先未預期的屬性（如 brand、purchase_date）。`UniqueConstraint(item_id, key, value)` 防止重複。
+
+#### 4.2 群組 B — 生命週期分割（2 張表）
+
+體現依存取頻率分割的原則（見 §5.1）。單件衣物的欄位依寫入頻率拆成兩張 1:1 關聯的小表。
+
+- **`item_states`**——熱寫入區；每次穿著／清洗事件都會觸發 UPDATE。欄位：`state, worn_count, wear_count_since_wash, last_worn`。
+- **`item_stats`**——彙總快取區；在評分事件後延遲重新計算。欄位：`coverage_count, total_ratings, average_rating, last_worn_date, days_since_worn`。
+
+#### 4.3 群組 C — 穿搭與情境（3 張表）
+
+- **`outfits`**——一套穿搭，由多件衣物組成。欄位：`warmth_score, coverage_curve, aesthetic_curve, optimal_layer_count, overkill_layers, aesthetic_stop_layers, underfit_flag`。
+- **`outfit_items`**——多對多連接表（穿搭 ↔ 衣物）。
+- **`daily_contexts`**——每日穿著情境，獨立成表以避免「穿搭 → 情境 → 日期 → 天氣」的遞移相依。欄位：`date, temperature, weather, humidity, wind, occasion, calendar_event`。
+
+#### 4.4 群組 D — 三個偏好軸（3 張表）
+
+每個 ML 分類器都有自己專屬的評分表（見 §5.2）。
+
+- **`ratings`**——第二階段美感評分，整數值 −1 / 0 / 1 / 2。`UniqueConstraint(user_id, outfit_id)` 加上額外的 `ideal_temp_zone`。
+- **`temperature_ratings`**——第一階段，穿搭適合的溫區 JSON 清單。
+- **`occasion_ratings`**——第三階段，穿搭適合的活動 JSON 清單。
+
+#### 4.5 群組 E — 歷史與 ML 來源追蹤（2 張表）
+
+- **`outfit_logs`**——實際穿著 vs. 系統推薦。欄位：`recommended_outfit_id, final_worn_outfit_id, user_action (accepted / modified / rejected / skipped), scheduled_for, is_scheduled, logged_at`。這張表是 OutfitDB 學習能力的來源。
+- **`model_runs`**——每次模型訓練的稽核紀錄。`feature_version` 欄位決定 `.odstyle` 匯入的相容性。
+
+### 5. 三個關鍵設計決策
+
+#### 5.1 決策 1 — 冷／熱垂直分割
+
+**問題。** 把衣物的所有欄位放在同一張表，表示每次穿著事件都要把整列約 1 KB 重寫到磁碟，包括 95% 情況下根本沒變的 `colors`、`composition` 等欄位。
+
+**解法。** 垂直分割——`items`（冷資料，每月編輯）/ `item_states`（熱資料，每日編輯）/ `item_stats`（快取）。正規化處理的是邏輯相依；分割處理的是實體存取——兩者在設計的不同層次運作。
+
+#### 5.2 決策 2 — 每個分類器一張評分表
+
+**問題。** 用一張多型的超級表涵蓋不同形狀的訊號（整數 vs. JSON 清單），會引入大量 NULL 欄位，並迫使每個 ML SELECT 都要以 `rating_kind` 過濾。
+
+**解法。** 三張具體的表，每個分類器一張——乾淨的型別契約、沒有 NULL 污染、不需 kind 過濾的 SELECT。單一表內的多型是技術債；具體的表更容易推理。
+
+#### 5.3 決策 3 — 兩處刻意的反正規化
+
+綱要中有兩處刻意的反正規化，動機都是效能：
+
+- **鏡射 JSON。** `items.composition` 是 JSON 清單（混紡比例）；`items.material` 另外以有索引的 VARCHAR 儲存占比最高的布料。鏡射欄位在寫入時由 `composition` 自動設定，不會發生漂移。
+- **快取 join。** `item_stats.average_rating` 與 `coverage_count` 原則上可以透過 join `ratings × outfit_items` 計算；但這個 join 每次載入頁面都要執行，效能會嚴重劣化。快取把成本移到寫入時，在評分事件時延遲更新。
+
+綱要的其餘部分符合 BCNF。
+
+### 6. ML 流程
+
+三個獨立的 XGBoost 分類器，透過乘法評分整合，並由學習使用者個人風格的回饋迴圈持續精煉。
+
+| 階段 | 名稱                  | 輸入特徵                       | 訓練來源        |
+|-------|-----------------------|--------------------------------------|------------------------|
+| 1     | 溫度分類器| 衣物特徵 + 當前溫區    | `temperature_ratings`  |
+| 2     | 美感分類器  | 衣物特徵 + 穿搭結構     | `ratings`              |
+| 3     | 場合分類器   | 衣物特徵 + 當前場合     | `occasion_ratings`     |
+
+#### 乘法評分
+
+```
+total = ctx_fit × stage1_pass × stage3_pass × aesthetic_blend
+```
+
+採用乘法（而非加法）強制每個維度都必須通過——只要任何一個分類器不確定，總分就會被拉低。「很好看但會凍死」的穿搭無法通過這條規則。
+
+#### 回饋迴圈——模型追蹤個人風格
+
+```{=html}
+<div class="fr-fig">
+  <img src="img_feedback_loop.png" alt="Feedback loop" style="max-width: 480px;" />
+</div>
+```
+
+`outfit_logs` 表是這個迴圈的核心：它不只記錄系統推薦了什麼，也記錄使用者實際選擇或拒絕了什麼。隨著使用累積，模型逐漸內化使用者的個人風格——在同樣的 casual rock dress code 下，兩位不同的使用者會得到不同的穿搭，因為每個模型都學到了各自的偏好。
+
+這是 OutfitDB 與靜態 dress code 範本的核心差異：系統不是告訴使用者什麼好看——而是學習使用者認為什麼好看。
+
+### 7. 使用者介面
+
+- **[衣櫥頁](https://outfitdb.onrender.com/closet)**——格狀檢視，具類別／顏色／材質／狀態篩選與六種排序模式。點選任何衣物卡片會開啟統計 modal：4 個 KPI 方塊、穿著時間軸（13 週折線圖）、最常一起穿的前 5 件衣物，以及成分甜甜圈圖。
+- **[統計儀表板](https://outfitdb.onrender.com/stats)**——全衣櫥的 KPI 方塊與六張圖表：各類別衣物數（甜甜圈圖）、前 10 名顏色／材質（橫向長條圖）、美感評分分布，以及最常穿／最常被推薦的前 10 名（直向長條圖）。頁面層級的 `.odstyle` 匯出按鈕。
+- **訓練介面**——三個 ML 軸各有專屬頁面：[`/training/temperature`](https://outfitdb.onrender.com/training/temperature)、[`/training/aesthetic`](https://outfitdb.onrender.com/training/aesthetic)、[`/training/occasion`](https://outfitdb.onrender.com/training/occasion)。每個軸必須累積 ≥6 批評分後才會解鎖推薦。
+- **[推薦頁](https://outfitdb.onrender.com/recommend)**——Top-K 穿搭，每張卡片有六個分數。粗體的三個（美感、天氣、場合）是相乘的 ML 軸；淺灰的三個（保暖、新鮮度、多樣性）是軟性訊號。提供四種排序模式；排序在用戶端進行，不需重新查詢伺服器。
+- **[設定](https://outfitdb.onrender.com/settings)**——個人偏好、已匯入的 `.odstyle` 套件，以及手動的*檢查更新*按鈕（不自動輪詢）。
+- **國際化（i18n）**——透過 `data-i18n` 屬性提供雙語介面；右上角的語言切換可在中英文之間即時切換，不需重新載入頁面。
+
+### 8. 部署架構
+
+#### 8.1 網頁展示（Render）
+
+- 平台：Render.com。透過 Render 磁碟卷持久化；SQLite 檔案在多次部署間保留。
+- 免費方案冷啟動約 50 秒。
+- CI/CD：`git push origin main` → Render 自動部署。
+- 公開網址：<https://outfitdb.onrender.com>。
+
+#### 8.2 桌面套件（PyInstaller）
+
+- 目標：macOS `.dmg` / Windows `.exe`。
+- 內容：完整的 Python 執行環境 + uvicorn + 所有相依（單一執行檔）。
+- 資料位置：macOS 為 `~/Library/Application Support/OutfitDB/profiles/<name>/`。
+- 更新檢查：手動——設定頁的*檢查更新*按鈕會從公開的 GitHub raw URL 取得 `latest.json`。
+
+#### 8.3 更新清單格式
+
+```json
+{
+  "version":    "0.3.2",
+  "url":        "https://github.com/.../OutfitDB-0.3.2.dmg",
+  "update_url": "https://.../OutfitDB-0.3.2-update.zip",
+  "full_url":   "https://.../OutfitDB-0.3.2-full.dmg",
+  "notes":      "Adds X / fixes Y"
+}
+```
+
+`update_url`（增量更新）與 `full_url`（完整安裝檔）皆為選填；`url` 是向下相容的備援。
+
+### 9. 未來規劃
+
+#### 9.1 綱要清理（償還技術債）
+
+- **JSON 陣列 → 多對多表。** `items.colors` 與 `items.style_tags` 目前是 JSON 清單（違反 1NF）；既然 `FEATURE_VERSION = 1` 已鎖定，可以把它們重構回正規的連接表。
+- **移除 `last_worn` 重複。** 以 `item_states.last_worn` 為唯一真實來源；`item_stats.last_worn_date` 與 `days_since_worn` 改在讀取時以 Python `@property` 計算。
+- **移除 `composition` / `material` 雙寫。** 把 `material` 重構為由 `composition` 衍生的 `@property`，消除漂移風險。
+- **衣物表繼承。** 當類別超過十種時觸發重構（`items_base + items_top + items_bottom + ...`）。
+
+#### 9.2 完成風格分享
+
+`.odstyle` 的匯出與匯入 API 已經存在；UI 層尚未完成——匯入介面、多模型切換、已匯入模型的視覺標示，以及兩位使用者交換風格套件並互相產生推薦的端對端展示情境。
+
+敘事上的價值：dress code 變成可分享的訓練模型。派對主人訓練一個個人的 *casual rock* 模型，匯出後寄給所有賓客，每位賓客最終穿的衣服不同（都來自自己的衣櫥），卻都收斂到主人定義的風格。
+
+#### 9.3 長期——公開風格藝廊
+
+把 `.odstyle` 分享延伸為公開平台：使用者發佈自己的 `.odstyle` 檔案；其他人可以瀏覽、預覽，並在自己的衣櫥上試用別人的模型。OutfitDB 不賣衣服；它讓美感品味成為交換的單位——可衡量、可攜帶、可分享。
+
+### 10. AI 使用聲明
+
+OutfitDB 的開發過程使用了 AI 協助（Claude / Anthropic）：
+
+- **程式碼**——由作者撰寫，Claude Code 作為結對程式設計夥伴。
+- **文件、簡報與本報告**——在 Claude 協助下起草；所有綱要設計決策、ML 架構選擇與最終內容皆由作者決定。
+
+**翻譯說明。** 期末論文的英文版係以 AI 協助（Claude / Anthropic）自中文原稿翻譯，並經作者審閱修訂。若仍有翻譯錯誤，責任由作者承擔。

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -54,17 +54,17 @@ ul.task-list li input[type="checkbox"] {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "沒有結果",
+    "search-matching-documents-text": "符合的文件",
+    "search-copy-link-title": "複製搜尋連結",
+    "search-hide-matches-text": "隱藏其他符合的結果",
+    "search-more-match-text": "更多符合結果",
+    "search-more-matches-text": "更多符合結果",
+    "search-clear-button-title": "清除",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "送出",
+    "search-label": "搜尋"
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
@@ -116,8 +116,8 @@ window.Quarto = {
     <span class="navbar-title">Tzu-Yuan</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="搜尋"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="切換導航列" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -204,6 +204,12 @@ window.Quarto = {
 <span class="menu-text">CV</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -216,7 +222,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">本頁目錄</h2>
    
   <ul>
   <li><a href="#概述" id="toc-概述" class="nav-link active" data-scroll-target="#概述">概述</a></li>
@@ -225,9 +231,9 @@ window.Quarto = {
   <ul>
   <li><a href="#模擬器結果" id="toc-模擬器結果" class="nav-link" data-scroll-target="#模擬器結果">模擬器結果</a></li>
   <li><a href="#真實量子電腦結果" id="toc-真實量子電腦結果" class="nav-link" data-scroll-target="#真實量子電腦結果">真實量子電腦結果</a></li>
-  <li><a href="#近距離比較1000-次測量" id="toc-近距離比較1000-次測量" class="nav-link" data-scroll-target="#近距離比較1000-次測量">近距離比較（1,000 次測量）</a></li>
+  <li><a href="#局部放大比較1000-次量測" id="toc-局部放大比較1000-次量測" class="nav-link" data-scroll-target="#局部放大比較1000-次量測">局部放大比較（1,000 次量測）</a></li>
   </ul></li>
-  <li><a href="#第二階段量子輸出的貝氏推論" id="toc-第二階段量子輸出的貝氏推論" class="nav-link" data-scroll-target="#第二階段量子輸出的貝氏推論">第二階段：量子輸出的貝氏推論</a>
+  <li><a href="#第二階段對量子輸出進行貝氏推論" id="toc-第二階段對量子輸出進行貝氏推論" class="nav-link" data-scroll-target="#第二階段對量子輸出進行貝氏推論">第二階段：對量子輸出進行貝氏推論</a>
   <ul>
   <li><a href="#貝氏收斂" id="toc-貝氏收斂" class="nav-link" data-scroll-target="#貝氏收斂">貝氏收斂</a></li>
   </ul></li>
@@ -242,7 +248,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">量子貝氏推論</h1>
-<p class="subtitle lead">量子貝氏推論：實驗驗證與延伸 · 國立中興大學 應用數學系</p>
+<p class="subtitle lead">量子貝氏推論：實驗驗證與延伸 · 國立中興大學應用數學系</p>
 </div>
 
 
@@ -260,12 +266,12 @@ window.Quarto = {
 
 
 <div class="chart-note orange">
-<p><strong>科技部大專生研究計畫</strong> 計畫編號 112-2813-C-005-038-E · 指導教授：戴淯琮 教授 · 執行期間：2023/07 – 2024/02</p>
+<p><strong>國科會大專生研究計畫</strong> 計畫編號 112-2813-C-005-038-E · 指導教授：Prof.&nbsp;Yu-Tsung Tai · 執行期間：2023/07 – 2024/02</p>
 </div>
 <section id="概述" class="level2">
 <h2 class="anchored" data-anchor-id="概述">概述</h2>
-<p>本論文研究量子電腦的輸出是否符合<strong>貝氏機率定律</strong>。使用 IBM 的 Qiskit 框架，在真實 IBMQ 硬體與模擬器上測試量子位元測量的<strong>大數法則</strong>，並運用<strong>貝氏更新</strong>分析量子位元測量結果。</p>
-<p>關鍵發現：<strong>真實量子電腦與模擬器的行為截然不同</strong>——量子電腦的累積機率呈現出系統性偏離理論值 0.5 的趨勢，對量子態的客觀隨機性提出了根本性的疑問。</p>
+<p>本研究探討量子電腦的輸出是否符合<strong>貝氏機率定律</strong>。我們使用 IBM 的 Qiskit 框架，在真實的 IBMQ 硬體與模擬器上，針對量子位元的量測結果檢驗<strong>大數法則</strong>，並以<strong>貝氏更新</strong>分析量子位元的量測結果。</p>
+<p>主要發現：<strong>真實量子電腦與模擬器的行為不同</strong>——量子電腦的累積機率出現系統性偏離理論值 0.5 的漂移，對量子態是否具有客觀隨機性提出了根本性的疑問。</p>
 </section>
 <section id="研究方法" class="level2">
 <h2 class="anchored" data-anchor-id="研究方法">研究方法</h2>
@@ -276,17 +282,17 @@ window.Quarto = {
 <div>
 <pre class="mermaid mermaid-js">%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#E3F2FD", "primaryTextColor": "#111", "primaryBorderColor": "#90CAF9", "lineColor": "#18A3A3", "secondaryColor": "#FFF3E0", "tertiaryColor": "#F3E5F5"}, "flowchart": {"curve": "basis", "padding": 35}, "fontSize": "18px"}}%%
 flowchart TD
-    A["第一階段：大數法則驗證     "] --&gt; B["建構 H 閘量子電路     "]
+    A["第一階段：大數法則     "] --&gt; B["建立 H 閘量子電路     "]
     B --&gt; C["在模擬器上執行（20,000 次）     "]
     B --&gt; D["在 IBMQ 硬體上執行（20,000 次）     "]
     C --&gt; E["累積 P(0) 視覺化     "]
     D --&gt; E
     E --&gt; F["比較收斂行為     "]
     F --&gt; G["第二階段：貝氏推論     "]
-    G --&gt; H["將測量結果匯出為 CSV     "]
-    H --&gt; I["從前 50 筆觀測值計算先驗分佈     "]
-    I --&gt; J["迭代貝氏更新（20,000 輪）     "]
-    J --&gt; K["求取 P(0) 的 MAP 估計值     "]
+    G --&gt; H["將量測結果存為 CSV     "]
+    H --&gt; I["以前 50 筆觀測建立先驗     "]
+    I --&gt; J["迭代貝氏更新（20,000 回合）     "]
+    J --&gt; K["求 P(0) 的 MAP 估計     "]
 
     style A fill:#E3F2FD,stroke:#90CAF9
     style B fill:#E3F2FD,stroke:#90CAF9
@@ -308,25 +314,25 @@ flowchart TD
 </section>
 <section id="第一階段大數法則驗證" class="level2">
 <h2 class="anchored" data-anchor-id="第一階段大數法則驗證">第一階段：大數法則驗證</h2>
-<p>我們對單一量子位元施加 <strong>Hadamard 閘（H 閘）</strong>，使其進入疊加態 <span class="math inline">\(|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\)</span>，然後測量 20,000 次。若量子測量遵循古典機率，累積 <span class="math inline">\(P(|0\rangle)\)</span> 應收斂至 <strong>0.5</strong>。</p>
+<p>我們對單一量子位元施加 <strong>Hadamard 閘（H 閘）</strong>，使其進入疊加態 <span class="math inline">\(|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\)</span>，接著量測 20,000 次。若量子量測遵循古典機率，累積的 <span class="math inline">\(P(|0\rangle)\)</span> 應收斂至 <strong>0.5</strong>。</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">設置</th>
+<th style="text-align: left;">設定</th>
 <th style="text-align: left;">後端</th>
-<th style="text-align: right;">測量次數</th>
+<th style="text-align: right;">量測次數</th>
 <th style="text-align: left;">預期 <span class="math inline">\(P(0)\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 測量</td>
+<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 量測</td>
 <td style="text-align: left;"><code>ibmq_qasm_simulator</code></td>
 <td style="text-align: right;">20,000</td>
 <td style="text-align: left;">0.5</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 測量</td>
+<td style="text-align: left;">H 閘 <span class="math inline">\(\rightarrow\)</span> 量測</td>
 <td style="text-align: left;"><code>ibm_osaka</code>（真實硬體）</td>
 <td style="text-align: right;">20,000</td>
 <td style="text-align: left;">0.5</td>
@@ -335,75 +341,75 @@ flowchart TD
 </table>
 <section id="模擬器結果" class="level3">
 <h3 class="anchored" data-anchor-id="模擬器結果">模擬器結果</h3>
-<p>模擬器的累積機率<strong>平滑地</strong>收斂至 0.5，完美遵循大數法則：</p>
+<p>模擬器的累積機率<strong>平滑地</strong>收斂至 0.5，完全符合大數法則：</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../am_qc_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>模擬器：20,000 次測量的累積 P(0)——收斂至 0.5</figcaption>
+<p><img src="am_qc_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>模擬器：20,000 次量測的累積 P(0) — 收斂至 0.5</figcaption>
 </figure>
 </div>
 </section>
 <section id="真實量子電腦結果" class="level3">
 <h3 class="anchored" data-anchor-id="真實量子電腦結果">真實量子電腦結果</h3>
-<p>真實量子電腦（IBM Osaka）呈現<strong>系統性的向下偏移</strong>——累積機率未收斂至 0.5：</p>
+<p>真實量子電腦（IBM Osaka）呈現<strong>系統性的向下漂移</strong>——累積機率並未收斂至 0.5：</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../am_sim_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>IBM Osaka：20,000 次測量的累積 P(0)——偏離至 0.5 以下</figcaption>
+<p><img src="am_sim_20k.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>IBM Osaka：20,000 次量測的累積 P(0) — 漂移至 0.5 以下</figcaption>
 </figure>
 </div>
 <div class="chart-note orange">
-<p><strong>關鍵發現：</strong> 模擬器完美遵循大數法則，但真實量子電腦表現出持續的偏差。此差異暗示：(1) 硬體雜訊引入了系統性誤差；(2) 樣本數量不足；或 (3) 量子疊加態可能無法產生真正的客觀隨機性。</p>
+<p><strong>主要發現：</strong> 模擬器完全遵循大數法則，但真實量子電腦呈現持續的偏差。這個差異暗示了三種可能：(1) 硬體雜訊造成系統性誤差；(2) 樣本數不足；(3) 量子疊加態可能無法產生真正客觀的隨機性。</p>
 </div>
 </section>
-<section id="近距離比較1000-次測量" class="level3">
-<h3 class="anchored" data-anchor-id="近距離比較1000-次測量">近距離比較（1,000 次測量）</h3>
-<p>以每次 1,000 次測量進行更細緻的觀察：</p>
+<section id="局部放大比較1000-次量測" class="level3">
+<h3 class="anchored" data-anchor-id="局部放大比較1000-次量測">局部放大比較（1,000 次量測）</h3>
+<p>進一步觀察各 1,000 次量測的單次執行：</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../am_simulator.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>模擬器：1,000 次測量——緊密收斂至 0.5</figcaption>
+<p><img src="am_simulator.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>模擬器：1,000 次量測 — 緊密收斂至 0.5</figcaption>
 </figure>
 </div>
 <div class="chart-note teal">
-<p><strong>模擬器：</strong> 快速且乾淨地收斂至理論值 0.5。</p>
+<p><strong>模擬器：</strong> 快速、乾淨地收斂至理論值 0.5。</p>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../am_quantum.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>量子電腦：1,000 次測量——在 0.5 附近較大幅度振盪</figcaption>
+<p><img src="am_quantum.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>量子電腦：1,000 次量測 — 在 0.5 附近較大幅度震盪</figcaption>
 </figure>
 </div>
 <div class="chart-note orange">
-<p><strong>IBMQ：</strong> 明顯較大的變異數與較慢的收斂速度，伴隨持續的振盪。</p>
+<p><strong>IBMQ：</strong> 變異明顯較大、收斂較慢，且持續震盪。</p>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="第二階段量子輸出的貝氏推論" class="level2">
-<h2 class="anchored" data-anchor-id="第二階段量子輸出的貝氏推論">第二階段：量子輸出的貝氏推論</h2>
-<p>在第二階段中，我們將量子測量結果視為觀測資料，並運用<strong>貝氏更新</strong>推論最可能的機率參數 <span class="math inline">\(\theta = P(|0\rangle)\)</span>。</p>
+<section id="第二階段對量子輸出進行貝氏推論" class="level2">
+<h2 class="anchored" data-anchor-id="第二階段對量子輸出進行貝氏推論">第二階段：對量子輸出進行貝氏推論</h2>
+<p>第二階段中，我們將量子量測結果視為觀測資料，並應用<strong>貝氏更新</strong>推論最可能的機率參數 <span class="math inline">\(\theta = P(|0\rangle)\)</span>。</p>
 <p><strong>步驟：</strong></p>
 <ol type="1">
-<li>從 IBMQ 收集 20,000 筆測量結果，作為二元序列（0/1）</li>
-<li>使用前 50 筆觀測值建構 <span class="math inline">\(\theta\)</span> 的<strong>先驗分佈</strong></li>
-<li>迭代應用貝氏定理，進行 19,950 輪更新</li>
-<li>求取 <span class="math inline">\(\theta\)</span> 的 <strong>MAP（最大後驗機率）</strong> 估計值</li>
+<li>從 IBMQ 收集 20,000 筆量測結果，形成 0/1 二元序列</li>
+<li>以前 50 筆觀測建立 <span class="math inline">\(\theta\)</span> 的<strong>先驗分布</strong></li>
+<li>迭代套用貝氏定理，進行 19,950 回合更新</li>
+<li>找出 <span class="math inline">\(\theta\)</span> 的 <strong>MAP（最大後驗）</strong>估計值</li>
 </ol>
 <section id="貝氏收斂" class="level3">
 <h3 class="anchored" data-anchor-id="貝氏收斂">貝氏收斂</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../am_bayes_convergence.png" class="img-fluid figure-img" style="width:85.0%"></p>
-<figcaption>貝氏更新：累積機率（藍色）與貝氏後驗眾數（紅色）——兩者皆收斂，但後驗 MAP 偏向約 0.483 而非 0.5</figcaption>
+<p><img src="am_bayes_convergence.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>貝氏更新：累積機率（藍）vs 貝氏後驗眾數（紅）— 兩者皆收斂，但後驗 MAP 漂向約 0.483 而非 0.5</figcaption>
 </figure>
 </div>
 <div class="chart-note teal">
-<p><strong>貝氏推論結果：</strong> 在先驗密度 <span class="math inline">\(n = 50\)</span> 下，MAP 估計值收斂至 <span class="math inline">\(\theta \approx 0.483\)</span>，後驗機率為 0.955。這證實了量子硬體的系統性偏差——貝氏推論正確地辨識出真實硬體上的 <span class="math inline">\(P(|0\rangle)\)</span> 並非恰好等於 0.5。</p>
+<p><strong>貝氏結果：</strong> 在先驗密度 <span class="math inline">\(n = 50\)</span> 下，MAP 估計收斂至 <span class="math inline">\(\theta \approx 0.483\)</span>，後驗機率 0.955。這證實了量子硬體的系統性偏差——貝氏推論正確地指出真實硬體上的 <span class="math inline">\(P(|0\rangle)\)</span> 並非恰好 0.5。</p>
 </div>
 </section>
 </section>
@@ -420,8 +426,8 @@ flowchart TD
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">大數法則</td>
-<td style="text-align: left;">完美符合</td>
-<td style="text-align: left;">違反（系統性偏移）</td>
+<td style="text-align: left;">完全符合</td>
+<td style="text-align: left;">不符（系統性漂移）</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">收斂至 0.5</td>
@@ -429,38 +435,111 @@ flowchart TD
 <td style="text-align: left;">否（偏向約 0.49）</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">貝氏 MAP 估計值</td>
+<td style="text-align: left;">貝氏 MAP 估計</td>
 <td style="text-align: left;"><span class="math inline">\(\theta \approx 0.500\)</span></td>
 <td style="text-align: left;"><span class="math inline">\(\theta \approx 0.483\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">變異數</td>
+<td style="text-align: left;">變異</td>
 <td style="text-align: left;">低</td>
-<td style="text-align: left;">高（含雜訊）</td>
+<td style="text-align: left;">高（雜訊大）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>差異的三種可能解釋：</strong></p>
+<p>造成差異的<strong>三種可能解釋</strong>：</p>
 <ol type="1">
-<li><strong>樣本數量不足</strong>——受限於 IBMQ 佇列限制，20,000 次測量對量子硬體而言可能不夠</li>
-<li><strong>硬體雜訊與誤差</strong>——現行 IBMQ 裝置存在閘極誤差、退相干及讀取誤差，導致系統性偏差</li>
-<li><strong>量子隨機性不同於古典隨機性</strong>——疊加態可能遵循測量理論的機率模型（如 Gleason 定理），未必完全符合 Kolmogorov 公理</li>
+<li><strong>樣本數不足</strong> — 對量子硬體而言 20,000 次量測可能仍不夠（受限於 IBMQ 排隊限制）</li>
+<li><strong>硬體雜訊與誤差</strong> — 目前的 IBMQ 裝置存在閘誤差、去相干與讀取誤差，會引入系統性偏差</li>
+<li><strong>量子隨機性不等於古典隨機性</strong> — 疊加態可能遵循量測理論的機率模型（例如 Gleason 定理），而與 Kolmogorov 公理不完全一致</li>
 </ol>
 <div class="chart-note grey">
-<p><strong>技術工具：</strong> Python, Qiskit, IBMQ (ibm_osaka), matplotlib, csv · <strong>計畫補助：</strong> NSTC 112-2813-C-005-038-E</p>
+<p><strong>技術堆疊：</strong> Python、Qiskit、IBMQ（ibm_osaka）、matplotlib、csv · <strong>計畫補助：</strong> NSTC 112-2813-C-005-038-E</p>
 </div>
 </section>
 <section id="原始碼" class="level2">
 <h2 class="anchored" data-anchor-id="原始碼">原始碼</h2>
-<p>本研究開發的 Qiskit 程式已發布於 GitHub：</p>
+<p>本研究開發的 Qiskit 程式已公開於 GitHub：</p>
 <ul>
-<li><a href="https://github.com/buttegggggggg/i_use_quantum_do_something_cool">i_use_quantum_do_something_cool</a> —— 量子電路程式碼、模擬器/硬體比較、貝氏分析筆記本</li>
+<li><a href="https://github.com/buttegggggggg/i_use_quantum_do_something_cool">i_use_quantum_do_something_cool</a> — 量子電路程式碼、模擬器／硬體比較、貝氏分析筆記本</li>
 </ul>
 
 
 </section>
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -486,12 +565,12 @@ flowchart TD
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "已複製");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "已複製");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

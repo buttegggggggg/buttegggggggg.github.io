@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -89,17 +89,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "沒有結果",
+    "search-matching-documents-text": "符合的文件",
+    "search-copy-link-title": "複製搜尋連結",
+    "search-hide-matches-text": "隱藏其他符合的結果",
+    "search-more-match-text": "更多符合結果",
+    "search-more-matches-text": "更多符合結果",
+    "search-clear-button-title": "清除",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "送出",
+    "search-label": "搜尋"
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
@@ -122,8 +122,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">Tzu-Yuan</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="搜尋"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="切換導航列" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -210,6 +210,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">CV</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -222,16 +228,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">本頁目錄</h2>
    
   <ul>
-  <li><a href="#作業" id="toc-作業" class="nav-link active" data-scroll-target="#作業">作業</a>
+  <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">作業</a>
   <ul>
   <li><a href="#作業-1-糖尿病預測" id="toc-作業-1-糖尿病預測" class="nav-link" data-scroll-target="#作業-1-糖尿病預測">作業 1 — 糖尿病預測</a>
   <ul class="collapse">
-  <li><a href="#流程概覽" id="toc-流程概覽" class="nav-link" data-scroll-target="#流程概覽">流程概覽</a></li>
+  <li><a href="#流程總覽" id="toc-流程總覽" class="nav-link" data-scroll-target="#流程總覽">流程總覽</a></li>
   <li><a href="#探索性資料分析" id="toc-探索性資料分析" class="nav-link" data-scroll-target="#探索性資料分析">探索性資料分析</a></li>
-  <li><a href="#缺失值插補" id="toc-缺失值插補" class="nav-link" data-scroll-target="#缺失值插補">缺失值插補</a></li>
+  <li><a href="#缺失值填補" id="toc-缺失值填補" class="nav-link" data-scroll-target="#缺失值填補">缺失值填補</a></li>
   <li><a href="#模型架構" id="toc-模型架構" class="nav-link" data-scroll-target="#模型架構">模型架構</a></li>
   <li><a href="#訓練設定" id="toc-訓練設定" class="nav-link" data-scroll-target="#訓練設定">訓練設定</a></li>
   <li><a href="#結果" id="toc-結果" class="nav-link" data-scroll-target="#結果">結果</a></li>
@@ -243,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#訓練設定-1" id="toc-訓練設定-1" class="nav-link" data-scroll-target="#訓練設定-1">訓練設定</a></li>
   <li><a href="#結果-1" id="toc-結果-1" class="nav-link" data-scroll-target="#結果-1">結果</a></li>
   </ul></li>
-  <li><a href="#期末專題-子宮頸癌篩檢" id="toc-期末專題-子宮頸癌篩檢" class="nav-link" data-scroll-target="#期末專題-子宮頸癌篩檢">期末專題 — 子宮頸癌篩檢</a>
+  <li><a href="#期末專案-子宮頸癌篩檢" id="toc-期末專案-子宮頸癌篩檢" class="nav-link" data-scroll-target="#期末專案-子宮頸癌篩檢">期末專案 — 子宮頸癌篩檢</a>
   <ul class="collapse">
   <li><a href="#遷移學習策略" id="toc-遷移學習策略" class="nav-link" data-scroll-target="#遷移學習策略">遷移學習策略</a></li>
   <li><a href="#模型架構-1" id="toc-模型架構-1" class="nav-link" data-scroll-target="#模型架構-1">模型架構</a></li>
@@ -277,15 +283,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="作業" class="level2">
-<h2 class="anchored" data-anchor-id="作業">作業</h2>
+<section id="assignments" class="level2">
+<h2 class="anchored" data-anchor-id="assignments">作業</h2>
 <section id="作業-1-糖尿病預測" class="level3">
 <h3 class="anchored" data-anchor-id="作業-1-糖尿病預測">作業 1 — 糖尿病預測</h3>
-<p><strong>任務：</strong> 使用 Pima Indians Diabetes 資料集預測糖尿病發病，重點在於透過迴歸插補處理缺失值、特徵工程及重新取樣，最後訓練深度神經網路。</p>
-<p><strong>資料集：</strong> Pima Indians Diabetes Dataset — 768 筆樣本，8 個特徵</p>
-<p><strong>方法：</strong> 迴歸插補 → 特徵工程 → 重新取樣 → DNN</p>
-<section id="流程概覽" class="level4">
-<h4 class="anchored" data-anchor-id="流程概覽">流程概覽</h4>
+<p><strong>任務：</strong> 使用 Pima Indians 糖尿病資料集預測糖尿病的發生，重點在於以迴歸填補處理缺失值、特徵工程與重新取樣，再訓練深度神經網路。</p>
+<p><strong>資料集：</strong> Pima Indians 糖尿病資料集 — 768 筆樣本、8 個特徵</p>
+<p><strong>方法：</strong> 迴歸填補 → 特徵工程 → 重新取樣 → DNN</p>
+<section id="流程總覽" class="level4">
+<h4 class="anchored" data-anchor-id="流程總覽">流程總覽</h4>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -314,24 +320,24 @@ flowchart TD
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>流程說明：</strong> 原始資料中 Glucose 和 BMI 等欄位包含「零值」，實際上代表缺失資料。使用線性迴歸依序對各欄位進行插補，接著進行特徵工程與重新取樣以平衡正負樣本。最後以 4 層 DNN 執行二元分類，將基線的 74% 提升至 <strong>90.04%</strong>。</p>
+<p><strong>流程說明：</strong> 原始資料在 Glucose、BMI 等欄位中含有「零值」，實際上代表缺失資料。我們以線性迴歸依序填補各欄位，接著進行特徵工程與重新取樣以平衡正負樣本。最後以 4 層 DNN 進行二元分類，準確率從基線 74% 提升至 <strong>90.04%</strong>。</p>
 </div>
 </section>
 <section id="探索性資料分析" class="level4">
 <h4 class="anchored" data-anchor-id="探索性資料分析">探索性資料分析</h4>
-<p><code>Glucose</code>、<code>BMI</code>、<code>BloodPressure</code>、<code>SkinThickness</code> 和 <code>Insulin</code> 中的零值被視為缺失值。移除含缺失值的列後，剩餘 336 筆完整資料用於擬合插補模型。</p>
+<p><code>Glucose</code>、<code>BMI</code>、<code>BloodPressure</code>、<code>SkinThickness</code> 與 <code>Insulin</code> 中的零值視為缺失。移除含缺失值的列後，剩下 336 筆乾淨資料可用於擬合填補模型。</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../ml_hw1_correlation_matrix.png" class="img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>特徵相關矩陣（移除含 NaN 的列後）</figcaption>
+<p><img src="ml_hw1_correlation_matrix.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>特徵相關矩陣（移除含 NaN 的列之後）</figcaption>
 </figure>
 </div>
 <div class="chart-note orange">
-<p><strong>主要觀察：</strong> <strong>Glucose → Outcome</strong> 的相關係數為 0.50，是糖尿病最強的預測因子；<strong>SkinThickness ↔︎ BMI</strong> 達 0.71，可利用 BMI 插補 SkinThickness；<strong>Insulin ↔︎ Glucose</strong> 達 0.70，可利用 Glucose 插補 Insulin；<strong>Age ↔︎ Pregnancies</strong> 為 0.54，符合生物學預期。</p>
+<p><strong>主要觀察：</strong> <strong>Glucose → Outcome</strong> 的相關係數為 0.50，是糖尿病最強的預測因子；<strong>SkinThickness ↔︎ BMI</strong> 達 0.71，因此可用 BMI 填補 SkinThickness；<strong>Insulin ↔︎ Glucose</strong> 達 0.70，因此可用 Glucose 填補 Insulin；<strong>Age ↔︎ Pregnancies</strong> 為 0.54，符合生理上的預期。</p>
 </div>
 </section>
-<section id="缺失值插補" class="level4">
-<h4 class="anchored" data-anchor-id="缺失值插補">缺失值插補</h4>
+<section id="缺失值填補" class="level4">
+<h4 class="anchored" data-anchor-id="缺失值填補">缺失值填補</h4>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -369,7 +375,7 @@ flowchart TD
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>插補順序：</strong> 使用相關性最高的已知欄位作為自變數，依序以線性迴歸進行插補：Outcome → Glucose → BMI → Insulin / SkinThickness → BloodPressure。每一步僅使用已存在或已完成插補的欄位作為預測變數。</p>
+<p><strong>填補順序：</strong> 以相關性最高的已知欄位作為自變數，依序套用線性迴歸：Outcome → Glucose → BMI → Insulin / SkinThickness → BloodPressure。每一步只使用原本就存在或已完成填補的欄位作為預測變數。</p>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill Glucose using Outcome</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> df_non_missing[[<span class="st">'Outcome'</span>]]</span>
@@ -387,7 +393,7 @@ flowchart TD
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill BloodPressure using Age + BMI</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> df_non_missing[[<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> df_non_missing[<span class="st">'BloodPressure'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> df_non_missing[<span class="st">'BloodPressure'</span>]</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="模型架構" class="level4">
 <h4 class="anchored" data-anchor-id="模型架構">模型架構</h4>
@@ -415,7 +421,7 @@ flowchart LR
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">64</span>, input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>], activation<span class="op">=</span><span class="st">'relu'</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">32</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">16</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>))</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="訓練設定" class="level4">
 <h4 class="anchored" data-anchor-id="訓練設定">訓練設定</h4>
@@ -424,7 +430,7 @@ flowchart LR
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    optimizer<span class="op">=</span><span class="st">'adam'</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    metrics<span class="op">=</span>[<span class="st">'accuracy'</span>]</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">10</span>, batch_size<span class="op">=</span><span class="dv">32</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">10</span>, batch_size<span class="op">=</span><span class="dv">32</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="結果" class="level4">
 <h4 class="anchored" data-anchor-id="結果">結果</h4>
@@ -437,11 +443,11 @@ flowchart LR
 </thead>
 <tbody>
 <tr class="odd">
-<td>基線準確率（無插補）</td>
+<td>基線準確率（未填補）</td>
 <td>74.03%</td>
 </tr>
 <tr class="even">
-<td><strong>最終準確率（插補 + 特徵工程 + 重新取樣）</strong></td>
+<td><strong>最終準確率（填補 + 特徵工程 + 重新取樣）</strong></td>
 <td><strong>90.04%</strong></td>
 </tr>
 <tr class="odd">
@@ -460,19 +466,19 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note orange">
-<p><strong>準確率分析：</strong> 基線（直接刪除缺失值）僅達 74.03%。經迴歸插補後準確率提升至 77.92%，特徵工程再增加約 5 pp，最後經重新取樣 + DNN 達到 <strong>90.04%</strong>，總提升幅度為 <strong>+16 pp</strong>。灰色虛線為基線參考，橘色箭頭表示整體提升幅度。</p>
+<p><strong>準確率分析：</strong> 基線（直接丟棄缺失值）只有 74.03%。經迴歸填補後提升至 77.92%，特徵工程再增加約 5 pp，最後重新取樣 + DNN 達到 <strong>90.04%</strong>，總共提升 <strong>+16 pp</strong>。灰色虛線標示基線參考值，橘色箭頭表示整體增益。</p>
 </div>
 <hr>
 </section>
 </section>
 <section id="作業-2-美國野火分析" class="level3">
 <h3 class="anchored" data-anchor-id="作業-2-美國野火分析">作業 2 — 美國野火分析</h3>
-<p><strong>任務：</strong> 分析 188 萬筆美國野火紀錄，使用 Poisson 迴歸建模年度頻率趨勢，並以多層感知器預測野火成因。</p>
-<p><strong>資料集：</strong> US Wildfires (1992–2015) — 1,880,465 筆紀錄，Kaggle</p>
-<p><strong>方法：</strong> Poisson 迴歸（趨勢分析）+ MLP（成因分類）</p>
+<p><strong>任務：</strong> 分析 188 萬筆美國野火紀錄，以 Poisson 迴歸建模年度發生頻率的趨勢，並以多層感知器（MLP）預測野火起因。</p>
+<p><strong>資料集：</strong> 美國野火（1992–2015）— 1,880,465 筆紀錄，Kaggle</p>
+<p><strong>方法：</strong> Poisson 迴歸（趨勢分析）+ MLP（起因分類）</p>
 <section id="poisson-迴歸" class="level4">
 <h4 class="anchored" data-anchor-id="poisson-迴歸">Poisson 迴歸</h4>
-<p>以年份作為自變數，對野火年度發生次數建立 Poisson 迴歸模型，估計長期趨勢。</p>
+<p>將每年的野火數量建模為年份的函數，以估計長期趨勢。</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -482,7 +488,7 @@ flowchart LR
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    family<span class="op">=</span>sm.families.Poisson()</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>).fit()</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(poisson_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(poisson_model.summary())</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -493,7 +499,7 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>Poisson 趨勢：</strong> 以年份為自變數擬合 Poisson 迴歸，估計野火年度發生頻率以每年 <strong>+0.44%</strong> 的速率增長。<span style="color:#E65100;"><strong>橘色虛線</strong></span> 為迴歸擬合線，<span style="color:#18A3A3;"><strong>青色長條</strong></span> 代表各年度實際數量。</p>
+<p><strong>Poisson 趨勢：</strong> 以年份為自變數擬合的 Poisson 迴歸估計，年度野火頻率每年增加 <strong>+0.44%</strong>。<span style="color:#E65100;"><strong>橘色虛線</strong></span>為迴歸擬合線，<span style="color:#18A3A3;"><strong>藍綠色長條</strong></span>為各年的實際數量。</p>
 </div>
 </section>
 <section id="mlp-模型架構" class="level4">
@@ -521,7 +527,7 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note grey">
-<p><strong>架構說明：</strong> 簡單的 MLP，包含兩個 Dense 64 層 + Dropout 0.3。<span style="color:#1976D2;"><strong>藍色</strong></span> = Dense 層，<span style="color:#E65100;"><strong>橘色</strong></span> = Dropout 正則化，<span style="color:#2E7D32;"><strong>綠色</strong></span> = Softmax 輸出（10 種野火成因類別）。</p>
+<p><strong>架構說明：</strong> 簡單的 MLP，由兩層 Dense 64 + Dropout 0.3 組成。<span style="color:#1976D2;"><strong>藍色</strong></span> = Dense 層、<span style="color:#E65100;"><strong>橘色</strong></span> = Dropout 正則化、<span style="color:#2E7D32;"><strong>綠色</strong></span> = Softmax 輸出（10 種野火起因類別）。</p>
 </div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Sequential()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model.add(Dense(<span class="dv">64</span>, input_dim<span class="op">=</span>X_train.shape[<span class="dv">1</span>], activation<span class="op">=</span><span class="st">'relu'</span>))</span>
@@ -534,12 +540,12 @@ flowchart LR
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>,</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    optimizer<span class="op">=</span><span class="st">'adam'</span>,</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    metrics<span class="op">=</span>[<span class="st">'accuracy'</span>]</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="訓練設定-1" class="level4">
 <h4 class="anchored" data-anchor-id="訓練設定-1">訓練設定</h4>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">20</span>, batch_size<span class="op">=</span><span class="dv">32</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Train/Test Split: 70/30</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Train/Test Split: 70/30</span></span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="結果-1" class="level4">
 <h4 class="anchored" data-anchor-id="結果-1">結果</h4>
@@ -552,15 +558,15 @@ flowchart LR
 </thead>
 <tbody>
 <tr class="odd">
-<td>野火成因預測準確率</td>
+<td>野火起因預測準確率</td>
 <td>~45.6%</td>
 </tr>
 <tr class="even">
 <td>Poisson 迴歸趨勢</td>
-<td>每年增加 +0.44%</td>
+<td>每年 +0.44%</td>
 </tr>
 <tr class="odd">
-<td>總處理紀錄數</td>
+<td>處理的總紀錄數</td>
 <td>1,880,465</td>
 </tr>
 </tbody>
@@ -575,16 +581,16 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note pink">
-<p><strong>結果分析：</strong> 10 類隨機猜測基線為 10%，而 MLP 達到約 45.6%，遠優於隨機猜測但仍有改善空間。分類準確率相對較低，反映出僅憑地理位置（經緯度）與時間（年份、月份）判斷野火成因的固有難度——許多成因（人為 vs.&nbsp;雷擊）在空間分布上高度重疊。</p>
+<p><strong>結果分析：</strong> 10 類隨機猜測的基線為 10%，而 MLP 達到約 45.6%，遠優於隨機，但仍有改進空間。分類準確率偏低反映了僅憑地理位置（經緯度）與時間（年、月）判斷野火起因的先天困難 – 許多起因（人為 vs.&nbsp;閃電）在空間分布上高度重疊。</p>
 </div>
 <hr>
 </section>
 </section>
-<section id="期末專題-子宮頸癌篩檢" class="level3">
-<h3 class="anchored" data-anchor-id="期末專題-子宮頸癌篩檢">期末專題 — 子宮頸癌篩檢</h3>
-<p><strong>任務：</strong> 將子宮頸細胞影像分為三類（Type 1、2、3），分別對應不同程度的子宮頸轉化區，使用 EfficientNet-B7 進行遷移學習，並搭配 Focal Loss 處理類別不平衡問題。</p>
-<p><strong>資料集：</strong> Intel &amp; MobileODT Cervical Cancer Screening (Kaggle) — 3 類影像分類</p>
-<p><strong>方法：</strong> EfficientNet-B7（ImageNet 預訓練，微調）+ Focal Loss + 資料增強</p>
+<section id="期末專案-子宮頸癌篩檢" class="level3">
+<h3 class="anchored" data-anchor-id="期末專案-子宮頸癌篩檢">期末專案 — 子宮頸癌篩檢</h3>
+<p><strong>任務：</strong> 將子宮頸影像依轉化區（transformation zone）的可見程度分為三型（Type 1、2、3），使用 EfficientNet-B7 遷移學習，並以 Focal Loss 處理類別不平衡。</p>
+<p><strong>資料集：</strong> Intel &amp; MobileODT Cervical Cancer Screening（Kaggle）— 三類別影像分類</p>
+<p><strong>方法：</strong> EfficientNet-B7（ImageNet 預訓練、微調）+ Focal Loss + 資料增強</p>
 <section id="遷移學習策略" class="level4">
 <h4 class="anchored" data-anchor-id="遷移學習策略">遷移學習策略</h4>
 <div class="cell" data-layout-align="default">
@@ -608,7 +614,7 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>遷移學習策略：</strong> 先凍結 ImageNet 預訓練的 EfficientNet-B7 骨幹網路作為特徵萃取器，僅訓練新增的分類頭。使用 Focal Loss 以解決 Type 1/2/3 之間的樣本不平衡問題。</p>
+<p><strong>遷移學習策略：</strong> 先凍結 ImageNet 預訓練的 EfficientNet-B7 骨幹作為特徵萃取器，只訓練新加入的分類頭。以 Focal Loss 處理 Type 1/2/3 之間的樣本不平衡。</p>
 </div>
 </section>
 <section id="模型架構-1" class="level4">
@@ -618,11 +624,11 @@ flowchart LR
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> efficientnet_b7(weights<span class="op">=</span>EfficientNet_B7_Weights.IMAGENET1K_V1)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>num_features <span class="op">=</span> model.classifier[<span class="dv">1</span>].in_features</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>model.classifier[<span class="dv">1</span>] <span class="op">=</span> nn.Linear(num_features, num_classes)  <span class="co"># num_classes = 3</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(device)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="focal-loss-實作" class="level4">
 <h4 class="anchored" data-anchor-id="focal-loss-實作">Focal Loss 實作</h4>
-<p>Focal Loss 降低簡單樣本的權重，使訓練聚焦於困難的、分類錯誤的樣本——對類別不平衡的分布特別有效。</p>
+<p>Focal Loss 降低簡單樣本的權重，讓訓練聚焦於困難、被誤分類的樣本 – 對類別分布不平衡的情況特別有用。</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -633,7 +639,7 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note orange">
-<p><strong>Focal Loss 原理：</strong> 當 gamma=0 時，等同於標準 Cross-Entropy。gamma 越大，對「已正確分類的簡單樣本」（右側 <span style="color:darkgreen;"><strong>綠色區域</strong></span>）施加的懲罰越小，使模型專注於學習困難樣本。本專題使用 <span style="color:#E65100;"><strong>gamma=2</strong></span>（<span style="color:#E65100;">橘色虛線</span>）。</p>
+<p><strong>Focal Loss 原理：</strong> gamma=0 時等同於標準交叉熵。gamma 越大，對「已正確分類的簡單樣本」（右側<span style="color:darkgreen;"><strong>綠色區域</strong></span>）的懲罰越小，讓模型專注於學習困難樣本。本專案使用 <span style="color:#E65100;"><strong>gamma=2</strong></span>（<span style="color:#E65100;">橘色虛線</span>）。</p>
 </div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FocalLoss(nn.Module):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, alpha<span class="op">=</span><span class="dv">1</span>, gamma<span class="op">=</span><span class="dv">2</span>, reduction<span class="op">=</span><span class="st">"mean"</span>):</span>
@@ -652,7 +658,7 @@ flowchart LR
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> focal_loss.<span class="bu">sum</span>()</span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> focal_loss</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> FocalLoss(alpha<span class="op">=</span><span class="dv">1</span>, gamma<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> FocalLoss(alpha<span class="op">=</span><span class="dv">1</span>, gamma<span class="op">=</span><span class="dv">2</span>)</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="訓練設定-2" class="level4">
 <h4 class="anchored" data-anchor-id="訓練設定-2">訓練設定</h4>
@@ -668,7 +674,7 @@ flowchart LR
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(inputs)</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(outputs, labels)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span></code><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="結果-2" class="level4">
 <h4 class="anchored" data-anchor-id="結果-2">結果</h4>
@@ -708,7 +714,7 @@ flowchart LR
 </div>
 </div>
 <div class="chart-note pink">
-<p><strong>分類結果分析：</strong> Type 2（轉化區部分可見）以 <strong>92.3%</strong> 達到最高準確率，因其特徵最為顯著。Type 3（轉化區不可見）最低為 78.5%，因缺乏可辨識的表面結構特徵，分類難度最高。平均準確率為 <strong>86.1%</strong>（灰色虛線）。Focal Loss 有效提升了少數類別的學習表現。</p>
+<p><strong>分類結果分析：</strong> Type 2（轉化區部分可見）因特徵最鮮明，準確率最高，達 <strong>92.3%</strong>。Type 3（轉化區不可見）最低，為 78.5%，因為缺乏可辨識的表面結構特徵，分類最困難。平均準確率為 <strong>86.1%</strong>（灰色虛線）。Focal Loss 有效提升了少數類別的學習表現。</p>
 </div>
 
 
@@ -717,6 +723,79 @@ flowchart LR
 </section>
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -742,12 +821,12 @@ flowchart LR
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "已複製");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "已複製");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

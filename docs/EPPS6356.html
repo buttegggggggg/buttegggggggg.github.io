@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -207,6 +207,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">CV</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -281,16 +287,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.1     ✔ stringr   1.5.2
-✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.1.0     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.1.4     v readr     2.1.5
+v forcats   1.0.0     v stringr   1.5.1
+v ggplot2   3.4.4     v tibble    3.2.1
+v lubridate 1.9.3     v tidyr     1.3.1
+v purrr     1.0.2     
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+i Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Divide the dataset into three rectangles based on species.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The average of Petal.Length and Petal.Width is the length and width.</span></span>
@@ -645,11 +651,11 @@ Attaching package: 'scales'</code></pre>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"pdf"</span>,  <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.pdf"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"jpg"</span>,  <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.jpg"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"svg"</span>,  <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.svg"</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"tiff"</span>, <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.tiff"</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"bmp"</span>,  <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io/baseR_6plots.bmp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"pdf"</span>,  <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots/baseR_6plots.pdf"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"jpg"</span>,  <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots/baseR_6plots.jpg"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"svg"</span>,  <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots/baseR_6plots.svg"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"tiff"</span>, <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots/baseR_6plots.tiff"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save_plot</span>(<span class="st">"bmp"</span>,  <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots/baseR_6plots.bmp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="baseR_6plots.pdf">PDF of base R plots</a></p>
 <p><a href="baseR_6plots.jpg">JPG of base R plots</a></p>
@@ -708,7 +714,7 @@ Attaching package: 'scales'</code></pre>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>combo <span class="ot">&lt;-</span> gridExtra<span class="sc">::</span><span class="fu">arrangeGrob</span>(ggHisto, ggBar1, ggBar2, ggPie, ggBox, ggScat, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>outdir <span class="ot">&lt;-</span> <span class="st">"/Users/buttegg/Documents/IAmTryingToUseQuartoDoSthCool/buttegggggggg.github.io"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>outdir <span class="ot">&lt;-</span> <span class="st">"/tmp/claude-0/-home-user-buttegggggggg-github-io/66a41f38-e497-5a31-b82a-4c20890cb8af/scratchpad/plots"</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>formats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pdf"</span>, <span class="st">"jpg"</span>, <span class="st">"svg"</span>, <span class="st">"tiff"</span>, <span class="st">"bmp"</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (fmt <span class="cf">in</span> formats) {</span>
@@ -766,6 +772,79 @@ Attaching package: 'scales'</code></pre>
 </section>
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -218,7 +218,7 @@ ggplot(df_skills, aes(x = proficiency, y = skill, fill = source)) +
 **Assignments:**
 
 - **HW1 -- SVD Image Compression:** Validating the Eckart-Young theorem with photographs, Monte Carlo approximation of 2-norm, PSNR reaching **44.7 dB** (k=700)
-- **HW2 -- Handwritten Digit Recognition:** USPS dataset, comparing 8 methods (Mean / SVD / HOSVD / SVM / KNN / RF / CNN), **CNN 95.76%** highest
+- **HW2 -- Handwritten Digit Recognition:** USPS dataset, comparing 8 methods (Mean / Enhanced Mean / SVD / HOSVD / SVM / KNN / RF / CNN), **CNN 95.76%** highest
 
 **Key Tools:** Python · NumPy · PyTorch · tensorly · scikit-learn
 :::
@@ -232,10 +232,10 @@ ggplot(df_skills, aes(x = proficiency, y = skill, fill = source)) +
 | **Machine Learning** | Diabetes Prediction | Baseline 74% -> **90.04%** (+16 pp) |
 | | Wildfire Analysis | 1.88 million records · Poisson trend + MLP classification |
 | | Cervical Cancer | EfficientNet-B7 + Focal Loss · **86.1%** |
-| **Deep Learning** | AOI Defect Detection | ResNet-50 Fine-tune · **96.4%** |
-| | U-Net Segmentation | Dice 0.91 · Medical image semantic segmentation |
+| **Deep Learning** | AOI Defect Detection | ResNet-18 transfer learning · **96.44%** |
+| | U-Net Segmentation | mIoU 0.351 · Retinal vessel semantic segmentation |
 | | AutoEncoder | Image reconstruction **30.8 dB** PSNR |
-| | cGAN Blot Removal | Conditional GAN for blot removal |
+| | cGAN Blot Generation | Conditional GAN for Western blot image synthesis |
 | **Big Data** | Nystrom Approximation | Kernel Ridge **20x** speedup |
 | | Smoothed SVM | Hinge Loss smoothing · Gradient-based solving |
 | | Distributed SVM | Distributed computing **150x** speedup |

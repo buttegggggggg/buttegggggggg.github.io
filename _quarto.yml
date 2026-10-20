@@ -59,6 +59,9 @@ website:
             href: outfitdb.qmd
       - text: CV
         href: CV.qmd
+    right:
+      - text: "中文"
+        href: index-zh.qmd
 
 jupyter: python3
 
@@ -70,3 +73,4 @@ format:
     number-sections: true
     page-layout: article
     css: styles.scss
+    include-after-body: lang-toggle.html

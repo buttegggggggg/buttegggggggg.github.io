@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.32">
@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>數據分析數學 – Tzu-Yuan</title>
+<title>資料分析數學 – Tzu-Yuan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -54,17 +54,17 @@ ul.task-list li input[type="checkbox"] {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "沒有結果",
+    "search-matching-documents-text": "符合的文件",
+    "search-copy-link-title": "複製搜尋連結",
+    "search-hide-matches-text": "隱藏其他符合的結果",
+    "search-more-match-text": "更多符合結果",
+    "search-more-matches-text": "更多符合結果",
+    "search-clear-button-title": "清除",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "送出",
+    "search-label": "搜尋"
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
@@ -116,8 +116,8 @@ window.Quarto = {
     <span class="navbar-title">Tzu-Yuan</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="搜尋"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="切換導航列" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -204,6 +204,12 @@ window.Quarto = {
 <span class="menu-text">CV</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -216,27 +222,27 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <h2 id="toc-title">本頁目錄</h2>
    
   <ul>
   <li><a href="#assignments" id="toc-assignments" class="nav-link active" data-scroll-target="#assignments">作業</a></li>
-  <li><a href="#作業一-svd-影像壓縮" id="toc-作業一-svd-影像壓縮" class="nav-link" data-scroll-target="#作業一-svd-影像壓縮">作業一 — SVD 影像壓縮</a>
+  <li><a href="#hw1-svd-影像壓縮" id="toc-hw1-svd-影像壓縮" class="nav-link" data-scroll-target="#hw1-svd-影像壓縮">HW1 — SVD 影像壓縮</a>
   <ul>
-  <li><a href="#流程概覽" id="toc-流程概覽" class="nav-link" data-scroll-target="#流程概覽">流程概覽</a></li>
+  <li><a href="#流程總覽" id="toc-流程總覽" class="nav-link" data-scroll-target="#流程總覽">流程總覽</a></li>
   <li><a href="#關鍵公式" id="toc-關鍵公式" class="nav-link" data-scroll-target="#關鍵公式">關鍵公式</a></li>
   <li><a href="#結果" id="toc-結果" class="nav-link" data-scroll-target="#結果">結果</a></li>
   <li><a href="#重建品質" id="toc-重建品質" class="nav-link" data-scroll-target="#重建品質">重建品質</a></li>
   <li><a href="#mse-psnr-2-norm-分析" id="toc-mse-psnr-2-norm-分析" class="nav-link" data-scroll-target="#mse-psnr-2-norm-分析">MSE / PSNR / 2-norm 分析</a></li>
   </ul></li>
-  <li><a href="#作業二-手寫數字辨識" id="toc-作業二-手寫數字辨識" class="nav-link" data-scroll-target="#作業二-手寫數字辨識">作業二 — 手寫數字辨識</a>
+  <li><a href="#hw2-手寫數字辨識" id="toc-hw2-手寫數字辨識" class="nav-link" data-scroll-target="#hw2-手寫數字辨識">HW2 — 手寫數字辨識</a>
   <ul>
-  <li><a href="#資料集樣本" id="toc-資料集樣本" class="nav-link" data-scroll-target="#資料集樣本">資料集樣本</a></li>
+  <li><a href="#資料集範例" id="toc-資料集範例" class="nav-link" data-scroll-target="#資料集範例">資料集範例</a></li>
   <li><a href="#方法總覽" id="toc-方法總覽" class="nav-link" data-scroll-target="#方法總覽">方法總覽</a></li>
   <li><a href="#準確率比較" id="toc-準確率比較" class="nav-link" data-scroll-target="#準確率比較">準確率比較</a></li>
   <li><a href="#訓練時間比較" id="toc-訓練時間比較" class="nav-link" data-scroll-target="#訓練時間比較">訓練時間比較</a></li>
   <li><a href="#svd-混淆矩陣" id="toc-svd-混淆矩陣" class="nav-link" data-scroll-target="#svd-混淆矩陣">SVD 混淆矩陣</a></li>
-  <li><a href="#錯誤分類樣本" id="toc-錯誤分類樣本" class="nav-link" data-scroll-target="#錯誤分類樣本">錯誤分類樣本</a></li>
-  <li><a href="#實際手寫測試" id="toc-實際手寫測試" class="nav-link" data-scroll-target="#實際手寫測試">實際手寫測試</a></li>
+  <li><a href="#誤分類樣本" id="toc-誤分類樣本" class="nav-link" data-scroll-target="#誤分類樣本">誤分類樣本</a></li>
+  <li><a href="#真實手寫測試" id="toc-真實手寫測試" class="nav-link" data-scroll-target="#真實手寫測試">真實手寫測試</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -246,8 +252,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">數據分析數學</h1>
-<p class="subtitle lead">數據分析數學 · 國立中興大學資料科學與資訊計算研究所</p>
+<h1 class="title">資料分析數學</h1>
+<p class="subtitle lead">資料分析數學 · 國立中興大學資料科學與資訊計算研究所</p>
 </div>
 
 
@@ -268,12 +274,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="assignments">作業</h2>
 <hr>
 </section>
-<section id="作業一-svd-影像壓縮" class="level2">
-<h2 class="anchored" data-anchor-id="作業一-svd-影像壓縮">作業一 — SVD 影像壓縮</h2>
-<p><strong>主題:</strong> 使用 SVD 分解驗證 Eckart-Young 定理：<span class="math inline">\(\|A - A_k\|_2 = \sigma_{k+1}\)</span></p>
-<p><strong>資料集:</strong> 彩色照片 1546×1029 像素（RGB 三通道）</p>
-<section id="流程概覽" class="level3">
-<h3 class="anchored" data-anchor-id="流程概覽">流程概覽</h3>
+<section id="hw1-svd-影像壓縮" class="level2">
+<h2 class="anchored" data-anchor-id="hw1-svd-影像壓縮">HW1 — SVD 影像壓縮</h2>
+<p><strong>主題：</strong> 以 SVD 分解驗證 Eckart-Young 定理：<span class="math inline">\(\|A - A_k\|_2 = \sigma_{k+1}\)</span></p>
+<p><strong>資料集：</strong> 1546×1029 像素的彩色照片（RGB 三通道）</p>
+<section id="流程總覽" class="level3">
+<h3 class="anchored" data-anchor-id="流程總覽">流程總覽</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -300,7 +306,7 @@ flowchart TD
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>方法說明:</strong> 將照片視為矩陣 A，分別對 RGB 三個通道進行 SVD 分解。我們刻意避免使用 <code>np.linalg.norm(ord=2)</code>（因為其內部實作依賴 SVD，會產生循環論證），而是使用<strong>蒙地卡羅隨機向量法</strong>來近似算子 2-norm，再比較其趨勢與 σ_{k+1} 的關係。</p>
+<p><strong>方法說明：</strong> 將照片視為矩陣 A，對 RGB 各通道分別進行 SVD。我們刻意避免使用 <code>np.linalg.norm(ord=2)</code>（其內部實作依賴 SVD，會造成循環論證），改以 <strong>Monte Carlo 隨機向量法</strong>近似算子 2-norm，再與 σ_{k+1} 的趨勢比較。</p>
 </div>
 </section>
 <section id="關鍵公式" class="level3">
@@ -379,42 +385,42 @@ flowchart TD
 <h3 class="anchored" data-anchor-id="重建品質">重建品質</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_svd_3.png" class="img-fluid figure-img"></p>
+<p><img src="da_svd_3.png" class="img-fluid figure-img"></p>
 <figcaption>SVD 影像重建 — 不同 k 值的壓縮結果</figcaption>
 </figure>
 </div>
 <div class="chart-note grey">
-<p><strong>視覺化展示:</strong> 在 k=1 時，原始影像幾乎無法辨識；在 k=50 時，主要輪廓開始可辨別；k=300 以上時，結果已非常接近原圖。在 k=507（右下角）時，PSNR 達到 38 dB，與原圖的差異人眼幾乎無法察覺。</p>
+<p><strong>視覺化：</strong> k=1 時幾乎無法辨認原圖；k=50 時主要輪廓已可分辨；k=300 以上的結果與原圖非常接近。k=507（右下）時 PSNR 達 38 dB，肉眼幾乎無法察覺與原圖的差異。</p>
 </div>
 </section>
 <section id="mse-psnr-2-norm-分析" class="level3">
 <h3 class="anchored" data-anchor-id="mse-psnr-2-norm-分析">MSE / PSNR / 2-norm 分析</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_svd_2.png" class="img-fluid figure-img"></p>
-<figcaption>隨 k 變化的 MSE、PSNR、2-norm 與 σ_{k+1}</figcaption>
+<p><img src="da_svd_2.png" class="img-fluid figure-img"></p>
+<figcaption>MSE、PSNR、2-norm 與 σ_{k+1} 隨 k 的變化</figcaption>
 </figure>
 </div>
 <div class="chart-note orange">
-<p><strong>結論:</strong> 隨著 k 增加，MSE 下降而 PSNR 上升，2-norm 與 σ_{k+1} 呈現相同的下降趨勢，間接驗證了 Eckart-Young 定理。蒙地卡羅方法因隨機抽樣而低估了真實的 2-norm，但整體趨勢保持一致。</p>
+<p><strong>結論：</strong> 隨 k 增加，MSE 下降、PSNR 上升，且 2-norm 與 σ_{k+1} 呈現相同的遞減趨勢，間接驗證了 Eckart-Young 定理。Monte Carlo 方法因隨機取樣而低估了真實的 2-norm，但整體趨勢一致。</p>
 </div>
 <hr>
 </section>
 </section>
-<section id="作業二-手寫數字辨識" class="level2">
-<h2 class="anchored" data-anchor-id="作業二-手寫數字辨識">作業二 — 手寫數字辨識</h2>
-<p><strong>主題:</strong> 在 USPS 手寫數字資料集上比較 8 種分類方法</p>
-<p><strong>資料集:</strong> USPS 手寫數字（16×16 灰階，0-9 共 10 個類別）</p>
-<section id="資料集樣本" class="level3">
-<h3 class="anchored" data-anchor-id="資料集樣本">資料集樣本</h3>
+<section id="hw2-手寫數字辨識" class="level2">
+<h2 class="anchored" data-anchor-id="hw2-手寫數字辨識">HW2 — 手寫數字辨識</h2>
+<p><strong>主題：</strong> 在 USPS 手寫數字資料集上比較 8 種分類方法</p>
+<p><strong>資料集：</strong> USPS 手寫數字（16×16 灰階，數字 0-9 共 10 類）</p>
+<section id="資料集範例" class="level3">
+<h3 class="anchored" data-anchor-id="資料集範例">資料集範例</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_digit_1.png" class="img-fluid figure-img"></p>
-<figcaption>USPS 訓練集樣本 — 16×16 灰階手寫數字</figcaption>
+<p><img src="da_digit_1.png" class="img-fluid figure-img"></p>
+<figcaption>USPS 訓練集範例 — 16×16 灰階手寫數字</figcaption>
 </figure>
 </div>
 <div class="chart-note grey">
-<p><strong>資料特性:</strong> 每張影像僅 16×16 = 256 個像素，解析度極低但仍保留了數字的基本結構。這使得矩陣分解方法（SVD / HOSVD）能有效擷取低維特徵。</p>
+<p><strong>資料特性：</strong> 每張影像只有 16×16 = 256 個像素，解析度極低但仍保留數字的基本結構，因此矩陣分解方法（SVD / HOSVD）能有效擷取低維特徵。</p>
 </div>
 </section>
 <section id="方法總覽" class="level3">
@@ -435,23 +441,23 @@ flowchart TD
 <tbody>
 <tr class="odd">
 <td><strong>基線</strong></td>
-<td>均值法</td>
-<td>計算每個類別的平均影像，以歐氏距離進行分類</td>
+<td>Mean 法</td>
+<td>計算各類別的平均影像，以歐氏距離分類</td>
 </tr>
 <tr class="even">
 <td></td>
-<td>增強均值法</td>
-<td>考慮類別間混淆模式的迭代改進</td>
+<td>Enhanced Mean</td>
+<td>考慮類別間混淆模式的迭代修正</td>
 </tr>
 <tr class="odd">
 <td><strong>矩陣分解</strong></td>
-<td>SVD (k=20)</td>
-<td>為每個類別建立 SVD 基底，以投影殘差進行分類</td>
+<td>SVD（k=20）</td>
+<td>為各類別建立 SVD 基底，以投影殘差分類</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>HOSVD</td>
-<td>Tucker 分解 (tensorly)，秩 (10,10,20)</td>
+<td>Tucker 分解（tensorly），秩 (10,10,20)</td>
 </tr>
 <tr class="odd">
 <td><strong>傳統機器學習</strong></td>
@@ -470,8 +476,8 @@ flowchart TD
 </tr>
 <tr class="even">
 <td><strong>深度學習</strong></td>
-<td>CNN (PyTorch)</td>
-<td>Conv2D → MaxPool → Dense, 50 epochs</td>
+<td>CNN（PyTorch）</td>
+<td>Conv2D → MaxPool → Dense，50 個 epoch</td>
 </tr>
 </tbody>
 </table>
@@ -488,7 +494,7 @@ flowchart TD
 </div>
 </div>
 <div class="chart-note teal">
-<p><strong>結果分析:</strong> 均值法作為基線僅達到 81.42%。SVD (k=20) 躍升至 94.12%，證明低秩近似能有效擷取數字結構。傳統機器學習（SVM 達 94.92%）與 SVD 系列表現相近。<strong>CNN 以 95.76% 勝出</strong>，但其訓練時間為 98 秒，遠高於 KNN 的 0.45 秒。</p>
+<p><strong>結果分析：</strong> Mean 法作為基線只有 81.42%。SVD（k=20）躍升至 94.12%，證明低秩近似能有效捕捉數字結構。傳統機器學習（SVM 94.92%）與 SVD 家族表現相近。<strong>CNN 以 95.76% 勝出</strong>，但訓練時間為 98 秒，遠高於 KNN 的 0.45 秒。</p>
 </div>
 </section>
 <section id="訓練時間比較" class="level3">
@@ -503,49 +509,49 @@ flowchart TD
 </div>
 </div>
 <div class="chart-note orange">
-<p><strong>速度與準確率:</strong> KNN 僅需 0.45 秒即達到 94.47%，是<strong>最具成本效益</strong>的模型。CNN 準確率最高 (95.76%) 但需要 98 秒。HOSVD (Tucker 分解) 準確率與 SVD 相近但慢了 30 倍。</p>
+<p><strong>速度 vs 準確率：</strong> KNN 只需 0.45 秒即達 94.47%，是<strong>最具性價比</strong>的模型。CNN 最準確（95.76%）但需 98 秒。HOSVD（Tucker 分解）準確率與 SVD 相近，但慢了 30 倍。</p>
 </div>
 </section>
 <section id="svd-混淆矩陣" class="level3">
 <h3 class="anchored" data-anchor-id="svd-混淆矩陣">SVD 混淆矩陣</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_digit_14.png" class="img-fluid figure-img"></p>
-<figcaption>SVD (k=20) 混淆矩陣 — USPS 手寫數字分類</figcaption>
+<p><img src="da_digit_14.png" class="img-fluid figure-img"></p>
+<figcaption>SVD（k=20）混淆矩陣 — USPS 手寫數字分類</figcaption>
 </figure>
 </div>
 <div class="chart-note grey">
-<p><strong>混淆矩陣分析:</strong> SVD 方法在數字 0 和 1 上表現最佳（分別正確 353/264 個），而數字 3 和 7 的混淆較高（13 個數字 3 被誤判為 5）。整體 94.12% 的準確率對於免訓練的矩陣分解方法而言相當優異。</p>
+<p><strong>混淆矩陣分析：</strong> SVD 法在數字 0 與 1 上表現最佳（分別答對 353 與 264 筆），而數字 3 與 7 的混淆較多（有 13 筆 3 被誤判為 5）。對一個不需訓練的矩陣分解方法而言，整體 94.12% 的準確率相當出色。</p>
 </div>
 </section>
-<section id="錯誤分類樣本" class="level3">
-<h3 class="anchored" data-anchor-id="錯誤分類樣本">錯誤分類樣本</h3>
+<section id="誤分類樣本" class="level3">
+<h3 class="anchored" data-anchor-id="誤分類樣本">誤分類樣本</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_digit_4.png" class="img-fluid figure-img"></p>
-<figcaption>均值法錯誤分類範例 — 真實標籤 vs 預測標籤</figcaption>
+<p><img src="da_digit_4.png" class="img-fluid figure-img"></p>
+<figcaption>Mean 法的誤分類範例 — 真實標籤 vs 預測標籤</figcaption>
 </figure>
 </div>
 <div class="chart-note orange">
-<p><strong>錯誤分類分析:</strong> 這些樣本即便人眼也難以辨識。例如，真實標籤 6 被預測為 2（相似的曲線筆畫），真實標籤 3 被預測為 8（形狀相似）。在 16×16 的低解析度下，某些數字之間的結構差異極為微小。</p>
+<p><strong>誤分類分析：</strong> 這些樣本連肉眼都難以辨認。例如真實為 6 卻被預測為 2（相似的彎曲筆畫），真實為 3 卻被預測為 8（形狀相似）。在 16×16 的低解析度下，部分數字之間的結構差異極小。</p>
 </div>
 </section>
-<section id="實際手寫測試" class="level3">
-<h3 class="anchored" data-anchor-id="實際手寫測試">實際手寫測試</h3>
+<section id="真實手寫測試" class="level3">
+<h3 class="anchored" data-anchor-id="真實手寫測試">真實手寫測試</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_digit_34.png" class="img-fluid figure-img"></p>
-<figcaption>外部手寫數字照片樣本</figcaption>
+<p><img src="da_digit_34.png" class="img-fluid figure-img"></p>
+<figcaption>外部手寫數字照片範例</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../da_digit_35.png" class="img-fluid figure-img"></p>
-<figcaption>8 個模型在外部手寫照片上的準確率</figcaption>
+<p><img src="da_digit_35.png" class="img-fluid figure-img"></p>
+<figcaption>8 種模型在外部手寫照片上的準確率</figcaption>
 </figure>
 </div>
 <div class="chart-note pink">
-<p><strong>外部驗證:</strong> 所有模型均使用手機拍攝的手寫數字照片進行測試。<strong>CNN 達到 100%</strong> 完美辨識，Random Forest 95%，而增強均值法僅 56%。這證實了深度學習對於現實世界手寫變化具有最強的泛化能力。</p>
+<p><strong>外部驗證：</strong> 所有模型都以手機拍攝的手寫數字照片測試。<strong>CNN 達到 100%</strong> 的準確率，Random Forest 95%，而 Enhanced Mean 只有 56%。這顯示深度學習對真實手寫變化的泛化能力最強。</p>
 </div>
 
 
@@ -553,6 +559,79 @@ flowchart TD
 </section>
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -578,12 +657,12 @@ flowchart TD
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "已複製");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "已複製");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

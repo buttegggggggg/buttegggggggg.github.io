@@ -1,0 +1,414 @@
+---
+lang: zh-TW
+title: "陳子元（Tzu-Yuan Chen）"
+subtitle: "碩士生 · 尋求資料科學 / 機器學習實習機會"
+format:
+  html:
+    theme: cosmo
+    toc: false
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+/* ── CV Contact Bar ── */
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.4rem;
+  margin: -0.5rem 0 2rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+.cv-contact a { color: #18A3A3; text-decoration: none; }
+.cv-contact a:hover { color: #E65100; text-decoration: underline; }
+.cv-contact i { margin-right: 0.25rem; color: #18A3A3; }
+
+/* ── CV Section Headers ── */
+.cv-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 2px solid #18A3A3;
+  border-left: none !important;
+  padding-bottom: 0.4rem;
+  padding-left: 0 !important;
+  margin: 2.5rem 0 1.2rem 0;
+}
+.cv-section-title i { color: #18A3A3; margin-right: 0.4rem; }
+
+/* ── CV Timeline (Education) ── */
+.cv-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+  border-left: 2px solid #18A3A3;
+}
+.cv-timeline-item {
+  position: relative;
+  margin-bottom: 1.4rem;
+  padding-left: 0.5rem;
+}
+.cv-timeline-item:last-child { margin-bottom: 0; }
+.cv-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -2.05rem;
+  top: 0.35rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #18A3A3;
+  border: 2px solid #fff;
+}
+.cv-degree { font-weight: 700; font-size: 1.02rem; color: #111; }
+.cv-school { color: #555; font-size: 0.93rem; }
+.cv-date { color: #18A3A3; font-weight: 600; font-size: 0.86rem; }
+
+/* ── CV Skill Pills ── */
+.cv-skills-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 1rem 0 0.4rem 0;
+  border: none !important;
+  padding: 0 !important;
+}
+.cv-pill {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  margin: 0.12rem 0.15rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+.cv-pill.teal   { background: #E0F2F1; color: #00695C; border-color: #80CBC4; }
+.cv-pill.orange { background: #FFF3E0; color: #E65100; border-color: #FFCC80; }
+.cv-pill.green  { background: #E8F5E9; color: #2E7D32; border-color: #A5D6A7; }
+.cv-pill.purple { background: #F3E5F5; color: #6A1B9A; border-color: #CE93D8; }
+.cv-pill.pink   { background: #FCE4EC; color: #C62828; border-color: #F48FB1; }
+.cv-pill.grey   { background: #F5F5F5; color: #424242; border-color: #BDBDBD; }
+
+/* ── CV Project Items ── */
+.cv-project-group-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1.4rem 0 0.5rem 0;
+}
+.cv-project-item {
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.4rem;
+  border-left: 3px solid #18A3A3;
+  border-radius: 0 4px 4px 0;
+  background: #fafafa;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.cv-project-item.vision  { border-left-color: #2E7D32; }
+.cv-project-item.medical { border-left-color: #E65100; }
+.cv-project-item.bigdata { border-left-color: #1565C0; }
+.cv-project-item.dataeng { border-left-color: #6A1B9A; }
+.cv-project-item strong { color: #111; }
+.cv-metric { font-weight: 700; color: #E65100; }
+.cv-project-item a { font-size: 0.82rem; color: #18A3A3; }
+
+/* ── CV Work Experience ── */
+.cv-work-item { margin-bottom: 1.2rem; }
+.cv-role { font-weight: 700; font-size: 0.98rem; color: #111; }
+.cv-org { color: #555; font-size: 0.9rem; }
+.cv-work-date { color: #18A3A3; font-weight: 600; font-size: 0.84rem; float: right; }
+.cv-work-item ul { margin-top: 0.3rem; padding-left: 1.2rem; }
+.cv-work-item li { font-size: 0.9rem; color: #444; margin-bottom: 0.12rem; }
+
+/* ── Print Styles ── */
+@media print {
+  body { background: #fff; font-size: 10.5pt; }
+  main.content { max-width: 100%; box-shadow: none; padding: 0; margin: 0; border-radius: 0; }
+  .cv-contact { font-size: 8.5pt; }
+  .cv-section-title { font-size: 12pt; margin-top: 0.8rem; }
+  .cv-pill { font-size: 7.5pt; padding: 0.08rem 0.35rem; }
+  .cv-project-item { break-inside: avoid; }
+  .cv-timeline-item { break-inside: avoid; }
+  .cv-work-item { break-inside: avoid; }
+  nav, .sidebar, footer, .quarto-title-banner, .navbar { display: none !important; }
+  a[href]::after { content: none !important; }
+}
+</style>
+```
+
+```{=html}
+<div class="cv-contact">
+  <span><i class="bi bi-envelope-fill"></i> <a href="mailto:chen.tzuyuan666@gmail.com">chen.tzuyuan666@gmail.com</a></span>
+  <span><i class="bi bi-telephone-fill"></i> (+1) 945-371-1551 / (+886) 963-672-946</span>
+  <span><i class="bi bi-globe2"></i> <a href="https://chentzuyuan.github.io" target="_blank">chentzuyuan.github.io</a></span>
+  <span><i class="bi bi-geo-alt-fill"></i> 美國德州達拉斯 / 臺灣臺中</span>
+</div>
+```
+
+::: {.chart-note .teal}
+國立中興大學資料科學碩士生暨德州大學達拉斯分校社會資料分析碩士生，具應用數學學士學位。尋求**資料科學 / 機器學習實習**機會，以發揮橫跨 **37 個專案**的實作經驗——包含影像分類（準確率 **96.44%**）、分散式學習（**150 倍加速**），以及進行中的航班延誤預測碩士論文（嚴格控制資料洩漏，於 1,900 萬筆公開航班上 **AUC 0.77**）。在數值分析、深度學習、選擇性預測與端對端機器學習流程方面具備扎實基礎。
+:::
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-code-slash"></i> 技術能力</h2>
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{=html}
+<div class="cv-skills-group">
+<h3>程式語言與工具</h3>
+<span class="cv-pill teal">Python</span>
+<span class="cv-pill teal">R</span>
+<span class="cv-pill teal">SQL</span>
+<span class="cv-pill teal">Qiskit</span>
+<span class="cv-pill teal">Git</span>
+<span class="cv-pill teal">LaTeX</span>
+
+<h3>Python 生態系</h3>
+<span class="cv-pill">pandas</span>
+<span class="cv-pill">NumPy</span>
+<span class="cv-pill">scikit-learn</span>
+<span class="cv-pill">PyTorch</span>
+<span class="cv-pill">Keras / TensorFlow</span>
+<span class="cv-pill">statsmodels</span>
+<span class="cv-pill">GeoPandas</span>
+<span class="cv-pill">Selenium</span>
+<span class="cv-pill">BeautifulSoup</span>
+<span class="cv-pill">PyQt6</span>
+
+<h3>機器學習 / 深度學習</h3>
+<span class="cv-pill orange">ResNet</span>
+<span class="cv-pill orange">EfficientNet</span>
+<span class="cv-pill orange">U-Net</span>
+<span class="cv-pill orange">Conditional GAN</span>
+<span class="cv-pill orange">Autoencoder</span>
+<span class="cv-pill orange">SVM</span>
+<span class="cv-pill orange">KNN</span>
+<span class="cv-pill orange">Random Forest</span>
+<span class="cv-pill orange">MLP / DNN</span>
+<span class="cv-pill orange">Kernel Ridge</span>
+<span class="cv-pill orange">XGBoost</span>
+<span class="cv-pill orange">遷移學習</span>
+<span class="cv-pill orange">Focal Loss</span>
+</div>
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{=html}
+<div class="cv-skills-group">
+<h3>數學與理論</h3>
+<span class="cv-pill purple">線性代數 / SVD</span>
+<span class="cv-pill purple">HOSVD / Tucker</span>
+<span class="cv-pill purple">Nystr&ouml;m 近似</span>
+<span class="cv-pill purple">機率與貝氏</span>
+<span class="cv-pill purple">最佳化</span>
+<span class="cv-pill purple">數值方法</span>
+
+<h3>巨量資料與分散式運算</h3>
+<span class="cv-pill green">分散式 SVM</span>
+<span class="cv-pill green">通訊效率 SGD</span>
+<span class="cv-pill green">核近似</span>
+<span class="cv-pill green">選擇性預測</span>
+<span class="cv-pill green">機率校準</span>
+
+<h3>LLM 與 AI</h3>
+<span class="cv-pill teal">AI Agent 工作流程</span>
+<span class="cv-pill teal">Prompt Engineering</span>
+<span class="cv-pill teal">RAG</span>
+<span class="cv-pill teal">LLM API 整合</span>
+
+<h3>GIS 與空間分析</h3>
+<span class="cv-pill pink">ArcGIS Python API</span>
+<span class="cv-pill pink">GeoPandas</span>
+<span class="cv-pill pink">Shapely</span>
+
+<h3>視覺化與工具</h3>
+<span class="cv-pill grey">ggplot2</span>
+<span class="cv-pill grey">Shiny</span>
+<span class="cv-pill grey">Altair</span>
+<span class="cv-pill grey">Matplotlib</span>
+<span class="cv-pill grey">Qt Designer</span>
+<span class="cv-pill grey">Quarto</span>
+
+<h3>硬體與平台</h3>
+<span class="cv-pill pink">IBM Quantum (IBMQ)</span>
+<span class="cv-pill pink">Snowflake</span>
+<span class="cv-pill pink">3D 列印（FDM）</span>
+
+<h3>語言能力</h3>
+<span class="cv-pill teal">中文（母語）</span>
+<span class="cv-pill">英文（專業工作能力）</span>
+</div>
+```
+
+:::
+
+::::
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-mortarboard-fill"></i> 學歷</h2>
+
+<div class="cv-timeline">
+  <div class="cv-timeline-item">
+    <div class="cv-degree">社會資料分析與研究碩士（SDAR）</div>
+    <div class="cv-school">德州大學達拉斯分校（The University of Texas at Dallas）&mdash; UTD-NCHU 雙聯學位</div>
+    <div class="cv-date">2025 &ndash; 至今</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">資料科學與資訊計算碩士</div>
+    <div class="cv-school">國立中興大學（National Chung Hsing University, NCHU），臺灣</div>
+    <div class="cv-date">2024 &ndash; 至今</div>
+  </div>
+  <div class="cv-timeline-item">
+    <div class="cv-degree">應用數學學士</div>
+    <div class="cv-school">國立中興大學（National Chung Hsing University, NCHU），臺灣</div>
+    <div class="cv-date">2020 &ndash; 2024</div>
+  </div>
+</div>
+```
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-rocket-takeoff-fill"></i> 專案</h2>
+
+<div class="cv-project-group-title">電腦視覺與影像分類</div>
+
+<div class="cv-project-item vision">
+  <strong>AOI 瑕疵分類</strong> &mdash; 以 ResNet-18 遷移學習對工業檢測影像進行六類分類。<span class="cv-metric">準確率 96.44%</span>
+  <br><a href="DL-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item vision">
+  <strong>子宮頸癌篩檢</strong> &mdash; 以 EfficientNet-B7 + Focal Loss 對醫學影像進行三類分類。<span class="cv-metric">平均準確率 86.1%</span>
+  <br><a href="ML-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item vision">
+  <strong>手寫數字辨識</strong> &mdash; 在 USPS 資料集上比較 8 種模型（Mean / Enhanced Mean / SVD / HOSVD / SVM / KNN / RF / CNN）。<span class="cv-metric">CNN 95.76%</span>
+  <br><a href="DataAnalysis-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">醫學影像分析與生成</div>
+
+<div class="cv-project-item medical">
+  <strong>視網膜血管分割</strong> &mdash; 以 U-Net（五層編碼器－解碼器）+ Focal Tversky Loss 在 DRIVE 資料集上進行分割。<span class="cv-metric">mIoU 0.351</span>
+  <br><a href="DL-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>視網膜影像重建</strong> &mdash; 以卷積自編碼器重建視網膜眼底影像。<span class="cv-metric">PSNR 30.84 dB</span>
+  <br><a href="DL-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item medical">
+  <strong>Western Blot 影像合成</strong> &mdash; 以條件式 GAN（生成器 + PatchGAN 判別器）生成生醫影像。
+  <br><a href="DL-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">可擴展機器學習與巨量資料</div>
+
+<div class="cv-project-item bigdata">
+  <strong>Nystr&ouml;m 核嶺迴歸</strong> &mdash; 在 USPS 數字資料集上進行 Gram 矩陣近似（m=128）。<span class="cv-metric">20 倍加速</span>，維持 99.50% 準確率
+  <br><a href="BigData-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>分散式 SVM</strong> &mdash; 以 5 個 worker 平行化搭配 Smoothed Hinge Loss 在 a9a 資料集上訓練。<span class="cv-metric">150 倍加速</span>
+  <br><a href="BigData-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item bigdata">
+  <strong>美國野火趨勢分析</strong> &mdash; 以 Poisson 迴歸 + MLP 分類器分析 188 萬筆紀錄（1992&ndash;2015）。
+  <br><a href="ML-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">資料工程與應用</div>
+
+<div class="cv-project-item dataeng">
+  <strong>SVD 影像壓縮應用程式</strong> &mdash; 以 PyQt6 開發具即時預覽的 GUI 應用程式，並驗證 Eckart-Young 定理。<span class="cv-metric">PSNR 44.7 dB</span>
+  <br><a href="DataAnalysis-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>衣櫥推薦資料庫</strong> &mdash; 13 張資料表的關聯式架構，搭配三階段 XGBoost 推薦引擎（溫度 &times; 美感 &times; 場合）。
+  <br><a href="EPPS6354-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>GIS 網頁地圖與空間分析</strong> &mdash; 使用 GeoPandas、Shapely、ArcGIS Python API 進行全球城市空間分析。
+  <br><a href="GISPY-zh.html">查看詳情 &rarr;</a>
+</div>
+
+<div class="cv-project-group-title">進行中的研究</div>
+
+<div class="cv-project-item bigdata">
+  <strong>航班延誤預測 &mdash; 碩士論文</strong> &mdash; 嚴格控制資料洩漏的延誤預測：找出航空公司資料中 ETD 的標籤洩漏，在嚴格的起飛前截止時間下重建特徵流程（80.4 萬筆美國航空航班，<span class="cv-metric">AUC 0.7418</span>），再以 1,915 萬筆公開 BTS 航班重現（<span class="cv-metric">AUC 0.7681</span>）。SHAP 分析顯示班表結構與前段航班鏈（tail chain）特徵主導預測，天氣貢獻趨近於零。
+  <br><em style="font-size:0.82rem; color:#999;">AA 資料受保密協議約束 &mdash; 僅呈現結果</em>
+</div>
+
+<div class="cv-project-item dataeng">
+  <strong>適性學習平台成效分析 &mdash; 臺中市教育局</strong> &mdash; 評估適性學習平台對國小五年級數學的成效（127 個班級、2,414 筆紀錄）。Spearman &rho; = 0.096（使用率 vs 成效）；校內調整後 &rho; = &minus;0.132。
+  <br><em style="font-size:0.82rem; color:#999;">資料受保密協議約束 &mdash; 僅呈現結果</em>
+</div>
+```
+
+```{=html}
+<h2 class="cv-section-title"><i class="bi bi-briefcase-fill"></i> 經歷</h2>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2022 &ndash; 2024</span>
+  <div class="cv-role">雙語教學助理</div>
+  <div class="cv-org">國立中興大學</div>
+  <ul>
+    <li><strong>微積分</strong> &mdash; 為國際學生提供一對一輔導；主持討論課，將微積分理論連結至數值演算法</li>
+    <li><strong>資料庫系統設計</strong> &mdash; 協助 SQL 作業；介紹 Power Query；提供講義的雙語翻譯</li>
+    <li><strong>量子運算</strong> &mdash; 指導學生完成 Python 與 Qiskit 作業；講解機率推理與模擬任務</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2023 &ndash; 2024</span>
+  <div class="cv-role">大學專題研究：量子貝氏推論</div>
+  <div class="cv-org">國立中興大學應用數學系</div>
+  <ul>
+    <li>使用 Qiskit 在 IBMQ 硬體上研究量子電腦輸出是否符合貝氏機率定律</li>
+    <li>應用貝氏更新分析量子位元量測結果；揭示真實量子運算與模擬器預測之間的差異</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <span class="cv-work-date">2020 &ndash; 2024</span>
+  <div class="cv-role">兼職工作</div>
+  <div class="cv-org">臺灣各地</div>
+  <ul>
+    <li><strong>雙語會議工作人員</strong>（中興大學）&mdash; 陪同來訪學者、協調行程安排、提供即時雙語協助</li>
+    <li><strong>補習班講師與家教</strong> &mdash; 數學、物理、化學、生物、國文與英文</li>
+    <li><strong>3D 列印工作室</strong> &mdash; FDM 印表機操作、切片與列印流程管理</li>
+  </ul>
+</div>
+
+<div class="cv-work-item">
+  <div class="cv-role">國際志工</div>
+  <ul>
+    <li>於偏鄉小學教授英文與美術；參與沙漠地區植樹造林專案</li>
+  </ul>
+</div>
+```
+
+```{=html}
+<p style="text-align:center; color:#999; font-size:0.82rem; margin-top:3rem; padding-bottom:1rem;">
+  最後更新：2025 年 2 月 &nbsp;&middot;&nbsp; <a href="javascript:window.print()" style="color:#18A3A3;">儲存為 PDF</a>
+</p>
+```

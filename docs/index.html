@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -32,15 +32,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -171,6 +170,12 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link" href="./CV.html"> 
 <span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -511,7 +516,7 @@ header#title-block-header { display: none !important; }
   <span class="proj-num">01</span>
   <div class="proj-body">
     <div class="proj-title">ResNet Image Classification</div>
-    <p class="proj-desc">96.44% accuracy on multi-class classification with focal loss and transfer learning.</p>
+    <p class="proj-desc">96.44% accuracy on 6-class industrial defect classification with ResNet-18 transfer learning.</p>
   </div>
   <span class="proj-tag">Deep Learning</span>
   <span class="proj-arrow">→</span>
@@ -520,8 +525,8 @@ header#title-block-header { display: none !important; }
 <a class="home-project" href="BigData.html">
   <span class="proj-num">02</span>
   <div class="proj-body">
-    <div class="proj-title">Distributed SVM with Nyström Approximation</div>
-    <p class="proj-desc">150× speedup using 5-worker architecture with kernel approximation on large-scale datasets.</p>
+    <div class="proj-title">Distributed SVM &amp; Nyström Approximation</div>
+    <p class="proj-desc">150× speedup with a 5-worker distributed smoothed SVM; 20× speedup with Nyström kernel approximation.</p>
   </div>
   <span class="proj-tag">Big Data</span>
   <span class="proj-arrow">→</span>
@@ -531,7 +536,7 @@ header#title-block-header { display: none !important; }
   <span class="proj-num">03</span>
   <div class="proj-body">
     <div class="proj-title">Medical Image Segmentation</div>
-    <p class="proj-desc">U-Net and Conditional GAN for retinal vessel segmentation on biomedical imaging datasets.</p>
+    <p class="proj-desc">U-Net for retinal vessel segmentation and a conditional GAN for Western blot image synthesis.</p>
   </div>
   <span class="proj-tag">Deep Learning</span>
   <span class="proj-arrow">→</span>
@@ -552,31 +557,35 @@ header#title-block-header { display: none !important; }
 
 <div class="home-research">
   <div class="research-header">
-    <div class="research-title">Flight Delay Prediction — M.S. Thesis</div>
+    <div class="research-title"><a href="research-overview-en.html" style="color:inherit;text-decoration:none;">Flight Delay Prediction — M.S. Thesis</a></div>
     <span class="research-badge">In Progress</span>
   </div>
   <p class="research-desc">
-    Selective prediction framework for American Airlines flight delays. Investigating when <em>not</em> to trust model predictions by defining abstention policies that bound acceptable risk.
+    Leakage-controlled flight delay prediction. Gen1 found that the airline’s ETD feature leaked the label; Gen2 rebuilt the feature pipeline under a strict pre-departure cutoff on 804K American Airlines flights, and Gen3 replicated it on 19.15M public BTS flights. Core finding: schedule structure, not weather, dominates predictable delay.
   </p>
   <div class="research-metrics">
     <div class="metric">
-      <div class="metric-val">0.686<span>3</span></div>
-      <div class="metric-label">AUC (No ETD)</div>
+      <div class="metric-val">0.768<span>1</span></div>
+      <div class="metric-label">AUC (Gen3, BTS)</div>
     </div>
     <div class="metric">
-      <div class="metric-val">0.928<span>0</span></div>
-      <div class="metric-label">AUC (+ ETD)</div>
+      <div class="metric-val">0.741<span>8</span></div>
+      <div class="metric-label">AUC (Gen2, AA)</div>
     </div>
     <div class="metric">
-      <div class="metric-val">0.290<span>8</span></div>
-      <div class="metric-label">AURC</div>
-    </div>
-    <div class="metric">
-      <div class="metric-val">1.1<span>M+</span></div>
+      <div class="metric-val">19.15<span>M</span></div>
       <div class="metric-label">Flights</div>
     </div>
+    <div class="metric">
+      <div class="metric-val">34<span>/34</span></div>
+      <div class="metric-label">Leakage Rules Passed</div>
+    </div>
   </div>
-  <p class="research-note">Data under NDA — results only, no raw data disclosed.</p>
+  <p class="research-note">
+    <a href="research-overview-en.html">Research overview →</a>
+    ·
+    AA data under NDA — results only, no raw data disclosed.
+  </p>
 </div>
 
 <!-- Render free tier sleeps after 15 min idle. Pre-warm the demo
@@ -597,7 +606,7 @@ header#title-block-header { display: none !important; }
     <span class="research-badge">v0.2.0</span>
   </div>
   <p class="research-desc">
-    Local-first desktop app that learns each user’s clothing preferences. Three-stage XGBoost pipeline (temperature × aesthetic × occasion) chained at inference time. Layer-coverage thermal model handles real cold-weather layering; auto-update notification ships from a public release feed. Final project for EPPS&nbsp;6354 (Information Management).
+    Local-first desktop app that learns each user’s clothing preferences. Three-stage XGBoost pipeline (temperature × aesthetic × occasion) chained at inference time. Layer-coverage thermal model handles real cold-weather layering; update checks run against a public release manifest. Final project for EPPS&nbsp;6354 (Information Management).
   </p>
   <div class="research-metrics">
     <div class="metric">
@@ -609,12 +618,12 @@ header#title-block-header { display: none !important; }
       <div class="metric-label">Stage Chain</div>
     </div>
     <div class="metric">
-      <div class="metric-val">11<span></span></div>
+      <div class="metric-val">13<span></span></div>
       <div class="metric-label">DB Tables</div>
     </div>
     <div class="metric">
-      <div class="metric-val">172<span> MB</span></div>
-      <div class="metric-label">Desktop Bundle</div>
+      <div class="metric-val">95<span> MB</span></div>
+      <div class="metric-label">macOS Bundle</div>
     </div>
   </div>
   <p class="research-note">
@@ -664,6 +673,79 @@ header#title-block-header { display: none !important; }
 
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -715,14 +797,13 @@ header#title-block-header { display: none !important; }
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

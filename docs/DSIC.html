@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f537555e85d979099ed792706140d7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -173,6 +173,12 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link" href="./CV.html"> 
 <span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index-zh.html"> 
+<span class="menu-text">中文</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -367,7 +373,7 @@ flowchart LR
 <p><strong>Assignments:</strong></p>
 <ul>
 <li><strong>HW1 – SVD Image Compression:</strong> Validating the Eckart-Young theorem with photographs, Monte Carlo approximation of 2-norm, PSNR reaching <strong>44.7 dB</strong> (k=700)</li>
-<li><strong>HW2 – Handwritten Digit Recognition:</strong> USPS dataset, comparing 8 methods (Mean / SVD / HOSVD / SVM / KNN / RF / CNN), <strong>CNN 95.76%</strong> highest</li>
+<li><strong>HW2 – Handwritten Digit Recognition:</strong> USPS dataset, comparing 8 methods (Mean / Enhanced Mean / SVD / HOSVD / SVM / KNN / RF / CNN), <strong>CNN 95.76%</strong> highest</li>
 </ul>
 <p><strong>Key Tools:</strong> Python · NumPy · PyTorch · tensorly · scikit-learn</p>
 </section>
@@ -407,12 +413,12 @@ flowchart LR
 <tr class="even">
 <td><strong>Deep Learning</strong></td>
 <td>AOI Defect Detection</td>
-<td>ResNet-50 Fine-tune · <strong>96.4%</strong></td>
+<td>ResNet-18 transfer learning · <strong>96.44%</strong></td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>U-Net Segmentation</td>
-<td>Dice 0.91 · Medical image semantic segmentation</td>
+<td>mIoU 0.351 · Retinal vessel semantic segmentation</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -421,8 +427,8 @@ flowchart LR
 </tr>
 <tr class="odd">
 <td></td>
-<td>cGAN Blot Removal</td>
-<td>Conditional GAN for blot removal</td>
+<td>cGAN Blot Generation</td>
+<td>Conditional GAN for Western blot image synthesis</td>
 </tr>
 <tr class="even">
 <td><strong>Big Data</strong></td>
@@ -459,6 +465,79 @@ flowchart LR
 </section>
 
 </main> <!-- /main -->
+<script>
+/* ── Language toggle (EN ⇄ 中文) ──
+   Every English page X.html has a Chinese twin X-zh.html, except the
+   research pages, whose Chinese version is the default (gen1.html) and
+   the English one carries the -en suffix (gen1-en.html).
+   On a Chinese page this script also localises the shared navbar and
+   repoints its links to the Chinese twins. */
+(function () {
+  var RESEARCH = { "gen1": 1, "gen2": 1, "gen3": 1, "research-overview": 1 };
+  var NAV_ZH = {
+    "Home": "首頁",
+    "About": "關於我",
+    "BS of AM": "應數學士",
+    "MS of DSIC": "資科碩士",
+    "MS of SDAR": "SDAR 碩士",
+    "Overview": "總覽",
+    "Quantum Bayesian Inference": "量子貝氏推論",
+    "ML & Data Science": "機器學習與資料科學",
+    "Deep Learning": "深度學習",
+    "Big Data Analysis": "巨量資料分析",
+    "Data Analysis Math": "資料分析數學",
+    "GIS & Python": "GIS 與 Python",
+    "Data Visualization": "資料視覺化",
+    "Information Management": "資訊管理",
+    "OutfitDB (final project)": "OutfitDB（期末專案）",
+    "CV": "履歷"
+  };
+
+  function split(file) {
+    var m = /^(.*?)\.html$/.exec(file || "index.html");
+    var base = m ? m[1] : "index";
+    if (base === "") base = "index";
+    if (RESEARCH[base]) return { base: base, zh: true, research: true };
+    if (/-en$/.test(base) && RESEARCH[base.slice(0, -3)])
+      return { base: base.slice(0, -3), zh: false, research: true };
+    if (/-zh$/.test(base)) return { base: base.slice(0, -3), zh: true, research: false };
+    return { base: base, zh: false, research: false };
+  }
+  function toZh(file) {
+    var p = split(file);
+    if (p.zh) return file;
+    return p.research ? p.base + ".html" : p.base + "-zh.html";
+  }
+  function toEn(file) {
+    var p = split(file);
+    if (!p.zh) return file;
+    return p.research ? p.base + "-en.html" : p.base + ".html";
+  }
+
+  var here = split(location.pathname.split("/").pop());
+  var toggle = document.querySelector('.navbar a.nav-link[href$="index-zh.html"]');
+  if (toggle) {
+    var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
+    toggle.href = here.zh ? toEn(file) : toZh(file);
+    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
+    toggle.title = here.zh ? "Switch to English" : "切換至中文";
+  }
+
+  if (!here.zh) return;
+  document.querySelectorAll(".navbar a.nav-link, .navbar a.dropdown-item").forEach(function (a) {
+    if (a === toggle) return;
+    var txt = a.textContent.trim();
+    if (NAV_ZH[txt]) {
+      var span = a.querySelector(".menu-text");
+      (span || a).textContent = NAV_ZH[txt];
+    }
+    var href = a.getAttribute("href") || "";
+    var m = /^(\.\/)?([A-Za-z0-9_-]+\.html)(#.*)?$/.exec(href);
+    if (m) a.setAttribute("href", toZh(m[2]) + (m[3] || ""));
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

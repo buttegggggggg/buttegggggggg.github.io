@@ -162,8 +162,7 @@ decisions through rules and queries.
 
 ###### ii. Functions
 
-**Order intake & requirement tagging** (Order Intake & Requirement
-Tagging)
+**Order intake & requirement tagging**
 
 When a customer submits an order, the system stores it as an order
 record with structured attributes, such as:
@@ -171,16 +170,16 @@ record with structured attributes, such as:
 -   Model size and volume (bounding box / volume)
 -   Printing type (FDM / SLA)
 -   Resolution settings (layer height / resolution)
--   Multi-color requirement (multi-color)
--   Material type (material type)
--   Post-processing needs (post-processing, e.g., painting/sanding)
+-   Multi-color requirement
+-   Material type
+-   Post-processing needs (e.g., painting/sanding)
 -   Other customization requests (stored as tags)
 
 These fields can be normalized into multiple tables, with many-to-many
 relationships used to represent that a single order can have multiple
 requirement tags.
 
-**Per-machine estimation** (Per-Machine Estimation)
+**Per-machine estimation**
 
 The key is not only to calculate an overall price for the order, but to
 estimate how the same order would perform on different machines, since
@@ -190,18 +189,16 @@ better machine assignment and scheduling decisions.
 For each candidate machine, the system applies pricing rules or an
 estimation model to perform per-machine estimation, including:
 
--   Estimated print time (estimated print time)
--   Estimated material usage (estimated material usage)
--   Machine-specific estimated cost & quote (machine-specific estimated
-    cost & quote)
--   Estimated completion time (estimated completion time, considering
-    current workload)
+-   Estimated print time
+-   Estimated material usage
+-   Machine-specific estimated cost & quote
+-   Estimated completion time (considering current workload)
 
 The system stores these “order × machine” estimates for querying and
 ranking using different objective functions, such as lowest cost,
 earliest completion, or the most stable option within a deadline.
 
-**Order queue & status tracking** (Order Queue & Status Tracking)
+**Order queue & status tracking**
 
 All orders are automatically added to an order queue (order list), and
 each order maintains a clear status, such as:
@@ -219,22 +216,24 @@ Managers can query:
 -   Which orders are printing vs. waiting for machines
 -   Which failed orders require reprinting or manual intervention
 
-**Machine capability modeling & assignment recommendations** (Machine
-Capability & Assignment)
+**Machine capability modeling & assignment recommendations**
 
 The database stores each machine’s capabilities and constraints, such
-as: - Machine type: multi-color / single-color / SLA / FDM - Maximum
-build volume (max build volume) - Supported materials (supported
-materials) - Speed/quality profile (speed/quality profile) - Current
-workload and availability (workload & availability)
+as:
+
+-   Machine type: multi-color / single-color / SLA / FDM
+-   Maximum build volume
+-   Supported materials
+-   Speed/quality profile
+-   Current workload and availability
 
 When a new order arrives, the system first performs constraint filtering
 (e.g., size, material, multi-color requirements) to identify feasible
 machines, then uses per-machine estimation to generate recommended
 assignments, for example:
 
--   Earliest completion time (earliest completion time)
--   Lowest estimated cost (lowest estimated cost)
+-   Earliest completion time
+-   Lowest estimated cost
 -   Balanced option (deadline + stability)
 
 This turns scheduling into a decision-support process rather than manual
@@ -270,7 +269,7 @@ The interface supports efficient operations: submit order → per-machine
 estimation → queue order → recommend machines → schedule & track
 progress.
 
-##### Wardrobe Management Database
+##### Farm Irrigation Scheduling Database
 
 ###### i. Purpose
 
@@ -402,9 +401,12 @@ supported by at least the following three core tables:
 
 **1. User Table**
 
-The user table stores basic information about users, such as: -
-user_id - username - account creation time - profile metadata (e.g., bio
-or status)
+The user table stores basic information about users, such as:
+
+-   user_id
+-   username
+-   account creation time
+-   profile metadata (e.g., bio or status)
 
 This table represents the identities of users and serves as a reference
 for other tables in the system.
@@ -1576,7 +1578,7 @@ Stage 1 temperature, Stage 2 aesthetic, Stage 3 occasion.
 
 ### 4. Database Schema (13 tables, 5 clusters)
 
-The schema is designed in 3NF, with deliberate denormalizations only at three
+The schema is normalized to BCNF, with deliberate denormalizations only at two
 documented locations (see §5).
 
 #### 4.1 Cluster A — Wardrobe Identity (3 tables)

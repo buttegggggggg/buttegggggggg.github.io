@@ -244,7 +244,7 @@ format:
   </div>
   <!-- Row 2: technical credibility / privacy -->
   <div class="od-stat">
-    <div class="od-stat-val">11</div>
+    <div class="od-stat-val">13</div>
     <div class="od-stat-label">Tables in your own database</div>
   </div>
   <div class="od-stat">
@@ -264,14 +264,14 @@ format:
 
 ## Live demo
 
-The full FastAPI backend, deployed to a Render free instance and pre-
-seeded with the *Tester* wardrobe (54 items, 17&thinsp;MB of photos).
+The full FastAPI backend, deployed to a Render free instance and
+pre-seeded with the *Tester* wardrobe (54 items, 17&thinsp;MB of photos).
 Every interaction hits the real Python service: SQLAlchemy talks to
 SQLite, XGBoost ranks outfits, Jinja renders templates, the lifespan
 hook copies the bundled seed into `/tmp` on each cold boot. The
 recommendation flow, profile switcher, training pages, calendar,
-context builder, and laundry/dirty/wear state machine all run end-to-
-end &mdash; this isn&rsquo;t a static mock anymore.
+context builder, and laundry/dirty/wear state machine all run
+end-to-end &mdash; this isn&rsquo;t a static mock anymore.
 
 ```{=html}
 <link rel="preconnect" href="https://outfitdb.onrender.com">
@@ -378,7 +378,7 @@ browser directly to the public APIs, never through any server I run).
   </div>
   <div class="od-feature-card">
     <h3>Phase 6 &mdash; Desktop Packaging</h3>
-    <p>PyInstaller .spec handles the FastAPI-stack frozen-mode gotchas (Jinja2 paths, PIL plugins, xgboost native lib). Auto-update via cached public manifest. macOS DMG with drag-to-Applications layout.</p>
+    <p>PyInstaller .spec handles the FastAPI-stack frozen-mode gotchas (Jinja2 paths, PIL plugins, xgboost native lib). Manual update check against a public release manifest. macOS DMG with drag-to-Applications layout.</p>
   </div>
 </div>
 ```
