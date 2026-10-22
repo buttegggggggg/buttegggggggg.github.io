@@ -467,6 +467,34 @@ flowchart TD
 </section>
 
 </main> <!-- /main -->
+<style>
+/* ── Language toggle button in the navbar ── */
+.navbar a.nav-link.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.6rem;
+  padding: 0.3rem 0.85rem !important;
+  border: 1.5px solid #18A3A3;
+  border-radius: 999px;
+  color: #18A3A3 !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.navbar a.nav-link.lang-toggle:hover,
+.navbar a.nav-link.lang-toggle:focus {
+  background: #18A3A3;
+  color: #fff !important;
+  text-decoration: none;
+}
+.navbar a.nav-link.lang-toggle .bi { font-size: 1rem; }
+@media (max-width: 991px) {
+  .navbar a.nav-link.lang-toggle { margin: 0.5rem 0 0 0; width: max-content; }
+}
+</style>
 <script>
 /* ── Language toggle (EN ⇄ 中文) ──
    Every English page X.html has a Chinese twin X-zh.html, except the
@@ -521,7 +549,9 @@ flowchart TD
   if (toggle) {
     var file = here.base + (here.zh ? (here.research ? "" : "-zh") : (here.research ? "-en" : "")) + ".html";
     toggle.href = here.zh ? toEn(file) : toZh(file);
-    toggle.textContent = here.zh ? "EN" : "中文";
+    toggle.classList.add("lang-toggle");
+    toggle.innerHTML = '<i class="bi bi-translate" aria-hidden="true"></i>' +
+      (here.zh ? "English" : "中文");
     toggle.setAttribute("lang", here.zh ? "en" : "zh-TW");
     toggle.title = here.zh ? "Switch to English" : "切換至中文";
   }
