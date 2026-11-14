@@ -18,6 +18,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Don't leave the Actions token in git config; it would override
+          # the MIRROR_TOKEN in the push URL below.
+          persist-credentials: false
 
       - name: Push main to the mirror
         env:
