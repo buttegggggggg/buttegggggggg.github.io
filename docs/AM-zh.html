@@ -71,6 +71,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.scss">
+<meta property="og:title" content="應用數學學士 – Tzu-Yuan">
+<meta property="og:description" content="國立中興大學 · 應用數學系">
+<meta property="og:site_name" content="Tzu-Yuan">
+<link rel="canonical" href="https://chentzuyuan.github.io/AM-zh.html">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -410,7 +414,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/chentzuyuan\.github\.io");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

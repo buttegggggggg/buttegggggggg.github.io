@@ -1,0 +1,32 @@
+name: Mirror main to chentzuyuan.github.io
+
+# chentzuyuan.github.io is served from a separate repository
+# (chentzuyuan/chentzuyuan.github.io, main branch, /docs folder). Keep it
+# identical to this repository's main so both sites always show the same
+# content. Requires the MIRROR_TOKEN secret: a fine-grained PAT from the
+# chentzuyuan account with Contents: read/write on that one repository.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push main to the mirror
+        env:
+          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          if [ -z "$MIRROR_TOKEN" ]; then
+            echo "MIRROR_TOKEN secret is not set; skipping mirror push."
+            exit 0
+          fi
+          git push --force \
+            "https://x-access-token:${MIRROR_TOKEN}@github.com/chentzuyuan/chentzuyuan.github.io.git" \
+            HEAD:main
