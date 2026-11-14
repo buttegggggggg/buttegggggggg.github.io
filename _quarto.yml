@@ -18,6 +18,7 @@ project:
   - chen_finalreport.pdf             # EPPS 6354 final report (PDF)
   - img_architecture.png             # final report figure
   - img_feedback_loop.png            # final report figure
+  - google4356218b260bf2fd.html     # Google Search Console ownership file (must stay at site root)
 
 website:
   title: "Tzu-Yuan"
