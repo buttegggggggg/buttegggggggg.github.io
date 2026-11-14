@@ -30,6 +30,14 @@ jobs:
             echo "MIRROR_TOKEN secret is not set; skipping mirror push."
             exit 0
           fi
+          # The mirror must not receive this workflow: it has no MIRROR_TOKEN,
+          # and a fine-grained PAT without the "workflows" permission is not
+          # allowed to push workflow files anyway. Strip .github/workflows in
+          # a throwaway commit on top of main and push that.
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r -q --cached .github/workflows
+          git commit -q -m "Mirror of buttegggggggg/buttegggggggg.github.io@${GITHUB_SHA::7} (workflows stripped)"
           git push --force \
             "https://x-access-token:${MIRROR_TOKEN}@github.com/chentzuyuan/chentzuyuan.github.io.git" \
             HEAD:main
