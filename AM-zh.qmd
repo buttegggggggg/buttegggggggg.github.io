@@ -1,0 +1,39 @@
+---
+title: "應用數學學士"
+subtitle: "國立中興大學 · 應用數學系"
+lang: zh-TW
+format:
+  html:
+    theme: cosmo
+    toc: false
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+::: {.chart-note .teal}
+**學歷：** 理學學士，國立中興大學應用數學系（B.S. Applied Mathematics, NCHU, 2020 -- 2024）
+:::
+
+## 關於本系
+
+**國立中興大學應用數學系**提供紮實的數學理論與應用基礎。課程涵蓋微積分、線性代數、微分方程、機率與統計、數值分析及最佳化——為學生在資料科學、金融、工程與科學計算領域的深造與職涯做好準備。
+
+---
+
+## 研究
+
+::: {.landing-cards}
+
+::: {.landing-card}
+### [量子貝氏推論](AM_thesis-zh.qmd)
+
+**國科會大專生研究計畫**（NSTC 112-2813-C-005-038-E）
+
+研究量子電腦的輸出是否符合貝氏機率定律。在 IBMQ 硬體與模擬器上以 Qiskit 開發程式來檢驗大數法則，發現真實量子電腦的執行結果與模擬器預測之間存在差異。
+
+**工具：** Python、Qiskit、IBMQ（ibm_osaka）、貝氏更新、matplotlib
+
+:::
+
+:::

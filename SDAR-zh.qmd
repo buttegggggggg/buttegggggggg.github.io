@@ -1,0 +1,46 @@
+---
+title: "社會資料分析與研究碩士"
+subtitle: "德州大學達拉斯分校（The University of Texas at Dallas）"
+lang: zh-TW
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    toc-depth: 4
+    number-sections: false
+    page-layout: full
+    smooth-scroll: true
+---
+
+::: {.chart-note .teal}
+**學歷：** 社會資料分析與研究理學碩士（Master of Science in Social Data Analytics and Research, SDAR），德州大學達拉斯分校（UTD）。
+:::
+
+## 關於本學程
+
+德州大學達拉斯分校的**社會資料分析與研究碩士（SDAR）**學程訓練學生蒐集、管理、分析與視覺化社會與行為資料。課程涵蓋 GIS、資料視覺化、資訊管理與量化方法，使畢業生具備在公共政策、社會科學與產業界進行資料驅動決策的能力。
+
+## 修課內容
+
+::: {.landing-cards}
+
+::: {.landing-card}
+### [GIS 與 Python 程式設計](GISPY-zh.qmd#assignments)
+
+地理資訊系統、空間資料分析與 Python 程式設計——從基礎腳本與 GUI 應用程式，到網路爬蟲與 SVD 影像壓縮。
+:::
+
+::: {.landing-card}
+### [資料視覺化](EPPS6356-zh.qmd#assignments)
+
+有效資料視覺化的原則、圖形語法與實務圖表設計——包含以 R（ggplot2）完成的作業，以及對視覺化文獻的評論。
+:::
+
+::: {.landing-card}
+### [資訊管理](EPPS6354-zh.qmd)
+
+資料庫設計、SQL、資訊系統架構，以及社會科學研究的資料管理策略。
+:::
+
+:::

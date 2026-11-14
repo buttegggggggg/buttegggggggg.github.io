@@ -1,0 +1,506 @@
+---
+lang: zh-TW
+title: ""
+pagetitle: "Tzu-Yuan"
+format:
+  html:
+    toc: false
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+/* ── Home: Magazine / Editorial ── */
+
+/* Kill default Quarto title block */
+.quarto-title { display: none !important; }
+header#title-block-header { display: none !important; }
+
+/* ── Hero ── */
+.home-hero {
+  text-align: center;
+  padding: 4rem 1rem 2rem 1rem;
+}
+.home-name {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 3px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.home-sub {
+  font-size: 0.95rem;
+  color: #999;
+  letter-spacing: 2px;
+  margin: 0.6rem 0 0 0;
+  text-transform: uppercase;
+}
+.home-tagline {
+  font-style: italic;
+  font-size: 1.12rem;
+  color: #555;
+  margin: 1.8rem auto 0 auto;
+  max-width: 520px;
+  line-height: 1.7;
+}
+.home-hr {
+  border: none;
+  border-top: 1px solid #18A3A3;
+  width: 60px;
+  margin: 2.5rem auto;
+}
+
+/* ── Stat Bar ── */
+.home-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1.6rem 1rem;
+  background: #F5F5F5;
+  border-radius: 8px;
+  margin: 0 auto 2.5rem auto;
+  max-width: 600px;
+}
+.home-stat {
+  text-align: center;
+}
+.home-stat .num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+.home-stat .num span {
+  color: #18A3A3;
+}
+.home-stat .label {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+/* ── Section Header (editorial) ── */
+.home-section {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 2.5rem 0 0.8rem 0;
+  border: none !important;
+  padding: 0 !important;
+}
+.home-section-line {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0 0 1.2rem 0;
+}
+
+/* ── Project Rows ── */
+.home-project {
+  display: flex;
+  align-items: baseline;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease;
+  gap: 1rem;
+}
+.home-project:hover {
+  background: #f0fafa;
+  text-decoration: none;
+}
+.home-project .proj-num {
+  font-size: 0.82rem;
+  color: #bbb;
+  font-weight: 600;
+  min-width: 2rem;
+  flex-shrink: 0;
+}
+.home-project .proj-body {
+  flex: 1;
+}
+.home-project .proj-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 0.2rem 0;
+}
+.home-project .proj-desc {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}
+.home-project .proj-tag {
+  font-size: 0.72rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.home-project .proj-arrow {
+  font-size: 1.1rem;
+  color: #ccc;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+.home-project:hover .proj-arrow {
+  color: #18A3A3;
+}
+
+/* ── Ongoing Research ── */
+.home-research {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.2rem;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+.home-research:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.home-research .research-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.home-research .research-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+.home-research .research-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #E65100;
+  background: #FFF3E0;
+  border: 1px solid #FFCC80;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.home-research .research-desc {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.5;
+}
+.home-research .research-metrics {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.home-research .metric {
+  text-align: center;
+  min-width: 80px;
+}
+.home-research .metric .metric-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+.home-research .metric .metric-val span {
+  color: #18A3A3;
+}
+.home-research .metric .metric-label {
+  font-size: 0.7rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.home-research .research-note {
+  font-size: 0.75rem;
+  color: #bbb;
+  font-style: italic;
+  margin: 0.8rem 0 0 0;
+}
+
+/* ── Explore Links ── */
+.home-explore {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 1.5rem 0 2rem 0;
+  flex-wrap: wrap;
+}
+.home-explore a {
+  text-decoration: none;
+  text-align: center;
+  color: #111;
+  transition: color 0.2s ease;
+}
+.home-explore a:hover {
+  color: #18A3A3;
+}
+.home-explore .exp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.home-explore .exp-sub {
+  font-size: 0.78rem;
+  color: #999;
+  display: block;
+}
+
+/* ── Footer ── */
+.home-footer {
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+.home-footer .footer-links {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+.home-footer .footer-links a {
+  color: #18A3A3;
+  text-decoration: none;
+}
+.home-footer .footer-links a:hover {
+  color: #E65100;
+  text-decoration: underline;
+}
+.home-footer .footer-links span {
+  margin: 0 0.5rem;
+  color: #ccc;
+}
+.home-footer .copyright {
+  font-size: 0.75rem;
+  color: #bbb;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .home-name { font-size: 2rem; letter-spacing: 1px; }
+  .home-stats { flex-direction: column; gap: 1.2rem; }
+  .home-project { flex-wrap: wrap; }
+  .home-project .proj-tag { width: 100%; margin-top: 0.3rem; }
+  .home-explore { flex-direction: column; gap: 1.5rem; }
+}
+</style>
+```
+
+```{=html}
+<!-- ── Hero ── -->
+<div class="home-hero">
+  <h1 class="home-name">Tzu-Yuan Chen</h1>
+  <p class="home-sub">資料科學 &middot; 應用數學 &middot; 機器學習</p>
+  <p class="home-tagline">「以數學理論為基礎，建構資料驅動的解決方案。」</p>
+  <hr class="home-hr">
+</div>
+```
+
+```{=html}
+<!-- ── Stat Bar ── -->
+<div class="home-stats">
+  <div class="home-stat">
+    <div class="num">37</div>
+    <div class="label">專案</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">12<span>+</span></div>
+    <div class="label">涉及領域</div>
+  </div>
+  <div class="home-stat">
+    <div class="num"><span>3</span></div>
+    <div class="label">學位</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">2.3M<span>+</span></div>
+    <div class="label">最大資料處理量</div>
+  </div>
+  <div class="home-stat">
+    <div class="num">150<span>x</span></div>
+    <div class="label">演算法加速倍數</div>
+  </div>
+</div>
+```
+
+```{=html}
+<!-- ── Selected Projects ── -->
+<h2 class="home-section">精選專案</h2>
+<hr class="home-section-line">
+
+<a class="home-project" href="DL-zh.html">
+  <span class="proj-num">01</span>
+  <div class="proj-body">
+    <div class="proj-title">ResNet 影像分類</div>
+    <p class="proj-desc">以 ResNet-18 遷移學習進行 6 類工業瑕疵分類，準確率 96.44%。</p>
+  </div>
+  <span class="proj-tag">深度學習</span>
+  <span class="proj-arrow">&rarr;</span>
+</a>
+
+<a class="home-project" href="BigData-zh.html">
+  <span class="proj-num">02</span>
+  <div class="proj-body">
+    <div class="proj-title">分散式 SVM 與 Nystr&ouml;m 近似</div>
+    <p class="proj-desc">5 個 worker 的分散式 Smoothed SVM 達 150 倍加速；Nystr&ouml;m 核近似達 20 倍加速。</p>
+  </div>
+  <span class="proj-tag">巨量資料</span>
+  <span class="proj-arrow">&rarr;</span>
+</a>
+
+<a class="home-project" href="DL-zh.html">
+  <span class="proj-num">03</span>
+  <div class="proj-body">
+    <div class="proj-title">醫學影像分割</div>
+    <p class="proj-desc">以 U-Net 進行視網膜血管分割，並以條件式 GAN 合成 Western blot 影像。</p>
+  </div>
+  <span class="proj-tag">深度學習</span>
+  <span class="proj-arrow">&rarr;</span>
+</a>
+
+<a class="home-project" href="AM_thesis-zh.html">
+  <span class="proj-num">04</span>
+  <div class="proj-body">
+    <div class="proj-title">量子貝氏推論</div>
+    <p class="proj-desc">大學專題研究：以 Qiskit 在 IBM 量子硬體上檢驗貝氏機率。</p>
+  </div>
+  <span class="proj-tag">量子運算</span>
+  <span class="proj-arrow">&rarr;</span>
+</a>
+```
+
+```{=html}
+<!-- ── Ongoing Research ── -->
+<h2 class="home-section" style="margin-top:3rem;">進行中的研究</h2>
+<hr class="home-section-line">
+
+<div class="home-research">
+  <div class="research-header">
+    <div class="research-title"><a href="research-overview.html" style="color:inherit;text-decoration:none;">航班延誤預測 &mdash; 碩士論文</a></div>
+    <span class="research-badge">進行中</span>
+  </div>
+  <p class="research-desc">
+    嚴格控制資料洩漏的航班延誤預測。Gen1 發現航空公司的 ETD 特徵直接洩漏了標籤；Gen2 在嚴格的起飛前截止時間下，以 80.4 萬筆美國航空（American Airlines）航班重建特徵流程；Gen3 再以 1,915 萬筆公開 BTS 航班資料重現。核心發現：主導可預測延誤的是班表結構，而非天氣。
+  </p>
+  <div class="research-metrics">
+    <div class="metric">
+      <div class="metric-val">0.768<span>1</span></div>
+      <div class="metric-label">AUC（Gen3，BTS）</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">0.741<span>8</span></div>
+      <div class="metric-label">AUC（Gen2，AA）</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">19.15<span>M</span></div>
+      <div class="metric-label">航班數</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">34<span>/34</span></div>
+      <div class="metric-label">通過的洩漏檢核規則</div>
+    </div>
+  </div>
+  <p class="research-note">
+    <a href="research-overview.html">研究總覽 &rarr;</a>
+    &middot;
+    AA 資料受保密協議約束 &mdash; 僅呈現結果，不揭露原始資料。
+  </p>
+</div>
+
+<!-- Render free tier sleeps after 15 min idle. Pre-warm the demo
+     container as soon as a visitor lands on the homepage so by the
+     time they click through to outfitdb-zh.html the iframe is already
+     responsive. -->
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
+<script>
+  if (typeof fetch === "function") {
+    try { fetch("https://outfitdb.onrender.com/healthz", {mode: "no-cors", cache: "no-store"}); } catch (_) {}
+  }
+</script>
+
+<div class="home-research">
+  <div class="research-header">
+    <div class="research-title"><a href="outfitdb-zh.html" style="color:inherit;text-decoration:none;">OutfitDB &mdash; 衣櫥推薦系統</a></div>
+    <span class="research-badge">v0.2.0</span>
+  </div>
+  <p class="research-desc">
+    本機優先（local-first）的桌面應用程式，學習每位使用者的穿衣偏好。三階段 XGBoost 流程（溫度 &times; 美感 &times; 場合）在推論時串接。層次覆蓋熱模型處理真實的寒冷天氣疊穿；更新檢查對照公開的 release 清單。EPPS&nbsp;6354（資訊管理）期末專案。
+  </p>
+  <div class="research-metrics">
+    <div class="metric">
+      <div class="metric-val">0.854</div>
+      <div class="metric-label">美感 AUC</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">3<span>&times;</span></div>
+      <div class="metric-label">階段串接</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">13<span></span></div>
+      <div class="metric-label">資料表</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">95<span> MB</span></div>
+      <div class="metric-label">macOS 安裝檔</div>
+    </div>
+  </div>
+  <p class="research-note">
+    <a href="outfitdb-zh.html">試用應用程式 &rarr;</a>
+    &middot;
+    <a href="EPPS6354-zh.html#final-report">期末報告 &rarr;</a>
+  </p>
+</div>
+```
+
+```{=html}
+<!-- ── Explore ── -->
+<h2 class="home-section" style="margin-top:3rem;">探索更多</h2>
+<hr class="home-section-line">
+
+<div class="home-explore">
+  <a href="about-zh.html">
+    <span class="exp-title">關於我</span>
+    <span class="exp-sub">自我介紹</span>
+  </a>
+  <a href="CV-zh.html">
+    <span class="exp-title">履歷</span>
+    <span class="exp-sub">經歷與技能</span>
+  </a>
+  <a href="DSIC-zh.html">
+    <span class="exp-title">碩士 &middot; DSIC</span>
+    <span class="exp-sub">資料科學 @ 中興大學</span>
+  </a>
+  <a href="SDAR-zh.html">
+    <span class="exp-title">碩士 &middot; SDAR</span>
+    <span class="exp-sub">社會資料分析 @ 德州大學達拉斯分校</span>
+  </a>
+  <a href="AM-zh.html">
+    <span class="exp-title">學士 &middot; AM</span>
+    <span class="exp-sub">應用數學 @ 中興大學</span>
+  </a>
+</div>
+```
+
+```{=html}
+<!-- ── Footer ── -->
+<div class="home-footer">
+  <div class="footer-links">
+    <a href="mailto:chen.tzuyuan666@gmail.com"><i class="bi bi-envelope-fill"></i> 電子郵件</a>
+    <span>&middot;</span>
+    <a href="https://github.com/buttegggggggg" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+    <span>&middot;</span>
+    <i class="bi bi-geo-alt-fill" style="color:#999;"></i> 美國達拉斯 / 臺灣臺中
+  </div>
+  <div class="copyright">&copy; 2025 陳子元（Tzu-Yuan Chen）</div>
+</div>
+```

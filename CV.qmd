@@ -152,7 +152,7 @@ format:
 ```
 
 ::: {.chart-note .teal}
-M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. in Applied Mathematics. Seeking a **data science / ML internship** to apply hands-on experience across **37 projects** — including image classification (**96.44%** accuracy), distributed learning (**150x speedup**), and an ongoing thesis on flight delay prediction (**AUC 0.93**). Strong foundation in numerical analysis, deep learning, selective prediction, and end-to-end ML pipelines.
+M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. in Applied Mathematics. Seeking a **data science / ML internship** to apply hands-on experience across **37 projects** — including image classification (**96.44%** accuracy), distributed learning (**150x speedup**), and an ongoing thesis on leakage-controlled flight delay prediction (**AUC 0.77** on 19M public flights). Strong foundation in numerical analysis, deep learning, selective prediction, and end-to-end ML pipelines.
 :::
 
 ```{=html}
@@ -295,7 +295,7 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 </div>
 
 <div class="cv-project-item vision">
-  <strong>Handwritten Digit Recognition</strong> &mdash; 8-model comparison (Mean / SVD / HOSVD / SVM / KNN / RF / CNN) on USPS dataset. <span class="cv-metric">CNN 95.76%</span>
+  <strong>Handwritten Digit Recognition</strong> &mdash; 8-model comparison (Mean / Enhanced Mean / SVD / HOSVD / SVM / KNN / RF / CNN) on USPS dataset. <span class="cv-metric">CNN 95.76%</span>
   <br><a href="DataAnalysis.html">View Details &rarr;</a>
 </div>
 
@@ -341,7 +341,7 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 </div>
 
 <div class="cv-project-item dataeng">
-  <strong>Wardrobe Recommendation Database</strong> &mdash; 15-table relational schema with weather/occasion-aware rule-based recommendation engine.
+  <strong>Wardrobe Recommendation Database</strong> &mdash; 13-table relational schema with a three-stage XGBoost recommendation engine (temperature &times; aesthetic &times; occasion).
   <br><a href="EPPS6354.html">View Details &rarr;</a>
 </div>
 
@@ -353,8 +353,8 @@ M.S. student in Data Science (NCHU) and Social Data Analytics (UTD) with a B.S. 
 <div class="cv-project-group-title">Ongoing Research</div>
 
 <div class="cv-project-item bigdata">
-  <strong>Flight Delay Prediction &mdash; M.S. Thesis</strong> &mdash; Selective prediction framework for American Airlines using XGBoost on 1.1M+ flights (Snowflake). <span class="cv-metric">AUC 0.6863</span> (no ETD) / <span class="cv-metric">0.9280</span> (+ ETD); AURC 0.2908. Investigating abstention policies to bound risk.
-  <br><em style="font-size:0.82rem; color:#999;">Data under NDA &mdash; results only</em>
+  <strong>Flight Delay Prediction &mdash; M.S. Thesis</strong> &mdash; Leakage-controlled delay prediction: identified ETD label leakage in the airline&rsquo;s data, rebuilt the feature pipeline under a strict pre-departure cutoff (804K American Airlines flights, <span class="cv-metric">AUC 0.7418</span>), then replicated on 19.15M public BTS flights (<span class="cv-metric">AUC 0.7681</span>). SHAP analysis shows schedule structure and tail-chain features dominate; weather contributes near zero.
+  <br><em style="font-size:0.82rem; color:#999;">AA data under NDA &mdash; results only</em>
 </div>
 
 <div class="cv-project-item dataeng">

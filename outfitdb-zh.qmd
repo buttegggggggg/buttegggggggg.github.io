@@ -1,0 +1,449 @@
+---
+lang: zh-TW
+title: "OutfitDB"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+.od-hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+.od-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.5px;
+  color: #111;
+}
+.od-hero .od-tag {
+  font-size: 1rem;
+  color: #888;
+  letter-spacing: 0.4px;
+  margin: 0 auto 1.6rem;
+  max-width: 640px;
+  line-height: 1.6;
+}
+.od-hero .od-version {
+  display: inline-block;
+  background: #f6f6f4;
+  color: #555;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.od-download-row {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  margin-top: 1.6rem;
+}
+.od-dl-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #111;
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.1s, box-shadow 0.15s;
+  min-width: 220px;
+}
+.od-dl-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+.od-dl-btn.secondary {
+  background: #fff;
+  color: #111 !important;
+  border: 1px solid #ccc;
+}
+.od-dl-btn .od-dl-os {
+  display: block;
+  font-size: 0.7rem;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.od-dl-btn.secondary .od-dl-os { color: #999; }
+.od-quick-stats {
+  display: grid;
+  /* 4-up desktop · 2-up mobile so 8 cards always tile cleanly into
+     2 rows × 4 cols (or 4 rows × 2 cols), no awkward 5+3 wraps */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 2rem 0 3rem;
+}
+@media (max-width: 700px) {
+  .od-quick-stats { grid-template-columns: repeat(2, 1fr); }
+}
+.od-stat {
+  background: #fafaf8;
+  padding: 18px 14px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+.od-stat-val {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.1;
+}
+.od-stat-val small { font-size: 0.65em; color: #888; font-weight: 500; }
+.od-stat-label {
+  font-size: 0.75rem;
+  color: #777;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.od-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 1.6rem 0;
+}
+.od-feature-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.od-feature-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: #111;
+}
+.od-feature-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #555;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .od-feature { grid-template-columns: 1fr; }
+  .od-hero h1 { font-size: 2.2rem; }
+}
+.od-install-note {
+  background: #fff7ec;
+  border: 1px solid #f0d590;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+  color: #6b4400;
+}
+.od-install-note code {
+  background: rgba(0,0,0,0.05);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.od-pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #fafaf8;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  margin: 1rem 0;
+}
+.od-pipeline-stage {
+  flex: 1; min-width: 160px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.od-pipeline-stage .stage-no {
+  font-size: 0.7rem; color: #999; letter-spacing: 0.5px;
+  text-transform: uppercase; font-weight: 600;
+}
+.od-pipeline-stage .stage-name {
+  font-size: 1rem; font-weight: 700; color: #111; margin: 4px 0;
+}
+.od-pipeline-stage .stage-desc {
+  font-size: 0.82rem; color: #666; line-height: 1.45;
+}
+.od-pipeline-mult {
+  align-self: center;
+  font-size: 1.4rem; color: #aaa; font-weight: 700;
+}
+@media (max-width: 700px) {
+  .od-pipeline-mult { display: none; }
+}
+.od-stack {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 0.8rem 0 1.4rem;
+}
+.od-stack span {
+  background: #f6f6f4; color: #444;
+  padding: 5px 11px; border-radius: 5px;
+  font-size: 0.84rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+</style>
+```
+
+```{=html}
+<div class="od-hero">
+  <h1>OutfitDB <span class="od-version">v0.2.0</span></h1>
+  <p class="od-tag">
+    OutfitDB 示範了任何人都能為沒有標準數學解的日常問題，建立個人資料庫並訓練自己的 ML 模型。
+    三段簡短的評分流程教會它你對溫度的感受、你的美感與你對場合的判斷
+    &mdash; 推薦結果甚至會從你自己的衣櫥裡找出你從沒想過的搭配。
+    本機優先（local-first）：你的資料永遠不會離開你的電腦。
+  </p>
+  <div class="od-download-row">
+    <a class="od-dl-btn" href="https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0.dmg">
+      <span class="od-dl-os">macOS &middot; 95 MB</span>
+      下載 Mac 版
+    </a>
+    <a class="od-dl-btn" href="https://github.com/chentzuyuan/OutfitDB/releases/download/v0.2.0/OutfitDB-0.2.0-windows.zip">
+      <span class="od-dl-os">Windows &middot; 200 MB</span>
+      下載 Windows 版
+    </a>
+  </div>
+</div>
+```
+
+```{=html}
+<div class="od-quick-stats">
+  <!-- Row 1: emotional / benefit hook -->
+  <div class="od-stat">
+    <div class="od-stat-val">1<small>-of-</small>1</div>
+    <div class="od-stat-label">只為一個人打造：你。</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">量身打造</div>
+    <div class="od-stat-label">圍繞你的真實生活設計</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">新發現</div>
+    <div class="od-stat-label">從你自己的衣櫥找出從沒試過的搭配</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">30<small> 秒</small></div>
+    <div class="od-stat-label">從「沒衣服穿」到排序好的穿搭</div>
+  </div>
+  <!-- Row 2: technical credibility / privacy -->
+  <div class="od-stat">
+    <div class="od-stat-val">13</div>
+    <div class="od-stat-label">你專屬資料庫中的資料表</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">3<small> 軸</small></div>
+    <div class="od-stat-label">分別訓練天氣、品味、場合</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">即時</div>
+    <div class="od-stat-label">衣櫥狀態即時更新</div>
+  </div>
+  <div class="od-stat">
+    <div class="od-stat-val">0<small> 雲端</small></div>
+    <div class="od-stat-label">沒有任何資料離開你的電腦</div>
+  </div>
+</div>
+```
+
+## 線上展示
+
+完整的 FastAPI 後端部署在 Render 免費方案上，並預先載入 *Tester* 衣櫥（54 件衣物、17&thinsp;MB 照片）。每一次互動都會打到真正的 Python 服務：SQLAlchemy 操作 SQLite、XGBoost 為穿搭排序、Jinja 渲染樣板，lifespan hook 在每次冷啟動時把內建的種子資料複製到 `/tmp`。推薦流程、個人檔案切換、訓練頁面、行事曆、情境建構器，以及洗衣／髒污／穿著狀態機全部端對端運作 &mdash; 這不是靜態的模擬畫面。
+
+```{=html}
+<link rel="preconnect" href="https://outfitdb.onrender.com">
+<link rel="dns-prefetch" href="https://outfitdb.onrender.com">
+
+<div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);margin:18px 0;">
+  <iframe src="https://outfitdb.onrender.com/"
+          width="100%" height="860"
+          style="display:block;border:0;background:#f6f6f4;"
+          loading="lazy"
+          allow="geolocation"
+          title="OutfitDB live demo">
+  </iframe>
+</div>
+
+<p style="font-size:0.85rem;color:#777;margin:-6px 0 18px;">
+  Render 免費方案會在閒置 15 分鐘後讓執行個體休眠，因此第一次造訪可能需要約 50 秒等待容器喚醒，之後的載入則是即時的。如果 iframe 沒有回應，請直接開啟
+  <a href="https://outfitdb.onrender.com/" target="_blank"
+     style="color:#666;">展示網址</a> &mdash; 喚醒時間是一樣的。
+  每次冷啟動都會清空 <code>/tmp</code> 並從內建快照重新載入 Tester，所以展示環境永遠會回到乾淨的狀態。
+</p>
+```
+
+## 它做什麼
+
+你只需上傳一次衣服的照片。應用程式從你的評分中學習三個彼此獨立的偏好軸，並在推薦時將它們串接起來，因此只要有一個硬性條件不過（溫度不對、場合不對），不論穿搭再好看，分數都會歸零。
+
+```{=html}
+<div class="od-pipeline">
+  <div class="od-pipeline-stage">
+    <div class="stage-no">第一階段</div>
+    <div class="stage-name">溫度</div>
+    <div class="stage-desc">六個溫區（嚴寒 / 寒冷 / 涼爽 / 溫和 / 溫暖 / 炎熱）。多標籤分類器——一套穿搭可適用多個溫區。</div>
+  </div>
+  <div class="od-pipeline-mult">&times;</div>
+  <div class="od-pipeline-stage">
+    <div class="stage-no">第二階段</div>
+    <div class="stage-name">美感</div>
+    <div class="stage-desc">純粹的外觀評分：顏色、剪裁、層次。使用者以四分制評分，不考慮溫度與場合。</div>
+  </div>
+  <div class="od-pipeline-mult">&times;</div>
+  <div class="od-pipeline-stage">
+    <div class="stage-no">第三階段</div>
+    <div class="stage-name">場合</div>
+    <div class="stage-desc">從 gym 到 formal_event 共九種活動類型。多標籤設計，一套穿搭可適用多種活動。</div>
+  </div>
+</div>
+```
+
+推薦分數將三個訊號與兩個軟性因子（新鮮度、恢復度）相乘，讓模型既能把被冷落的衣物帶出來，也尊重各軸的純粹判斷。
+
+## 為什麼採用本機優先
+
+這個應用程式蒐集的資料 &mdash; 你穿什麼、不穿什麼、把什麼評為「喜歡」或「討厭」&mdash; 極度私人。把這些資料放在共用伺服器上會帶來一連串義務（身分驗證、靜態加密、GDPR 式的資料處理），徒增風險，卻沒有給使用者任何他們真正需要的東西。
+
+OutfitDB 以桌面應用程式的形式發佈。每位使用者的資料都存放在作業系統標準的應用程式資料目錄中（macOS 為 `~/Library/Application Support/OutfitDB/profiles/{name}/`，Windows 為 `%APPDATA%/OutfitDB/profiles/{name}/`），包含單一 SQLite 檔案與一個圖片資料夾。應用程式啟動只綁定 `127.0.0.1` 的 uvicorn，開啟系統瀏覽器，完全在使用者的電腦上執行。除了選用的天氣與地理編碼查詢之外（兩者都是由使用者的瀏覽器直接呼叫公開 API，不經過我架設的任何伺服器），沒有任何資料經過網路。
+
+## 六個實作階段
+
+```{=html}
+<div class="od-feature">
+  <div class="od-feature-card">
+    <h3>第一階段 &mdash; 層次覆蓋模型</h3>
+    <p>熱覆蓋公式 <code>T_cover = T_BASE &minus; &alpha;&middot;coverage</code> 搭配雙曲線（舒適 + 美感），決定任何溫度下的最佳疊穿層數，取代手寫的天氣規則。</p>
+  </div>
+  <div class="od-feature-card">
+    <h3>第二階段 &mdash; XGBoost 偏好模型</h3>
+    <p>每位使用者各自一個二元分類器，輸入為 100 維特徵向量。冷啟動時退回使用衣物平均評分；累積 10 筆以上評分後切換為訓練好的模型。</p>
+  </div>
+  <div class="od-feature-card">
+    <h3>第三階段 &mdash; 本機優先儲存</h3>
+    <p>每個個人檔案一個 SQLite 綱要，搭配冪等的 ALTER TABLE 遷移。個人檔案資料夾位於應用程式套件之外，因此更新應用程式不會影響資料。</p>
+  </div>
+  <div class="od-feature-card">
+    <h3>第四階段 &mdash; 多階段訓練</h3>
+    <p>純軸標註：三個獨立的分類器分別在互不重疊的評分表上訓練。推論時將三個機率相乘，任何一軸不及格就會讓分數歸零。</p>
+  </div>
+  <div class="od-feature-card">
+    <h3>第五階段 &mdash; 探索體驗打磨</h3>
+    <p>混紡成分（例如 40/60 棉／亞麻以加權 multi-hot 表示）、四狀態生命週期（clean / worn / in_laundry / unavailable）、新衣物優先訓練、針對特殊穿搭的強制推薦覆寫。</p>
+  </div>
+  <div class="od-feature-card">
+    <h3>第六階段 &mdash; 桌面應用程式打包</h3>
+    <p>PyInstaller .spec 處理 FastAPI 技術堆疊在凍結模式下的各種陷阱（Jinja2 路徑、PIL 外掛、xgboost 原生函式庫）。手動對照公開 release 清單檢查更新。macOS DMG 採拖曳至 Applications 的安裝版面。</p>
+  </div>
+</div>
+```
+
+## 技術堆疊
+
+```{=html}
+<div class="od-stack">
+  <span>FastAPI</span>
+  <span>SQLAlchemy 2.x</span>
+  <span>SQLite</span>
+  <span>XGBoost</span>
+  <span>NumPy</span>
+  <span>Pillow</span>
+  <span>Pydantic v2</span>
+  <span>Jinja2</span>
+  <span>vanilla JS</span>
+  <span>Service Worker</span>
+  <span>PyInstaller</span>
+</div>
+```
+
+## macOS
+
+1.  點選上方的**下載 Mac 版**，會取得 `OutfitDB-0.2.0.dmg`。
+2.  雙擊 DMG。視窗中會顯示 **OutfitDB.app** 與 **Applications** 資料夾捷徑。
+3.  將 **OutfitDB.app** 拖曳到 **Applications**，安裝完成。
+4.  透過 Spotlight（`&#8984; Space` &rarr; 輸入「OutfitDB」）、Launchpad 或 Finder &rarr; Applications 啟動。
+
+```{=html}
+<div class="od-install-note">
+<b>僅限第一次啟動：</b> macOS Gatekeeper 會以「無法驗證開發者」為由封鎖未簽署的應用程式。<b>請在應用程式上按右鍵 &rarr; 開啟 &rarr; 確認。</b>之後的啟動即可正常運作。應用程式完成程式碼簽署後，這個步驟就不再需要。
+</div>
+```
+
+第一次啟動時，應用程式會**自動建立一個 `Tester` 個人檔案**，內含 54 件範例衣物（與上方線上展示相同的衣櫥），讓你不必先上傳自己的衣服就能立刻體驗推薦流程。你隨時可以從右上角的使用者切換器新增自己的個人檔案；刪除 `Tester` 後，下次啟動不會再自動建立（種子資料只會在個人檔案資料夾為空時載入）。應用程式會在你的預設瀏覽器中開啟 `http://127.0.0.1:18888`。
+
+## Windows {#windows}
+
+從 [**v0.2.0 release**](https://github.com/chentzuyuan/OutfitDB/releases/tag/v0.2.0) 取得 **`OutfitDB-0.2.0-windows.zip`**（或使用本頁最上方的**下載 Windows 版**按鈕）。解壓縮到任意位置 &mdash; 例如 `C:\Users\<you>\Apps\OutfitDB\` &mdash; 然後雙擊 **`OutfitDB.exe`**。應用程式會在 `http://127.0.0.1:18888` 啟動本機網頁伺服器，並在你的預設瀏覽器中開啟。
+
+```{=html}
+<div class="od-install-note">
+<b>僅限第一次啟動：</b> Windows SmartScreen 會以「Microsoft Defender SmartScreen 已防止某個無法辨識的應用程式啟動」為由封鎖未簽署的應用程式。請點選<b>其他資訊 &rarr; 仍要執行</b>。之後的啟動即可正常運作。執行檔完成程式碼簽署後，這個步驟就不再需要。
+</div>
+```
+
+Windows 版由 GitHub Actions 工作流程（[build-windows.yml](https://github.com/chentzuyuan/OutfitDB/blob/main/.github/workflows/build-windows.yml)）產生：每當原始碼儲存庫推送 `v*` 標籤時，就在 `windows-latest` runner 上執行 `pyinstaller outfitdb.spec`。衣櫥種子資料的流程與 macOS 相同 &mdash; 第一次啟動會自動建立內建的 *Tester* 個人檔案。
+
+如果你想自行從原始碼建置：
+
+```bash
+# Windows + Python 3.11 / 3.12
+git clone https://github.com/chentzuyuan/OutfitDB.git
+cd OutfitDB
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+pip install pyinstaller
+pyinstaller outfitdb.spec --noconfirm
+# Output: dist\OutfitDB\OutfitDB.exe
+```
+
+## 資料庫設計
+
+完整的實體關係模型、綱要設計理由與遷移策略，記錄於
+[**EPPS&nbsp;6354 資訊管理期末報告 &rarr;**](EPPS6354-zh.html#final-report)。
+該頁面是這門課的正式學術交付成果；本頁則是面向一般使用者的應用程式介紹頁。
+
+## 原始碼與文件
+
+原始碼公開於 GitHub：
+[**chentzuyuan/OutfitDB**](https://github.com/chentzuyuan/OutfitDB)。
+系統的正式技術報告 &mdash; 綱要、三個關鍵設計決策、ML 流程與部署 &mdash; 提供 PDF 與網頁版本：
+
+```{=html}
+<div style="margin: 14px 0 6px; display: flex; flex-wrap: wrap; gap: 12px;">
+  <a href="chen_finalreport.pdf" target="_blank" rel="noopener"
+     style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #111; color: #fff !important;
+            font-weight: 600; text-decoration: none !important;">
+    期末報告 PDF &rarr;
+  </a>
+  <a href="EPPS6354-zh.html#final-report"
+     style="display: inline-flex; align-items: center; justify-content: center;
+            flex: 1 1 240px; min-height: 56px; padding: 14px 22px;
+            border-radius: 10px; background: #f6f6f4; color: #111 !important;
+            border: 1px solid #ddd; font-weight: 600; text-decoration: none !important;">
+    網頁版 &rarr;
+  </a>
+</div>
+```
+
+```{=html}
+<div style="margin: 2.5rem 0 3rem; text-align: center;">
+  <a href="index-zh.html" style="color: #888; text-decoration: none; font-size: 0.92rem;">&larr; 回到首頁</a>
+</div>
+```

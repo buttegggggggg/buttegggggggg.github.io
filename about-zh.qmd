@@ -1,0 +1,369 @@
+---
+lang: zh-TW
+title: "關於我"
+subtitle: "陳子元 / Tzu-Yuan Chen"
+format:
+  html:
+    toc: false
+    number-sections: false
+    page-layout: article
+    smooth-scroll: true
+---
+
+```{=html}
+<style>
+/* ── About Page ── */
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 1rem 0 2rem 0;
+}
+.about-photo {
+  flex-shrink: 0;
+}
+.about-photo img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #18A3A3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.about-intro h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.3rem;
+  color: #111;
+  border: none !important;
+  padding: 0 !important;
+}
+.about-intro p {
+  margin: 0.3rem 0;
+  font-size: 0.93rem;
+  color: #555;
+}
+.about-intro .about-links {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.about-intro .about-links a {
+  color: #18A3A3;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+.about-intro .about-links a:hover {
+  color: #E65100;
+  text-decoration: underline;
+}
+.about-intro .about-links i {
+  margin-right: 0.2rem;
+}
+
+/* ── Section Titles ── */
+.about-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 2px solid #18A3A3;
+  border-left: none !important;
+  padding-bottom: 0.35rem;
+  padding-left: 0 !important;
+  margin: 2.5rem 0 1rem 0;
+}
+.about-section-title i { color: #18A3A3; margin-right: 0.4rem; }
+
+/* ── Interest Pills ── */
+.about-pill {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  margin: 0.15rem 0.2rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #90CAF9;
+}
+.about-pill.teal   { background: #E0F2F1; color: #00695C; border-color: #80CBC4; }
+.about-pill.orange { background: #FFF3E0; color: #E65100; border-color: #FFCC80; }
+.about-pill.purple { background: #F3E5F5; color: #6A1B9A; border-color: #CE93D8; }
+.about-pill.grey   { background: #F5F5F5; color: #424242; border-color: #BDBDBD; }
+
+/* ── Site Map Cards ── */
+.site-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.site-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: block;
+}
+.site-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.site-card .card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+.site-card h4 {
+  margin: 0.3rem 0 0.2rem 0;
+  font-size: 1rem;
+  color: #111;
+  border: none !important;
+  padding: 0 !important;
+}
+.site-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+}
+.site-card .card-tag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+.tag-nchu { background: #E8F5E9; color: #2E7D32; }
+.tag-utd  { background: #FFF3E0; color: #E65100; }
+.tag-am   { background: #F3E5F5; color: #6A1B9A; }
+
+@media (max-width: 600px) {
+  .about-header { flex-direction: column; text-align: center; }
+  .about-intro .about-links { justify-content: center; }
+}
+</style>
+```
+
+```{=html}
+<div class="about-header">
+  <div class="about-photo">
+    <img src="profile.png" alt="Tzu-Yuan Chen">
+  </div>
+  <div class="about-intro">
+    <h3>陳子元 / Tzu-Yuan Chen</h3>
+    <p>資料科學與應用數學 &mdash; 國立中興大學（臺灣）與德州大學達拉斯分校（美國）碩士生</p>
+    <p>專注於機器學習、深度學習、數值分析，以及建構資料驅動的解決方案。</p>
+    <div class="about-links">
+      <a href="mailto:chen.tzuyuan666@gmail.com"><i class="bi bi-envelope-fill"></i> 電子郵件</a>
+      <a href="https://github.com/buttegggggggg" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+      <a href="CV-zh.html"><i class="bi bi-file-earmark-person-fill"></i> 履歷</a>
+    </div>
+  </div>
+</div>
+```
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-person-fill"></i> 關於我</h2>
+```
+
+我是來自臺灣臺中的研究生，目前攻讀**資料科學**（國立中興大學）與**社會資料分析與研究**（德州大學達拉斯分校）雙碩士學位，大學畢業於中興大學應用數學系。我目前正在尋找**資料科學 / 機器學習實習**機會。
+
+過去幾年我完成了橫跨多個領域的 **37 個專案**——從量子運算、深度學習，到醫學影像分割、資料庫設計、GIS 與 AI agent 工作流程。我能快速掌握新工具與新領域，一旦投入便喜歡深入鑽研。目前的研究聚焦於美國一家大型航空公司的**航班延誤預測**：在 80.4 萬筆航班資料上建構嚴格控制資料洩漏的預測流程，並以 1,915 萬筆公開航班紀錄重現。同時我也與**臺中市教育局**合作，分析適性學習平台與 127 個班級學生學習表現之間的關聯。
+
+研究之外，我曾擔任國高中生的**補習班講師與家教**（數學、物理、化學等科目），也曾在 **3D 列印工作室**工作。在中興大學期間，我擔任微積分、資料庫系統與量子運算課程的**雙語教學助理**。
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-stars"></i> 研究興趣</h2>
+```
+
+```{=html}
+<span class="about-pill teal">機器學習</span>
+<span class="about-pill teal">深度學習</span>
+<span class="about-pill teal">LLM / Prompt Engineering</span>
+<span class="about-pill orange">影像分類與分割</span>
+<span class="about-pill orange">量子運算</span>
+<span class="about-pill orange">航班延誤預測</span>
+<span class="about-pill purple">數值分析</span>
+<span class="about-pill purple">巨量資料分析</span>
+<span class="about-pill purple">教育資料分析</span>
+<span class="about-pill">資料庫設計</span>
+<span class="about-pill">資料視覺化</span>
+<span class="about-pill">選擇性預測</span>
+```
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-tools"></i> 技能</h2>
+```
+
+::::: columns
+::: {.column width="50%"}
+```{=html}
+<div class="cv-skills-group">
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">程式語言</h3>
+<span class="about-pill teal">Python</span>
+<span class="about-pill teal">R</span>
+<span class="about-pill teal">SQL</span>
+<span class="about-pill teal">Qiskit</span>
+<span class="about-pill teal">Git</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">Python 函式庫</h3>
+<span class="about-pill">pandas</span>
+<span class="about-pill">NumPy</span>
+<span class="about-pill">scikit-learn</span>
+<span class="about-pill">PyTorch</span>
+<span class="about-pill">Keras / TensorFlow</span>
+<span class="about-pill">GeoPandas</span>
+<span class="about-pill">Selenium</span>
+<span class="about-pill">BeautifulSoup</span>
+<span class="about-pill">PyQt6</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">R 生態系</h3>
+<span class="about-pill">ggplot2</span>
+<span class="about-pill">tidyverse</span>
+<span class="about-pill">Shiny</span>
+</div>
+```
+:::
+
+::: {.column width="50%"}
+```{=html}
+<div class="cv-skills-group">
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">ML / DL 模型</h3>
+<span class="about-pill orange">ResNet</span>
+<span class="about-pill orange">EfficientNet</span>
+<span class="about-pill orange">U-Net</span>
+<span class="about-pill orange">GAN</span>
+<span class="about-pill orange">Autoencoder</span>
+<span class="about-pill orange">SVM</span>
+<span class="about-pill orange">KNN</span>
+<span class="about-pill orange">Random Forest</span>
+<span class="about-pill orange">MLP / DNN</span>
+<span class="about-pill orange">XGBoost</span>
+<span class="about-pill orange">Kernel Ridge</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">技術方法</h3>
+<span class="about-pill purple">遷移學習</span>
+<span class="about-pill purple">Focal Loss</span>
+<span class="about-pill purple">影像分割</span>
+<span class="about-pill purple">Nystr&ouml;m 近似</span>
+<span class="about-pill purple">分散式計算</span>
+<span class="about-pill purple">選擇性預測</span>
+<span class="about-pill purple">機率校準</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">LLM 與 AI</h3>
+<span class="about-pill teal">AI Agent 工作流程</span>
+<span class="about-pill teal">Prompt Engineering</span>
+<span class="about-pill teal">RAG</span>
+<span class="about-pill teal">LLM API 整合</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">工具</h3>
+<span class="about-pill grey">Matplotlib</span>
+<span class="about-pill grey">Altair</span>
+<span class="about-pill grey">ArcGIS</span>
+<span class="about-pill grey">Shapely</span>
+<span class="about-pill grey">Qt Designer</span>
+<span class="about-pill grey">Plotly</span>
+<span class="about-pill grey">Quarto</span>
+<span class="about-pill grey">LaTeX</span>
+
+<h3 style="font-size:0.95rem; font-weight:600; color:#111; margin:0.8rem 0 0.3rem 0; border:none!important; padding:0!important;">硬體與平台</h3>
+<span class="about-pill orange">IBM Quantum (IBMQ)</span>
+<span class="about-pill orange">Snowflake</span>
+<span class="about-pill orange">3D 列印（FDM）</span>
+</div>
+```
+:::
+:::::
+
+```{=html}
+<h2 class="about-section-title"><i class="bi bi-map-fill"></i> 網站導覽</h2>
+```
+
+本作品集記錄了我在兩個碩士學程中的課程作業、專案與實驗。各區內容如下：
+
+```{=html}
+<div class="site-map">
+
+  <a class="site-card" href="AM-zh.html">
+    <div class="card-icon">📐</div>
+    <h4>應用數學學士</h4>
+    <p>以 Qiskit 與 IBMQ 硬體進行量子貝氏推論的大學專題研究。</p>
+    <span class="card-tag tag-am">中興大學 &middot; 2020&ndash;2024</span>
+  </a>
+
+  <a class="site-card" href="DSIC-zh.html">
+    <div class="card-icon">🧠</div>
+    <h4>資料科學碩士（DSIC）&mdash; 總覽</h4>
+    <p>中興大學資料科學學程的研究方向、習得技能與課程重點。</p>
+    <span class="card-tag tag-nchu">中興大學 &middot; 2024&ndash;至今</span>
+  </a>
+
+  <a class="site-card" href="ML-zh.html#assignments">
+    <div class="card-icon">📊</div>
+    <h4>機器學習與資料科學</h4>
+    <p>糖尿病預測（90.04%）、野火分析（188 萬筆紀錄）、子宮頸癌分類。</p>
+    <span class="card-tag tag-nchu">中興大學 &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="DL-zh.html#assignments">
+    <div class="card-icon">🔬</div>
+    <h4>深度學習</h4>
+    <p>ResNet（96.44%）、U-Net 分割、自編碼器、條件式 GAN 生醫影像應用。</p>
+    <span class="card-tag tag-nchu">中興大學 &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="BigData-zh.html#assignments">
+    <div class="card-icon">⚡</div>
+    <h4>巨量資料分析</h4>
+    <p>Nystr&ouml;m 核近似（20 倍加速）、分散式 SVM（150 倍加速）。</p>
+    <span class="card-tag tag-nchu">中興大學 &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="DataAnalysis-zh.html#assignments">
+    <div class="card-icon">🧮</div>
+    <h4>資料分析數學</h4>
+    <p>SVD 影像壓縮、Eckart-Young 定理、8 種模型的數字辨識比較。</p>
+    <span class="card-tag tag-nchu">中興大學 &middot; DSIC</span>
+  </a>
+
+  <a class="site-card" href="SDAR-zh.html">
+    <div class="card-icon">🌎</div>
+    <h4>社會資料分析碩士（SDAR）&mdash; 總覽</h4>
+    <p>德州大學達拉斯分校社會資料分析與研究學程（與中興大學雙聯學位）。</p>
+    <span class="card-tag tag-utd">UTD &middot; 2025&ndash;至今</span>
+  </a>
+
+  <a class="site-card" href="GISPY-zh.html#assignments">
+    <div class="card-icon">🗺️</div>
+    <h4>GIS 與 Python</h4>
+    <p>GeoPandas 地圖繪製、PyQt6 GUI 應用程式、網路爬蟲、ArcGIS 空間分析。</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+  <a class="site-card" href="EPPS6356-zh.html#assignments">
+    <div class="card-icon">📈</div>
+    <h4>資料視覺化</h4>
+    <p>ggplot2、base R、Shiny 儀表板、6 種圖表類型、Iris 資料視覺化。</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+  <a class="site-card" href="EPPS6354-zh.html">
+    <div class="card-icon">🗄️</div>
+    <h4>資訊管理</h4>
+    <p>資料庫設計、SQL 查詢、衣櫥推薦系統（13 張資料表）。</p>
+    <span class="card-tag tag-utd">UTD &middot; SDAR</span>
+  </a>
+
+</div>
+```
+
+```{=html}
+<p style="text-align:center; color:#999; font-size:0.82rem; margin-top:2rem;">
+  並非所有內容皆為最終成果，部分材料仍屬探索性質或持續更新中。
+</p>
+```

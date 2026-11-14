@@ -339,7 +339,7 @@ header#title-block-header { display: none !important; }
   <span class="proj-num">01</span>
   <div class="proj-body">
     <div class="proj-title">ResNet Image Classification</div>
-    <p class="proj-desc">96.44% accuracy on multi-class classification with focal loss and transfer learning.</p>
+    <p class="proj-desc">96.44% accuracy on 6-class industrial defect classification with ResNet-18 transfer learning.</p>
   </div>
   <span class="proj-tag">Deep Learning</span>
   <span class="proj-arrow">&rarr;</span>
@@ -348,8 +348,8 @@ header#title-block-header { display: none !important; }
 <a class="home-project" href="BigData.html">
   <span class="proj-num">02</span>
   <div class="proj-body">
-    <div class="proj-title">Distributed SVM with Nystr&ouml;m Approximation</div>
-    <p class="proj-desc">150&times; speedup using 5-worker architecture with kernel approximation on large-scale datasets.</p>
+    <div class="proj-title">Distributed SVM &amp; Nystr&ouml;m Approximation</div>
+    <p class="proj-desc">150&times; speedup with a 5-worker distributed smoothed SVM; 20&times; speedup with Nystr&ouml;m kernel approximation.</p>
   </div>
   <span class="proj-tag">Big Data</span>
   <span class="proj-arrow">&rarr;</span>
@@ -359,7 +359,7 @@ header#title-block-header { display: none !important; }
   <span class="proj-num">03</span>
   <div class="proj-body">
     <div class="proj-title">Medical Image Segmentation</div>
-    <p class="proj-desc">U-Net and Conditional GAN for retinal vessel segmentation on biomedical imaging datasets.</p>
+    <p class="proj-desc">U-Net for retinal vessel segmentation and a conditional GAN for Western blot image synthesis.</p>
   </div>
   <span class="proj-tag">Deep Learning</span>
   <span class="proj-arrow">&rarr;</span>
@@ -383,31 +383,35 @@ header#title-block-header { display: none !important; }
 
 <div class="home-research">
   <div class="research-header">
-    <div class="research-title">Flight Delay Prediction &mdash; M.S. Thesis</div>
+    <div class="research-title"><a href="research-overview-en.html" style="color:inherit;text-decoration:none;">Flight Delay Prediction &mdash; M.S. Thesis</a></div>
     <span class="research-badge">In Progress</span>
   </div>
   <p class="research-desc">
-    Selective prediction framework for American Airlines flight delays. Investigating when <em>not</em> to trust model predictions by defining abstention policies that bound acceptable risk.
+    Leakage-controlled flight delay prediction. Gen1 found that the airline&rsquo;s ETD feature leaked the label; Gen2 rebuilt the feature pipeline under a strict pre-departure cutoff on 804K American Airlines flights, and Gen3 replicated it on 19.15M public BTS flights. Core finding: schedule structure, not weather, dominates predictable delay.
   </p>
   <div class="research-metrics">
     <div class="metric">
-      <div class="metric-val">0.686<span>3</span></div>
-      <div class="metric-label">AUC (No ETD)</div>
+      <div class="metric-val">0.768<span>1</span></div>
+      <div class="metric-label">AUC (Gen3, BTS)</div>
     </div>
     <div class="metric">
-      <div class="metric-val">0.928<span>0</span></div>
-      <div class="metric-label">AUC (+ ETD)</div>
+      <div class="metric-val">0.741<span>8</span></div>
+      <div class="metric-label">AUC (Gen2, AA)</div>
     </div>
     <div class="metric">
-      <div class="metric-val">0.290<span>8</span></div>
-      <div class="metric-label">AURC</div>
-    </div>
-    <div class="metric">
-      <div class="metric-val">1.1<span>M+</span></div>
+      <div class="metric-val">19.15<span>M</span></div>
       <div class="metric-label">Flights</div>
     </div>
+    <div class="metric">
+      <div class="metric-val">34<span>/34</span></div>
+      <div class="metric-label">Leakage Rules Passed</div>
+    </div>
   </div>
-  <p class="research-note">Data under NDA &mdash; results only, no raw data disclosed.</p>
+  <p class="research-note">
+    <a href="research-overview-en.html">Research overview &rarr;</a>
+    &middot;
+    AA data under NDA &mdash; results only, no raw data disclosed.
+  </p>
 </div>
 
 <!-- Render free tier sleeps after 15 min idle. Pre-warm the demo
@@ -428,7 +432,7 @@ header#title-block-header { display: none !important; }
     <span class="research-badge">v0.2.0</span>
   </div>
   <p class="research-desc">
-    Local-first desktop app that learns each user&rsquo;s clothing preferences. Three-stage XGBoost pipeline (temperature &times; aesthetic &times; occasion) chained at inference time. Layer-coverage thermal model handles real cold-weather layering; auto-update notification ships from a public release feed. Final project for EPPS&nbsp;6354 (Information Management).
+    Local-first desktop app that learns each user&rsquo;s clothing preferences. Three-stage XGBoost pipeline (temperature &times; aesthetic &times; occasion) chained at inference time. Layer-coverage thermal model handles real cold-weather layering; update checks run against a public release manifest. Final project for EPPS&nbsp;6354 (Information Management).
   </p>
   <div class="research-metrics">
     <div class="metric">
@@ -440,12 +444,12 @@ header#title-block-header { display: none !important; }
       <div class="metric-label">Stage Chain</div>
     </div>
     <div class="metric">
-      <div class="metric-val">11<span></span></div>
+      <div class="metric-val">13<span></span></div>
       <div class="metric-label">DB Tables</div>
     </div>
     <div class="metric">
-      <div class="metric-val">172<span> MB</span></div>
-      <div class="metric-label">Desktop Bundle</div>
+      <div class="metric-val">95<span> MB</span></div>
+      <div class="metric-label">macOS Bundle</div>
     </div>
   </div>
   <p class="research-note">
