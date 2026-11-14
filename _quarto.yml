@@ -19,9 +19,13 @@ project:
   - img_architecture.png             # final report figure
   - img_feedback_loop.png            # final report figure
   - google4356218b260bf2fd.html     # Google Search Console ownership file (must stay at site root)
+  - robots.txt
 
 website:
   title: "Tzu-Yuan"
+  site-url: https://chentzuyuan.github.io
+  description: "Tzu-Yuan Chen (陳子元) — data science & applied math portfolio: machine learning, deep learning, big data, quantum computing, flight delay prediction, OutfitDB."
+  open-graph: true
   navbar:
     left:
       - text: Home
@@ -75,3 +79,4 @@ format:
     page-layout: article
     css: styles.scss
     include-after-body: lang-toggle.html
+    canonical-url: true

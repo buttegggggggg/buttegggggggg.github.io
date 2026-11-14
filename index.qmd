@@ -1,5 +1,7 @@
 ---
 title: ""
+pagetitle: "Tzu-Yuan Chen — Data Science & Applied Math"
+description: "Portfolio of Tzu-Yuan Chen (陳子元): M.S. student in data science at NCHU and UTD. Machine learning, deep learning, big data, quantum computing, flight delay prediction, and the OutfitDB wardrobe recommender."
 format:
   html:
     toc: false

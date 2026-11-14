@@ -1,7 +1,8 @@
 ---
 lang: zh-TW
 title: ""
-pagetitle: "Tzu-Yuan"
+pagetitle: "陳子元 Tzu-Yuan Chen — 資料科學與應用數學"
+description: "陳子元（Tzu-Yuan Chen）的作品集：中興大學與德州大學達拉斯分校資料科學碩士生。機器學習、深度學習、巨量資料、量子運算、航班延誤預測與 OutfitDB 衣櫥推薦系統。"
 format:
   html:
     toc: false
